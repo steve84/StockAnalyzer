@@ -1,7 +1,8 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "project": {
-    "name": "test-angular"
+    "name": "test-angular",
+    "ejected": true
   },
   "apps": [
     {
@@ -19,7 +20,10 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
-        "styles.css"
+        "styles.css",
+        "./node_modules/primeng/resources/primeng.min.css",
+        "./node_modules/primeng/resources/themes/omega/theme.css",
+        "./node_modules/font-awesome/css/font-awesome.min.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",
@@ -52,6 +56,7 @@
   },
   "defaults": {
     "styleExt": "css",
-    "component": {}
+    "component": {
+    }
   }
 }

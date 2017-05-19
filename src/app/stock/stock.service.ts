@@ -8,8 +8,9 @@ export class StockService {
 
   constructor(private http: Http) { }
 
-  getAllStocks() {
-    let url = "https://www.quandl.com/api/v3/datatables/MER/F1.json?mapcode=-5370&reporttype=A&reportdate.gte=2015-12-31&qopts.columns=compnumber,longname,shortname,countrycode,status,exchange,website&api_key=";
+  getAllStocks(key: string) {
+    debugger
+    let url = "https://www.quandl.com/api/v3/datatables/MER/F1.json?mapcode=-5370&reporttype=A&reportdate.gte=2015-12-31&qopts.columns=compnumber,longname,shortname,countrycode,status,exchange,website&api_key=" + key;
 
     return this.http.get(url)
       .map(this.extractData);

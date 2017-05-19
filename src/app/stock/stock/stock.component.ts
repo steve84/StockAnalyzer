@@ -11,9 +11,12 @@ import { Stock } from '../stock';
 })
 export class StockComponent implements OnInit {
   stocks: Stock[];
+  private key: string = "";
 
-  constructor(private stockService: StockService) {
-    this.stockService.getAllStocks().subscribe((data:Stock[]) => this.stocks = data);
+  constructor(private stockService: StockService) {}
+
+  getStocks() {
+    this.stockService.getAllStocks(this.key).subscribe((data:Stock[]) => this.stocks = data);
   }
 
   ngOnInit() {
