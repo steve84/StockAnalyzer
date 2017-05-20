@@ -1,21 +1,16 @@
-<input [(ngModel)]="key" />
-<input type="button" value="Los" (click)="getStocks()" />
+<input [(ngModel)]="symbol" />
+<input type="button" value="Los" (click)="searchSymbol()" />
 <br /><br />
-<p-dataTable [value]="stocks">
-    <p-column field="compnumber" header="Id"></p-column>
-    <p-column field="longname" header="Name"></p-column>
-    <p-column field="countrycode" header="Country"></p-column>
-    <p-column field="status" header="State"></p-column>
-    <p-column field="exchange" header="Exchange"></p-column>
-    <p-column field="website" header="Website"></p-column>
+<p-dataTable [value]="symbols" selectionMode="single" [(selection)]="selectedSymbol">
+    <p-column field="symbol" header="Symbol"></p-column>
+    <p-column field="name" header="Name"></p-column>
+    <p-column field="exch" header="Country"></p-column>
+    <p-column field="typeDisp" header="State"></p-column>
+    <p-column field="exchDisp" header="Exchange"></p-column>
 </p-dataTable>
-<table>
-  <tr *ngFor="let stock of stocks">
-    <td>{{stock['compnumber']}}</td>
-    <td>{{stock.longname}}</td>
-    <td>{{stock.countrycode}}</td>
-    <td>{{stock.status}}</td>
-    <td>{{stock.exchange}}</td>
-    <td>{{stock.website}}</td>
-  </tr>
-</table>
+
+<input type="button" value="Los" (click)="getFundamentals()" [disabled]="!selectedSymbol" />
+<div *ngIf="fundamental">
+Volumen: {{fundamental.AverageDailyVolume}}
+Book Value: {{fundamental.BookValue}}
+</div>

@@ -3,17 +3,37 @@ import { Http, Response } from '@angular/http';
 
 import 'rxjs/add/operator/map';
 
+import { Symbol } from './symbol';
+
 @Injectable()
 export class StockService {
 
   constructor(private http: Http) { }
 
   getAllStocks(key: string) {
-    debugger
     let url = "https://www.quandl.com/api/v3/datatables/MER/F1.json?mapcode=-5370&reporttype=A&reportdate.gte=2015-12-31&qopts.columns=compnumber,longname,shortname,countrycode,status,exchange,website&api_key=" + key;
 
     return this.http.get(url)
       .map(this.extractData);
+  }
+
+  searchSymbols(searchTerm: string) {
+    let url = 'https://finance.yahoo.com/_finance_doubledown/api/resource/searchassist;gossipConfig={"queryKey":"query","resultAccessor":"ResultSet.Result","suggestionTitleAccessor":"symbol"};searchTerm=';
+    url += searchTerm;
+    url += '?returnMeta=true';
+
+    return this.http.get(url)
+      .map(this.extractDataYahooSymbolSearch);
+  }
+
+  getFundamental(symbol: Symbol) {
+    let query = 'select * from yahoo.finance.quotes where symbol in ("' + symbol.symbol  + '")';
+    let url = 'https://query.yahooapis.com/v1/public/yql?q=';
+    url += query;
+    url += '&format=json&env=store://datatables.org/alltableswithkeys&callback=';
+
+    return this.http.get(url)
+      .map(this.extractDataYahooFundamental);
   }
 
   extractData(resp: Response) {
@@ -28,9 +48,20 @@ export class StockService {
         index++;
       }
       return_object.push(object);
-      debugger
     }
     return return_object;
   }
 
+  extractDataYahooSymbolSearch(resp: Response) {
+    let json_resp = resp.json();
+    return json_resp.data.items;
+  }
+
+  extractDataYahooFundamental(resp: Response) {
+    let json_resp = resp.json();
+    if (json_resp.query && json_resp.query.count == 1)
+      return json_resp.query.results.quote;
+    else
+      return null;
+  }
 }
