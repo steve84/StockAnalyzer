@@ -1,0 +1,6 @@
+<p-dialog [header]="title" [(visible)]="display" (onHide)="closeDisplay()">
+    <div *ngIf="fundamental">
+      {{fundamental.AverageDailyVolume}}
+      {{fundamental.BookValue}}
+    </div>
+</p-dialog>

@@ -7,10 +7,11 @@
     <p-column field="exch" header="Country"></p-column>
     <p-column field="typeDisp" header="State"></p-column>
     <p-column field="exchDisp" header="Exchange"></p-column>
+    <p-column styleClass="col-button">
+      <ng-template let-symbol="rowData" pTemplate="body">
+        <button type="button" pButton (click)="showFundamental(symbol)" icon="fa-search"></button>
+      </ng-template>
+    </p-column>
 </p-dataTable>
 
-<input type="button" value="Los" (click)="getFundamentals()" [disabled]="!selectedSymbol" />
-<div *ngIf="fundamental">
-Volumen: {{fundamental.AverageDailyVolume}}
-Book Value: {{fundamental.BookValue}}
-</div>
+<app-fundamental [display]="display" [symbol]="selectedSymbol" (close)="closeFundamental($event)"></app-fundamental>

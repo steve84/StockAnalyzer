@@ -18,6 +18,7 @@ export class StockComponent implements OnInit {
   private key: string = "";
   private symbol: string = "";
   private selectedSymbol: Symbol = null;
+  private display: boolean = false;
 
   constructor(private stockService: StockService) {}
 
@@ -31,6 +32,15 @@ export class StockComponent implements OnInit {
 
   getFundamentals() {
     this.stockService.getFundamental(this.selectedSymbol).subscribe((data:Fundamental) => this.fundamental = data);
+  }
+
+  showFundamental(symbol: Symbol) {
+    this.selectedSymbol = symbol;
+    this.display = true;
+  }
+
+  closeFundamental(display: boolean) {
+    this.display = display;
   }
 
   ngOnInit() {
