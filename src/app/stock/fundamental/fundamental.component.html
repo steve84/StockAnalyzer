@@ -1,17 +1,46 @@
 <p-dialog [header]="title" [(visible)]="display" (onHide)="closeDisplay()">
-    <div *ngIf="fundamental" class="ui-g">
-      <div class = "ui-g-6">Name</div><div class = "ui-g-6">{{fundamental.Name}}</div>
-      <div class = "ui-g-6">Börse</div><div class = "ui-g-6">{{fundamental.StockExchange}}</div>
-      <div class = "ui-g-6">Symbol</div><div class = "ui-g-6">{{fundamental.Symbol}}</div>
-      <div class = "ui-g-6">Währung</div><div class = "ui-g-6">{{fundamental.Currency}}</div>
-      <div class = "ui-g-6">Tägliches Volumen (durchsch.)</div><div class = "ui-g-6">{{fundamental.AverageDailyVolume}}</div>
-      <div class = "ui-g-6">Buchwert</div><div class = "ui-g-6">{{fundamental.LastTradePriceOnly}}</div>
-      <div class = "ui-g-6">KGV</div><div class = "ui-g-6">{{fundamental.PERatio}}</div>
-      <div class = "ui-g-6">Marktkapitalisierung</div><div class = "ui-g-6">{{fundamental.MarketCapitalization}}</div>
-      <div class = "ui-g-6">Dividende pro Aktie</div><div class = "ui-g-6">{{fundamental.DividendShare}}</div>
-      <div class = "ui-g-6">Dividendenrendite</div><div class = "ui-g-6">{{fundamental.DividendYield}}</div>
-      <div class = "ui-g-6">Gewinn pro Aktie</div><div class = "ui-g-6">{{fundamental.EarningsShare}}</div>
-      <div class = "ui-g-12" [chart]="chart"></div>
-      <div class = "ui-g-12"><button type="button" pButton (click)="addToCompare(symbol)" icon="fa-plus-circle"></button></div>
-    </div>
+  <div *ngIf="fundamental">
+    <p-tabView>
+      <p-tabPanel header="Übersicht">
+        <div class = "ui-g">
+          <div class = "ui-g-12"><button type="button" pButton label="Vergleichen" (click)="addToCompare(symbol)" icon="fa-plus-circle"></button></div>
+        </div>
+        <div class = "ui-g">
+          <div class = "ui-g-3">Name</div><div class = "ui-g-3">{{fundamental.Name}}</div>
+          <div class = "ui-g-3">Börse</div><div class = "ui-g-3">{{fundamental.StockExchange}}</div>
+        </div>
+        <div class = "ui-g">
+          <div class = "ui-g-3">Symbol</div><div class = "ui-g-3">{{fundamental.Symbol}}</div>
+          <div class = "ui-g-3">Währung</div><div class = "ui-g-3">{{fundamental.Currency}}</div>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="Kennzahlen">
+        <div class = "ui-g">
+          <div class = "ui-g-3">Tägliches Volumen (durchsch.)</div><div class = "ui-g-3">{{fundamental.AverageDailyVolume}}</div>
+          <div class = "ui-g-3">Letzter Preis</div><div class = "ui-g-3">{{fundamental.LastTradePriceOnly}}</div>
+        </div>
+        <div class = "ui-g">
+          <div class = "ui-g-3">KGV</div><div class = "ui-g-3">{{fundamental.PERatio}}</div>
+          <div class = "ui-g-3">Marktkapitalisierung</div><div class = "ui-g-3">{{fundamental.MarketCapitalization}}</div>
+        </div>
+        <div class = "ui-g">
+          <div class = "ui-g-3">Dividende pro Aktie</div><div class = "ui-g-3">{{fundamental.DividendShare}}</div>
+          <div class = "ui-g-3">Dividendenrendite</div><div class = "ui-g-3">{{fundamental.DividendYield}}</div>
+        </div>
+        <div class = "ui-g">
+          <div class = "ui-g-3">Gewinn pro Aktie</div><div class = "ui-g-3">{{fundamental.EarningsShare}}</div>
+          <div class = "ui-g-3">EBITDA</div><div class = "ui-g-3">{{fundamental.EBITDA}}</div>
+        </div>
+        <div class = "ui-g">
+          <div class = "ui-g-3">50 Tage Durchschnitt</div><div class = "ui-g-3">{{fundamental.FiftydayMovingAverage}}</div>
+          <div class = "ui-g-3">200 Tage Durchschnitt</div><div class = "ui-g-3">{{fundamental.TwoHundreddayMovingAverage}}</div>
+        </div>
+      </p-tabPanel>
+      <p-tabPanel header="Charts">
+        <div class = "ui-g">
+          <div class = "ui-g-12" [chart]="chart"></div>
+        </div>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
 </p-dialog>

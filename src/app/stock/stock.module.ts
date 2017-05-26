@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { DataTableModule, SharedModule, DialogModule, ButtonModule } from 'primeng/primeng';
+import { DataTableModule, SharedModule, DialogModule, ButtonModule, TabViewModule } from 'primeng/primeng';
 
 import { ChartModule } from 'angular-highcharts';
 
@@ -26,6 +26,7 @@ import { FundamentalComponent } from './fundamental/fundamental.component';
     DataTableModule,
     DialogModule,
     ButtonModule,
+    TabViewModule,
     SharedModule,
     ChartModule
   ],
