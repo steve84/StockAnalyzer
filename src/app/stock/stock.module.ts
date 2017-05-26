@@ -5,7 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { DataTableModule, SharedModule, DialogModule } from 'primeng/primeng';
+import { DataTableModule, SharedModule, DialogModule, ButtonModule } from 'primeng/primeng';
+
+import { ChartModule } from 'angular-highcharts';
 
 import { StockService } from './stock.service';
 
@@ -23,7 +25,9 @@ import { FundamentalComponent } from './fundamental/fundamental.component';
     BrowserAnimationsModule,
     DataTableModule,
     DialogModule,
-    SharedModule
+    ButtonModule,
+    SharedModule,
+    ChartModule
   ],
   exports: [
     StockComponent

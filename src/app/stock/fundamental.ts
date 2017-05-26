@@ -1,4 +1,20 @@
 export interface Fundamental {
   AverageDailyVolume?: number,
-  BookValue?: number
+  BookValue?: number,
+  Currency?: string,
+  DividendShare?: number,
+  DividendYield?: number,
+  EBITDA?: number,
+  EarningsShare?: number,
+  FiftydayMovingAverage?: number,
+  TwoHundreddayMovingAverage?: number,
+  MarketCapitalization?: number,
+  Name?: string,
+  PEGRatio?: number,
+  PERatio?: number,
+  StockExchange?: string,
+  Symbol?: string,
+  YearHigh?: number,
+  YearLow?: number,
+  LastTradePriceOnly?: number
 }

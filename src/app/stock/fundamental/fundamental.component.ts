@@ -1,5 +1,7 @@
 import { Component, OnInit, OnChanges, SimpleChanges, EventEmitter, Input, Output } from '@angular/core';
 
+import { Chart } from 'angular-highcharts';
+
 import { StockService } from '../stock.service';
 
 import { Fundamental } from '../fundamental';
@@ -15,6 +17,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
   @Output('close') close: EventEmitter<boolean> = new EventEmitter<boolean>();
   private title: string;
   private fundamental: Fundamental;
+  private chart: Chart;
 
   constructor(private stockService: StockService) {
     this.title = "Fundamental data";
@@ -30,7 +33,26 @@ export class FundamentalComponent implements OnInit, OnChanges {
 
   getFundamentals() {
     if (this.symbol)
-      this.stockService.getFundamental(this.symbol).subscribe((data:Fundamental) => this.fundamental = data);
+      this.stockService.getFundamental(this.symbol).subscribe((data:Fundamental) => {
+        this.fundamental = data;
+        this.chart = new Chart({
+          chart: {
+            type: 'bar'
+          },
+          title: {
+            text: 'Linechart'
+          },
+          credits: {
+            enabled: false
+          },
+          xAxis: {
+            categories: ['Jahreshoch', 'Jahrestief', 'Aktueller Kurs']
+          },
+          series: [{
+            data: [+data.YearHigh, +data.YearLow, +data.LastTradePriceOnly]
+          }]
+        });
+      });
   }
 
   closeDisplay() {
