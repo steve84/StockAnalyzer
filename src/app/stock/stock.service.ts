@@ -36,6 +36,16 @@ export class StockService {
       .map(this.extractDataYahooFundamental);
   }
 
+  getHistoricalData(symbol: Symbol) {
+    let key = 'c-7-dq_SdcLs_6me4Azt';
+    let url = "https://www.quandl.com/api/v3/datatables/WIKI/PRICES.json?date.gte=20100101&qopts.columns=date,close&api_key=";
+    url += key;
+    url += "&ticker=" + symbol.symbol;
+
+    return this.http.get(url)
+      .map(this.extractDataQuandlHistorical);
+  }
+
   extractData(resp: Response) {
     let json_resp = resp.json();
     let json_resp_data = json_resp.datatable;
@@ -63,5 +73,10 @@ export class StockService {
       return json_resp.query.results.quote;
     else
       return null;
+  }
+
+  extractDataQuandlHistorical(resp: Response) {
+    let json_resp = resp.json();
+    return json_resp.datatable.data;
   }
 }
