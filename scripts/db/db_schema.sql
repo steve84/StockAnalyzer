@@ -99,6 +99,27 @@ CREATE SEQUENCE stock_seq
 
 ALTER TABLE stock_seq OWNER TO postgres;
 
+
+CREATE SEQUENCE daily_fundamental_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE daily_fundamental_seq OWNER TO postgres;
+
+CREATE SEQUENCE annual_fundamental_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE annual_fundamental_seq OWNER TO postgres;
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -150,6 +171,54 @@ CREATE TABLE tstock (
 
 ALTER TABLE tstock OWNER TO postgres;
 
+
+CREATE TABLE tdailyfundamental (
+    daily_fundamental_id integer DEFAULT nextval('daily_fundamental_seq'::regclass) NOT NULL,
+	earnings_per_share character varying,
+	price_earnings_ratio character varying,
+	profit_growth_1year character varying,
+	profit_peg character varying,
+	dividend_amount character varying,
+	dividend_yield character varying,
+	cashflow_per_share character varying,
+	cashflow_kcv character varying,
+    stock_id integer,
+);
+
+
+ALTER TABLE tdailyfundamental OWNER TO postgres;
+
+
+CREATE TABLE tannualfundamental (
+    annual_fundamental_id integer DEFAULT nextval('annual_fundamental_seq'::regclass) NOT NULL,
+	turnover character varying,
+	turnover_growth_1year character varying,
+	turnover_employee character varying,
+	bookvalue_per_share character varying,
+	bookvalue_price_ratio character varying,
+	balance_sheet_total character varying,
+	balance_sheet_equity_ratio character varying,
+	balance_sheet_equity_dept character varying,
+	balance_sheet_equity_dynamic_dept character varying,
+	accounting_method character varying,
+	market_capitalization character varying,
+	market_capitalization_turnover character varying,
+	market_capitalization_employee character varying,
+	market_capitalization_ebitda character varying,
+	roi_cashflow_marge character varying,
+	roi_ebit_marge character varying,
+	roi_ebitda_marge character varying,
+	roi_equity character varying,
+	roi_total_capital character varying,
+	roi_cashflow character varying,
+	roi_tax_quote character varying,
+	year_value integer,
+    stock_id integer
+);
+
+
+ALTER TABLE tannualfundamental OWNER TO postgres;
+
 --
 -- TOC entry 2001 (class 2606 OID 16500)
 -- Name: pbranch; Type: CONSTRAINT; Schema: public; Owner: postgres
@@ -175,6 +244,12 @@ ALTER TABLE ONLY tcountry
 
 ALTER TABLE ONLY tstock
     ADD CONSTRAINT pstock PRIMARY KEY (stock_id);
+	
+ALTER TABLE ONLY tdailyfundamental
+	ADD CONSTRAINT pdailyfundamental PRIMARY KEY (daily_fundamental_id);
+
+ALTER TABLE ONLY tannualfundamental
+	ADD CONSTRAINT pannualfundamental PRIMARY KEY (annual_fundamental_id);
 
 
 --
@@ -191,6 +266,10 @@ CREATE INDEX fki_fbranch ON tstock USING btree (branch_id);
 --
 
 CREATE INDEX fki_fcountry ON tstock USING btree (country_id);
+
+CREATE INDEX fki_fstock ON tdailyfundamental USING btree (stock_id);
+
+CREATE INDEX fki_fstock ON tannualfundamental USING btree (stock_id);
 
 
 --
@@ -209,6 +288,12 @@ ALTER TABLE ONLY tstock
 
 ALTER TABLE ONLY tstock
     ADD CONSTRAINT fcountry FOREIGN KEY (country_id) REFERENCES tcountry(country_id);
+	
+ALTER TABLE ONLY tdailyfundamental
+    ADD CONSTRAINT fdailyfundamental FOREIGN KEY (stock_id) REFERENCES tstock(stock_id);
+	
+ALTER TABLE ONLY tannualfundamental
+    ADD CONSTRAINT fannualfundamental FOREIGN KEY (stock_id) REFERENCES tstock(stock_id);
 
 
 --
