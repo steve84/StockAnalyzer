@@ -6,6 +6,9 @@ import re
 import csv
 import os
 
+
+import psycopg2
+
 from utils import Utils
 
 # Argument parser
@@ -37,31 +40,37 @@ daily_figures = {
 	'cashflow_kcv'
 }
 
+conn = psycopg2.connect("dbname=%s user=%s host=%s" % (db_name, db_user, db_host))
+cur = conn.cursor()
+
 with open('mapping.json') as json_file:
 	mapping = json.load(json_file)
 
+cur.execute("""SELECT * FROM vfundamental LIMIT %d;""" % 1)
+stocks = cur.fetchall()
 
-# Loop über View
-# select * from
-# tstock s
-# left join tcountry c on s.country_id = c.country_id
-# left join tbranch b on s.branch_id = b.branch_id
-# left join tdailyfundamental df on s.stock_id = df.stock_id
-# left join tannualfundamental af on s.stock_id = af.stock_id
-
-
-link = "http://www.onvista.de/aktien/fundamental/Volkswagen-VZ-Aktie-DE0007664039"
-#link = fundamental_url + str(stock['url'].split('/')[-1])
-response = requests.get(link)
-data = dict()
-years = list()
-print('%s\n' % link)
-if (response.status_code == 200):
-	soup = BeautifulSoup(response.content, 'html.parser')
-	data = Utils.getKeyFigures(soup, 'mapping.json')
-	# Fälle für Synchronisation auf DB
-	# 1. Fall: Aktie hat noch keine Fundamentaldaten
-	# 2. Fall: Aktie fehlen tägliche oder jährliche Fundamentaldaten
-	# 3. Fall: Aktie hat täglich und jährliche Fundamentaldaten, welche jedoch nicht vollständig sind oder aktualisiert werden wollen
-import pdb; pdb.set_trace()
-	
+for stock in stocks:
+	link = fundamental_url + str(stock[1].split('/')[-1])
+	response = requests.get(link)
+	data = dict()
+	years = list()
+	print('%s\n' % link)
+	if (response.status_code == 200):
+		soup = BeautifulSoup(response.content, 'html.parser')
+		data = Utils.getKeyFigures(soup, 'mapping.json')
+		actual_year = Utils.getActualYear()
+		import pdb;pdb.set_trace()
+		# Fälle für Synchronisation auf DB
+		# 1. Fall: Aktie hat noch keine Fundamentaldaten
+		if not stock[2]:
+			data[str(actual_year)]['stock_id'] = stock[0]
+			cur.execute(Utils.createSqlString(daily_figures.union({'stock_id'}) , 'tdailyfundamental'), data[str(actual_year)])
+		if not stock[3]:
+			for year in data.keys():
+				data[year]['year_value'] = int(year)
+				data[year]['stock_id'] = stock[0]
+				cur.execute(Utils.createSqlString(set(data[year].keys()) - daily_figures, 'tannualfundamental'), data[year])
+		# 2. Fall: Aktie fehlen tägliche oder jährliche Fundamentaldaten
+		# 3. Fall: Aktie hat täglich und jährliche Fundamentaldaten, welche jedoch nicht vollständig sind oder aktualisiert werden wollen
+conn.commit();
+conn.close();

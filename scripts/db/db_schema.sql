@@ -173,7 +173,7 @@ ALTER TABLE tstock OWNER TO postgres;
 
 
 CREATE TABLE tdailyfundamental (
-    daily_fundamental_id integer DEFAULT nextval('daily_fundamental_seq'::regclass) NOT NULL,
+  daily_fundamental_id integer DEFAULT nextval('daily_fundamental_seq'::regclass) NOT NULL,
 	earnings_per_share character varying,
 	price_earnings_ratio character varying,
 	profit_growth_1year character varying,
@@ -182,7 +182,7 @@ CREATE TABLE tdailyfundamental (
 	dividend_yield character varying,
 	cashflow_per_share character varying,
 	cashflow_kcv character varying,
-    stock_id integer,
+  stock_id integer
 );
 
 
@@ -267,9 +267,9 @@ CREATE INDEX fki_fbranch ON tstock USING btree (branch_id);
 
 CREATE INDEX fki_fcountry ON tstock USING btree (country_id);
 
-CREATE INDEX fki_fstock ON tdailyfundamental USING btree (stock_id);
+CREATE INDEX fki_fdailystock ON tdailyfundamental USING btree (stock_id);
 
-CREATE INDEX fki_fstock ON tannualfundamental USING btree (stock_id);
+CREATE INDEX fki_fannualstock ON tannualfundamental USING btree (stock_id);
 
 
 --
@@ -295,6 +295,21 @@ ALTER TABLE ONLY tdailyfundamental
 ALTER TABLE ONLY tannualfundamental
     ADD CONSTRAINT fannualfundamental FOREIGN KEY (stock_id) REFERENCES tstock(stock_id);
 
+
+CREATE OR REPLACE VIEW public.vfundamental AS 
+ SELECT s.stock_id,
+    s.url,
+    df.daily_fundamental_id,
+    max(af.year_value) AS max
+   FROM tstock s
+     LEFT JOIN tcountry c ON s.country_id = c.country_id
+     LEFT JOIN tbranch b ON s.branch_id = b.branch_id
+     LEFT JOIN tdailyfundamental df ON s.stock_id = df.stock_id
+     LEFT JOIN tannualfundamental af ON s.stock_id = af.stock_id
+  GROUP BY s.stock_id, s.url, df.daily_fundamental_id;
+
+ALTER TABLE public.vfundamental
+  OWNER TO postgres;	
 
 --
 -- TOC entry 2130 (class 0 OID 0)

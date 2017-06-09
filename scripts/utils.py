@@ -1,7 +1,7 @@
 import re
 import json
 from bs4 import BeautifulSoup
-
+from datetime import datetime
 
 class Utils:
 
@@ -56,16 +56,18 @@ class Utils:
 								else:
 									data[tmp_year][fact] = ''
 									
-								data[tmp_year]['year_end'] = year_end
+								#data[tmp_year]['year_end'] = year_end
 								counter += 1
 					i += 1
 		return data
 		
-	def createSqlString(dataDict, tableName, isCreation=True):
-		values = '(%(' + ')s, %('.join(dataDict.keys()) + ')s)'
-		names = '(' + ', '.join(dataDict.keys()) + ')'
+	def createSqlString(dictKeys, tableName, isCreation=True):
+		values = '(%(' + ')s, %('.join(dictKeys) + ')s)'
+		names = '(' + ', '.join(dictKeys) + ')'
 		if isCreation:
 			return "INSERT INTO " + tableName + " " + names + " VALUES " + values
 		else:
 			return "UPDATE " + tableName + " SET " + names + " = " + values
-		
+
+	def getActualYear():
+		return datetime.now().year
