@@ -174,14 +174,15 @@ ALTER TABLE tstock OWNER TO postgres;
 
 CREATE TABLE tdailyfundamental (
   daily_fundamental_id integer DEFAULT nextval('daily_fundamental_seq'::regclass) NOT NULL,
-	earnings_per_share character varying,
-	price_earnings_ratio character varying,
-	profit_growth_1year character varying,
-	profit_peg character varying,
-	dividend_amount character varying,
-	dividend_yield character varying,
-	cashflow_per_share character varying,
-	cashflow_kcv character varying,
+	earnings_per_share real,
+	price_earnings_ratio real,
+	profit_growth_1year real,
+	profit_peg real,
+	dividend_amount real,
+	dividend_yield real,
+	cashflow_per_share real,
+	cashflow_kcv real,
+	modified_at date,
   stock_id integer
 );
 
@@ -190,30 +191,30 @@ ALTER TABLE tdailyfundamental OWNER TO postgres;
 
 
 CREATE TABLE tannualfundamental (
-    annual_fundamental_id integer DEFAULT nextval('annual_fundamental_seq'::regclass) NOT NULL,
-	turnover character varying,
-	turnover_growth_1year character varying,
-	turnover_employee character varying,
-	bookvalue_per_share character varying,
-	bookvalue_price_ratio character varying,
-	balance_sheet_total character varying,
-	balance_sheet_equity_ratio character varying,
-	balance_sheet_equity_dept character varying,
-	balance_sheet_equity_dynamic_dept character varying,
-	accounting_method character varying,
-	market_capitalization character varying,
-	market_capitalization_turnover character varying,
-	market_capitalization_employee character varying,
-	market_capitalization_ebitda character varying,
-	roi_cashflow_marge character varying,
-	roi_ebit_marge character varying,
-	roi_ebitda_marge character varying,
-	roi_equity character varying,
-	roi_total_capital character varying,
-	roi_cashflow character varying,
-	roi_tax_quote character varying,
+  annual_fundamental_id integer DEFAULT nextval('annual_fundamental_seq'::regclass) NOT NULL,
+	turnover real,
+	turnover_growth_1year real,
+	turnover_employee real,
+	bookvalue_per_share real,
+	bookvalue_price_ratio real,
+	balance_sheet_total real,
+	balance_sheet_equity_ratio real,
+	balance_sheet_equity_dept real,
+	balance_sheet_equity_dynamic_dept real,
+	accounting_method real,
+	market_capitalization real,
+	market_capitalization_turnover real,
+	market_capitalization_employee real,
+	market_capitalization_ebitda real,
+	roi_cashflow_marge real,
+	roi_ebit_marge real,
+	roi_ebitda_marge real,
+	roi_equity real,
+	roi_total_capital real,
+	roi_cashflow real,
+	roi_tax_quote real,
 	year_value integer,
-    stock_id integer
+  stock_id integer
 );
 
 
@@ -300,7 +301,7 @@ CREATE OR REPLACE VIEW public.vfundamental AS
  SELECT s.stock_id,
     s.url,
     df.daily_fundamental_id,
-    max(af.year_value) AS max
+    max(af.year_value) AS lastfundamentalyear
    FROM tstock s
      LEFT JOIN tcountry c ON s.country_id = c.country_id
      LEFT JOIN tbranch b ON s.branch_id = b.branch_id

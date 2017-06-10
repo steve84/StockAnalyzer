@@ -28,6 +28,7 @@ db_host = parser.parse_args().db_host
 
 base_url = "http://www.onvista.de/aktien/"
 fundamental_url = base_url + "fundamental/"
+actual_year = Utils.getActualYear()
 
 daily_figures = {
 	'price_earnings_ratio',
@@ -46,7 +47,10 @@ cur = conn.cursor()
 with open('mapping.json') as json_file:
 	mapping = json.load(json_file)
 
-cur.execute("""SELECT * FROM vfundamental LIMIT %d;""" % 1)
+if maxItems:
+	cur.execute("""SELECT * FROM vfundamental where daily_fundamental_id is null or lastfundamentalyear is null or lastfundamentalyear < %d LIMIT %d;""" % (actual_year - 1, maxItems))
+else:
+	cur.execute("""SELECT * FROM vfundamental where daily_fundamental_id is null or lastfundamentalyear is null or lastfundamentalyear < %d;""" % (actual_year - 1))
 stocks = cur.fetchall()
 
 for stock in stocks:
@@ -58,18 +62,19 @@ for stock in stocks:
 	if (response.status_code == 200):
 		soup = BeautifulSoup(response.content, 'html.parser')
 		data = Utils.getKeyFigures(soup, 'mapping.json')
-		actual_year = Utils.getActualYear()
-		import pdb;pdb.set_trace()
+		#import pdb;pdb.set_trace()
 		# Fälle für Synchronisation auf DB
 		# 1. Fall: Aktie hat noch keine Fundamentaldaten
 		if not stock[2]:
 			data[str(actual_year)]['stock_id'] = stock[0]
-			cur.execute(Utils.createSqlString(daily_figures.union({'stock_id'}) , 'tdailyfundamental'), data[str(actual_year)])
+			data[str(actual_year)]['modified_at'] = Utils.getActualDate()
+			cur.execute(Utils.createSqlString(daily_figures.union({'modified_at', 'stock_id'}) , 'tdailyfundamental'), data[str(actual_year)])
 		if not stock[3]:
 			for year in data.keys():
-				data[year]['year_value'] = int(year)
-				data[year]['stock_id'] = stock[0]
-				cur.execute(Utils.createSqlString(set(data[year].keys()) - daily_figures, 'tannualfundamental'), data[year])
+				if int(year) < actual_year:
+					data[year]['year_value'] = int(year)
+					data[year]['stock_id'] = stock[0]
+					cur.execute(Utils.createSqlString(set(data[year].keys()) - daily_figures, 'tannualfundamental'), data[year])
 		# 2. Fall: Aktie fehlen tägliche oder jährliche Fundamentaldaten
 		# 3. Fall: Aktie hat täglich und jährliche Fundamentaldaten, welche jedoch nicht vollständig sind oder aktualisiert werden wollen
 conn.commit();

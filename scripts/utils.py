@@ -40,7 +40,7 @@ class Utils:
 						if fact:
 							fact = fact.text
 							for map in mapping.keys():
-								if fact.find(map) > -1:
+								if fact.find(map) == 0:
 									fact = mapping[map]
 						cols = row.findAll("td", {"class": "ZAHL"})
 						counter = 0
@@ -49,12 +49,12 @@ class Utils:
 								tmp_year = years[counter]
 								if tmp_year not in data.keys():
 									data[tmp_year] = dict()
-		
+
 								tmp_value = re.findall('[-]?\d+[,]?\d+', col.text.replace('.', ''))
 								if len(tmp_value) == 1:
-									data[tmp_year][fact] = tmp_value[0]
+									data[tmp_year][fact] = float(tmp_value[0].replace(',', '.'))
 								else:
-									data[tmp_year][fact] = ''
+									data[tmp_year][fact] = None
 									
 								#data[tmp_year]['year_end'] = year_end
 								counter += 1
@@ -71,3 +71,6 @@ class Utils:
 
 	def getActualYear():
 		return datetime.now().year
+	
+	def getActualDate():
+		return datetime.now().date()
