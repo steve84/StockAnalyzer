@@ -3,8 +3,11 @@ import { Component, OnInit, OnChanges, SimpleChanges, EventEmitter, Input, Outpu
 import { Chart } from 'angular-highcharts';
 
 import { StockService } from '../stock.service';
+import { FundamentalService } from '../fundamental.service';
 
-import { Fundamental } from '../fundamental';
+import { Stock } from '../stock';
+import { DailyFundamental } from '../dailyfundamental';
+import { AnnualFundamental } from '../annualfundamental';
 
 @Component({
   selector: 'app-fundamental',
@@ -13,15 +16,16 @@ import { Fundamental } from '../fundamental';
 })
 export class FundamentalComponent implements OnInit, OnChanges {
   @Input('display') display: boolean = false;
-  @Input('symbol') symbol: Symbol;
+  @Input('stock') stock: Stock;
   @Output('close') close: EventEmitter<boolean> = new EventEmitter<boolean>();
   private title: string;
-  private fundamental: Fundamental;
+  private dailyfundamental: DailyFundamental;
+  private annualfundamental: AnnualFundamental;
   private historicalData: any[] = [];
   private chart: Chart;
   private historicalChart: Chart;
 
-  constructor(private stockService: StockService) {
+  constructor(private stockService: StockService, private fundamentalService: FundamentalService) {
     this.title = "Fundamental data";
   }
 
@@ -36,7 +40,25 @@ export class FundamentalComponent implements OnInit, OnChanges {
   }
 
   getFundamentals() {
-    if (this.symbol)
+    if (this.stock) {
+      this.fundamentalService.getDailyFundamentalByStockId(this.stock.stockId)
+        .subscribe((data:DailyFundamental[]) => {
+          if (data && data.length == 1)
+            this.dailyfundamental = data[0];
+        });
+
+      this.fundamentalService.getAnnualFundamentalByStockId(this.stock.stockId)
+        .subscribe((data:AnnualFundamental[]) => {
+          let newestAnnualFundamental: AnnualFundamental = null;
+          for (let af of data) {
+            if (!newestAnnualFundamental || newestAnnualFundamental.yearValue < af.yearValue) {
+              this.annualfundamental = af;
+              break;
+            }
+          }
+        });
+    }
+    /*if (this.symbol)
       this.stockService.getFundamental(this.symbol).subscribe((data:Fundamental) => {
         this.fundamental = data;
         this.chart = new Chart({
@@ -56,11 +78,11 @@ export class FundamentalComponent implements OnInit, OnChanges {
             data: [+data.YearHigh, +data.YearLow, +data.LastTradePriceOnly]
           }]
         });
-      });
+      });*/
   }
 
   getHistoricalData() {
-    if (this.symbol) {
+    /*if (this.symbol) {
       this.stockService.getHistoricalData(this.symbol).subscribe((data:any[]) => {
         let xAxis: string[] = [];
         let yAxis: number[] = [];
@@ -86,7 +108,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
           }]
         });
       });
-    }
+    }*/
   }
 
   closeDisplay() {

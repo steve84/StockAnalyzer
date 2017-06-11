@@ -1,9 +1,9 @@
 export interface Stock {
-  compnumber?: number,
-  longname?: string,
-  shortname?: string,
-  countrycode?: string,
-  status?: string,
-  exchange?: string,
-  website?: string
+  stockId?: number,
+  nsin?: string,
+  isin?: string,
+  wkn?: string,
+  symbol?: string,
+  url?: string,
+  name?: string
 }

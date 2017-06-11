@@ -1,17 +1,12 @@
-<input [(ngModel)]="symbol" />
-<input type="button" value="Los" (click)="searchSymbol()" />
-<br /><br />
-<p-dataTable [value]="symbols" selectionMode="single" [(selection)]="selectedSymbol">
-    <p-column field="symbol" header="Symbol"></p-column>
+<p-dataTable [value]="stocks" selectionMode="single" [(selection)]="selectedStock">
+    <p-column field="isin" header="ISIN"></p-column>
     <p-column field="name" header="Name"></p-column>
-    <p-column field="exch" header="Country"></p-column>
-    <p-column field="typeDisp" header="State"></p-column>
-    <p-column field="exchDisp" header="Exchange"></p-column>
+    <p-column field="url" header="URL"></p-column>
     <p-column styleClass="col-button">
-      <ng-template let-symbol="rowData" pTemplate="body">
-        <button type="button" pButton (click)="showFundamental(symbol)" icon="fa-search"></button>
+      <ng-template let-stock="rowData" pTemplate="body">
+        <button type="button" pButton (click)="showFundamental(stock)" icon="fa-search"></button>
       </ng-template>
     </p-column>
 </p-dataTable>
 
-<app-fundamental [display]="display" [symbol]="selectedSymbol" (close)="closeFundamental($event)"></app-fundamental>
+<app-fundamental [display]="display" [stock]="selectedStock" (close)="closeFundamental($event)"></app-fundamental>

@@ -21,8 +21,10 @@ public class Stock {
     private String wkn;
     private String symbol;
     private String url;
-    private Integer country_id;
-    private Integer branch_id;
+    @Column(name = "country_id")
+    private Integer countryId;
+    @Column(name = "branch_id")
+    private Integer branchId;
     private String name;
     
 	public Integer getStockId() {
@@ -73,20 +75,20 @@ public class Stock {
 		this.url = url;
 	}
 
-	public Integer getCountry_id() {
-		return country_id;
+	public Integer getCountryId() {
+		return countryId;
 	}
 
-	public void setCountry_id(Integer country_id) {
-		this.country_id = country_id;
+	public void setCountryId(Integer countryId) {
+		this.countryId = countryId;
 	}
 
-	public Integer getBranch_id() {
-		return branch_id;
+	public Integer getBranchId() {
+		return branchId;
 	}
 
-	public void setBranch_id(Integer branch_id) {
-		this.branch_id = branch_id;
+	public void setBranchId(Integer branchId) {
+		this.branchId = branchId;
 	}
 
 	public String getName() {

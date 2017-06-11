@@ -10,6 +10,7 @@ import { DataTableModule, SharedModule, DialogModule, ButtonModule, TabViewModul
 import { ChartModule } from 'angular-highcharts';
 
 import { StockService } from './stock.service';
+import { FundamentalService } from './fundamental.service';
 
 import { stockRoutes } from './stock.routes';
 
@@ -34,7 +35,8 @@ import { FundamentalComponent } from './fundamental/fundamental.component';
     StockComponent
   ],
   providers: [
-    StockService
+    StockService,
+    FundamentalService
   ],
   declarations: [StockComponent, FundamentalComponent]
 })
