@@ -173,17 +173,17 @@ ALTER TABLE tstock OWNER TO postgres;
 
 
 CREATE TABLE tdailyfundamental (
-  daily_fundamental_id integer DEFAULT nextval('daily_fundamental_seq'::regclass) NOT NULL,
-	earnings_per_share real,
-	price_earnings_ratio real,
-	profit_growth_1year real,
-	profit_peg real,
-	dividend_amount real,
-	dividend_yield real,
-	cashflow_per_share real,
-	cashflow_kcv real,
+	daily_fundamental_id integer DEFAULT nextval('daily_fundamental_seq'::regclass) NOT NULL,
+	earnings_per_share numeric,
+	price_earnings_ratio numeric,
+	profit_growth_1year numeric,
+	profit_peg numeric,
+	dividend_amount numeric,
+	dividend_yield numeric,
+	cashflow_per_share numeric,
+	cashflow_kcv numeric,
 	modified_at date,
-  stock_id integer
+	stock_id integer
 );
 
 
@@ -191,34 +191,68 @@ ALTER TABLE tdailyfundamental OWNER TO postgres;
 
 
 CREATE TABLE tannualfundamental (
-  annual_fundamental_id integer DEFAULT nextval('annual_fundamental_seq'::regclass) NOT NULL,
-	turnover real,
-	turnover_growth_1year real,
-	turnover_employee real,
-	bookvalue_per_share real,
-	bookvalue_price_ratio real,
-	balance_sheet_total real,
-	balance_sheet_equity_ratio real,
-	balance_sheet_equity_dept real,
-	balance_sheet_equity_dynamic_dept real,
-	accounting_method real,
-	market_capitalization real,
-	market_capitalization_turnover real,
-	market_capitalization_employee real,
-	market_capitalization_ebitda real,
-	roi_cashflow_marge real,
-	roi_ebit_marge real,
-	roi_ebitda_marge real,
-	roi_equity real,
-	roi_total_capital real,
-	roi_cashflow real,
-	roi_tax_quote real,
+	annual_fundamental_id integer DEFAULT nextval('annual_fundamental_seq'::regclass) NOT NULL,
+	turnover numeric,
+	turnover_growth_1year numeric,
+	turnover_employee numeric,
+	bookvalue_per_share numeric,
+	bookvalue_price_ratio numeric,
+	balance_sheet_total numeric,
+	balance_sheet_equity_ratio numeric,
+	balance_sheet_equity_dept numeric,
+	balance_sheet_equity_dynamic_dept numeric,
+	accounting_method numeric,
+	market_capitalization numeric,
+	market_capitalization_turnover numeric,
+	market_capitalization_employee numeric,
+	market_capitalization_ebitda numeric,
+	roi_cashflow_marge numeric,
+	roi_ebit_marge numeric,
+	roi_ebitda_marge numeric,
+	roi_equity numeric,
+	roi_total_capital numeric,
+	roi_cashflow numeric,
+	roi_tax_quote numeric,
 	year_value integer,
-  stock_id integer
+	stock_id integer
 );
 
 
 ALTER TABLE tannualfundamental OWNER TO postgres;
+
+
+CREATE TABLE ttechnicaldata (
+	technical_data_id integer DEFAULT nextval('technical_data_seq'::regclass) NOT NULL,
+	vola_30d numeric,
+	vola_250d numeric,
+	vola_3y numeric,
+	sd_30d numeric,
+	sd_100d numeric,
+	sd_250d numeric,
+	moving_average_30d numeric,
+	moving_average_100d numeric,
+	moving_average_250d numeric,
+	rsi_5d numeric,
+	rsi_20d numeric,
+	rsi_250d numeric,
+	rsl_5d numeric,
+	rsl_20d numeric,
+	rsl_250d numeric,
+	momentum_30d numeric,
+	momentum_50d numeric,
+	momentum_250d numeric,
+	performance_7d numeric,
+	performance_30d numeric,
+	performance_6m numeric,
+	performance_1y numeric,
+	performance_3y numeric,
+	performance_5y numeric,
+	modified_at date,
+	stock_id integer
+);
+
+
+ALTER TABLE ttechnicaldata OWNER TO postgres;
 
 --
 -- TOC entry 2001 (class 2606 OID 16500)
@@ -252,6 +286,8 @@ ALTER TABLE ONLY tdailyfundamental
 ALTER TABLE ONLY tannualfundamental
 	ADD CONSTRAINT pannualfundamental PRIMARY KEY (annual_fundamental_id);
 
+ALTER TABLE ONLY ttechnicaldata
+	ADD CONSTRAINT ptechnicaldata PRIMARY KEY (technical_data_id);
 
 --
 -- TOC entry 2004 (class 1259 OID 16505)
@@ -271,6 +307,8 @@ CREATE INDEX fki_fcountry ON tstock USING btree (country_id);
 CREATE INDEX fki_fdailystock ON tdailyfundamental USING btree (stock_id);
 
 CREATE INDEX fki_fannualstock ON tannualfundamental USING btree (stock_id);
+
+CREATE INDEX fki_ftechnicaldata ON ttechnicaldata USING btree (stock_id);
 
 
 --
@@ -295,6 +333,9 @@ ALTER TABLE ONLY tdailyfundamental
 	
 ALTER TABLE ONLY tannualfundamental
     ADD CONSTRAINT fannualfundamental FOREIGN KEY (stock_id) REFERENCES tstock(stock_id);
+
+ALTER TABLE ONLY ttechnicaldata
+    ADD CONSTRAINT ftechnicaldata FOREIGN KEY (stock_id) REFERENCES tstock(stock_id);
 
 
 CREATE OR REPLACE VIEW public.vfundamental AS 

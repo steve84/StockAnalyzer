@@ -27,19 +27,7 @@ db_name = parser.parse_args().db_name
 db_host = parser.parse_args().db_host
 
 base_url = "http://www.onvista.de/aktien/"
-fundamental_url = base_url + "fundamental/"
-actual_year = Utils.getActualYear()
-
-daily_figures = {
-	'price_earnings_ratio',
-	'earnings_per_share',
-	'profit_growth_1year',
-	'profit_peg',
-	'dividend_amount',
-	'dividend_yield',
-	'cashflow_per_share',
-	'cashflow_kcv'
-}
+technical_url = base_url + "technische-kennzahlen/"
 
 conn = psycopg2.connect("dbname=%s user=%s host=%s" % (db_name, db_user, db_host))
 cur = conn.cursor()
@@ -51,26 +39,17 @@ else:
 stocks = cur.fetchall()
 
 for stock in stocks:
-	link = fundamental_url + str(stock[1].split('/')[-1])
+	link = technical_url + str(stock[1].split('/')[-1])
 	response = requests.get(link)
 	print('%s\n' % link)
 	if (response.status_code == 200):
 		soup = BeautifulSoup(response.content, 'html.parser')
-		data = Utils.getKeyFigures(soup, 'mapping.json')
+		data = Utils.getTechnicalFigures(soup, 'mappingTechnicalFigures.json')
 		#import pdb;pdb.set_trace()
-		# Fälle für Synchronisation auf DB
-		# 1. Fall: Aktie hat noch keine Fundamentaldaten
 		if not stock[2]:
-			data[str(actual_year)]['stock_id'] = stock[0]
-			data[str(actual_year)]['modified_at'] = Utils.getActualDate()
-			cur.execute(Utils.createSqlString(daily_figures.union({'modified_at', 'stock_id'}) , 'tdailyfundamental'), data[str(actual_year)])
-		if not stock[3]:
-			for year in data.keys():
-				if int(year) < actual_year:
-					data[year]['year_value'] = int(year)
-					data[year]['stock_id'] = stock[0]
-					cur.execute(Utils.createSqlString(set(data[year].keys()) - daily_figures, 'tannualfundamental'), data[year])
-		# 2. Fall: Aktie fehlen tägliche oder jährliche Fundamentaldaten
-		# 3. Fall: Aktie hat täglich und jährliche Fundamentaldaten, welche jedoch nicht vollständig sind oder aktualisiert werden wollen
+			data['stock_id'] = stock[0]
+			data['modified_at'] = Utils.getActualDate()
+			cur.execute(Utils.createSqlString(data.keys(), 'ttechnicaldata'), data[str(actual_year)])
+
 conn.commit();
 conn.close();

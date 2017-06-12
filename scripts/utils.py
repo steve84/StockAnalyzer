@@ -61,6 +61,41 @@ class Utils:
 					i += 1
 		return data
 		
+	def getTechnicalFigures(htmlSoup, mappingFileName):
+		data = dict()
+		mapping = Utils.getMappingDict(mappingFileName)
+		risk_trend_figures = htmlSoup.find("article", {"class": "RISIKO_TREND KENNZAHLEN"})
+		performance_figures = htmlSoup.find("article", {"class": "KURSE_PERFORMANCE KENNZAHLEN"}).find("tbody").findAll("tr")
+		
+		if (risk_trend_figures):
+			risk_trend_figures_headers = risk_trend_figures.findAll("th")
+			risk_trend_figures_values = risk_trend_figures.findAll("td", {"class": "ZAHL"})
+			if (len(risk_trend_figures_headers) == len(risk_trend_figures_values)):
+				i = 0
+				for i in range(0, len(risk_trend_figures_headers)):
+					header = risk_trend_figures_headers[i].text.strip()
+					value = risk_trend_figures_values[i].text.strip()
+					for map in mapping.keys():
+						if header.find(map) == 0:
+							tmp_value = re.findall('[-]?\d+[,]?\d+', value.replace('.', ''))
+							if len(tmp_value) == 1:
+								data[mapping[map]] = float(tmp_value[0].replace(',', '.'))
+							else:
+								data[mapping[map]] = None
+
+		if (performance_figures):
+			for row in performance_figures:
+				header = row.find("th").text.strip()
+				value = row.find("td").text.strip()
+				for map in mapping.keys():
+					if header.find(map) == 0:
+						tmp_value = re.findall('[-]?[+]?\d+[,]?\d+', value.replace('.', ''))
+						if len(tmp_value) == 1:
+							data[mapping[map]] = float(tmp_value[0].replace('+', '').replace(',', '.'))
+						else:
+							data[mapping[map]] = None
+		return data
+		
 	def createSqlString(dictKeys, tableName, isCreation=True):
 		values = '(%(' + ')s, %('.join(dictKeys) + ')s)'
 		names = '(' + ', '.join(dictKeys) + ')'
