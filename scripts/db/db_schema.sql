@@ -120,6 +120,18 @@ CREATE SEQUENCE annual_fundamental_seq
 
 ALTER TABLE annual_fundamental_seq OWNER TO postgres;
 
+
+CREATE SEQUENCE technical_data_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE technical_data_seq OWNER TO postgres;
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -360,7 +372,7 @@ CREATE OR REPLACE VIEW public.vtechicaldata AS
     td.technical_data_id,
     td.modified_at
    FROM tstock s
-     LEFT JOIN ttechnicaldata df ON s.stock_id = td.stock_id;
+     LEFT JOIN ttechnicaldata td ON s.stock_id = td.stock_id;
 
 ALTER TABLE public.vtechicaldata
   OWNER TO postgres;
@@ -381,8 +393,8 @@ CREATE OR REPLACE VIEW public.vstock AS
 	af2.annual_fundamental_id,
 	td.technical_data_id
    FROM tstock s
-     LEFT JOIN tcountry c ON s.stock_id = c.stock_id
-	 LEFT JOIN tbranch b ON s.stock_id = b.stock_id
+   LEFT JOIN tcountry c ON s.country_id = c.country_id
+ LEFT JOIN tbranch b ON s.branch_id = b.branch_id
 	 LEFT JOIN tdailyfundamental df on s.stock_id = df.stock_id
 	 LEFT JOIN (select stock_id, max(year_value) as max_year from tannualfundamental group by stock_id) af1 on s.stock_id = af1.stock_id
 	 LEFT JOIN tannualfundamental af2 on af1.stock_id = af2.stock_id and af1.max_year = af2.year_value

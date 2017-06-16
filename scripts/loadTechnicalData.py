@@ -48,7 +48,7 @@ for stock in stocks:
 		if not stock[2]:
 			data['stock_id'] = stock[0]
 			data['modified_at'] = Utils.getActualDate()
-			cur.execute(Utils.createSqlString(data.keys(), 'ttechnicaldata'), data])
+			cur.execute(Utils.createSqlString(data.keys(), 'ttechnicaldata'), data)
 
 conn.commit();
 conn.close();
