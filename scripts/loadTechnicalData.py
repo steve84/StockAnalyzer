@@ -33,9 +33,9 @@ conn = psycopg2.connect("dbname=%s user=%s host=%s" % (db_name, db_user, db_host
 cur = conn.cursor()
 
 if maxItems:
-	cur.execute("""SELECT * FROM vfundamental where daily_fundamental_id is null or lastfundamentalyear is null or lastfundamentalyear < %d LIMIT %d;""" % (actual_year - 1, maxItems))
+	cur.execute("""SELECT * FROM vtechicaldata where technical_data_id is null LIMIT %d;""" % (maxItems))
 else:
-	cur.execute("""SELECT * FROM vfundamental where daily_fundamental_id is null or lastfundamentalyear is null or lastfundamentalyear < %d;""" % (actual_year - 1))
+	cur.execute("""SELECT * FROM vtechicaldata where technical_data_id is null;""")
 stocks = cur.fetchall()
 
 for stock in stocks:
@@ -45,11 +45,10 @@ for stock in stocks:
 	if (response.status_code == 200):
 		soup = BeautifulSoup(response.content, 'html.parser')
 		data = Utils.getTechnicalFigures(soup, 'mappingTechnicalFigures.json')
-		#import pdb;pdb.set_trace()
 		if not stock[2]:
 			data['stock_id'] = stock[0]
 			data['modified_at'] = Utils.getActualDate()
-			cur.execute(Utils.createSqlString(data.keys(), 'ttechnicaldata'), data[str(actual_year)])
+			cur.execute(Utils.createSqlString(data.keys(), 'ttechnicaldata'), data])
 
 conn.commit();
 conn.close();

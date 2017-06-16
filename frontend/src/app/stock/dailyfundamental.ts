@@ -1,5 +1,6 @@
 export interface DailyFundamental {
-  earningsPerShare: number,
+  dailyFundamentalId?: number,
+  earningsPerShare?: number,
   priceEarningsRatio?: number,
   profitGrowthOneYear?: number,
   profitPeg?: number,

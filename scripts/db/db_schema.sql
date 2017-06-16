@@ -158,14 +158,14 @@ ALTER TABLE tcountry OWNER TO postgres;
 
 CREATE TABLE tstock (
     stock_id integer DEFAULT nextval('stock_seq'::regclass) NOT NULL,
+	name character varying,
     nsin character varying,
     isin character varying,
     wkn character varying,
     symbol character varying,
     url character varying,
     country_id integer,
-    branch_id integer,
-    name character varying
+    branch_id integer
 );
 
 
@@ -351,7 +351,45 @@ CREATE OR REPLACE VIEW public.vfundamental AS
   GROUP BY s.stock_id, s.url, df.daily_fundamental_id;
 
 ALTER TABLE public.vfundamental
-  OWNER TO postgres;	
+  OWNER TO postgres;
+ 
+
+CREATE OR REPLACE VIEW public.vtechicaldata AS 
+ SELECT s.stock_id,
+    s.url,
+    td.technical_data_id,
+    td.modified_at
+   FROM tstock s
+     LEFT JOIN ttechnicaldata df ON s.stock_id = td.stock_id;
+
+ALTER TABLE public.vtechicaldata
+  OWNER TO postgres;
+
+
+CREATE OR REPLACE VIEW public.vstock AS 
+ SELECT s.stock_id,
+	s.name AS stock_name,
+    s.nsin,
+	s.isin,
+	s.wkn,
+	s.symbol,
+	s.url,
+	c.name AS country_name,
+	c.code,
+	b.name AS branch_name,
+	df.daily_fundamental_id,
+	af2.annual_fundamental_id,
+	td.technical_data_id
+   FROM tstock s
+     LEFT JOIN tcountry c ON s.stock_id = c.stock_id
+	 LEFT JOIN tbranch b ON s.stock_id = b.stock_id
+	 LEFT JOIN tdailyfundamental df on s.stock_id = df.stock_id
+	 LEFT JOIN (select stock_id, max(year_value) as max_year from tannualfundamental group by stock_id) af1 on s.stock_id = af1.stock_id
+	 LEFT JOIN tannualfundamental af2 on af1.stock_id = af2.stock_id and af1.max_year = af2.year_value
+	 LEFT JOIN ttechnicaldata td on s.stock_id = td.stock_id;
+
+ALTER TABLE public.vstock
+  OWNER TO postgres;
 
 --
 -- TOC entry 2130 (class 0 OID 0)

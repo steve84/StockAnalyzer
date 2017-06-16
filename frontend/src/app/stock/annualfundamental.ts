@@ -1,4 +1,5 @@
 export interface AnnualFundamental {
+  annaulFundamentalId?: number,
   turnover?: number,
   turnoverGrowthOneYear?: number,
   turnoverEmployee?: number,
