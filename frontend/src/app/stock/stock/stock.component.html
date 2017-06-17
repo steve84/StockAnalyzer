@@ -1,6 +1,6 @@
-<p-dataTable [value]="stocks" selectionMode="single" [(selection)]="selectedStock">
-    <p-column field="isin" header="ISIN"></p-column>
-    <p-column field="name" header="Name"></p-column>
+<p-dataTable [value]="stocks" selectionMode="single" [(selection)]="selectedStock" [paginator]="true" [lazy]="true" [rows]="pageSize" (onLazyLoad)="loadData($event)" [totalRecords]="totalRecords">
+    <p-column field="isin" header="ISIN" [sortable]="true"></p-column>
+    <p-column field="name" header="Name" [sortable]="true"></p-column>
     <p-column field="url" header="URL"></p-column>
     <p-column styleClass="col-button">
       <ng-template let-stock="rowData" pTemplate="body">

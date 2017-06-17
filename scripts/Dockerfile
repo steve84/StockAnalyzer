@@ -1,4 +1,4 @@
-FROM python:3.3.6-alpine
+FROM python:3
 ENV PYTHONUNBUFFERED 1
 RUN mkdir /scripts
 WORKDIR /scripts

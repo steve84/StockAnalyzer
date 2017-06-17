@@ -11,6 +11,7 @@ import { ChartModule } from 'angular-highcharts';
 
 import { StockService } from './stock.service';
 import { FundamentalService } from './fundamental.service';
+import { TechnicalDataService } from './technicaldata.service';
 
 import { stockRoutes } from './stock.routes';
 
@@ -36,7 +37,8 @@ import { FundamentalComponent } from './fundamental/fundamental.component';
   ],
   providers: [
     StockService,
-    FundamentalService
+    FundamentalService,
+    TechnicalDataService
   ],
   declarations: [StockComponent, FundamentalComponent]
 })

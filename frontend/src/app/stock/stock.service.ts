@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response } from '@angular/http';
+import { Http, Response, URLSearchParams } from '@angular/http';
 
 import 'rxjs/add/operator/map';
 
@@ -10,16 +10,22 @@ export class StockService {
 
   constructor(private http: Http) { }
 
-  getAllStocks() {
-    let url = "http://localhost:8080/stocks";
-
-    return this.http.get(url)
+  getStocks(page: number, size: number, sortField?: string, sortOrder?: number) {
+    let url = "http://192.168.1.115:8080/stocks";
+    let params = new URLSearchParams();
+    params.set("page", page.toString());
+    params.set("size", size.toString());
+    if (sortField && sortOrder)
+      if(sortOrder == 1)
+        params.set("sort", sortField + ",asc");
+      else
+        params.set("sort", sortField + ",desc");
+    return this.http.get(url, {search: params})
       .map(this.extractData);
   }
 
   extractData(resp: Response) {
-    let json_resp = resp.json();
-    return json_resp._embedded.stock;
+    return resp.json();
   }
 
 }

@@ -13,13 +13,20 @@ export class StockComponent implements OnInit {
   stocks: Stock[] = [];
   private selectedStock: Stock = null;
   private display: boolean = false;
+  private totalRecords: number = 0;
+  private pageSize: number = 10;
 
-  constructor(private stockService: StockService) {
-    this.getAllStocks();
+  constructor(private stockService: StockService) {}
+
+  loadData(event: any) {
+    this.getStocks(Math.floor(event.first / event.rows), event.sortField, event.sortOrder);
   }
 
-  getAllStocks() {
-    this.stockService.getAllStocks().subscribe((data:Stock[]) => this.stocks = data);
+  getStocks(page: number, sortField?: string, sortOrder?: number) {
+    this.stockService.getStocks(page, this.pageSize, sortField, sortOrder).subscribe((data:any[]) => {
+      this.stocks = data['_embedded']['stock'];
+      this.totalRecords = data['page']['totalElements']
+    });
   }
 
   showFundamental(stock: Stock) {

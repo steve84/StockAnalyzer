@@ -1,4 +1,4 @@
-export interface DailyFundamental {
+export interface TechnicalData {
 	technicalDataId?: number,
 	vola30d?: number,
 	vola250d?: number,

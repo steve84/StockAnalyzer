@@ -4,10 +4,12 @@ import { Chart } from 'angular-highcharts';
 
 import { StockService } from '../stock.service';
 import { FundamentalService } from '../fundamental.service';
+import { TechnicalDataService } from '../technicaldata.service';
 
 import { Stock } from '../stock';
 import { DailyFundamental } from '../dailyfundamental';
 import { AnnualFundamental } from '../annualfundamental';
+import { TechnicalData } from '../technicaldata';
 
 @Component({
   selector: 'app-fundamental',
@@ -21,11 +23,14 @@ export class FundamentalComponent implements OnInit, OnChanges {
   private title: string;
   private dailyfundamental: DailyFundamental;
   private annualfundamental: AnnualFundamental;
+  private technicaldata: TechnicalData;
   private historicalData: any[] = [];
   private chart: Chart;
   private historicalChart: Chart;
 
-  constructor(private stockService: StockService, private fundamentalService: FundamentalService) {
+  constructor(private stockService: StockService,
+              private fundamentalService: FundamentalService,
+              private technicalDataService: TechnicalDataService) {
     this.title = "Fundamental data";
   }
 
@@ -35,6 +40,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.display && changes.display.currentValue) {
       this.getFundamentals();
+      this.getTechnicalData();
       this.getHistoricalData();
     }
   }
@@ -58,57 +64,19 @@ export class FundamentalComponent implements OnInit, OnChanges {
           }
         });
     }
-    /*if (this.symbol)
-      this.stockService.getFundamental(this.symbol).subscribe((data:Fundamental) => {
-        this.fundamental = data;
-        this.chart = new Chart({
-          chart: {
-            type: 'bar'
-          },
-          title: {
-            text: 'Linechart'
-          },
-          credits: {
-            enabled: false
-          },
-          xAxis: {
-            categories: ['Jahreshoch', 'Jahrestief', 'Aktueller Kurs']
-          },
-          series: [{
-            data: [+data.YearHigh, +data.YearLow, +data.LastTradePriceOnly]
-          }]
+  }
+
+  getTechnicalData() {
+    if (this.stock) {
+      this.technicalDataService.getTechnicalDataByStockId(this.stock.stockId)
+        .subscribe((data:TechnicalData[]) => {
+            if (data && data.length == 1)
+              this.technicaldata = data[0];
         });
-      });*/
+    }
   }
 
   getHistoricalData() {
-    /*if (this.symbol) {
-      this.stockService.getHistoricalData(this.symbol).subscribe((data:any[]) => {
-        let xAxis: string[] = [];
-        let yAxis: number[] = [];
-        for(let dataset of data) {
-          xAxis.push(dataset[0]);
-          yAxis.push(dataset[1]);
-        }
-        this.historicalChart = new Chart({
-          chart: {
-            type: 'line'
-          },
-          title: {
-            text: 'Linechart'
-          },
-          credits: {
-            enabled: false
-          },
-          xAxis: {
-            categories: xAxis
-          },
-          series: [{
-            data: yAxis
-          }]
-        });
-      });
-    }*/
   }
 
   closeDisplay() {

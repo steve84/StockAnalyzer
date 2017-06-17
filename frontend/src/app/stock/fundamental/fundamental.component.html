@@ -40,6 +40,26 @@
     </p-tabPanel>
     <p-tabPanel header="Fundamentalkennzahlen">
       <div *ngIf="annualfundamental">
+        <div class = "ui-g">
+          <div class = "ui-g-3">Umsatz</div><div class = "ui-g-3">{{annualfundamental.turnover}}</div>
+          <div class = "ui-g-3">Umsatzwachstum</div><div class = "ui-g-3">{{annualfundamental.turnoverGrowthOneYear}}</div>
+        </div>
+      </div>
+    </p-tabPanel>
+    <p-tabPanel header="Technische Kennzahlen">
+      <div *ngIf="technicaldata">
+        <div class = "ui-g">
+          <div class = "ui-g-3">Performance (1 Woche)</div><div class = "ui-g-3">{{technicaldata.performance7d}}%</div>
+          <div class = "ui-g-3">Performance (1 Jahr)</div><div class = "ui-g-3">{{technicaldata.performance1y}}%</div>
+        </div>
+        <div class = "ui-g">
+          <div class = "ui-g-3">Performance (1 Monat)</div><div class = "ui-g-3">{{technicaldata.performance30d}}%</div>
+          <div class = "ui-g-3">Performance (3 Jahre)</div><div class = "ui-g-3">{{technicaldata.performance3y}}%</div>
+        </div>
+        <div class = "ui-g">
+          <div class = "ui-g-3">Performance (6 Monate)</div><div class = "ui-g-3">{{technicaldata.performance6m}}%</div>
+          <div class = "ui-g-3">Performance (5 Jahre)</div><div class = "ui-g-3">{{technicaldata.performance5y}}%</div>
+        </div>
       </div>
     </p-tabPanel>
     <p-tabPanel header="Charts">

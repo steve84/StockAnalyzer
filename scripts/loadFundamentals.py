@@ -61,12 +61,13 @@ for stock in stocks:
 		# Fälle für Synchronisation auf DB
 		# 1. Fall: Aktie hat noch keine Fundamentaldaten
 		if not stock[2]:
-			data[str(actual_year)]['stock_id'] = stock[0]
-			data[str(actual_year)]['modified_at'] = Utils.getActualDate()
-			cur.execute(Utils.createSqlString(daily_figures.union({'modified_at', 'stock_id'}) , 'tdailyfundamental'), data[str(actual_year)])
+			if str(actual_year) in data.keys():
+				data[str(actual_year)]['stock_id'] = stock[0]
+				data[str(actual_year)]['modified_at'] = Utils.getActualDate()
+				cur.execute(Utils.createSqlString(daily_figures.union({'modified_at', 'stock_id'}) , 'tdailyfundamental'), data[str(actual_year)])
 		if not stock[3]:
 			for year in data.keys():
-				if int(year) < actual_year:
+				if int(year) < actual_year and year in data.keys():
 					data[year]['year_value'] = int(year)
 					data[year]['stock_id'] = stock[0]
 					cur.execute(Utils.createSqlString(set(data[year].keys()) - daily_figures, 'tannualfundamental'), data[year])
