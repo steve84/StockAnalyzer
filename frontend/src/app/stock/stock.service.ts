@@ -11,7 +11,7 @@ export class StockService {
   constructor(private http: Http) { }
 
   getStocks(page: number, size: number, sortField?: string, sortOrder?: number) {
-    let url = "http://192.168.1.115:8080/stocks";
+    let url = "http://localhost:8080/stocks";
     let params = new URLSearchParams();
     params.set("page", page.toString());
     params.set("size", size.toString());

@@ -1,28 +1,25 @@
-# TestAngular
+# Installation
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.3.
+## Development
+git clone https://github.com/steve84/StockAnalyzer.git
+cd StockAnalyzer
+docker run -it --rm --name my-maven-project -v "$PWD"/backend:/usr/src/mymaven -w /usr/src/mymaven maven:3.5-jdk-8-alpine mvn clean package
+docker run -it --rm --name my-running-script -v "$PWD"/frontend:/usr/src/app -w /usr/src/app -p 4200:4200 node:6-alpine sh -c 'npm install; npm start'
+docker-compose up -f docker-compose.dev.yml
+docker-compose exec db psql -h localhost -p 5432 -U postgres -d postgres -f /usr/src/scripts/db_schema.sql
+docker-compose run scripts python3 loadStocks.py -n 50 --host db -u postgres -d stock_db
+docker-compose run scripts python3 loadFundamentals.py -n 50 --host db -u postgres -d stock_db
+docker-compose run scripts python3 loadTechnicalData.py -n 50 --host db -u postgres -d stock_db
+Go to http://localhost:4200
 
-## Development server
-
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
-
-## Running unit tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+## Production
+git clone https://github.com/steve84/StockAnalyzer.git
+cd StockAnalyzer
+docker run -it --rm --name my-maven-project -v "$PWD"/backend:/usr/src/mymaven -w /usr/src/mymaven maven:3.5-jdk-8-alpine mvn clean package
+docker run -it --rm --name my-running-script -v "$PWD"/frontend:/usr/src/app -w /usr/src/app node:6-alpine sh -c 'npm install; npm run build; chmod +r -R dist'
+docker-compose up
+docker-compose exec db psql -h localhost -p 5432 -U postgres -d postgres -f /usr/src/scripts/db_schema.sql
+docker-compose run scripts python3 loadStocks.py -n 50 --host db -u postgres -d stock_db
+docker-compose run scripts python3 loadFundamentals.py -n 50 --host db -u postgres -d stock_db
+docker-compose run scripts python3 loadTechnicalData.py -n 50 --host db -u postgres -d stock_db
+Go to http://localhost:80

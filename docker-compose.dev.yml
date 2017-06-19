@@ -6,13 +6,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./scripts/db:/usr/src/scripts
-  frontend:
-    build: frontend/
-    ports:
-      - "80:80"
-    depends_on:
-      - backend
+      - scripts/db:/usr/src/scripts
   backend:
     build: backend/
     ports:

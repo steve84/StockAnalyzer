@@ -9,7 +9,7 @@ export class TechnicalDataService {
   constructor(private http: Http) { }
 
   getTechnicalDataByStockId(stockId: number) {
-    let url = "http://192.168.1.115:8080/technicaldata/search/findByStockId";
+    let url = "http://localhost:8080/technicaldata/search/findByStockId";
     let params = new URLSearchParams();
     params.set("stockId", stockId.toString());
 

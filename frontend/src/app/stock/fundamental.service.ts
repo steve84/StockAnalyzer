@@ -9,7 +9,7 @@ export class FundamentalService {
   constructor(private http: Http) { }
 
   getDailyFundamentalByStockId(stockId: number) {
-    let url = "http://192.168.1.115:8080/dailyfundamentals/search/findByStockId";
+    let url = "http://localhost:8080/dailyfundamentals/search/findByStockId";
     let params = new URLSearchParams();
     params.set("stockId", stockId.toString());
 
@@ -18,7 +18,7 @@ export class FundamentalService {
   }
 
   getAnnualFundamentalByStockId(stockId: number) {
-    let url = "http://192.168.1.115:8080/annualfundamentals/search/findByStockId";
+    let url = "http://localhost:8080/annualfundamentals/search/findByStockId";
     let params = new URLSearchParams();
     params.set("stockId", stockId.toString());
 

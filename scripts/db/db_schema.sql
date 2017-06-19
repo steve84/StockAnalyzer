@@ -390,8 +390,10 @@ CREATE OR REPLACE VIEW public.vstock AS
 	c.code,
 	b.name AS branch_name,
 	df.daily_fundamental_id,
+	df.modified_at AS daily_modified_at,
 	af2.annual_fundamental_id,
-	td.technical_data_id
+	td.technical_data_id,
+	td.modified_at AS technical_modified_at
    FROM tstock s
    LEFT JOIN tcountry c ON s.country_id = c.country_id
  LEFT JOIN tbranch b ON s.branch_id = b.branch_id
