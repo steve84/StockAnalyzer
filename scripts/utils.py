@@ -1,7 +1,8 @@
 import re
 import json
+import requests
 from bs4 import BeautifulSoup
-from datetime import datetime
+from datetime import datetime, date
 
 class Utils:
 
@@ -13,10 +14,11 @@ class Utils:
 		get_year_end = lambda x: x.find("span").text.split(" ")[1] if x.find("span") and len(x.find("span").text.split(" ")) >= 2 else ''
 		return get_year_end(htmlSoup)
 
-	def getKeyFigures(htmlSoup, mappingFileName):
+	def getKeyFigures(link, mappingFileName):
 		data = dict()
 		years = list()
 		mapping = Utils.getMappingDict(mappingFileName)
+		htmlSoup = Utils.getHtmlSoup(link)
 		key_figures = htmlSoup.find("article", {"class": "KENNZAHLEN"})
 
 		if (key_figures):
@@ -56,14 +58,15 @@ class Utils:
 								else:
 									data[tmp_year][fact] = None
 									
-								#data[tmp_year]['year_end'] = year_end
+								data[tmp_year]['business_year_end'] = year_end
 								counter += 1
 					i += 1
 		return data
 		
-	def getTechnicalFigures(htmlSoup, mappingFileName):
+	def getTechnicalFigures(link, mappingFileName):
 		data = dict()
 		mapping = Utils.getMappingDict(mappingFileName)
+		htmlSoup = Utils.getHtmlSoup(link)
 		risk_trend_figures = htmlSoup.find("article", {"class": "RISIKO_TREND KENNZAHLEN"})
 		performance_figures = htmlSoup.find("article", {"class": "KURSE_PERFORMANCE KENNZAHLEN"}).find("tbody").findAll("tr")
 		
@@ -95,17 +98,48 @@ class Utils:
 						else:
 							data[mapping[map]] = None
 		return data
+	
+	def getHtmlSoup(link):
+		response = requests.get(link)
+		print('%s\n' % link)
+		if (response.status_code == 200):
+			return BeautifulSoup(response.content, 'html.parser')
 		
-	def createSqlString(dictKeys, tableName, isCreation=True):
+	def createSqlString(dictKeys, tableName, whereCond=None, isCreation=True):
 		values = '(%(' + ')s, %('.join(dictKeys) + ')s)'
 		names = '(' + ', '.join(dictKeys) + ')'
 		if isCreation:
 			return "INSERT INTO " + tableName + " " + names + " VALUES " + values
 		else:
-			return "UPDATE " + tableName + " SET " + names + " = " + values
+			if not whereCond:
+				return "UPDATE " + tableName + " SET " + names + " = " + values
+			else:
+				return "UPDATE " + tableName + " SET " + names + " = " + values + " WHERE " + whereCond
 
 	def getActualYear():
 		return datetime.now().year
 	
 	def getActualDate():
 		return datetime.now().date()
+	
+	def getDayDiff(startDate):
+		if startDate:
+			diff = date.today() - startDate
+			if hasattr(diff, 'days'):
+				return diff.days
+		return 0
+	
+	def getLastBusinessYear(endBusinessYear):
+		actualYear = Utils.getActualYear()
+		if endBusinessYear == 'n.a.':
+			return actualYear - 1
+		elif endBusinessYear == '31.12.':
+			endBusinessYear += str(actualYear - 1)
+		else:
+			endBusinessYear += str(actualYear)
+		diff = Utils.getDayDiff(datetime.strptime(endBusinessYear, '%d.%m.%Y').date())
+		if diff > 0:
+			return actualYear - 1
+		else:
+			return actualYear - 2
+		

@@ -176,6 +176,7 @@ CREATE TABLE tstock (
     wkn character varying,
     symbol character varying,
     url character varying,
+	business_year_end character varying,
     country_id integer,
     branch_id integer
 );
@@ -386,12 +387,14 @@ CREATE OR REPLACE VIEW public.vstock AS
 	s.wkn,
 	s.symbol,
 	s.url,
+	s.business_year_end,
 	c.name AS country_name,
 	c.code,
 	b.name AS branch_name,
 	df.daily_fundamental_id,
 	df.modified_at AS daily_modified_at,
 	af2.annual_fundamental_id,
+	af2.year_value AS max_annual_year,
 	td.technical_data_id,
 	td.modified_at AS technical_modified_at
    FROM tstock s

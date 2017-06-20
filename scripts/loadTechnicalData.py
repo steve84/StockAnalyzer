@@ -40,15 +40,11 @@ stocks = cur.fetchall()
 
 for stock in stocks:
 	link = technical_url + str(stock[1].split('/')[-1])
-	response = requests.get(link)
-	print('%s\n' % link)
-	if (response.status_code == 200):
-		soup = BeautifulSoup(response.content, 'html.parser')
-		data = Utils.getTechnicalFigures(soup, 'mappingTechnicalFigures.json')
-		if not stock[2]:
-			data['stock_id'] = stock[0]
-			data['modified_at'] = Utils.getActualDate()
-			cur.execute(Utils.createSqlString(data.keys(), 'ttechnicaldata'), data)
+	data = Utils.getTechnicalFigures(link, 'mappingTechnicalFigures.json')
+	if not stock[2]:
+		data['stock_id'] = stock[0]
+		data['modified_at'] = Utils.getActualDate()
+		cur.execute(Utils.createSqlString(data.keys(), 'ttechnicaldata'), data)
 
 conn.commit();
 conn.close();

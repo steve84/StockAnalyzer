@@ -52,26 +52,17 @@ stocks = cur.fetchall()
 
 for stock in stocks:
 	link = fundamental_url + str(stock[1].split('/')[-1])
-	response = requests.get(link)
-	print('%s\n' % link)
-	if (response.status_code == 200):
-		soup = BeautifulSoup(response.content, 'html.parser')
-		data = Utils.getKeyFigures(soup, 'mapping.json')
-		#import pdb;pdb.set_trace()
-		# Fälle für Synchronisation auf DB
-		# 1. Fall: Aktie hat noch keine Fundamentaldaten
-		if not stock[2]:
-			if str(actual_year) in data.keys():
-				data[str(actual_year)]['stock_id'] = stock[0]
-				data[str(actual_year)]['modified_at'] = Utils.getActualDate()
-				cur.execute(Utils.createSqlString(daily_figures.union({'modified_at', 'stock_id'}) , 'tdailyfundamental'), data[str(actual_year)])
-		if not stock[3]:
-			for year in data.keys():
-				if int(year) < actual_year and year in data.keys():
-					data[year]['year_value'] = int(year)
-					data[year]['stock_id'] = stock[0]
-					cur.execute(Utils.createSqlString(set(data[year].keys()) - daily_figures, 'tannualfundamental'), data[year])
-		# 2. Fall: Aktie fehlen tägliche oder jährliche Fundamentaldaten
-		# 3. Fall: Aktie hat täglich und jährliche Fundamentaldaten, welche jedoch nicht vollständig sind oder aktualisiert werden wollen
+	data = Utils.getKeyFigures(link, 'mapping.json')
+	if not stock[2]:
+		if str(actual_year) in data.keys():
+			data[str(actual_year)]['stock_id'] = stock[0]
+			data[str(actual_year)]['modified_at'] = Utils.getActualDate()
+			cur.execute(Utils.createSqlString(daily_figures.union({'modified_at', 'stock_id'}) , 'tdailyfundamental'), data[str(actual_year)])
+	if not stock[3]:
+		for year in data.keys():
+			if int(year) < actual_year and year in data.keys():
+				data[year]['year_value'] = int(year)
+				data[year]['stock_id'] = stock[0]
+				cur.execute(Utils.createSqlString(set(data[year].keys()) - daily_figures, 'tannualfundamental'), data[year])
 conn.commit();
 conn.close();
