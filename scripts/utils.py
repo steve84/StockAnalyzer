@@ -98,6 +98,30 @@ class Utils:
 						else:
 							data[mapping[map]] = None
 		return data
+
+	def getAnalystRatings(link, mappingFileName):
+		data = dict()
+		totalRatings = 0
+		mapping = Utils.getMappingDict(mappingFileName)
+		htmlSoup = Utils.getHtmlSoup(link)
+		table = htmlSoup.find('tbody')
+		if table is not None: 
+			rows = table.findAll('tr')
+			for row in rows:
+				cols = row.findAll('td')
+				if len(cols) == 2:
+					header = cols[0].text
+					value = cols[1].text
+					if header and value:
+						header = header.strip()
+						value = int(value.strip())
+						if header in mapping.keys():
+							data[mapping[header]] = value
+							totalRatings += value
+		if len(data) == 3 and totalRatings > 0:
+			for rating in data.keys():
+				data[rating] = float(data[rating] / totalRatings)
+		return data
 	
 	def getHtmlSoup(link):
 		response = requests.get(link)
@@ -142,4 +166,23 @@ class Utils:
 			return actualYear - 1
 		else:
 			return actualYear - 2
+
+	def avgYearValue(factDict, targetKey, maxYear):
+		i = 0
+		value = 0
+		for year in factDict.keys():
+			if int(year) <= maxYear and targetKey in factDict[year].keys() and factDict[year][targetKey] is not None:
+				i += 1
+				value += factDict[year][targetKey]
+		if i > 0:
+			return value / i
+		else:
+			return 0
+
+	def calcGrowth(valueFrom, valueTo):
+		if valueFrom and valueTo and isinstance(valueFrom, float) and isinstance(valueTo, float):
+			return (valueTo / valueFrom) - 1
+		else:
+			return 0
+				
 		

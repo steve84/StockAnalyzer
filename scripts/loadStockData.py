@@ -26,18 +26,22 @@ db_host = parser.parse_args().db_host
 
 daily_figures = {
 	'price_earnings_ratio',
+	'price_earnings_ratio_5y_avg',
 	'earnings_per_share',
+	'earnings_per_share_growth_expected',
 	'profit_growth_1year',
 	'profit_peg',
 	'dividend_amount',
 	'dividend_yield',
 	'cashflow_per_share',
-	'cashflow_kcv'
+	'cashflow_kcv',
+	'analyst_sell_ratio'
 }
 
-base_url = "http://www.onvista.de/aktien/"
-fundamental_url = base_url + "fundamental/"
-technical_url = base_url + "technische-kennzahlen/"
+base_url = "http://www.onvista.de/"
+fundamental_url = base_url + "aktien/fundamental/"
+technical_url = base_url + "aktien/technische-kennzahlen/"
+analyst_rating_url = base_url + "news/boxes/aggregated-analyses?timespan=-3+months&assetType=Stock&assetId="
 actual_year = Utils.getActualYear()
 
 totalUpdated = 0
@@ -47,8 +51,9 @@ cur = conn.cursor()
 cur.execute("""SELECT * FROM vstock""")
 for stock in cur:
 	curStock = conn.cursor()
-	fundamental_data = list()
-	technical_data = list()
+	fundamental_data = dict()
+	technical_data = dict()
+	analyst_rating_data = dict()
 	StockUpdated = False
 	BusinessYearEnd = None
 	
@@ -65,14 +70,26 @@ for stock in cur:
 	else:
 		BusinessYearEnd = stock[7]
 
+	actualBusinessYear = str(Utils.getLastBusinessYear(BusinessYearEnd) + 1)
+	nextBusinessYear = str(Utils.getLastBusinessYear(BusinessYearEnd) + 2)
+
 	# Daily fundamental
 	if not stock[11]:
 		# Insert
 		if len(fundamental_data) == 0:
 			link = fundamental_url + str(stock[6].split('/')[-1])
 			fundamental_data = Utils.getKeyFigures(link, 'mapping.json')
-		actualBusinessYear = str(Utils.getLastBusinessYear(BusinessYearEnd) + 1)
+		if len(analyst_rating_data) == 0:
+			link = analyst_rating_url + stock[3]
+			analyst_rating_data = Utils.getAnalystRatings(link, 'mappingAnalystRatings.json')
 		if actualBusinessYear in fundamental_data.keys():
+			fundamental_data[actualBusinessYear]['price_earnings_ratio_5y_avg'] = Utils.avgYearValue(fundamental_data, 'price_earnings_ratio', int(actualBusinessYear))
+			fundamental_data[actualBusinessYear]['earnings_per_share_growth_expected'] = 0.0
+			if nextBusinessYear in fundamental_data.keys():
+				fundamental_data[actualBusinessYear]['earnings_per_share_growth_expected'] = Utils.calcGrowth(fundamental_data[actualBusinessYear]['earnings_per_share'], fundamental_data[nextBusinessYear]['earnings_per_share'])
+			fundamental_data[actualBusinessYear]['analyst_sell_ratio'] = 0.0
+			if 'sell' in analyst_rating_data.keys():
+				fundamental_data[actualBusinessYear]['analyst_sell_ratio'] = analyst_rating_data['sell']
 			fundamental_data[actualBusinessYear]['stock_id'] = stock[0]
 			fundamental_data[actualBusinessYear]['modified_at'] = Utils.getActualDate()
 			curStock.execute(Utils.createSqlString(daily_figures.union({'modified_at', 'stock_id'}) , 'tdailyfundamental'), fundamental_data[actualBusinessYear])
@@ -82,8 +99,17 @@ for stock in cur:
 		if len(fundamental_data) == 0:
 			link = fundamental_url + str(stock[6].split('/')[-1])
 			fundamental_data = Utils.getKeyFigures(link, 'mapping.json')
-		actualBusinessYear = str(Utils.getLastBusinessYear(BusinessYearEnd) + 1)
+		if len(analyst_rating_data) == 0:
+			link = analyst_rating_url + stock[3]
+			analyst_rating_data = Utils.getAnalystRatings(link, 'mappingAnalystRatings.json')
 		if actualBusinessYear in fundamental_data.keys():
+			fundamental_data[actualBusinessYear]['price_earnings_ratio_5y_avg'] = Utils.avgYearValue(fundamental_data, 'price_earnings_ratio', int(actualBusinessYear))
+			fundamental_data[actualBusinessYear]['earnings_per_share_growth_expected'] = 0.0
+			if nextBusinessYear in fundamental_data.keys():
+				fundamental_data[actualBusinessYear]['earnings_per_share_growth_expected'] = Utils.calcGrowth(fundamental_data[actualBusinessYear]['earnings_per_share'], fundamental_data[nextBusinessYear]['earnings_per_share'])
+			fundamental_data[actualBusinessYear]['analyst_sell_ratio'] = 0.0
+			if 'sell' in analyst_rating_data.keys():
+				fundamental_data[actualBusinessYear]['analyst_sell_ratio'] = analyst_rating_data['sell']
 			fundamental_data[actualBusinessYear]['modified_at'] = Utils.getActualDate()
 			curStock.execute(Utils.createSqlString(daily_figures.union({'modified_at'}) , 'tdailyfundamental', 'stock_id = %d' % stock[0], False), fundamental_data[actualBusinessYear])
 			StockUpdated = StockUpdated or True

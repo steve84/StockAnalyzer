@@ -188,13 +188,16 @@ ALTER TABLE tstock OWNER TO postgres;
 CREATE TABLE tdailyfundamental (
 	daily_fundamental_id integer DEFAULT nextval('daily_fundamental_seq'::regclass) NOT NULL,
 	earnings_per_share numeric,
+    earnings_per_share_growth_expected numeric,
 	price_earnings_ratio numeric,
+        price_earnings_ratio_5y_avg numeric,
 	profit_growth_1year numeric,
 	profit_peg numeric,
 	dividend_amount numeric,
 	dividend_yield numeric,
 	cashflow_per_share numeric,
 	cashflow_kcv numeric,
+    analyst_sell_ratio numeric,
 	modified_at date,
 	stock_id integer
 );
@@ -406,6 +409,31 @@ CREATE OR REPLACE VIEW public.vstock AS
 	 LEFT JOIN ttechnicaldata td on s.stock_id = td.stock_id;
 
 ALTER TABLE public.vstock
+  OWNER TO postgres;
+
+
+CREATE OR REPLACE VIEW public.vlevermann AS 
+ SELECT s.stock_id,
+   af2.roi_equity,
+   af2.roi_ebit_marge,
+   af2.balance_sheet_equity_ratio,
+   af2.market_capitalization,
+   df.price_earnings_ratio,
+   df.price_earnings_ratio_5y_avg,
+   df.earnings_per_share_growth_expected,
+   df.analyst_sell_ratio,
+   1 - df.analyst_sell_ratio AS analyst_buy_ratio,
+   td.performance_6m,
+   td.performance_1y
+   FROM tstock s
+   LEFT JOIN tcountry c ON s.country_id = c.country_id
+ LEFT JOIN tbranch b ON s.branch_id = b.branch_id
+	 LEFT JOIN tdailyfundamental df on s.stock_id = df.stock_id
+	 LEFT JOIN (select stock_id, max(year_value) as max_year from tannualfundamental group by stock_id) af1 on s.stock_id = af1.stock_id
+	 LEFT JOIN tannualfundamental af2 on af1.stock_id = af2.stock_id and af1.max_year = af2.year_value
+	 LEFT JOIN ttechnicaldata td on s.stock_id = td.stock_id;
+
+ALTER TABLE public.vlevermann
   OWNER TO postgres;
 
 --
