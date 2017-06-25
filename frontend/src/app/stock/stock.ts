@@ -5,5 +5,6 @@ export interface Stock {
   wkn?: string,
   symbol?: string,
   url?: string,
-  name?: string
+  name?: string,
+  businessYearEnd?: string
 }

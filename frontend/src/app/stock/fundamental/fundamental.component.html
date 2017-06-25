@@ -14,7 +14,8 @@
           <div class = "ui-g-3">URL</div><div class = "ui-g-3">{{stock.url}}</div>
         </div>
         <div class = "ui-g">
-          <div class = "ui-g-12" [chart]="historicalChart"></div>
+          <div class = "ui-g-3">Geschäftsjahresende</div><div class = "ui-g-3">{{stock.businessYearEnd}}</div>
+          <div class = "ui-g-3"></div><div class = "ui-g-3"></div>
         </div>
       </div>
     </p-tabPanel>
@@ -44,28 +45,90 @@
           <div class = "ui-g-3">Umsatz</div><div class = "ui-g-3">{{annualfundamental.turnover}}</div>
           <div class = "ui-g-3">Umsatzwachstum</div><div class = "ui-g-3">{{annualfundamental.turnoverGrowthOneYear}}</div>
         </div>
+        <div class = "ui-g">
+          <div class = "ui-g-3">Umsatz pro Mitarbeiter</div><div class = "ui-g-3">{{annualfundamental.turnoverEmployee}}</div>
+          <div class = "ui-g-3">Buchwert pro Aktie</div><div class = "ui-g-3">{{annualfundamental.bookvaluePerShare}}</div>
+        </div>
+        <div class = "ui-g">
+          <div class = "ui-g-3">Kurs-Buchwert-Verhältnis</div><div class = "ui-g-3">{{annualfundamental.bookvaluePriceRatio}}</div>
+          <div class = "ui-g-3">Bilanzsumme</div><div class = "ui-g-3">{{annualfundamental.balanceSheetTotal}}</div>
+        </div>
+        <div class = "ui-g">
+          <div class = "ui-g-3">Eigenkapitalquote</div><div class = "ui-g-3">{{annualfundamental.balanceSheetEquityRatio}}</div>
+          <div class = "ui-g-3">Verschuldungsgrad</div><div class = "ui-g-3">{{annualfundamental.balanceSheetEquityDept}}</div>
+        </div>
+        <div class = "ui-g">
+          <div class = "ui-g-3">dynam. Verschuldungsgrad</div><div class = "ui-g-3">{{annualfundamental.balanceSheetEquityDynamicDept}}</div>
+          <div class = "ui-g-3">Marktkapitalisierung</div><div class = "ui-g-3">{{annualfundamental.marketCapitalization}}</div>
+        </div>
+        <div class = "ui-g">
+          <div class = "ui-g-3">Marktkapitalisierung/Umsatz</div><div class = "ui-g-3">{{annualfundamental.marketCapitalizationTurnover}}</div>
+          <div class = "ui-g-3">Marktkapitalisierung/Mitarbeiter</div><div class = "ui-g-3">{{annualfundamental.marketCapitalizationEmployee}}</div>
+        </div>
+        <div class = "ui-g">
+          <div class = "ui-g-3">Marktkapitalisierung/EBITDA</div><div class = "ui-g-3">{{annualfundamental.marketCapitalizationEbitda}}</div>
+          <div class = "ui-g-3">Cashflow-Marge</div><div class = "ui-g-3">{{annualfundamental.roiCashflowMarge}}</div>
+        </div>
+        <div class = "ui-g">
+          <div class = "ui-g-3">EBIT-Marge</div><div class = "ui-g-3">{{annualfundamental.roiEbitMarge}}</div>
+          <div class = "ui-g-3">EBITDA-Marge</div><div class = "ui-g-3">{{annualfundamental.roiEbitdaMarge}}</div>
+        </div>
+        <div class = "ui-g">
+          <div class = "ui-g-3">Eigenkapitalrendite</div><div class = "ui-g-3">{{annualfundamental.roiEquity}}</div>
+          <div class = "ui-g-3">Gesamtkapitalrendite</div><div class = "ui-g-3">{{annualfundamental.roiTotalCapital}}</div>
+        </div>
+        <div class = "ui-g">
+          <div class = "ui-g-3">Cashflow Return on Investment</div><div class = "ui-g-3">{{annualfundamental.roiCashflow}}</div>
+          <div class = "ui-g-3">Steuerquote</div><div class = "ui-g-3">{{annualfundamental.roiTaxQuote}}</div>
+        </div>
       </div>
     </p-tabPanel>
     <p-tabPanel header="Technische Kennzahlen">
       <div *ngIf="technicaldata">
         <div class = "ui-g">
-          <div class = "ui-g-3">Performance (1 Woche)</div><div class = "ui-g-3">{{technicaldata.performance7d}}%</div>
-          <div class = "ui-g-3">Performance (1 Jahr)</div><div class = "ui-g-3">{{technicaldata.performance1y}}%</div>
+          <div class = "ui-g-2">Performance (1 Woche)</div><div class = "ui-g-2">{{technicaldata.performance7d}}%</div>
+          <div class = "ui-g-2">Performance (1 Monat)</div><div class = "ui-g-2">{{technicaldata.performance30d}}%</div>
+          <div class = "ui-g-2">Performance (6 Monate)</div><div class = "ui-g-2">{{technicaldata.performance6m}}%</div>
         </div>
         <div class = "ui-g">
-          <div class = "ui-g-3">Performance (1 Monat)</div><div class = "ui-g-3">{{technicaldata.performance30d}}%</div>
-          <div class = "ui-g-3">Performance (3 Jahre)</div><div class = "ui-g-3">{{technicaldata.performance3y}}%</div>
+          <div class = "ui-g-2">Performance (1 Jahr)</div><div class = "ui-g-2">{{technicaldata.performance1y}}%</div>
+          <div class = "ui-g-2">Performance (3 Jahre)</div><div class = "ui-g-2">{{technicaldata.performance3y}}%</div>
+          <div class = "ui-g-2">Performance (5 Jahre)</div><div class = "ui-g-2">{{technicaldata.performance5y}}%</div>
         </div>
         <div class = "ui-g">
-          <div class = "ui-g-3">Performance (6 Monate)</div><div class = "ui-g-3">{{technicaldata.performance6m}}%</div>
-          <div class = "ui-g-3">Performance (5 Jahre)</div><div class = "ui-g-3">{{technicaldata.performance5y}}%</div>
+          <div class = "ui-g-2">Volatität 30T</div><div class = "ui-g-2">{{technicaldata.vola30d}}%</div>
+          <div class = "ui-g-2">Volatität 250T</div><div class = "ui-g-2">{{technicaldata.vola250d}}%</div>
+          <div class = "ui-g-2">Volatität 3J</div><div class = "ui-g-2">{{technicaldata.vola3y}}%</div>
+        </div>
+        <div class = "ui-g">
+          <div class = "ui-g-2">SD 30T</div><div class = "ui-g-2">{{technicaldata.sd30d}}%</div>
+          <div class = "ui-g-2">SD 100T</div><div class = "ui-g-2">{{technicaldata.sd100d}}%</div>
+          <div class = "ui-g-2">SD 250T</div><div class = "ui-g-2">{{technicaldata.sd250d}}%</div>
+        </div>
+        <div class = "ui-g">
+          <div class = "ui-g-2">Gl. Durchschnitt 30T</div><div class = "ui-g-2">{{technicaldata.movingAverage30d}}%</div>
+          <div class = "ui-g-2">Gl. Durchschnitt 100T</div><div class = "ui-g-2">{{technicaldata.movingAverage100d}}%</div>
+          <div class = "ui-g-2">Gl. Durchschnitt 200T</div><div class = "ui-g-2">{{technicaldata.movingAverage200d}}%</div>
+        </div>
+        <div class = "ui-g">
+          <div class = "ui-g-2">RSI 5T</div><div class = "ui-g-2">{{technicaldata.rsi5d}}%</div>
+          <div class = "ui-g-2">RSI 20T</div><div class = "ui-g-2">{{technicaldata.rsi20d}}%</div>
+          <div class = "ui-g-2">RSI 250T</div><div class = "ui-g-2">{{technicaldata.rsi250d}}%</div>
+        </div>
+        <div class = "ui-g">
+          <div class = "ui-g-2">RSL 5T</div><div class = "ui-g-2">{{technicaldata.rsl5d}}%</div>
+          <div class = "ui-g-2">RSL 20T</div><div class = "ui-g-2">{{technicaldata.rsl20d}}%</div>
+          <div class = "ui-g-2">RSL 250T</div><div class = "ui-g-2">{{technicaldata.rsl250d}}%</div>
+        </div>
+        <div class = "ui-g">
+          <div class = "ui-g-2">Momentum 30T</div><div class = "ui-g-2">{{technicaldata.momentum30d}}%</div>
+          <div class = "ui-g-2">Momentum 50T</div><div class = "ui-g-2">{{technicaldata.momentum50d}}%</div>
+          <div class = "ui-g-2">Momentum 250T</div><div class = "ui-g-2">{{technicaldata.momentum250d}}%</div>
         </div>
       </div>
     </p-tabPanel>
-    <p-tabPanel header="Charts">
-      <div class = "ui-g">
-        <div class = "ui-g-12" [chart]="chart"></div>
-      </div>
+    <p-tabPanel header="Levermann">
+      <app-levermann [stock]="stock"></app-levermann>
     </p-tabPanel>
   </p-tabView>
 </p-dialog>

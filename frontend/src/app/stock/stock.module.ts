@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { DataTableModule, SharedModule, DialogModule, ButtonModule, TabViewModule } from 'primeng/primeng';
+import { DataTableModule, SharedModule, DialogModule, ButtonModule, TabViewModule, AccordionModule } from 'primeng/primeng';
 
 import { ChartModule } from 'angular-highcharts';
 
@@ -17,6 +17,7 @@ import { stockRoutes } from './stock.routes';
 
 import { StockComponent } from './stock/stock.component';
 import { FundamentalComponent } from './fundamental/fundamental.component';
+import { LevermannComponent } from './levermann/levermann.component';
 
 @NgModule({
   imports: [
@@ -29,6 +30,7 @@ import { FundamentalComponent } from './fundamental/fundamental.component';
     DialogModule,
     ButtonModule,
     TabViewModule,
+    AccordionModule,
     SharedModule,
     ChartModule
   ],
@@ -40,6 +42,6 @@ import { FundamentalComponent } from './fundamental/fundamental.component';
     FundamentalService,
     TechnicalDataService
   ],
-  declarations: [StockComponent, FundamentalComponent]
+  declarations: [StockComponent, FundamentalComponent, LevermannComponent]
 })
 export class StockModule { }

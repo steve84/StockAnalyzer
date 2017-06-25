@@ -24,6 +24,12 @@ export class StockService {
       .map(this.extractData);
   }
 
+  getLevermannData(stockId: number) {
+    let url = "http://localhost:8080/levermann/" + stockId;
+    return this.http.get(url)
+      .map(this.extractData);
+  }
+
   extractData(resp: Response) {
     return resp.json();
   }

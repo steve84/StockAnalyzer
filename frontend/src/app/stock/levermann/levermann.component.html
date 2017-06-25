@@ -1,0 +1,70 @@
+<div *ngIf="levermannData" class="ui-g">
+  <div class="ui-g-12">
+    Levermann-Resultat: {{levermannAdvice}}
+  </div>
+  <div class="ui-g-12">
+    Levermann-Punktzahl: {{levermannScore}}
+  </div>
+  <div class="ui-g-12">
+    <p-accordion>
+      <p-accordionTab>
+        <p-header>
+          Eigenkapitalquote
+        </p-header>
+        {{levermannData.roiEquity}}
+      </p-accordionTab>
+      <p-accordionTab>
+        <p-header>
+          EBIT-Marge
+        </p-header>
+        {{levermannData.roiEbitMarge}}
+      </p-accordionTab>
+      <p-accordionTab>
+        <p-header>
+          Eigenkapitalquote
+        </p-header>
+        {{levermannData.balanceSheetEquityRatio}}
+      </p-accordionTab>
+      <p-accordionTab>
+        <p-header>
+          Durchschnittliches KGV
+        </p-header>
+        {{levermannData.priceEarningsRatio5YearAverage}}
+      </p-accordionTab>
+      <p-accordionTab>
+        <p-header>
+          Aktuelles KGV
+        </p-header>
+        {{levermannData.priceEarningsRatio}}
+      </p-accordionTab>
+      <p-accordionTab>
+        <p-header>
+          Analystenmeinung
+        </p-header>
+      </p-accordionTab>
+      <p-accordionTab>
+        <p-header>
+          Kursentwicklung (6 Monate)
+        </p-header>
+        {{levermannData.performance6m}}
+      </p-accordionTab>
+      <p-accordionTab>
+        <p-header>
+          Kursentwicklung (12 Monate)
+        </p-header>
+        {{levermannData.performance1y}}
+      </p-accordionTab>
+      <p-accordionTab>
+        <p-header>
+          Kursmomentum
+        </p-header>
+      </p-accordionTab>
+      <p-accordionTab>
+        <p-header>
+          Erwarteter Gewinnwachstum
+        </p-header>
+        {{levermannData.earningsPerShareGrowthExpected}}
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+</div>
