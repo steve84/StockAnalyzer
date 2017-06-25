@@ -8,6 +8,7 @@ import ch.steve84.stock_analyzer.entity.AnnualFundamental;
 import ch.steve84.stock_analyzer.entity.Branch;
 import ch.steve84.stock_analyzer.entity.Country;
 import ch.steve84.stock_analyzer.entity.DailyFundamental;
+import ch.steve84.stock_analyzer.entity.Levermann;
 import ch.steve84.stock_analyzer.entity.Stock;
 import ch.steve84.stock_analyzer.entity.TechnicalData;
 
@@ -22,5 +23,6 @@ public class StockAnalyzerConfiguration extends RepositoryRestConfigurerAdapter 
         config.exposeIdsFor(AnnualFundamental.class);
         config.exposeIdsFor(DailyFundamental.class);
         config.exposeIdsFor(TechnicalData.class);
+        config.exposeIdsFor(Levermann.class);
     }
 }
