@@ -10,5 +10,5 @@ import ch.steve84.stock_analyzer.entity.Stock;
 
 @RepositoryRestResource(collectionResourceRel = "stock", path = "stocks")
 public interface StockRepository extends PagingAndSortingRepository<Stock, Integer> {
-	List<Stock> findByCountryId(@Param("countryId") Integer countryId);
+
 }

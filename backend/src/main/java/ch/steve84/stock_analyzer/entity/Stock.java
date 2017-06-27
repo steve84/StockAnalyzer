@@ -1,9 +1,16 @@
 package ch.steve84.stock_analyzer.entity;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -23,11 +30,30 @@ public class Stock {
     private String url;
     @Column(name = "business_year_end")
     private String businessYearEnd;
-    @Column(name = "country_id")
-    private Integer countryId;
-    @Column(name = "branch_id")
-    private Integer branchId;
+    @ManyToOne
+    @JoinColumn(name = "country_id")
+    private Country country;
+    @ManyToOne
+    @JoinColumn(name = "branch_id")
+    private Branch branch;
     private String name;
+    @ManyToMany
+    @JoinTable(name="tstockindex",
+    	      joinColumns=@JoinColumn(name="stock_id", referencedColumnName="stock_id"),
+    	      inverseJoinColumns=@JoinColumn(name="index_id", referencedColumnName="index_id"))
+    private List<Index> indices;
+    @OneToOne
+    @JoinColumn(name = "stock_id")
+    private Levermann levermann;
+    @OneToOne
+    @JoinColumn(name = "stock_id")
+    private DailyFundamental dailyFundamental;
+    @OneToMany
+    @JoinColumn(name = "stock_id")
+    private List<AnnualFundamental> annualFundamentals;
+    @OneToOne
+    @JoinColumn(name = "stock_id")
+    private TechnicalData technicalData;
     
     public Integer getStockId() {
         return stockId;
@@ -85,20 +111,20 @@ public class Stock {
         this.businessYearEnd = businessYearEnd;
     }
 
-    public Integer getCountryId() {
-        return countryId;
+    public Country getCountry() {
+        return country;
     }
 
-    public void setCountryId(Integer countryId) {
-        this.countryId = countryId;
+    public void setCountry(Country country) {
+        this.country = country;
     }
 
-    public Integer getBranchId() {
-        return branchId;
+    public Branch getBranch() {
+        return branch;
     }
 
-    public void setBranchId(Integer branchId) {
-        this.branchId = branchId;
+    public void setBranch(Branch branch) {
+        this.branch = branch;
     }
 
     public String getName() {
@@ -108,4 +134,44 @@ public class Stock {
     public void setName(String name) {
         this.name = name;
     }
+
+	public List<Index> getIndices() {
+		return indices;
+	}
+
+	public void setIndices(List<Index> indices) {
+		this.indices = indices;
+	}
+
+	public Levermann getLevermann() {
+		return levermann;
+	}
+
+	public void setLevermann(Levermann levermann) {
+		this.levermann = levermann;
+	}
+
+	public DailyFundamental getDailyFundamental() {
+		return dailyFundamental;
+	}
+
+	public void setDailyFundamental(DailyFundamental dailyFundamental) {
+		this.dailyFundamental = dailyFundamental;
+	}
+
+	public TechnicalData getTechnicalData() {
+		return technicalData;
+	}
+
+	public void setTechnicalData(TechnicalData technicalData) {
+		this.technicalData = technicalData;
+	}
+
+	public List<AnnualFundamental> getAnnualFundamentals() {
+		return annualFundamentals;
+	}
+
+	public void setAnnualFundamentals(List<AnnualFundamental> annualFundamentals) {
+		this.annualFundamentals = annualFundamentals;
+	}
 }

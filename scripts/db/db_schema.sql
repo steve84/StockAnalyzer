@@ -132,6 +132,17 @@ CREATE SEQUENCE technical_data_seq
 ALTER TABLE technical_data_seq OWNER TO postgres;
 
 
+CREATE SEQUENCE index_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE index_seq OWNER TO postgres;
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -178,7 +189,8 @@ CREATE TABLE tstock (
     url character varying,
 	business_year_end character varying,
     country_id integer,
-    branch_id integer
+    branch_id integer,
+    index_id integer
 );
 
 
@@ -270,6 +282,25 @@ CREATE TABLE ttechnicaldata (
 
 ALTER TABLE ttechnicaldata OWNER TO postgres;
 
+
+CREATE TABLE tindex (
+    index_id integer DEFAULT nextval('index_seq'::regclass) NOT NULL,
+    name character varying,
+    description character varying,
+    percentage numeric,
+    country_id integer
+);
+
+ALTER TABLE tindex OWNER TO postgres;
+
+
+CREATE TABLE tstockindex (
+    stock_id integer,
+    index_id integer
+);
+
+ALTER TABLE tstockindex OWNER TO postgres;
+
 --
 -- TOC entry 2001 (class 2606 OID 16500)
 -- Name: pbranch; Type: CONSTRAINT; Schema: public; Owner: postgres
@@ -305,6 +336,9 @@ ALTER TABLE ONLY tannualfundamental
 ALTER TABLE ONLY ttechnicaldata
 	ADD CONSTRAINT ptechnicaldata PRIMARY KEY (technical_data_id);
 
+ALTER TABLE ONLY tindex
+	ADD CONSTRAINT pindex PRIMARY KEY (index_id);
+
 --
 -- TOC entry 2004 (class 1259 OID 16505)
 -- Name: fki_fbranch; Type: INDEX; Schema: public; Owner: postgres
@@ -320,12 +354,19 @@ CREATE INDEX fki_fbranch ON tstock USING btree (branch_id);
 
 CREATE INDEX fki_fcountry ON tstock USING btree (country_id);
 
+CREATE INDEX fki_findex ON tstock USING btree (index_id);
+
 CREATE INDEX fki_fdailystock ON tdailyfundamental USING btree (stock_id);
 
 CREATE INDEX fki_fannualstock ON tannualfundamental USING btree (stock_id);
 
 CREATE INDEX fki_ftechnicaldata ON ttechnicaldata USING btree (stock_id);
 
+CREATE INDEX fki_findexcountry ON tindex USING btree (country_id);
+
+CREATE INDEX fki_fstockindexstock ON tstockindex USING btree (stock_id);
+
+CREATE INDEX fki_fstockindexindex ON tstockindex USING btree (index_id);
 
 --
 -- TOC entry 2008 (class 2606 OID 16507)
@@ -343,6 +384,9 @@ ALTER TABLE ONLY tstock
 
 ALTER TABLE ONLY tstock
     ADD CONSTRAINT fcountry FOREIGN KEY (country_id) REFERENCES tcountry(country_id);
+
+ALTER TABLE ONLY tstock
+    ADD CONSTRAINT findex FOREIGN KEY (index_id) REFERENCES tindex(index_id);
 	
 ALTER TABLE ONLY tdailyfundamental
     ADD CONSTRAINT fdailyfundamental FOREIGN KEY (stock_id) REFERENCES tstock(stock_id);
@@ -353,6 +397,14 @@ ALTER TABLE ONLY tannualfundamental
 ALTER TABLE ONLY ttechnicaldata
     ADD CONSTRAINT ftechnicaldata FOREIGN KEY (stock_id) REFERENCES tstock(stock_id);
 
+ALTER TABLE ONLY tindex
+    ADD CONSTRAINT findexcountry FOREIGN KEY (country_id) REFERENCES tcountry(country_id);
+    
+ALTER TABLE ONLY tstockindex
+    ADD CONSTRAINT fstockindexstock FOREIGN KEY (stock_id) REFERENCES tstock(stock_id);
+
+ALTER TABLE ONLY tstockindex
+    ADD CONSTRAINT fstockindexindex FOREIGN KEY (index_id) REFERENCES tindex(index_id);
 
 CREATE OR REPLACE VIEW public.vfundamental AS 
  SELECT s.stock_id,
