@@ -48,9 +48,8 @@ export class FundamentalComponent implements OnInit, OnChanges {
   getFundamentals() {
     if (this.stock) {
       this.fundamentalService.getDailyFundamentalByStockId(this.stock.stockId)
-        .subscribe((data:DailyFundamental[]) => {
-          if (data && data.length == 1)
-            this.dailyfundamental = data[0];
+        .subscribe((data:DailyFundamental) => {
+            this.dailyfundamental = data;
         });
 
       this.fundamentalService.getAnnualFundamentalByStockId(this.stock.stockId)
@@ -69,9 +68,8 @@ export class FundamentalComponent implements OnInit, OnChanges {
   getTechnicalData() {
     if (this.stock) {
       this.technicalDataService.getTechnicalDataByStockId(this.stock.stockId)
-        .subscribe((data:TechnicalData[]) => {
-            if (data && data.length == 1)
-              this.technicaldata = data[0];
+        .subscribe((data:TechnicalData) => {
+			this.technicaldata = data;
         });
     }
   }

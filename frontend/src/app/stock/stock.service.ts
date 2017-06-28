@@ -3,7 +3,7 @@ import { Http, Response, URLSearchParams } from '@angular/http';
 
 import 'rxjs/add/operator/map';
 
-import { Symbol } from './symbol';
+import { Stock } from './stock';
 
 @Injectable()
 export class StockService {
@@ -11,7 +11,7 @@ export class StockService {
   constructor(private http: Http) { }
 
   getStocks(page: number, size: number, sortField?: string, sortOrder?: number) {
-    let url = "http://localhost:8080/stocks";
+    let url = "http://192.168.1.105:8080/stocks";
     let params = new URLSearchParams();
     params.set("page", page.toString());
     params.set("size", size.toString());
@@ -23,11 +23,20 @@ export class StockService {
     return this.http.get(url, {search: params})
       .map(this.extractData);
   }
-
-  getLevermannData(stockId: number) {
-    let url = "http://localhost:8080/levermann/" + stockId;
-    return this.http.get(url)
-      .map(this.extractData);
+  
+  setStockCategory(stock: Stock) {
+	  if (stock) {
+		  if (stock.levermann && stock.levermann.marketCapitalization) {
+			if (stock.levermann.marketCapitalization >= 200000)
+			  stock.stockCategory = "Large Cap";
+			else if (stock.levermann.marketCapitalization < 2000)
+			  stock.stockCategory = "Small Cap";
+			else
+			  stock.stockCategory = "Mid Cap";
+		  } else {
+			  stock.stockCategory = "n.a.";
+		  }
+	  }
   }
 
   extractData(resp: Response) {

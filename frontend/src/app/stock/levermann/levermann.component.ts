@@ -25,16 +25,9 @@ export class LevermannComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.stock && changes.stock.currentValue) {
-      this.getLevermannData();
+      this.levermannData = changes.stock.currentValue.levermann;
+	  this.calculateLevermannScore()
     }
-  }
-
-  getLevermannData() {
-    this.stockService.getLevermannData(this.stock.stockId)
-      .subscribe((data:Levermann) => {
-        this.levermannData = data;
-        this.calculateLevermannScore();
-      });
   }
 
   calculateLevermannScore() {

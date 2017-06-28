@@ -25,7 +25,10 @@ export class StockComponent implements OnInit {
   getStocks(page: number, sortField?: string, sortOrder?: number) {
     this.stockService.getStocks(page, this.pageSize, sortField, sortOrder).subscribe((data:any[]) => {
       this.stocks = data['_embedded']['stock'];
-      this.totalRecords = data['page']['totalElements']
+	  for (let stock of this.stocks) {
+		  this.stockService.setStockCategory(stock);
+	  }
+      this.totalRecords = data['page']['totalElements'];
     });
   }
 

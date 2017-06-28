@@ -2,18 +2,7 @@ package ch.steve84.stock_analyzer.entity;
 
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "tstock")
@@ -54,6 +43,8 @@ public class Stock {
     @OneToOne
     @JoinColumn(name = "stock_id")
     private TechnicalData technicalData;
+    @Transient
+    private Integer levermannScore;
     
     public Integer getStockId() {
         return stockId;
@@ -144,11 +135,13 @@ public class Stock {
 	}
 
 	public Levermann getLevermann() {
+		calculateLevermannScore();
 		return levermann;
 	}
 
 	public void setLevermann(Levermann levermann) {
 		this.levermann = levermann;
+		calculateLevermannScore();
 	}
 
 	public DailyFundamental getDailyFundamental() {
@@ -173,5 +166,18 @@ public class Stock {
 
 	public void setAnnualFundamentals(List<AnnualFundamental> annualFundamentals) {
 		this.annualFundamentals = annualFundamentals;
+	}
+
+	public void setLevermannScore(Integer levermannScore) {
+		this.levermannScore = levermannScore;
+	}
+
+	public Integer getLevermannScore() {
+		return levermannScore;
+	}
+
+	private void calculateLevermannScore() {
+		if (levermann != null)
+			levermannScore = getStockId() * 2;
 	}
 }
