@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import ch.steve84.stock_analyzer.enums.StockCategory;
+
 @Entity
 @Table(name = "tstock")
 public class Stock {
@@ -26,11 +28,8 @@ public class Stock {
     @JoinColumn(name = "branch_id")
     private Branch branch;
     private String name;
-    @ManyToMany
-    @JoinTable(name="tstockindex",
-    	      joinColumns=@JoinColumn(name="stock_id", referencedColumnName="stock_id"),
-    	      inverseJoinColumns=@JoinColumn(name="index_id", referencedColumnName="index_id"))
-    private List<Index> indices;
+	@OneToMany(mappedBy = "index")
+    private List<StockIndex> stockIndices;
     @OneToOne
     @JoinColumn(name = "stock_id")
     private Levermann levermann;
@@ -45,6 +44,8 @@ public class Stock {
     private TechnicalData technicalData;
     @Transient
     private Integer levermannScore;
+    @Transient
+    private String stockCategory;
     
     public Integer getStockId() {
         return stockId;
@@ -126,21 +127,23 @@ public class Stock {
         this.name = name;
     }
 
-	public List<Index> getIndices() {
-		return indices;
+	public List<StockIndex> getStockIndices() {
+		return stockIndices;
 	}
 
-	public void setIndices(List<Index> indices) {
-		this.indices = indices;
+	public void setStockIndices(List<StockIndex> stockIndices) {
+		this.stockIndices = stockIndices;
 	}
 
 	public Levermann getLevermann() {
+		evaluateStockCategory();
 		calculateLevermannScore();
 		return levermann;
 	}
 
 	public void setLevermann(Levermann levermann) {
 		this.levermann = levermann;
+		evaluateStockCategory();
 		calculateLevermannScore();
 	}
 
@@ -176,8 +179,91 @@ public class Stock {
 		return levermannScore;
 	}
 
+	public String getStockCategory() {
+		return stockCategory;
+	}
+
+	public void setStockCategory(String stockCategory) {
+		this.stockCategory = stockCategory;
+	}
+
 	private void calculateLevermannScore() {
-		if (levermann != null)
-			levermannScore = getStockId() * 2;
+		if (levermann != null) {
+			levermannScore = 0;
+			if (levermann.getRoiEquity() != null) {
+				if (levermann.getRoiEquity() > 20)
+					levermannScore++;
+				else if (levermann.getRoiEquity() < 10)
+		            levermannScore--;
+			}
+			
+			if (levermann.getRoiEbitMarge() != null) {
+				if (levermann.getRoiEbitMarge() > 12)
+					levermannScore++;
+			}
+			
+			if (levermann.getBalanceSheetEquityRatio() != null) {
+				if (levermann.getBalanceSheetEquityRatio() > 25)
+					levermannScore++;
+			}
+	
+			if (levermann.getPriceEarningsRatio5YearAverage() != null) {
+		        	if (levermann.getPriceEarningsRatio5YearAverage() < 12)
+		        		levermannScore++;
+		        	else if (levermann.getPriceEarningsRatio5YearAverage() > 16)
+		        		levermannScore--;
+	    	}
+	
+		    if (levermann.getPriceEarningsRatio() != null) {
+		    	if (levermann.getPriceEarningsRatio() < 12)
+		    		levermannScore++;
+		    	else if (levermann.getPriceEarningsRatio() > 16)
+		    		levermannScore--;
+		    }
+	
+		    if (levermann.getAnalystSellRatio() != null) {
+	
+		    }
+	
+		    if (levermann.getPerformance6m() != null) {
+		    	if (levermann.getPerformance6m() > 5)
+		    		levermannScore++;
+		    	else if (levermann.getPerformance6m() < -5)
+		    		levermannScore--;
+		    }
+	
+		    if (levermann.getPerformance1y() != null) {
+		    	if (levermann.getPerformance1y() > 5)
+		    		levermannScore++;
+		    	else if (levermann.getPerformance1y() < -5)
+		    		levermannScore--;
+		    }
+	
+		    if (levermann.getPerformance6m() != null && levermann.getPerformance1y() != null) {
+		    	if (levermann.getPerformance1y() < 0 && levermann.getPerformance6m() > 0)
+		    		levermannScore++;
+		    	else if (levermann.getPerformance1y() > 0 && levermann.getPerformance6m() < 0)
+		    		levermannScore--;
+		    }
+	
+		    if (levermann.getEarningsPerShareGrowthExpected() != null) {
+		    	if (levermann.getEarningsPerShareGrowthExpected() * 100 > 5)
+		    		levermannScore++;
+		    	else if (levermann.getEarningsPerShareGrowthExpected() * 100 < -5)
+		    		levermannScore--;
+		    }
+		}
+	}
+	
+	private void evaluateStockCategory() {
+		Levermann l = getLevermann();
+		if (l != null && l.getMarketCapitalization() != null) {
+			for (StockCategory s : StockCategory.values()) {
+				if ((s.minMarketCap() == null || l.getMarketCapitalization() > s.minMarketCap()) && (s.maxMarketCap() == null || l.getMarketCapitalization() < s.maxMarketCap()))
+					setStockCategory(s.categoryName());
+			}
+		} else {
+			setStockCategory("n.a.");
+		}
 	}
 }

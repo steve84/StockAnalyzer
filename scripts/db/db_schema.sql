@@ -142,6 +142,16 @@ CREATE SEQUENCE index_seq
 
 ALTER TABLE index_seq OWNER TO postgres;
 
+CREATE SEQUENCE stock_index_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE stock_index_seq OWNER TO postgres;
+
 
 SET default_tablespace = '';
 
@@ -287,7 +297,6 @@ CREATE TABLE tindex (
     index_id integer DEFAULT nextval('index_seq'::regclass) NOT NULL,
     name character varying,
     description character varying,
-    percentage numeric,
     country_id integer
 );
 
@@ -295,8 +304,10 @@ ALTER TABLE tindex OWNER TO postgres;
 
 
 CREATE TABLE tstockindex (
+    stock_index_id integer DEFAULT nextval('stock_index_seq'::regclass) NOT NULL,
     stock_id integer,
-    index_id integer
+    index_id integer,
+    percentage numeric,
 );
 
 ALTER TABLE tstockindex OWNER TO postgres;
@@ -338,6 +349,10 @@ ALTER TABLE ONLY ttechnicaldata
 
 ALTER TABLE ONLY tindex
 	ADD CONSTRAINT pindex PRIMARY KEY (index_id);
+
+ALTER TABLE ONLY tstockindex
+	ADD CONSTRAINT ptstockindex PRIMARY KEY (stock_index_id);
+    
 
 --
 -- TOC entry 2004 (class 1259 OID 16505)
@@ -406,6 +421,10 @@ ALTER TABLE ONLY tstockindex
 ALTER TABLE ONLY tstockindex
     ADD CONSTRAINT fstockindexindex FOREIGN KEY (index_id) REFERENCES tindex(index_id);
 
+
+ALTER TABLE tstockindex ADD CONSTRAINT ustockindex UNIQUE (stock_id, index_id);
+
+    
 CREATE OR REPLACE VIEW public.vfundamental AS 
  SELECT s.stock_id,
     s.url,

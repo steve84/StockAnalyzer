@@ -1,11 +1,14 @@
 package ch.steve84.stock_analyzer.entity;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -19,10 +22,11 @@ public class Index {
 	private Integer indexId;
 	private String name;
 	private String description;
-	private Double percentage;
 	@ManyToOne
 	@JoinColumn(name = "country_id")
 	private Country country;
+	@OneToMany(mappedBy = "stock")
+	private List<StockIndex> stockIndices;
 
 	public String getName() {
 		return name;
@@ -40,14 +44,6 @@ public class Index {
 		this.description = description;
 	}
 
-	public Double getPercentage() {
-		return percentage;
-	}
-
-	public void setPercentage(Double percentage) {
-		this.percentage = percentage;
-	}
-
 	public Country getCountry() {
 		return country;
 	}
@@ -58,5 +54,13 @@ public class Index {
 
 	public Integer getIndexId() {
 		return indexId;
+	}
+
+	public List<StockIndex> getStockIndices() {
+		return stockIndices;
+	}
+
+	public void setStockIndices(List<StockIndex> stockIndices) {
+		this.stockIndices = stockIndices;
 	}
 }
