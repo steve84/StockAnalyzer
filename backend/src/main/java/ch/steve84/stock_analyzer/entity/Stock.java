@@ -28,8 +28,8 @@ public class Stock {
     @JoinColumn(name = "branch_id")
     private Branch branch;
     private String name;
-	@OneToMany(mappedBy = "index")
-    private List<StockIndex> stockIndices;
+	@OneToMany(mappedBy = "stock")
+    private List<StockIndex> indices;
     @OneToOne
     @JoinColumn(name = "stock_id")
     private Levermann levermann;
@@ -127,12 +127,12 @@ public class Stock {
         this.name = name;
     }
 
-	public List<StockIndex> getStockIndices() {
-		return stockIndices;
+	public List<StockIndex> getIndices() {
+		return indices;
 	}
 
-	public void setStockIndices(List<StockIndex> stockIndices) {
-		this.stockIndices = stockIndices;
+	public void setIndices(List<StockIndex> indices) {
+		this.indices = indices;
 	}
 
 	public Levermann getLevermann() {
@@ -256,10 +256,9 @@ public class Stock {
 	}
 	
 	private void evaluateStockCategory() {
-		Levermann l = getLevermann();
-		if (l != null && l.getMarketCapitalization() != null) {
+		if (levermann != null && levermann.getMarketCapitalization() != null) {
 			for (StockCategory s : StockCategory.values()) {
-				if ((s.minMarketCap() == null || l.getMarketCapitalization() > s.minMarketCap()) && (s.maxMarketCap() == null || l.getMarketCapitalization() < s.maxMarketCap()))
+				if ((s.minMarketCap() == null || levermann.getMarketCapitalization() > s.minMarketCap()) && (s.maxMarketCap() == null || levermann.getMarketCapitalization() < s.maxMarketCap()))
 					setStockCategory(s.categoryName());
 			}
 		} else {

@@ -1,0 +1,5 @@
+<p-dataTable [value]="indices" selectionMode="single" [(selection)]="selectedIndex" [paginator]="true" [lazy]="true" [rows]="pageSize" (onLazyLoad)="loadData($event)" [totalRecords]="totalRecords">
+    <p-column field="name" header="Name" [sortable]="true"></p-column>
+    <p-column field="country.name" header="Land" [sortable]="false"></p-column>
+    <p-column field="numberOfStocks" header="Aktien" [sortable]="false"></p-column>
+</p-dataTable>

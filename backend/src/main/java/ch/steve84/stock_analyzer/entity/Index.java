@@ -25,8 +25,8 @@ public class Index {
 	@ManyToOne
 	@JoinColumn(name = "country_id")
 	private Country country;
-	@OneToMany(mappedBy = "stock")
-	private List<StockIndex> stockIndices;
+	@OneToMany(mappedBy = "index")
+	private List<StockIndex> stocks;
 
 	public String getName() {
 		return name;
@@ -56,11 +56,11 @@ public class Index {
 		return indexId;
 	}
 
-	public List<StockIndex> getStockIndices() {
-		return stockIndices;
+	public List<StockIndex> getStocks() {
+		return stocks;
 	}
 
-	public void setStockIndices(List<StockIndex> stockIndices) {
-		this.stockIndices = stockIndices;
+	public void setStocks(List<StockIndex> stocks) {
+		this.stocks = stocks;
 	}
 }

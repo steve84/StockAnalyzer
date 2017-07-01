@@ -2,28 +2,45 @@ package ch.steve84.stock_analyzer.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "tstockindex")
+@IdClass(StockIndexId.class)
 public class StockIndex {
-    @Id
-    @GeneratedValue(generator="stock_index_seq")
-    @SequenceGenerator(name="stock_index_seq",sequenceName="stock_index_seq", allocationSize=1)
-    @Column(name = "stock_index_id")
-	private Integer stockIndexId;
+	@Id
+	@Column(name = "stock_id")
+	private Integer stockId;
+	@Id
+	@Column(name = "index_id")
+	private Integer indexId;
     @ManyToOne
-    @JoinColumn(name = "stock_id")
+    @JoinColumn(name = "stock_id", updatable = false, insertable = false, referencedColumnName = "stock_id")
 	private Stock stock;
     @ManyToOne
-    @JoinColumn(name = "index_id")
+    @JoinColumn(name = "index_id", updatable = false, insertable = false, referencedColumnName = "index_id")
 	private Index index;
 	private Double percentage;
+
+	public Integer getStockId() {
+		return stockId;
+	}
+
+	public void setStockId(Integer stockId) {
+		this.stockId = stockId;
+	}
+
+	public Integer getIndexId() {
+		return indexId;
+	}
+
+	public void setIndexId(Integer indexId) {
+		this.indexId = indexId;
+	}
 
 	public Stock getStock() {
 		return stock;
@@ -47,9 +64,5 @@ public class StockIndex {
 
 	public void setPercentage(Double percentage) {
 		this.percentage = percentage;
-	}
-
-	public Integer getStockIndexId() {
-		return stockIndexId;
 	}
 }

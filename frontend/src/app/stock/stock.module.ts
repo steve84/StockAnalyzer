@@ -12,12 +12,14 @@ import { ChartModule } from 'angular-highcharts';
 import { StockService } from './stock.service';
 import { FundamentalService } from './fundamental.service';
 import { TechnicalDataService } from './technicaldata.service';
+import { IndexService } from './index.service';
 
 import { stockRoutes } from './stock.routes';
 
 import { StockComponent } from './stock/stock.component';
 import { FundamentalComponent } from './fundamental/fundamental.component';
 import { LevermannComponent } from './levermann/levermann.component';
+import { IndexComponent } from './index/index.component';
 
 @NgModule({
   imports: [
@@ -40,8 +42,9 @@ import { LevermannComponent } from './levermann/levermann.component';
   providers: [
     StockService,
     FundamentalService,
-    TechnicalDataService
+    TechnicalDataService,
+    IndexService
   ],
-  declarations: [StockComponent, FundamentalComponent, LevermannComponent]
+  declarations: [StockComponent, FundamentalComponent, LevermannComponent, IndexComponent]
 })
 export class StockModule { }

@@ -307,7 +307,7 @@ CREATE TABLE tstockindex (
     stock_index_id integer DEFAULT nextval('stock_index_seq'::regclass) NOT NULL,
     stock_id integer,
     index_id integer,
-    percentage numeric,
+    percentage numeric
 );
 
 ALTER TABLE tstockindex OWNER TO postgres;

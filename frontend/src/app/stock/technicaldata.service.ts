@@ -9,7 +9,7 @@ export class TechnicalDataService {
   constructor(private http: Http) { }
 
   getTechnicalDataByStockId(stockId: number) {
-    let url = "http://192.168.1.105:8080/stocks/" + stockId + "/technicalData";
+    let url = "http://localhost:8080/stocks/" + stockId + "/technicalData";
 
     return this.http.get(url)
       .map(this.extractData);

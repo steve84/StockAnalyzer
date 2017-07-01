@@ -1,6 +1,8 @@
 import { Country } from './country';
 import { Branch } from './branch';
 import { Levermann } from './levermann';
+import { StockIndex } from './stockindex';
+import { IndexType } from './indextype';
 
 export interface Stock {
   stockId?: number,
@@ -15,5 +17,7 @@ export interface Stock {
   name?: string,
   levermann?: Levermann,
   levermannScore?: number,
-  stockCategory?: string
+  stockCategory?: string,
+  indices?: any[],
+  stockIndex?: StockIndex[]
 }
