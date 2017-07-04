@@ -1,5 +1,18 @@
 <p-dataTable [value]="indices" selectionMode="single" [(selection)]="selectedIndex" [paginator]="true" [lazy]="true" [rows]="pageSize" (onLazyLoad)="loadData($event)" [totalRecords]="totalRecords">
     <p-column field="name" header="Name" [sortable]="true"></p-column>
-    <p-column field="country.name" header="Land" [sortable]="false"></p-column>
-    <p-column field="numberOfStocks" header="Aktien" [sortable]="false"></p-column>
+    <p-column field="country.name" header="Land" [sortable]="true"></p-column>
+    <p-column field="realStocks.length" header="Aktien" [sortable]="false"></p-column>
+    <p-column field="levermannScore" header="Levermannpunktzahl" [sortable]="false">
+      <ng-template let-col let-index="rowData" pTemplate="body">
+        <span *ngIf="index[col.field] != 0">{{index[col.field]}}</span>
+        <span *ngIf="index[col.field] == 0">n.a.</span>
+      </ng-template>
+    </p-column>
+    <p-column styleClass="col-button">
+      <ng-template let-index="rowData" pTemplate="body">
+        <button type="button" pButton (click)="showIndexDetail(index)" icon="fa-search"></button>
+      </ng-template>
+    </p-column>
 </p-dataTable>
+
+<app-indexdetail [display]="display" [index]="selectedIndex" (close)="closeIndexDetail($event)"></app-indexdetail>

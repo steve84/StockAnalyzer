@@ -1,11 +1,11 @@
 <p-dataTable [value]="stocks" selectionMode="single" [(selection)]="selectedStock" [paginator]="true" [lazy]="true" [rows]="pageSize" (onLazyLoad)="loadData($event)" [totalRecords]="totalRecords">
     <p-column field="isin" header="ISIN" [sortable]="true"></p-column>
     <p-column field="name" header="Name" [sortable]="true"></p-column>
-    <p-column field="country.name" header="Land" [sortable]="false"></p-column>
-    <p-column field="branch.name" header="Branche" [sortable]="false"></p-column>
+    <p-column field="country.name" header="Land" [sortable]="true"></p-column>
+    <p-column field="branch.name" header="Branche" [sortable]="true"></p-column>
     <p-column field="levermannScore" header="Levermann-Punktzahl" [sortable]="true"></p-column>
     <p-column field="stockCategory" header="Unternehmensgrösse"></p-column>
-    <p-column field="stockIndex.length" header="Indices"></p-column>
+    <p-column field="indexNames" header="Indizes"></p-column>
     <p-column styleClass="col-button">
       <ng-template let-stock="rowData" pTemplate="body">
         <button type="button" pButton (click)="showFundamental(stock)" icon="fa-search"></button>

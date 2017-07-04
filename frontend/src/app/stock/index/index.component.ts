@@ -12,9 +12,10 @@ import { Stock } from '../stock';
   styleUrls: ['./index.component.css']
 })
 export class IndexComponent implements OnInit {
-  indices: IndexType[] = [];
-  private selectedIndex: IndexType = null;
   private display: boolean = false;
+  private title: string;
+  private indices: IndexType[] = [];
+  private selectedIndex: IndexType = null;
   private totalRecords: number = 0;
   private pageSize: number = 10;
 
@@ -36,16 +37,26 @@ export class IndexComponent implements OnInit {
 
   private addStockIds() {
     for (let index of this.indices) {
-      for (let stock of index['stocks']) {
-        if (stock['_links'] && stock['_links']['stock']) {
-          this.stockService.getStockByLink(stock['_links']['stock']['href'])
-            .subscribe((data:Stock) => {
-              index['stocks'].push(data);
-            });
+      index['levermannScore'] = 0;
+      let totalMarketCap = 0;
+      for (let stock of index['realStocks']) {
+        if (stock.levermannScore && stock.levermann && stock.levermann.marketCapitalization) {
+          totalMarketCap += stock.levermann.marketCapitalization;
+          index['levermannScore'] += stock.levermannScore * stock.levermann.marketCapitalization;
         }
       }
-      index['numberOfStocks'] = index['stocks'].length;
+      if (totalMarketCap > 0)
+        index['levermannScore'] /= totalMarketCap;
     }
+  }
+
+  showIndexDetail(index: IndexType) {
+    this.selectedIndex = index;
+    this.display = true;
+  }
+
+  closeIndexDetail(display: boolean) {
+    this.display = display;
   }
 
 }

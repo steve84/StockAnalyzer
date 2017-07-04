@@ -19,5 +19,7 @@ export interface Stock {
   levermannScore?: number,
   stockCategory?: string,
   indices?: any[],
-  stockIndex?: StockIndex[]
+  stockIndex?: StockIndex[],
+  indexParticipation?: any[],
+  indexNames: string
 }

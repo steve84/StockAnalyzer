@@ -20,6 +20,7 @@ import { StockComponent } from './stock/stock.component';
 import { FundamentalComponent } from './fundamental/fundamental.component';
 import { LevermannComponent } from './levermann/levermann.component';
 import { IndexComponent } from './index/index.component';
+import { IndexdetailComponent } from './indexdetail/indexdetail.component';
 
 @NgModule({
   imports: [
@@ -45,6 +46,6 @@ import { IndexComponent } from './index/index.component';
     TechnicalDataService,
     IndexService
   ],
-  declarations: [StockComponent, FundamentalComponent, LevermannComponent, IndexComponent]
+  declarations: [StockComponent, FundamentalComponent, LevermannComponent, IndexComponent, IndexdetailComponent]
 })
 export class StockModule { }

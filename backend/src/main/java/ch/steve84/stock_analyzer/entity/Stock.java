@@ -1,6 +1,8 @@
 package ch.steve84.stock_analyzer.entity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.*;
 
@@ -46,6 +48,8 @@ public class Stock {
     private Integer levermannScore;
     @Transient
     private String stockCategory;
+    @Transient
+    private Map<String, Double> indexParticipation = new HashMap<>();
     
     public Integer getStockId() {
         return stockId;
@@ -128,6 +132,8 @@ public class Stock {
     }
 
 	public List<StockIndex> getIndices() {
+		for (StockIndex si : indices)
+			indexParticipation.put(si.getIndex().getName(), si.getPercentage());
 		return indices;
 	}
 
@@ -187,6 +193,14 @@ public class Stock {
 		this.stockCategory = stockCategory;
 	}
 
+	public Map<String, Double> getIndexParticipation() {
+		return indexParticipation;
+	}
+
+	public void setIndexParticipation(Map<String, Double> indexParticipation) {
+		this.indexParticipation = indexParticipation;
+	}
+
 	private void calculateLevermannScore() {
 		if (levermann != null) {
 			levermannScore = 0;
@@ -221,8 +235,18 @@ public class Stock {
 		    		levermannScore--;
 		    }
 	
-		    if (levermann.getAnalystSellRatio() != null) {
-	
+		    if (levermann.getAnalystSellRatio() != null && levermann.getMarketCapitalization() != null) {
+		    	if (levermann.getMarketCapitalization() >= StockCategory.LARGE.minMarketCap()) {
+		    		if (levermann.getAnalystSellRatio() * 100 >= 60)
+		    			levermannScore--;
+		    		else
+		    			levermannScore++;
+		    	} else {
+		    		if (levermann.getAnalystSellRatio() * 100 >= 60)
+		    			levermannScore++;
+		    		else
+		    			levermannScore--;		    		
+		    	}
 		    }
 	
 		    if (levermann.getPerformance6m() != null) {

@@ -36,6 +36,7 @@ export class StockComponent implements OnInit {
   private addIndices() {
     for (let stock of this.stocks) {
       stock.stockIndex = [];
+      stock.indexNames = Object.keys(stock.indexParticipation).join(', ');
       for (let index of stock.indices) {
         if (index['_links'] && index['_links']['index']) {
           this.indexService.getIndexByLink(index['_links']['index']['href'])

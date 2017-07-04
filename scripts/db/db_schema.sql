@@ -142,16 +142,6 @@ CREATE SEQUENCE index_seq
 
 ALTER TABLE index_seq OWNER TO postgres;
 
-CREATE SEQUENCE stock_index_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE stock_index_seq OWNER TO postgres;
-
 
 SET default_tablespace = '';
 
@@ -199,8 +189,7 @@ CREATE TABLE tstock (
     url character varying,
 	business_year_end character varying,
     country_id integer,
-    branch_id integer,
-    index_id integer
+    branch_id integer
 );
 
 
@@ -212,7 +201,7 @@ CREATE TABLE tdailyfundamental (
 	earnings_per_share numeric,
     earnings_per_share_growth_expected numeric,
 	price_earnings_ratio numeric,
-        price_earnings_ratio_5y_avg numeric,
+    price_earnings_ratio_5y_avg numeric,
 	profit_growth_1year numeric,
 	profit_peg numeric,
 	dividend_amount numeric,
@@ -304,7 +293,6 @@ ALTER TABLE tindex OWNER TO postgres;
 
 
 CREATE TABLE tstockindex (
-    stock_index_id integer DEFAULT nextval('stock_index_seq'::regclass) NOT NULL,
     stock_id integer,
     index_id integer,
     percentage numeric
@@ -350,8 +338,6 @@ ALTER TABLE ONLY ttechnicaldata
 ALTER TABLE ONLY tindex
 	ADD CONSTRAINT pindex PRIMARY KEY (index_id);
 
-ALTER TABLE ONLY tstockindex
-	ADD CONSTRAINT ptstockindex PRIMARY KEY (stock_index_id);
     
 
 --
@@ -368,8 +354,6 @@ CREATE INDEX fki_fbranch ON tstock USING btree (branch_id);
 --
 
 CREATE INDEX fki_fcountry ON tstock USING btree (country_id);
-
-CREATE INDEX fki_findex ON tstock USING btree (index_id);
 
 CREATE INDEX fki_fdailystock ON tdailyfundamental USING btree (stock_id);
 
@@ -400,9 +384,6 @@ ALTER TABLE ONLY tstock
 ALTER TABLE ONLY tstock
     ADD CONSTRAINT fcountry FOREIGN KEY (country_id) REFERENCES tcountry(country_id);
 
-ALTER TABLE ONLY tstock
-    ADD CONSTRAINT findex FOREIGN KEY (index_id) REFERENCES tindex(index_id);
-	
 ALTER TABLE ONLY tdailyfundamental
     ADD CONSTRAINT fdailyfundamental FOREIGN KEY (stock_id) REFERENCES tstock(stock_id);
 	
@@ -424,6 +405,7 @@ ALTER TABLE ONLY tstockindex
 
 ALTER TABLE tstockindex ADD CONSTRAINT ustockindex UNIQUE (stock_id, index_id);
 
+ALTER TABLE tindex ADD CONSTRAINT uindex UNIQUE (name);
     
 CREATE OR REPLACE VIEW public.vfundamental AS 
  SELECT s.stock_id,

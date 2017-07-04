@@ -161,7 +161,13 @@ class Utils:
 			endBusinessYear += str(actualYear - 1)
 		else:
 			endBusinessYear += str(actualYear)
-		diff = Utils.getDayDiff(datetime.strptime(endBusinessYear, '%d.%m.%Y').date())
+		try:
+
+			diff = Utils.getDayDiff(datetime.strptime(endBusinessYear, '%d.%m.%Y').date())
+
+		except ValueError:
+
+			return actualYear - 1
 		if diff > 0:
 			return actualYear - 1
 		else:

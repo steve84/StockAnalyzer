@@ -5,6 +5,6 @@ export interface IndexType {
   indexId?: number,
   name?: string,
   description?: string,
-  stocks?: Stock[],
-  numberOfStocks?: number
+  realStocks?: Stock[],
+  levermannScore?: number
 }
