@@ -3,15 +3,13 @@ import { Http, Response, URLSearchParams } from '@angular/http';
 
 import 'rxjs/add/operator/map';
 
-import { Stock } from './stock';
-
 @Injectable()
-export class StockService {
+export class IndexService {
 
   constructor(private http: Http) { }
 
-  getStocks(page: number, size: number, sortField?: string, sortOrder?: number) {
-    let url = "http://localhost:8080/stocks";
+  getIndices(page: number, size: number, sortField?: string, sortOrder?: number) {
+    let url = "http://localhost:8080/indices";
     let params = new URLSearchParams();
     params.set("page", page.toString());
     params.set("size", size.toString());
@@ -24,13 +22,14 @@ export class StockService {
       .map(this.extractData);
   }
 
-  getStockById(id: number) {
-    let url = "http://localhost:8080/stocks/" + id;
+  getIndexById(id: number) {
+    let url = "http://localhost:8080/indices/" + id;
+
     return this.http.get(url)
       .map(this.extractData);
   }
 
-  getStockByLink(link: string) {
+  getIndexByLink(link: string) {
     return this.http.get(link)
       .map(this.extractData);
   }

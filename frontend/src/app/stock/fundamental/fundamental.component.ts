@@ -27,6 +27,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
   private historicalData: any[] = [];
   private chart: Chart;
   private historicalChart: Chart;
+  private indexNames: string[] = [];
 
   constructor(private stockService: StockService,
               private fundamentalService: FundamentalService,
@@ -42,15 +43,15 @@ export class FundamentalComponent implements OnInit, OnChanges {
       this.getFundamentals();
       this.getTechnicalData();
       this.getHistoricalData();
+      this.getIndexNames();
     }
   }
 
   getFundamentals() {
     if (this.stock) {
       this.fundamentalService.getDailyFundamentalByStockId(this.stock.stockId)
-        .subscribe((data:DailyFundamental[]) => {
-          if (data && data.length == 1)
-            this.dailyfundamental = data[0];
+        .subscribe((data:DailyFundamental) => {
+            this.dailyfundamental = data;
         });
 
       this.fundamentalService.getAnnualFundamentalByStockId(this.stock.stockId)
@@ -69,10 +70,16 @@ export class FundamentalComponent implements OnInit, OnChanges {
   getTechnicalData() {
     if (this.stock) {
       this.technicalDataService.getTechnicalDataByStockId(this.stock.stockId)
-        .subscribe((data:TechnicalData[]) => {
-            if (data && data.length == 1)
-              this.technicaldata = data[0];
+        .subscribe((data:TechnicalData) => {
+			this.technicaldata = data;
         });
+    }
+  }
+
+  getIndexNames() {
+    this.indexNames = [];
+    if (this.stock && Object.keys(this.stock.indexParticipation).length > 0) {
+      this.indexNames = Object.keys(this.stock.indexParticipation);
     }
   }
 

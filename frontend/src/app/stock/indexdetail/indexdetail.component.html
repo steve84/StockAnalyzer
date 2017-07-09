@@ -1,0 +1,17 @@
+<p-dialog [header]="title" [(visible)]="display" (onHide)="closeDisplay()">
+  <div *ngIf="index">
+    <p-dataTable [value]="index.realStocks" selectionMode="single">
+      <p-column field="isin" header="ISIN"></p-column>
+      <p-column field="name" header="Name"></p-column>
+      <p-column field="country.name" header="Land"></p-column>
+      <p-column field="branch.name" header="Branche"></p-column>
+      <p-column field="stockCategory" header="Unternehmensgrösse"></p-column>
+      <p-column field="indexParticipation" header="Anteil">
+        <ng-template let-col let-stock="rowData" pTemplate="body">
+            <span>{{stock[col.field][getIndexName()]*100 | number}}%</span>
+        </ng-template>
+      </p-column>
+      <p-column field="levermannScore" header="Levermann-Punktzahl"></p-column>
+    </p-dataTable>
+  </div>
+</p-dialog>
