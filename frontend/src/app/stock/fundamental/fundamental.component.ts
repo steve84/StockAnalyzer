@@ -56,11 +56,12 @@ export class FundamentalComponent implements OnInit, OnChanges {
 
       this.fundamentalService.getAnnualFundamentalByStockId(this.stock.stockId)
         .subscribe((data:AnnualFundamental[]) => {
+				  if (data && data.length == 0)
+					  this.annualfundamental = null;
           let newestAnnualFundamental: AnnualFundamental = null;
           for (let af of data) {
             if (!newestAnnualFundamental || newestAnnualFundamental.yearValue < af.yearValue) {
               this.annualfundamental = af;
-              break;
             }
           }
         });

@@ -21,18 +21,6 @@ export class LevermannComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.stock && changes.stock.currentValue) {
       this.levermannData = changes.stock.currentValue.levermann;
-	    this.calculateLevermannScore();
-    }
-  }
-
-  calculateLevermannScore() {
-    if (this.levermannData) {
-      if ((this.levermannData.marketCapitalization && this.levermannData.marketCapitalization >= 10000 && this.stock.levermannScore >= 4)
-      || (this.levermannData.marketCapitalization && this.levermannData.marketCapitalization < 10000 && this.stock.levermannScore >= 7)
-      || (!this.levermannData.marketCapitalization && this.stock.levermannScore >= 7))
-        this.levermannAdvice = "kaufen/halten";
-      else
-        this.levermannAdvice = "nicht kaufen/verkaufen";
     }
   }
 }

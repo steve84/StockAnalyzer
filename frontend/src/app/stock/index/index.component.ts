@@ -40,9 +40,13 @@ export class IndexComponent implements OnInit {
       index['levermannScore'] = 0;
       let totalMarketCap = 0;
       for (let stock of index['realStocks']) {
-        if (stock.levermannScore && stock.levermann && stock.levermann.marketCapitalization) {
-          totalMarketCap += stock.levermann.marketCapitalization;
-          index['levermannScore'] += stock.levermannScore * stock.levermann.marketCapitalization;
+        if (stock.scores && stock.scores.length > 0 && stock.levermann.marketCapitalization) {
+          for (let score of stock.scores) {
+            if (score['scoreType']['name'] == "Levermann") {
+              totalMarketCap += stock.levermann.marketCapitalization;
+              index['levermannScore'] += score['scoreValue'] * stock.levermann.marketCapitalization;
+            }
+          }
         }
       }
       if (totalMarketCap > 0)

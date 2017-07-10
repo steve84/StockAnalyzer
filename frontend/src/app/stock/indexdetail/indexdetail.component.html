@@ -5,13 +5,30 @@
       <p-column field="name" header="Name"></p-column>
       <p-column field="country.name" header="Land"></p-column>
       <p-column field="branch.name" header="Branche"></p-column>
-      <p-column field="stockCategory" header="Unternehmensgrösse"></p-column>
-      <p-column field="indexParticipation" header="Anteil">
+      <p-column field="levermann.marketCapitalization" header="Unternehmensgrösse">
         <ng-template let-col let-stock="rowData" pTemplate="body">
-            <span>{{stock[col.field][getIndexName()]*100 | number}}%</span>
+          {{stock['levermann'] | stockcategory}}
         </ng-template>
       </p-column>
-      <p-column field="levermannScore" header="Levermann-Punktzahl"></p-column>
+      <p-column field="indexParticipation" header="Anteil">
+        <ng-template let-col let-stock="rowData" pTemplate="body">
+            <span *ngIf="stock.levermann && stock.levermann.marketCapitalization">{{stock.levermann.marketCapitalization / totalMarketCap * 100 | number}}%</span>
+        </ng-template>
+      </p-column>
+      <p-column field="scores" header="Levermann-Punktzahl">
+        <ng-template let-col let-stock="rowData" pTemplate="body">
+          <span *ngFor="let score of stock['scores']">
+            <span *ngIf="score['scoreType']['name'] == 'Levermann'">{{score['scoreValue'] | number}}</span>
+          </span>
+        </ng-template>
+		  </p-column>
+      <p-column field="scores" header="Magic Formula-Punktzahl">
+        <ng-template let-col let-stock="rowData" pTemplate="body">
+          <span *ngFor="let score of stock['scores']">
+            <span *ngIf="score['scoreType']['name'] == 'Magic Formula'">{{score['scoreValue'] | number}}</span>
+          </span>
+        </ng-template>
+      </p-column>
     </p-dataTable>
   </div>
 </p-dialog>

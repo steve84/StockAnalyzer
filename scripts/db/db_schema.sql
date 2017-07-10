@@ -143,6 +143,17 @@ CREATE SEQUENCE index_seq
 ALTER TABLE index_seq OWNER TO postgres;
 
 
+CREATE SEQUENCE score_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE score_seq OWNER TO postgres;
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -295,10 +306,31 @@ ALTER TABLE tindex OWNER TO postgres;
 CREATE TABLE tstockindex (
     stock_id integer,
     index_id integer,
-    percentage numeric
+    percentage numeric,
+    modified_at date
 );
 
 ALTER TABLE tstockindex OWNER TO postgres;
+
+
+CREATE TABLE tscore (
+    score_id integer DEFAULT nextval('score_seq'::regclass) NOT NULL,
+    score_type_id integer,
+    stock_id integer,
+    index_id integer,
+    score_value numeric,
+    modified_at date
+);
+
+ALTER TABLE tscore OWNER TO postgres;
+
+
+CREATE TABLE tscoretype (
+    score_type_id integer NOT NULL,
+    name character varying
+);
+
+ALTER TABLE tscoretype OWNER TO postgres;
 
 --
 -- TOC entry 2001 (class 2606 OID 16500)
@@ -338,8 +370,12 @@ ALTER TABLE ONLY ttechnicaldata
 ALTER TABLE ONLY tindex
 	ADD CONSTRAINT pindex PRIMARY KEY (index_id);
 
-    
+ALTER TABLE ONLY tscore
+	ADD CONSTRAINT pscore PRIMARY KEY (score_id);    
 
+ALTER TABLE ONLY tscoretype
+	ADD CONSTRAINT pscoretype PRIMARY KEY (score_type_id);    
+    
 --
 -- TOC entry 2004 (class 1259 OID 16505)
 -- Name: fki_fbranch; Type: INDEX; Schema: public; Owner: postgres
@@ -366,6 +402,10 @@ CREATE INDEX fki_findexcountry ON tindex USING btree (country_id);
 CREATE INDEX fki_fstockindexstock ON tstockindex USING btree (stock_id);
 
 CREATE INDEX fki_fstockindexindex ON tstockindex USING btree (index_id);
+
+CREATE INDEX fki_fscoretype ON tscore USING btree (score_type_id);
+CREATE INDEX fki_fscorestock ON tscore USING btree (stock_id);
+CREATE INDEX fki_fscoreindex ON tscore USING btree (index_id);
 
 --
 -- TOC entry 2008 (class 2606 OID 16507)
@@ -402,10 +442,36 @@ ALTER TABLE ONLY tstockindex
 ALTER TABLE ONLY tstockindex
     ADD CONSTRAINT fstockindexindex FOREIGN KEY (index_id) REFERENCES tindex(index_id);
 
+ALTER TABLE ONLY tscore
+    ADD CONSTRAINT fscoretype FOREIGN KEY (score_type_id) REFERENCES tscoretype(score_type_id);
+    
+ALTER TABLE ONLY tscore
+    ADD CONSTRAINT fscorestock FOREIGN KEY (stock_id) REFERENCES tstock(stock_id);
 
+ALTER TABLE ONLY tscore
+    ADD CONSTRAINT fscoreindex FOREIGN KEY (index_id) REFERENCES tindex(index_id);
+
+
+ALTER TABLE tbranch ADD CONSTRAINT ubranchname UNIQUE (name);
+
+ALTER TABLE tcountry ADD CONSTRAINT ucountryname UNIQUE (name);
+ALTER TABLE tcountry ADD CONSTRAINT ucountrycode UNIQUE (code);
+
+ALTER TABLE tstock ADD CONSTRAINT ustockisin UNIQUE (isin);
+    
 ALTER TABLE tstockindex ADD CONSTRAINT ustockindex UNIQUE (stock_id, index_id);
 
 ALTER TABLE tindex ADD CONSTRAINT uindex UNIQUE (name);
+
+ALTER TABLE tscoretype ADD CONSTRAINT uscoretype UNIQUE (name);
+
+ALTER TABLE tscore ADD CONSTRAINT uscorestock UNIQUE (score_type_id, stock_id);
+
+
+
+ALTER TABLE tscore ADD CONSTRAINT cscore CHECK ((stock_id is NULL) <> (index_id is NULL));
+
+
     
 CREATE OR REPLACE VIEW public.vfundamental AS 
  SELECT s.stock_id,
@@ -475,7 +541,7 @@ CREATE OR REPLACE VIEW public.vlevermann AS
    df.price_earnings_ratio_5y_avg,
    df.earnings_per_share_growth_expected,
    df.analyst_sell_ratio,
-   1 - df.analyst_sell_ratio AS analyst_buy_ratio,
+   100 - df.analyst_sell_ratio AS analyst_buy_ratio,
    td.performance_6m,
    td.performance_1y
    FROM tstock s
@@ -487,6 +553,20 @@ CREATE OR REPLACE VIEW public.vlevermann AS
 	 LEFT JOIN ttechnicaldata td on s.stock_id = td.stock_id;
 
 ALTER TABLE public.vlevermann
+  OWNER TO postgres;
+
+
+CREATE OR REPLACE VIEW public.vmagicformula AS 
+ SELECT s.stock_id,
+   af2.roi_equity as return_on_capital,
+   1 / df.price_earnings_ratio as earnings_yield,
+   af2.market_capitalization
+   FROM tstock s
+	 LEFT JOIN tdailyfundamental df on s.stock_id = df.stock_id
+	 LEFT JOIN (select stock_id, max(year_value) as max_year from tannualfundamental group by stock_id) af1 on s.stock_id = af1.stock_id
+	 LEFT JOIN tannualfundamental af2 on af1.stock_id = af2.stock_id and af1.max_year = af2.year_value;
+
+ALTER TABLE public.vmagicformula
   OWNER TO postgres;
 
 --

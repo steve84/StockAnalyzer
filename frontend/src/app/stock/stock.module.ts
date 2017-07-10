@@ -21,6 +21,7 @@ import { FundamentalComponent } from './fundamental/fundamental.component';
 import { LevermannComponent } from './levermann/levermann.component';
 import { IndexComponent } from './index/index.component';
 import { IndexdetailComponent } from './indexdetail/indexdetail.component';
+import { StockcategoryPipe } from './stockcategory.pipe';
 
 @NgModule({
   imports: [
@@ -46,6 +47,6 @@ import { IndexdetailComponent } from './indexdetail/indexdetail.component';
     TechnicalDataService,
     IndexService
   ],
-  declarations: [StockComponent, FundamentalComponent, LevermannComponent, IndexComponent, IndexdetailComponent]
+  declarations: [StockComponent, FundamentalComponent, LevermannComponent, IndexComponent, IndexdetailComponent, StockcategoryPipe]
 })
 export class StockModule { }
