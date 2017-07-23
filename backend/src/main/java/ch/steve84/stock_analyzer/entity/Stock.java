@@ -44,6 +44,9 @@ public class Stock {
     @OneToOne
     @JoinColumn(name = "stock_id")
     private TechnicalData technicalData;
+    @OneToMany
+    @JoinColumn(name = "stock_id")
+    private List<Score> scores; 
     @Transient
     private Integer levermannScore;
     @Transient
@@ -177,6 +180,14 @@ public class Stock {
 		this.annualFundamentals = annualFundamentals;
 	}
 
+	public List<Score> getScores() {
+		return scores;
+	}
+
+	public void setScores(List<Score> scores) {
+		this.scores = scores;
+	}
+
 	public void setLevermannScore(Integer levermannScore) {
 		this.levermannScore = levermannScore;
 	}
@@ -222,14 +233,14 @@ public class Stock {
 			}
 	
 			if (levermann.getPriceEarningsRatio5YearAverage() != null) {
-		        	if (levermann.getPriceEarningsRatio5YearAverage() < 12)
+		        	if (levermann.getPriceEarningsRatio5YearAverage() > 0 && levermann.getPriceEarningsRatio5YearAverage() < 12)
 		        		levermannScore++;
 		        	else if (levermann.getPriceEarningsRatio5YearAverage() > 16)
 		        		levermannScore--;
 	    	}
 	
 		    if (levermann.getPriceEarningsRatio() != null) {
-		    	if (levermann.getPriceEarningsRatio() < 12)
+		    	if (levermann.getPriceEarningsRatio() > 0 && levermann.getPriceEarningsRatio() < 12)
 		    		levermannScore++;
 		    	else if (levermann.getPriceEarningsRatio() > 16)
 		    		levermannScore--;
@@ -237,12 +248,12 @@ public class Stock {
 	
 		    if (levermann.getAnalystSellRatio() != null && levermann.getMarketCapitalization() != null) {
 		    	if (levermann.getMarketCapitalization() >= StockCategory.LARGE.minMarketCap()) {
-		    		if (levermann.getAnalystSellRatio() * 100 >= 60)
+		    		if (levermann.getAnalystSellRatio() >= 60)
 		    			levermannScore--;
 		    		else
 		    			levermannScore++;
 		    	} else {
-		    		if (levermann.getAnalystSellRatio() * 100 >= 60)
+		    		if (levermann.getAnalystBuyRatio() >= 60)
 		    			levermannScore++;
 		    		else
 		    			levermannScore--;		    		
@@ -271,9 +282,9 @@ public class Stock {
 		    }
 	
 		    if (levermann.getEarningsPerShareGrowthExpected() != null) {
-		    	if (levermann.getEarningsPerShareGrowthExpected() * 100 > 5)
+		    	if (levermann.getEarningsPerShareGrowthExpected() > 5)
 		    		levermannScore++;
-		    	else if (levermann.getEarningsPerShareGrowthExpected() * 100 < -5)
+		    	else if (levermann.getEarningsPerShareGrowthExpected() < -5)
 		    		levermannScore--;
 		    }
 		}

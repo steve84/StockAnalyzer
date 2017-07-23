@@ -29,6 +29,9 @@ public class Index {
 	private Country country;
 	@OneToMany(mappedBy = "index")
 	private List<StockIndex> stocks;
+    @OneToMany
+    @JoinColumn(name = "index_id")
+    private List<Score> scores; 
 	@Transient
 	private List<Stock> realStocks = new ArrayList<>();
 
@@ -68,6 +71,14 @@ public class Index {
 
 	public void setStocks(List<StockIndex> stocks) {
 		this.stocks = stocks;
+	}
+
+	public List<Score> getScores() {
+		return scores;
+	}
+
+	public void setScores(List<Score> scores) {
+		this.scores = scores;
 	}
 
 	public List<Stock> getRealStocks() {

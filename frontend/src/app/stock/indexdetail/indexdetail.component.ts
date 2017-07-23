@@ -12,6 +12,7 @@ export class IndexdetailComponent implements OnInit, OnChanges {
   @Input('index') index: IndexType;
   @Output('close') close: EventEmitter<boolean> = new EventEmitter<boolean>();
   private title: string;
+	private totalMarketCap: number = 0;
 
   constructor() { }
 
@@ -21,8 +22,16 @@ export class IndexdetailComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.index && changes.index.currentValue) {
       this.title = changes.index.currentValue.name;
+			this.setTotalMarketCap();
     }
   }
+	
+	setTotalMarketCap() {
+		for(let stock of this.index.realStocks) {
+			if (stock.levermann && stock.levermann.marketCapitalization)
+			  this.totalMarketCap += stock.levermann.marketCapitalization;
+		}
+	}
 
   getIndexName() {
     if (this.index)

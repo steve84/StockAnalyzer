@@ -14,10 +14,22 @@ export class IndexService {
     params.set("page", page.toString());
     params.set("size", size.toString());
     if (sortField && sortOrder)
-      if(sortOrder == 1)
-        params.set("sort", sortField + ",asc");
-      else
-        params.set("sort", sortField + ",desc");
+      if (sortField == "scoreLevermann" || sortField == "scoreMagicFormula") {
+        url += "/search/findByScoresIsNullOrScores_ScoreType_NameOrderByScores_ScoreValue";
+        if (sortField == "scoreLevermann")
+          params.set("name", "Levermann");
+        else if (sortField == "scoreMagicFormula")
+          params.set("name", "Magic Formula"); 
+        if(sortOrder == 1)
+          url += "Asc";
+        else
+          url += "Desc";
+      } else {
+        if(sortOrder == 1)
+          params.set("sort", sortField + ",asc");
+        else
+          params.set("sort", sortField + ",desc");
+      }
     return this.http.get(url, {search: params})
       .map(this.extractData);
   }

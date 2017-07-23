@@ -45,84 +45,84 @@ existing_countries = dict()
 existing_branches = dict()
 i = 0
 for continent in continents:
-	key = 'continent[' + str(i) + ']'
-	query_params[key] = urllib.parse.quote(continent)
-	i += 1
+    key = 'continent[' + str(i) + ']'
+    query_params[key] = urllib.parse.quote(continent)
+    i += 1
 
 while page <= totalPages:
-	query_params['offset'] = page * pageSize
-	link = '/'.join([base_link, path_link]) + '?' + urllib.parse.urlencode(query_params)
+    query_params['offset'] = page * pageSize
+    link = '/'.join([base_link, path_link]) + '?' + urllib.parse.urlencode(query_params)
 
-	json_data = urllib.request.urlopen(link).read()
-	data = json.loads(json_data.decode('utf-8'))
+    json_data = urllib.request.urlopen(link).read()
+    data = json.loads(json_data.decode('utf-8'))
 
-	if totalHits == -1:
-		totalHits = int(data['metaData']['totalHits'])
-		if totalHits % pageSize == 0:
-			totalPages = int(totalHits / pageSize)
-		else:
-			totalPages = int(totalHits / pageSize) + 1
-	
+    if totalHits == -1:
+        totalHits = int(data['metaData']['totalHits'])
+        if totalHits % pageSize == 0:
+            totalPages = int(totalHits / pageSize)
+        else:
+            totalPages = int(totalHits / pageSize) + 1
+    
 
-	for stock in data['stocks']:
+    for stock in data['stocks']:
 
-		stock['country_id'] = None
-		stock['branch_id'] = None
-		isin = stock['url'].split('-Aktie-')
-		if len(isin) >= 2:
-			stock['isin'] = isin[1]
-			
-		# select
-		if not (noneStr(stock['country']) + noneStr(stock['countryCode'])) in existing_countries.keys():
-			cur.execute("""SELECT * FROM tcountry WHERE name = %(country)s AND code = %(countryCode)s;""", stock)
-			country = cur.fetchone()
-			if not country:
-				# insert
-				cur.execute("""INSERT INTO tcountry (name, code) VALUES (%(country)s, %(countryCode)s) RETURNING country_id;""", stock)
-				stock['country_id'] = cur.fetchone()[0]
-				totalInserted['countries'] += 1
-			else:
-				stock['country_id'] = country[0]
-			if stock['country'] and stock['countryCode']:
-				existing_countries[(noneStr(stock['country']) + noneStr(stock['countryCode']))] = stock['country_id']
-		else:
-			stock['country_id'] = existing_countries[(noneStr(stock['country']) + noneStr(stock['countryCode']))]
+        stock['country_id'] = None
+        stock['branch_id'] = None
+        isin = stock['url'].split('-Aktie-')
+        if len(isin) >= 2:
+            stock['isin'] = isin[1]
+            
+        # select
+        if not (noneStr(stock['country']) + noneStr(stock['countryCode'])) in existing_countries.keys():
+            cur.execute("""SELECT * FROM tcountry WHERE name = %(country)s AND code = %(countryCode)s;""", stock)
+            country = cur.fetchone()
+            if not country:
+                # insert
+                cur.execute("""INSERT INTO tcountry (name, code) VALUES (%(country)s, %(countryCode)s) RETURNING country_id;""", stock)
+                stock['country_id'] = cur.fetchone()[0]
+                totalInserted['countries'] += 1
+            else:
+                stock['country_id'] = country[0]
+            if stock['country'] and stock['countryCode']:
+                existing_countries[(noneStr(stock['country']) + noneStr(stock['countryCode']))] = stock['country_id']
+        else:
+            stock['country_id'] = existing_countries[(noneStr(stock['country']) + noneStr(stock['countryCode']))]
 
-		# select
-		if not noneStr(stock['branch']) in existing_branches.keys():
-			cur.execute("""SELECT * FROM tbranch WHERE name = %(branch)s;""", stock)
-			branch = cur.fetchone()
-			if not branch:
-				# insert
-				cur.execute("""INSERT INTO tbranch (name) VALUES (%(branch)s) RETURNING branch_id;""", stock)
-				stock['branch_id'] = cur.fetchone()[0]
-				totalInserted['branches'] += 1
-			else:
-				stock['branch_id'] = branch[0]
-			if stock['branch']:
-				existing_branches[noneStr(stock['branch'])] = stock['branch_id']
-		else:
-			stock['branch_id'] = existing_branches[noneStr(stock['branch'])]
+        # select
+        if not noneStr(stock['branch']) in existing_branches.keys():
+            cur.execute("""SELECT * FROM tbranch WHERE name = %(branch)s;""", stock)
+            branch = cur.fetchone()
+            if not branch:
+                # insert
+                cur.execute("""INSERT INTO tbranch (name) VALUES (%(branch)s) RETURNING branch_id;""", stock)
+                stock['branch_id'] = cur.fetchone()[0]
+                totalInserted['branches'] += 1
+            else:
+                stock['branch_id'] = branch[0]
+            if stock['branch']:
+                existing_branches[noneStr(stock['branch'])] = stock['branch_id']
+        else:
+            stock['branch_id'] = existing_branches[noneStr(stock['branch'])]
 
-		# select
-		cur.execute("""SELECT * FROM tstock WHERE isin = %(isin)s;""", stock)
-		if cur.rowcount == 0:
-			# insert
-			cur.execute("""INSERT INTO tstock (name, nsin, isin, url, branch_id, country_id) VALUES (%(name)s, %(nsin)s, %(isin)s, %(url)s, %(branch_id)s, %(country_id)s);""", stock)
-			totalInserted['stocks'] += 1
-			
-		totalProcessed += 1
+        # select
+        cur.execute("""SELECT * FROM tstock WHERE isin = %(isin)s;""", stock)
+        if cur.rowcount == 0:
+            # insert
+            cur.execute("""INSERT INTO tstock (name, nsin, isin, url, branch_id, country_id) VALUES (%(name)s, %(nsin)s, %(isin)s, %(url)s, %(branch_id)s, %(country_id)s);""", stock)
+            totalInserted['stocks'] += 1
+            
+        totalProcessed += 1
 
-		if totalProcessed % 250 == 0:
-			print('Total processed: %s' % totalProcessed)
+        if totalProcessed % 250 == 0:
+            print('Total processed: %s' % totalProcessed)
 
-		if maxItems and totalProcessed >= maxItems:
-			break
-	if maxItems and totalProcessed >= maxItems:
-		break
-	page += 1
-		
-		
+        if maxItems and totalProcessed >= maxItems:
+            break
+    if maxItems and totalProcessed >= maxItems:
+        break
+    page += 1
+        
+        
 conn.commit();
 conn.close();
 

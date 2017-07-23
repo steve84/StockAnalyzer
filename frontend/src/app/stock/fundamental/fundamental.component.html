@@ -18,7 +18,7 @@
           <div class = "ui-g-3">Aktienkategorie</div><div class = "ui-g-3">{{stock.stockCategory}}</div>
         </div>
         <div *ngFor="let index of indexNames" class = "ui-g">
-          <div class = "ui-g-3">{{index}}</div><div class = "ui-g-3">{{stock.indexParticipation[index]*100}}</div>
+          <div class = "ui-g-3">{{index}}</div><div class = "ui-g-3">{{stock.indexParticipation[index]*100 | number}}%</div>
           <div class = "ui-g-3"></div><div class = "ui-g-3"></div>
         </div>
       </div>
@@ -105,29 +105,29 @@
           <div class = "ui-g-2">Volatität 3J</div><div class = "ui-g-2">{{technicaldata.vola3y}}%</div>
         </div>
         <div class = "ui-g">
-          <div class = "ui-g-2">SD 30T</div><div class = "ui-g-2">{{technicaldata.sd30d}}%</div>
-          <div class = "ui-g-2">SD 100T</div><div class = "ui-g-2">{{technicaldata.sd100d}}%</div>
-          <div class = "ui-g-2">SD 250T</div><div class = "ui-g-2">{{technicaldata.sd250d}}%</div>
+          <div class = "ui-g-2">SD 30T</div><div class = "ui-g-2">{{technicaldata.sd30d}}</div>
+          <div class = "ui-g-2">SD 100T</div><div class = "ui-g-2">{{technicaldata.sd100d}}</div>
+          <div class = "ui-g-2">SD 250T</div><div class = "ui-g-2">{{technicaldata.sd250d}}</div>
         </div>
         <div class = "ui-g">
-          <div class = "ui-g-2">Gl. Durchschnitt 30T</div><div class = "ui-g-2">{{technicaldata.movingAverage30d}}%</div>
-          <div class = "ui-g-2">Gl. Durchschnitt 100T</div><div class = "ui-g-2">{{technicaldata.movingAverage100d}}%</div>
-          <div class = "ui-g-2">Gl. Durchschnitt 200T</div><div class = "ui-g-2">{{technicaldata.movingAverage200d}}%</div>
+          <div class = "ui-g-2">Gl. Durchschnitt 30T</div><div class = "ui-g-2">{{technicaldata.movingAverage30d}}</div>
+          <div class = "ui-g-2">Gl. Durchschnitt 100T</div><div class = "ui-g-2">{{technicaldata.movingAverage100d}}</div>
+          <div class = "ui-g-2">Gl. Durchschnitt 200T</div><div class = "ui-g-2">{{technicaldata.movingAverage200d}}</div>
         </div>
         <div class = "ui-g">
-          <div class = "ui-g-2">RSI 5T</div><div class = "ui-g-2">{{technicaldata.rsi5d}}%</div>
-          <div class = "ui-g-2">RSI 20T</div><div class = "ui-g-2">{{technicaldata.rsi20d}}%</div>
-          <div class = "ui-g-2">RSI 250T</div><div class = "ui-g-2">{{technicaldata.rsi250d}}%</div>
+          <div class = "ui-g-2">RSI 5T</div><div class = "ui-g-2">{{technicaldata.rsi5d}}</div>
+          <div class = "ui-g-2">RSI 20T</div><div class = "ui-g-2">{{technicaldata.rsi20d}}</div>
+          <div class = "ui-g-2">RSI 250T</div><div class = "ui-g-2">{{technicaldata.rsi250d}}</div>
         </div>
         <div class = "ui-g">
-          <div class = "ui-g-2">RSL 5T</div><div class = "ui-g-2">{{technicaldata.rsl5d}}%</div>
-          <div class = "ui-g-2">RSL 20T</div><div class = "ui-g-2">{{technicaldata.rsl20d}}%</div>
-          <div class = "ui-g-2">RSL 250T</div><div class = "ui-g-2">{{technicaldata.rsl250d}}%</div>
+          <div class = "ui-g-2">RSL 5T</div><div class = "ui-g-2">{{technicaldata.rsl5d}}</div>
+          <div class = "ui-g-2">RSL 20T</div><div class = "ui-g-2">{{technicaldata.rsl20d}}</div>
+          <div class = "ui-g-2">RSL 250T</div><div class = "ui-g-2">{{technicaldata.rsl250d}}</div>
         </div>
         <div class = "ui-g">
-          <div class = "ui-g-2">Momentum 30T</div><div class = "ui-g-2">{{technicaldata.momentum30d}}%</div>
-          <div class = "ui-g-2">Momentum 50T</div><div class = "ui-g-2">{{technicaldata.momentum50d}}%</div>
-          <div class = "ui-g-2">Momentum 250T</div><div class = "ui-g-2">{{technicaldata.momentum250d}}%</div>
+          <div class = "ui-g-2">Momentum 30T</div><div class = "ui-g-2">{{technicaldata.momentum30d}}</div>
+          <div class = "ui-g-2">Momentum 50T</div><div class = "ui-g-2">{{technicaldata.momentum50d}}</div>
+          <div class = "ui-g-2">Momentum 250T</div><div class = "ui-g-2">{{technicaldata.momentum250d}}</div>
         </div>
       </div>
     </p-tabPanel>
