@@ -47,6 +47,18 @@ export class StockService {
     return this.http.get(link)
       .map(this.extractData);
   }
+	
+	findByIsinOrName(query: string, size: number = 10) {
+    let params = new URLSearchParams();
+    params.set("isin", query);
+    params.set("name", query);
+		params.set("size", size.toString());
+		params.set("page", "0");
+		
+		let url = "http://localhost:8080/stocks/search/findByIsinContainingIgnoreCaseOrNameContainingIgnoreCase";
+		return this.http.get(url, {search: params})
+      .map(this.extractData);
+	}
 
   extractData(resp: Response) {
     return resp.json();

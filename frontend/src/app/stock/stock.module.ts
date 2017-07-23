@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { DataTableModule, SharedModule, DialogModule, ButtonModule, TabViewModule, AccordionModule } from 'primeng/primeng';
+import { DataTableModule, SharedModule, DialogModule, ButtonModule, TabViewModule, AccordionModule, AutoCompleteModule } from 'primeng/primeng';
 
 import { ChartModule } from 'angular-highcharts';
 
@@ -22,6 +22,7 @@ import { LevermannComponent } from './levermann/levermann.component';
 import { IndexComponent } from './index/index.component';
 import { IndexdetailComponent } from './indexdetail/indexdetail.component';
 import { StockcategoryPipe } from './stockcategory.pipe';
+import { StockquickfinderComponent } from './stockquickfinder/stockquickfinder.component';
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import { StockcategoryPipe } from './stockcategory.pipe';
     ButtonModule,
     TabViewModule,
     AccordionModule,
+		AutoCompleteModule,
     SharedModule,
     ChartModule
   ],
@@ -47,6 +49,6 @@ import { StockcategoryPipe } from './stockcategory.pipe';
     TechnicalDataService,
     IndexService
   ],
-  declarations: [StockComponent, FundamentalComponent, LevermannComponent, IndexComponent, IndexdetailComponent, StockcategoryPipe]
+  declarations: [StockComponent, FundamentalComponent, LevermannComponent, IndexComponent, IndexdetailComponent, StockcategoryPipe, StockquickfinderComponent]
 })
 export class StockModule { }
