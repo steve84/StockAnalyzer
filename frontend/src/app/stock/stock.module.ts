@@ -5,7 +5,16 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { DataTableModule, SharedModule, DialogModule, ButtonModule, TabViewModule, AccordionModule, AutoCompleteModule } from 'primeng/primeng';
+import { DataTableModule,
+         SharedModule,
+				 DialogModule,
+				 ButtonModule,
+				 TabViewModule,
+				 AccordionModule,
+				 AutoCompleteModule,
+				 DropdownModule,
+         InputTextModule,
+         MultiSelectModule } from 'primeng/primeng';
 
 import { ChartModule } from 'angular-highcharts';
 
@@ -23,6 +32,7 @@ import { IndexComponent } from './index/index.component';
 import { IndexdetailComponent } from './indexdetail/indexdetail.component';
 import { StockcategoryPipe } from './stockcategory.pipe';
 import { StockquickfinderComponent } from './stockquickfinder/stockquickfinder.component';
+import { StocksearchComponent } from './stocksearch/stocksearch.component';
 
 @NgModule({
   imports: [
@@ -37,6 +47,9 @@ import { StockquickfinderComponent } from './stockquickfinder/stockquickfinder.c
     TabViewModule,
     AccordionModule,
 		AutoCompleteModule,
+    DropdownModule,
+		MultiSelectModule,
+    InputTextModule,
     SharedModule,
     ChartModule
   ],
@@ -49,6 +62,6 @@ import { StockquickfinderComponent } from './stockquickfinder/stockquickfinder.c
     TechnicalDataService,
     IndexService
   ],
-  declarations: [StockComponent, FundamentalComponent, LevermannComponent, IndexComponent, IndexdetailComponent, StockcategoryPipe, StockquickfinderComponent]
+  declarations: [StockComponent, FundamentalComponent, LevermannComponent, IndexComponent, IndexdetailComponent, StockcategoryPipe, StockquickfinderComponent, StocksearchComponent]
 })
 export class StockModule { }

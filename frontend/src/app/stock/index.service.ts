@@ -45,6 +45,13 @@ export class IndexService {
     return this.http.get(link)
       .map(this.extractData);
   }
+	
+	getAllIndices() {
+	  let url = "http://localhost:8080/indices/search/getAllIndices";
+
+    return this.http.get(url)
+      .map(this.extractData);
+	}
 
   extractData(resp: Response) {
     return resp.json();

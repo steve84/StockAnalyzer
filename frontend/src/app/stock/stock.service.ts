@@ -59,9 +59,23 @@ export class StockService {
 		return this.http.get(url, {search: params})
       .map(this.extractData);
 	}
+	
+	getAllCountries() {
+	  let url = "http://localhost:8080/stocks/search/getAllCountries";
+
+    return this.http.get(url)
+      .map(this.extractData);
+	}
+	
+	getAllBranches() {
+	  let url = "http://localhost:8080/stocks/search/getAllBranches";
+
+    return this.http.get(url)
+      .map(this.extractData);
+	}
 
   extractData(resp: Response) {
-    return resp.json();
+		return resp.json();
   }
 
 }
