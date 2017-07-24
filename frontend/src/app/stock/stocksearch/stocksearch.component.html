@@ -7,7 +7,7 @@
 <div class = "ui-g-3">WKN</div><div class = "ui-g-3"><input type="text" pInputText [(ngModel)]="wkn"/></div>
 </div>
 <div class = "ui-g">
-<div class = "ui-g-3">Land</div><div class = "ui-g-3"><p-multiSelect [options]="countries" [(ngModel)]="selectedCities"></p-multiSelect></div>
+<div class = "ui-g-3">Land</div><div class = "ui-g-3"><p-multiSelect [options]="countries" [(ngModel)]="selectedCountries"></p-multiSelect></div>
 <div class = "ui-g-3">Branche</div><div class = "ui-g-3"><p-multiSelect [options]="branches" [(ngModel)]="selectedBranches"></p-multiSelect></div>
 </div>
 <div class = "ui-g">
@@ -15,5 +15,5 @@
 <div class = "ui-g-3">WKN</div><div class = "ui-g-3"><input type="text" pInputText [(ngModel)]="wkn"/></div>
 </div>
 <div class = "ui-g">
-<div class = "ui-g-12"><button type="button" pButton label="Suchen" icon="fa-search"></button></div>
+<div class = "ui-g-12"><button type="button" pButton label="Suchen" (click)="searchStocks()" icon="fa-search"></button></div>
 </div>

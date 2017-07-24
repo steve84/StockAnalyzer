@@ -23,4 +23,19 @@ public interface StockRepository extends PagingAndSortingRepository<Stock, Integ
 	List<Country> getAllCountries();
 	@Query("select distinct s.branch from Stock s")
 	List<Branch> getAllBranches();
+	
+	@Query("select s from Stock s where "
+			+ "(upper(s.name) like %:name% or :name is null) and "
+			+ "(upper(s.isin) like %:isin% or :isin is null) and "
+			+ "(upper(s.nsin) like %:nsin% or :nsin is null) and "
+			+ "(upper(s.wkn) like %:wkn% or :wkn is null) and "
+			+ "(s.country.countryId in :countryIds or :countryIds is null) and "
+			+ "(s.branch.branchId in :branchIds or :branchIds is null)")
+	Page<Stock> searchStocks(@Param("name") String name,
+							 @Param("isin") String isin,
+							 @Param("nsin") String nsin,
+							 @Param("wkn") String wkn,
+							 @Param("countryIds") List<Integer> countryIds,
+							 @Param("branchIds") List<Integer> branchIds,
+							 Pageable pageable);
 }

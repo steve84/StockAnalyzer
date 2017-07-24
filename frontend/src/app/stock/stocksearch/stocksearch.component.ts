@@ -17,10 +17,10 @@ import { IndexType } from '../indextype';
 })
 export class StocksearchComponent implements OnInit {
 	@Output("OnStocksFound") onStocksFound: EventEmitter<Stock[]> = new EventEmitter<Stock[]>();
-	private name: String;
-	private isin: String;
-	private nsin: String;
-	private wkn: String;
+	private name: string;
+	private isin: string;
+	private nsin: string;
+	private wkn: string;
 	private selectedCountries: number[];
 	private countries: SelectItem[];
 	private selectedBranches: number[];
@@ -59,5 +59,10 @@ export class StocksearchComponent implements OnInit {
 
   ngOnInit() {
   }
+	
+	searchStocks() {
+	  this.stockService.searchStocks(this.name, this.isin, this.nsin, this.wkn, this.selectedCountries, this.selectedBranches, this.selectedIndices)
+		  .subscribe((data:any) => this.onStocksFound.emit(data._embedded.stock));
+	}
 
 }

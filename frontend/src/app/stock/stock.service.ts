@@ -73,6 +73,39 @@ export class StockService {
     return this.http.get(url)
       .map(this.extractData);
 	}
+	
+	searchStocks(name: string,
+	             isin: string,
+							 nsin: string,
+							 wkn: string,
+							 countryIds: number[],
+							 branchIds: number[],
+							 indexIds: number[],
+							 page?: number,
+							 size?: number,
+							 sortField?: string,
+							 sortOrder?: number) {
+	let url = "http://localhost:8080/stocks/search/searchStocks";
+  let params = new URLSearchParams();
+	
+	if (name)
+		params.set("name", name.toUpperCase());
+	if (isin)
+		params.set("isin", isin.toUpperCase());
+	if (nsin)
+		params.set("nsin", nsin.toUpperCase());
+	if (wkn)
+		params.set("wkn", wkn.toUpperCase());
+	if (countryIds && countryIds.length)
+		params.set("countryIds", countryIds.join(','));
+	if (branchIds && branchIds.length)
+		params.set("branchIds", branchIds.join(','));
+	if (indexIds && indexIds.length)
+		params.set("indexIds", indexIds.join(','));
+
+	return this.http.get(url, {search: params})
+	  .map(this.extractData);
+	}
 
   extractData(resp: Response) {
 		return resp.json();
