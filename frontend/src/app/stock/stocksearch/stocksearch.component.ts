@@ -27,6 +27,7 @@ export class StocksearchComponent implements OnInit {
 	private branches: SelectItem[];
 	private selectedIndices: number[];
 	private indices: SelectItem[];
+	private nbrStocksFound: number = 0;
 
   constructor(private stockService: StockService, private indexService: IndexService) {
 	  this.stockService.getAllCountries()
@@ -62,7 +63,22 @@ export class StocksearchComponent implements OnInit {
 	
 	searchStocks() {
 	  this.stockService.searchStocks(this.name, this.isin, this.nsin, this.wkn, this.selectedCountries, this.selectedBranches, this.selectedIndices)
-		  .subscribe((data:any) => this.onStocksFound.emit(data._embedded.stock));
+		  .subscribe((data:any) => {
+			  if (data && data.page)
+			    this.nbrStocksFound = data.page.totalElements;
+			  this.onStocksFound.emit(data._embedded.stock);
+			});
+	}
+	
+	reset() {
+    this.name = "";
+    this.isin = "";
+    this.nsin = "";
+    this.wkn = "";
+    this.selectedCountries = [];
+    this.selectedBranches = [];
+    this.selectedIndices = [];
+    this.nbrStocksFound = 0;
 	}
 
 }
