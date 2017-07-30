@@ -569,6 +569,43 @@ CREATE OR REPLACE VIEW public.vmagicformula AS
 ALTER TABLE public.vmagicformula
   OWNER TO postgres;
 
+
+-- View: public.vagg_market_cap
+
+-- DROP VIEW public.vagg_market_cap;
+
+CREATE OR REPLACE VIEW public.vagg_market_cap AS 
+ SELECT tmc1.stock_id,
+    tmc1.country_id,
+    sum(tmc2.cap_ratio) * 100::numeric AS agg_cap_ratio
+   FROM ( SELECT s.stock_id,
+            tmc.country_id,
+            l.market_capitalization / tmc.total_market_cap AS cap_ratio
+           FROM tstock s
+             LEFT JOIN ( SELECT c.country_id,
+                    sum(l_1.market_capitalization) AS total_market_cap
+                   FROM tstock s_1
+                     LEFT JOIN tcountry c ON c.country_id = s_1.country_id
+                     LEFT JOIN vlevermann l_1 ON l_1.stock_id = s_1.stock_id
+                  GROUP BY c.country_id) tmc ON tmc.country_id = s.country_id
+             LEFT JOIN vlevermann l ON l.stock_id = s.stock_id) tmc1
+     LEFT JOIN ( SELECT s.stock_id,
+            tmc.country_id,
+            l.market_capitalization / tmc.total_market_cap AS cap_ratio
+           FROM tstock s
+             LEFT JOIN ( SELECT c.country_id,
+                    sum(l_1.market_capitalization) AS total_market_cap
+                   FROM tstock s_1
+                     LEFT JOIN tcountry c ON c.country_id = s_1.country_id
+                     LEFT JOIN vlevermann l_1 ON l_1.stock_id = s_1.stock_id
+                  GROUP BY c.country_id) tmc ON tmc.country_id = s.country_id
+             LEFT JOIN vlevermann l ON l.stock_id = s.stock_id) tmc2 ON tmc1.country_id = tmc2.country_id AND tmc1.cap_ratio <= tmc2.cap_ratio
+  GROUP BY tmc1.stock_id, tmc1.country_id
+  ORDER BY tmc1.country_id, (sum(tmc2.cap_ratio) * 100::numeric);
+
+ALTER TABLE public.vagg_market_cap
+  OWNER TO postgres; 
+
 --
 -- TOC entry 2130 (class 0 OID 0)
 -- Dependencies: 7
