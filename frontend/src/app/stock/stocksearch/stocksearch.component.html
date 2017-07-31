@@ -1,0 +1,22 @@
+<div class = "ui-g">
+<div class = "ui-g-3">Name</div><div class = "ui-g-3"><input type="text" pInputText [(ngModel)]="name"/></div>
+<div class = "ui-g-3">ISIN</div><div class = "ui-g-3"><input type="text" pInputText [(ngModel)]="isin"/></div>
+</div>
+<div class = "ui-g">
+<div class = "ui-g-3">NSIN</div><div class = "ui-g-3"><input type="text" pInputText [(ngModel)]="nsin"/></div>
+<div class = "ui-g-3">WKN</div><div class = "ui-g-3"><input type="text" pInputText [(ngModel)]="wkn"/></div>
+</div>
+<div class = "ui-g">
+<div class = "ui-g-3">Land</div><div class = "ui-g-3"><p-multiSelect [options]="countries" [(ngModel)]="selectedCountries" defaultLabel="Wähle" selectedItemsLabel="{0} Einträge ausgewählt" maxSelectedLabels=2></p-multiSelect></div>
+<div class = "ui-g-3">Branche</div><div class = "ui-g-3"><p-multiSelect [options]="branches" [(ngModel)]="selectedBranches" defaultLabel="Wähle" selectedItemsLabel="{0} Einträge ausgewählt" maxSelectedLabels=1></p-multiSelect></div>
+</div>
+<div class = "ui-g">
+<div class = "ui-g-3">Index</div><div class = "ui-g-3"><p-multiSelect [options]="indices" [(ngModel)]="selectedIndices" defaultLabel="Wähle" selectedItemsLabel="{0} Einträge ausgewählt"></p-multiSelect></div>
+<div class = "ui-g-3">Gefundene Aktien:</div><div class = "ui-g-3">{{nbrStocksFound}}</div>
+</div>
+<div class = "ui-g">
+<div class = "ui-g-12">
+<button type="button" pButton label="Suchen" (click)="searchStocks()" icon="fa-search"></button>
+<button type="button" pButton label="Filter zurücksetzen" (click)="reset()" icon="fa-remove"></button>
+</div>
+</div>

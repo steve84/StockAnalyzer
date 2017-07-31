@@ -47,9 +47,68 @@ export class StockService {
     return this.http.get(link)
       .map(this.extractData);
   }
+	
+	findByIsinOrName(query: string, size: number = 10) {
+    let params = new URLSearchParams();
+    params.set("isin", query);
+    params.set("name", query);
+		params.set("size", size.toString());
+		params.set("page", "0");
+		
+		let url = "http://localhost:8080/stocks/search/findByIsinContainingIgnoreCaseOrNameContainingIgnoreCase";
+		return this.http.get(url, {search: params})
+      .map(this.extractData);
+	}
+	
+	getAllCountries() {
+	  let url = "http://localhost:8080/stocks/search/getAllCountries";
+
+    return this.http.get(url)
+      .map(this.extractData);
+	}
+	
+	getAllBranches() {
+	  let url = "http://localhost:8080/stocks/search/getAllBranches";
+
+    return this.http.get(url)
+      .map(this.extractData);
+	}
+	
+	searchStocks(name: string,
+	             isin: string,
+							 nsin: string,
+							 wkn: string,
+							 countryIds: number[],
+							 branchIds: number[],
+							 indexIds: number[],
+							 page?: number,
+							 size?: number,
+							 sortField?: string,
+							 sortOrder?: number) {
+	let url = "http://localhost:8080/stocks/search/searchStocks";
+  let params = new URLSearchParams();
+	
+	if (name)
+		params.set("name", name.toUpperCase());
+	if (isin)
+		params.set("isin", isin.toUpperCase());
+	if (nsin)
+		params.set("nsin", nsin.toUpperCase());
+	if (wkn)
+		params.set("wkn", wkn.toUpperCase());
+	if (countryIds && countryIds.length)
+		params.set("countryIds", countryIds.join(','));
+	if (branchIds && branchIds.length)
+		params.set("branchIds", branchIds.join(','));
+	if (indexIds && indexIds.length)
+		params.set("indexIds", indexIds.join(','));
+
+	return this.http.get(url, {search: params})
+	  .map(this.extractData);
+	}
 
   extractData(resp: Response) {
-    return resp.json();
+		return resp.json();
   }
 
 }
