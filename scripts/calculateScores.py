@@ -51,7 +51,7 @@ if doStocks:
                 curLevermann.execute("""SELECT * FROM tscore s WHERE s.score_type_id = %d and s.stock_id = %d""" % (LEVERMANN_SCORE_TYPE_ID, stock[0]))
                 levermannScoreDb = curLevermann.fetchone()
                 if levermannScoreDb is not None:
-                    curLevermann.execute(Utils.createSqlString({'score_value', 'modified_at'}, 'tscore', 'stock_id = %d' % stock[0], False), levermannDict)
+                    curLevermann.execute(Utils.createSqlString({'score_value', 'modified_at'}, 'tscore', 'stock_id = %d and score_type_id = %d' % (stock[0], LEVERMANN_SCORE_TYPE_ID), False), levermannDict)
                     totalUpdated += 1
                 else:
                     levermannDict['stock_id'] = stock[0]
@@ -79,7 +79,7 @@ if doStocks:
                 curMagic.execute("""SELECT * FROM tscore s WHERE s.score_type_id = %d and s.stock_id = %d""" % (MAGIC_FORMULA_SCORE_TYPE_ID, stock[0]))
                 magicFormulaScoreDb = curMagic.fetchone()
                 if magicFormulaScoreDb is not None:
-                    curMagic.execute(Utils.createSqlString({'score_value', 'modified_at'}, 'tscore', 'stock_id = %d' % stock[0], False), magicFormulaDict)
+                    curMagic.execute(Utils.createSqlString({'score_value', 'modified_at'}, 'tscore', 'stock_id = %d and score_type_id = %d' % (stock[0], MAGIC_FORMULA_SCORE_TYPE_ID), False), magicFormulaDict)
                     totalUpdated += 1
                 else:
                     magicFormulaDict['stock_id'] = stock[0]
@@ -118,7 +118,7 @@ if doIndices:
                 curLevermann.execute("""SELECT * FROM tscore s WHERE s.score_type_id = %d and s.index_id = %d""" % (LEVERMANN_SCORE_TYPE_ID, index[0]))
                 levermannScoreDb = curLevermann.fetchone()
                 if levermannScoreDb is not None:
-                    curLevermann.execute(Utils.createSqlString({'score_value', 'modified_at'}, 'tscore', 'index_id = %d' % index[0], False), levermannDict)
+                    curLevermann.execute(Utils.createSqlString({'score_value', 'modified_at'}, 'tscore', 'index_id = %d and score_type_id = %d' % (index[0], LEVERMANN_SCORE_TYPE_ID), False), levermannDict)
                     totalUpdated += 1
                 else:
                     levermannDict['index_id'] = index[0]
@@ -156,7 +156,7 @@ if doIndices:
                 curMagic.execute("""SELECT * FROM tscore s WHERE s.score_type_id = %d and s.index_id = %d""" % (MAGIC_FORMULA_SCORE_TYPE_ID, index[0]))
                 magicFormulaScoreDb = curMagic.fetchone()
                 if magicFormulaScoreDb is not None:
-                    curMagic.execute(Utils.createSqlString({'score_value', 'modified_at'}, 'tscore', 'index_id = %d' % index[0], False), magicFormulaDict)
+                    curMagic.execute(Utils.createSqlString({'score_value', 'modified_at'}, 'tscore', 'index_id = %d and score_type_id = %d' % (index[0], MAGIC_FORMULA_SCORE_TYPE_ID), False), magicFormulaDict)
                     totalUpdated += 1
                 else:
                     magicFormulaDict['index_id'] = index[0]
