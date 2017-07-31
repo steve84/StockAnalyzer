@@ -454,8 +454,7 @@ ALTER TABLE ONLY tscore
 
 ALTER TABLE tbranch ADD CONSTRAINT ubranchname UNIQUE (name);
 
-ALTER TABLE tcountry ADD CONSTRAINT ucountryname UNIQUE (name);
-ALTER TABLE tcountry ADD CONSTRAINT ucountrycode UNIQUE (code);
+ALTER TABLE tcountry ADD CONSTRAINT ucountry UNIQUE (name, code);
 
 ALTER TABLE tstock ADD CONSTRAINT ustockisin UNIQUE (isin);
     
