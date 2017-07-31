@@ -63,7 +63,7 @@ for stock in cur:
         if not stock[7]:
             if len(fundamental_data) == 0:
                 link = fundamental_url + str(stock[6].split('/')[-1])
-                fundamental_data = Utils.getKeyFigures(link, 'mapping.json')
+                fundamental_data = Utils.getKeyFigures(link, 'mappingFundamentals.json')
             # Update business year end
             if str(actual_year) in fundamental_data.keys():
                 curStock.execute(Utils.createSqlString({'business_year_end'} , 'tstock', 'stock_id = %d' % stock[0], False), fundamental_data[str(actual_year)])
@@ -80,7 +80,7 @@ for stock in cur:
             # Insert
             if len(fundamental_data) == 0:
                 link = fundamental_url + str(stock[6].split('/')[-1])
-                fundamental_data = Utils.getKeyFigures(link, 'mapping.json')
+                fundamental_data = Utils.getKeyFigures(link, 'mappingFundamentals.json')
             if len(analyst_rating_data) == 0:
                 link = analyst_rating_url + stock[3]
                 analyst_rating_data = Utils.getAnalystRatings(link, 'mappingAnalystRatings.json')
@@ -100,7 +100,7 @@ for stock in cur:
             # Update
             if len(fundamental_data) == 0:
                 link = fundamental_url + str(stock[6].split('/')[-1])
-                fundamental_data = Utils.getKeyFigures(link, 'mapping.json')
+                fundamental_data = Utils.getKeyFigures(link, 'mappingFundamentals.json')
             if len(analyst_rating_data) == 0:
                 link = analyst_rating_url + stock[3]
                 analyst_rating_data = Utils.getAnalystRatings(link, 'mappingAnalystRatings.json')
@@ -120,7 +120,7 @@ for stock in cur:
         if not stock[14] or Utils.getLastBusinessYear(BusinessYearEnd) > stock[14]:
             if len(fundamental_data) == 0:
                 link = fundamental_url + str(stock[6].split('/')[-1])
-                fundamental_data = Utils.getKeyFigures(link, 'mapping.json')
+                fundamental_data = Utils.getKeyFigures(link, 'mappingFundamentals.json')
             for year in fundamental_data.keys():
                 if (not stock[14] or int(year) > stock[14]) and int(year) <= Utils.getLastBusinessYear(BusinessYearEnd):
                     fundamental_data[year]['year_value'] = int(year)
@@ -152,9 +152,10 @@ for stock in cur:
             totalUpdated += 1
         if totalUpdated == maxItems:
             break
-    except:
+    except Exception as e:
         print("An error occured: %s" % stock[1])
         print("URL: %s" % stock[6])
+        print("Error message: %s" % e)
 
 conn.commit()
 conn.close()

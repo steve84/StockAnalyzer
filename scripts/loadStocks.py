@@ -110,8 +110,7 @@ while page <= totalPages:
             # insert
             cur.execute("""INSERT INTO tstock (name, nsin, isin, url, branch_id, country_id) VALUES (%(name)s, %(nsin)s, %(isin)s, %(url)s, %(branch_id)s, %(country_id)s);""", stock)
             totalInserted['stocks'] += 1
-            
-        totalProcessed += 1
+            totalProcessed += 1
 
         if totalProcessed % 250 == 0:
             print('Total processed: %s' % totalProcessed)
