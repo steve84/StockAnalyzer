@@ -112,7 +112,7 @@ while page <= totalPages:
             totalInserted['stocks'] += 1
             totalProcessed += 1
 
-        if totalProcessed % 250 == 0:
+        if totalProcessed > 0 and totalProcessed % 250 == 0:
             print('Total processed: %s' % totalProcessed)
 
         if maxItems and totalProcessed >= maxItems:

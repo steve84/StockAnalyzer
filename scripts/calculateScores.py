@@ -36,7 +36,10 @@ if doStocks:
     if doLevermann:
         totalUpdated = 0
         cur = conn.cursor()
-        cur.execute("""SELECT * FROM tstock s LEFT JOIN tscore sc ON sc.stock_id = s.stock_id AND sc.score_type_id = %d WHERE sc.stock_id IS NULL""" % LEVERMANN_SCORE_TYPE_ID)
+        if maxAge is not None:
+            cur.execute("""SELECT * FROM tstock s LEFT JOIN tscore sc ON sc.stock_id = s.stock_id AND sc.score_type_id = %d WHERE sc.stock_id IS NULL OR current_date - sc.modified_at >= %d""" % (LEVERMANN_SCORE_TYPE_ID, maxAge))
+        else:
+            cur.execute("""SELECT * FROM tstock s LEFT JOIN tscore sc ON sc.stock_id = s.stock_id AND sc.score_type_id = %d WHERE sc.stock_id IS NULL""" % LEVERMANN_SCORE_TYPE_ID)
         for stock in cur:
             curLevermann = conn.cursor()
             curLevermann.execute("""SELECT * FROM vlevermann WHERE stock_id = %d""" % stock[0])
@@ -47,7 +50,7 @@ if doStocks:
                 levermannDict['modified_at'] = Utils.getActualDate()
                 curLevermann.execute("""SELECT * FROM tscore s WHERE s.score_type_id = %d and s.stock_id = %d""" % (LEVERMANN_SCORE_TYPE_ID, stock[0]))
                 levermannScoreDb = curLevermann.fetchone()
-                if levermannScoreDb is not None and Utils.getDayDiff(levermannScoreDb[5]) >= maxAge:
+                if levermannScoreDb is not None:
                     curLevermann.execute(Utils.createSqlString({'score_value', 'modified_at'}, 'tscore', 'stock_id = %d' % stock[0], False), levermannDict)
                     totalUpdated += 1
                 else:
@@ -61,7 +64,10 @@ if doStocks:
     if doMagicFormula:
         totalUpdated = 0
         cur = conn.cursor()
-        cur.execute("""SELECT * FROM tstock s LEFT JOIN tscore sc on sc.stock_id = s.stock_id AND sc.score_type_id = %d WHERE sc.stock_id IS NULL""" % MAGIC_FORMULA_SCORE_TYPE_ID)
+        if maxAge is not None:
+            cur.execute("""SELECT * FROM tstock s LEFT JOIN tscore sc on sc.stock_id = s.stock_id AND sc.score_type_id = %d WHERE sc.stock_id IS NULL OR current_date - sc.modified_at >= %d""" % (MAGIC_FORMULA_SCORE_TYPE_ID, maxAge))
+        else:
+            cur.execute("""SELECT * FROM tstock s LEFT JOIN tscore sc on sc.stock_id = s.stock_id AND sc.score_type_id = %d WHERE sc.stock_id IS NULL""" % MAGIC_FORMULA_SCORE_TYPE_ID)
         for stock in cur:
             curMagic = conn.cursor()
             curMagic.execute("""SELECT * FROM vmagicformula WHERE stock_id = %d""" % stock[0])
@@ -72,7 +78,7 @@ if doStocks:
                 magicFormulaDict['modified_at'] = Utils.getActualDate()
                 curMagic.execute("""SELECT * FROM tscore s WHERE s.score_type_id = %d and s.stock_id = %d""" % (MAGIC_FORMULA_SCORE_TYPE_ID, stock[0]))
                 magicFormulaScoreDb = curMagic.fetchone()
-                if magicFormulaScoreDb is not None and Utils.getDayDiff(magicFormulaScoreDb[5]) >= maxAge:
+                if magicFormulaScoreDb is not None:
                     curMagic.execute(Utils.createSqlString({'score_value', 'modified_at'}, 'tscore', 'stock_id = %d' % stock[0], False), magicFormulaDict)
                     totalUpdated += 1
                 else:
@@ -87,7 +93,10 @@ if doIndices:
     if doLevermann:
         totalUpdated = 0
         cur = conn.cursor()
-        cur.execute("""SELECT * FROM tindex i LEFT JOIN tscore sc on sc.index_id = i.index_id AND sc.score_type_id = %d WHERE sc.index_id IS NULL""" % LEVERMANN_SCORE_TYPE_ID)
+        if maxAge is not None:
+            cur.execute("""SELECT * FROM tindex i LEFT JOIN tscore sc on sc.index_id = i.index_id AND sc.score_type_id = %d WHERE sc.index_id IS NULL OR current_date - sc.modified_at >= %d""" % (LEVERMANN_SCORE_TYPE_ID, maxAge))
+        else:
+            cur.execute("""SELECT * FROM tindex i LEFT JOIN tscore sc on sc.index_id = i.index_id AND sc.score_type_id = %d WHERE sc.index_id IS NULL""" % LEVERMANN_SCORE_TYPE_ID)
         for index in cur:
             curStocks = conn.cursor()
             curStocks.execute("""SELECT stock_id FROM tstockindex WHERE index_id = %d""" % index[0])
@@ -108,7 +117,7 @@ if doIndices:
                 levermannDict['modified_at'] = Utils.getActualDate()
                 curLevermann.execute("""SELECT * FROM tscore s WHERE s.score_type_id = %d and s.index_id = %d""" % (LEVERMANN_SCORE_TYPE_ID, index[0]))
                 levermannScoreDb = curLevermann.fetchone()
-                if levermannScoreDb is not None and Utils.getDayDiff(levermannScoreDb[5]) >= maxAge:
+                if levermannScoreDb is not None:
                     curLevermann.execute(Utils.createSqlString({'score_value', 'modified_at'}, 'tscore', 'index_id = %d' % index[0], False), levermannDict)
                     totalUpdated += 1
                 else:
@@ -122,7 +131,10 @@ if doIndices:
     if doMagicFormula:
         totalUpdated = 0
         cur = conn.cursor()
-        cur.execute("""SELECT * FROM tindex i LEFT JOIN tscore sc on sc.index_id = i.index_id AND sc.score_type_id = %d WHERE sc.index_id IS NULL""" % MAGIC_FORMULA_SCORE_TYPE_ID)
+        if maxAge is not None:
+            cur.execute("""SELECT * FROM tindex i LEFT JOIN tscore sc on sc.index_id = i.index_id AND sc.score_type_id = %d WHERE sc.index_id IS NULL OR current_date - sc.modified_at >= %d""" % (MAGIC_FORMULA_SCORE_TYPE_ID, maxAge))
+        else:
+            cur.execute("""SELECT * FROM tindex i LEFT JOIN tscore sc on sc.index_id = i.index_id AND sc.score_type_id = %d WHERE sc.index_id IS NULL""" % MAGIC_FORMULA_SCORE_TYPE_ID)
         for index in cur:
             curStocks = conn.cursor()
             curStocks.execute("""SELECT stock_id FROM tstockindex WHERE index_id = %d""" % index[0])
@@ -143,7 +155,7 @@ if doIndices:
                 magicFormulaDict['modified_at'] = Utils.getActualDate()
                 curMagic.execute("""SELECT * FROM tscore s WHERE s.score_type_id = %d and s.index_id = %d""" % (MAGIC_FORMULA_SCORE_TYPE_ID, index[0]))
                 magicFormulaScoreDb = curMagic.fetchone()
-                if magicFormulaScoreDb is not None and Utils.getDayDiff(magicFormulaScoreDb[5]) >= maxAge:
+                if magicFormulaScoreDb is not None:
                     curMagic.execute(Utils.createSqlString({'score_value', 'modified_at'}, 'tscore', 'index_id = %d' % index[0], False), magicFormulaDict)
                     totalUpdated += 1
                 else:
