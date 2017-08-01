@@ -16,6 +16,13 @@
         </span>
       </ng-template>
     </p-column>
+    <p-column field="scorePiotroski" header="Piotroski F-Score-Punktzahl" [sortable]="true">
+      <ng-template let-col let-index="rowData" pTemplate="body">
+        <span *ngFor="let score of index['scores']">
+          <span *ngIf="score['scoreType']['name'] == 'Piotroski F-Score'">{{score['scoreValue'] | number}}</span>
+        </span>
+      </ng-template>
+    </p-column>
     <p-column styleClass="col-button">
       <ng-template let-index="rowData" pTemplate="body">
         <button type="button" pButton (click)="showIndexDetail(index)" icon="fa-search"></button>

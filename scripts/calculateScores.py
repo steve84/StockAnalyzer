@@ -213,7 +213,7 @@ if doIndices:
                 curPiotroski.execute("""SELECT * FROM vpiotroski WHERE stock_id = %d""" % stock[0])
                 piotroskiRow = curPiotroski.fetchone()
                 marketCap = piotroskiRow[13]
-                piotroskiStockVal = Utils.calculateMagicFormula(piotroskiRow)
+                piotroskiStockVal = Utils.calculatePiotroski(piotroskiRow)
                 if piotroskiStockVal is not None and marketCap is not None:
                     totalPiotroskiScore += piotroskiStockVal * float(marketCap)
                     totalMarketCap += marketCap

@@ -14,12 +14,14 @@ export class IndexService {
     params.set("page", page.toString());
     params.set("size", size.toString());
     if (sortField && sortOrder)
-      if (sortField == "scoreLevermann" || sortField == "scoreMagicFormula") {
+      if (sortField == "scoreLevermann" || sortField == "scoreMagicFormula" || sortField == "scorePiotroski") {
         url += "/search/findByScoresIsNullOrScores_ScoreType_NameOrderByScores_ScoreValue";
         if (sortField == "scoreLevermann")
           params.set("name", "Levermann");
         else if (sortField == "scoreMagicFormula")
           params.set("name", "Magic Formula"); 
+        else if (sortField == "scorePiotroski")
+          params.set("name", "Piotroski F-Score"); 
         if(sortOrder == 1)
           url += "Asc";
         else
