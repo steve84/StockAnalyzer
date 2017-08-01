@@ -617,12 +617,12 @@ CREATE OR REPLACE VIEW public.vpiotroski AS
     af3.roi_total_capital AS last_roi_total_capital,
     af2.balance_sheet_equity_dept AS actual_balance_sheet_equity_dept,
     af3.balance_sheet_equity_dept AS last_balance_sheet_equity_dept,
-    af2.market_capitalization / af2.bookvalue_price_ratio * af2.bookvalue_per_share AS actual_stock_amount,
-    af3.market_capitalization / af3.bookvalue_price_ratio * af3.bookvalue_per_share AS last_stock_amount,
+    CASE WHEN af2.bookvalue_price_ratio * af2.bookvalue_per_share = 0 THEN NULL ELSE af2.market_capitalization / af2.bookvalue_price_ratio * af2.bookvalue_per_share END AS actual_stock_amount,
+    CASE WHEN af3.bookvalue_price_ratio * af3.bookvalue_per_share = 0 THEN NULL ELSE af3.market_capitalization / af3.bookvalue_price_ratio * af3.bookvalue_per_share END AS last_stock_amount,
     af2.roi_ebit_marge AS actual_roi_ebit_marge,
     af3.roi_ebit_marge AS last_roi_ebit_marge,
-    af2.turnover / af2.balance_sheet_total AS actual_asset_turnover,
-    af3.turnover / af3.balance_sheet_total AS last_asset_turnover,
+    CASE WHEN af2.balance_sheet_total = 0 THEN NULL ELSE af2.turnover / af2.balance_sheet_total END AS actual_asset_turnover,
+    CASE WHEN af3.balance_sheet_total = 0 THEN NULL ELSE af3.turnover / af3.balance_sheet_total END AS last_asset_turnover,
     af2.market_capitalization
    FROM tstock s
      LEFT JOIN tdailyfundamental df ON s.stock_id = df.stock_id
