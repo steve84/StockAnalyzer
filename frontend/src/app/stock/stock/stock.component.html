@@ -19,6 +19,13 @@
         </span>
       </ng-template>
     </p-column>
+    <p-column field="scorePiotroski" header="Piotroski F-Score-Punktzahl" [sortable]="true">
+      <ng-template let-col let-stock="rowData" pTemplate="body">
+        <span *ngFor="let score of stock['scores']">
+          <span *ngIf="score['scoreType']['name'] == 'Piotroski F-Score'">{{score['scoreValue']}}</span>
+        </span>
+      </ng-template>
+    </p-column>
     <p-column field="levermann.marketCapitalization" header="Unternehmensgrösse" [sortable]="true">
       <ng-template let-col let-stock="rowData" pTemplate="body">
         {{stock['levermann'] | stockcategory}}

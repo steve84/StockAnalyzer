@@ -15,6 +15,7 @@ parser.add_argument('--stocks', dest='doStocks', action='store_true', help='calc
 parser.add_argument('--indices', dest='doIndices', action='store_true', help='calculate values for indices')
 parser.add_argument('--levermann', dest='doLevermann', action='store_true', help='calculate levermann values')
 parser.add_argument('--magic', dest='doMagicFormula', action='store_true', help='calculate magic formula values')
+parser.add_argument('--piotroski', dest='doPiotroski', action='store_true', help='calculate piotroski f-score values')
 
 maxItems = parser.parse_args().maxItems
 maxAge = parser.parse_args().maxAge
@@ -26,9 +27,11 @@ doStocks = parser.parse_args().doStocks
 doIndices = parser.parse_args().doIndices
 doLevermann = parser.parse_args().doLevermann
 doMagicFormula = parser.parse_args().doMagicFormula
+doPiotroski = parser.parse_args().doPiotroski
 
 LEVERMANN_SCORE_TYPE_ID = 1
 MAGIC_FORMULA_SCORE_TYPE_ID = 2
+PIOTROSKI_F_SCORE = 3
 
 conn = psycopg2.connect("dbname=%s user=%s host=%s" % (db_name, db_user, db_host))
 
@@ -89,6 +92,33 @@ if doStocks:
             if totalUpdated == maxItems:
                 break
 
+    if doPiotroski:
+        totalUpdated = 0
+        cur = conn.cursor()
+        if maxAge is not None:
+            cur.execute("""SELECT * FROM tstock s LEFT JOIN tscore sc on sc.stock_id = s.stock_id AND sc.score_type_id = %d WHERE sc.stock_id IS NULL OR current_date - sc.modified_at >= %d""" % (PIOTROSKI_F_SCORE, maxAge))
+        else:
+            cur.execute("""SELECT * FROM tstock s LEFT JOIN tscore sc on sc.stock_id = s.stock_id AND sc.score_type_id = %d WHERE sc.stock_id IS NULL""" % PIOTROSKI_F_SCORE)
+        for stock in cur:
+            curPiotroski = conn.cursor()
+            curPiotroski.execute("""SELECT * FROM vpiotroski WHERE stock_id = %d""" % stock[0])
+            piotroskiScore = Utils.calculatePiotroski(curPiotroski.fetchone())
+            if piotroskiScore:
+                piotroskiDict = dict()
+                piotroskiDict['score_value'] = piotroskiScore
+                piotroskiDict['modified_at'] = Utils.getActualDate()
+                curPiotroski.execute("""SELECT * FROM tscore s WHERE s.score_type_id = %d and s.stock_id = %d""" % (PIOTROSKI_F_SCORE, stock[0]))
+                piotroskiScoreDb = curPiotroski.fetchone()
+                if piotroskiScoreDb is not None:
+                    curPiotroski.execute(Utils.createSqlString({'score_value', 'modified_at'}, 'tscore', 'stock_id = %d and score_type_id = %d' % (stock[0], PIOTROSKI_F_SCORE), False), piotroskiDict)
+                    totalUpdated += 1
+                else:
+                    piotroskiDict['stock_id'] = stock[0]
+                    piotroskiDict['score_type_id'] = PIOTROSKI_F_SCORE
+                    curPiotroski.execute(Utils.createSqlString({'score_type_id', 'stock_id', 'score_value', 'modified_at'}, 'tscore'), piotroskiDict)
+                    totalUpdated += 1
+            if totalUpdated == maxItems:
+                break
 if doIndices:
     if doLevermann:
         totalUpdated = 0
@@ -162,6 +192,44 @@ if doIndices:
                     magicFormulaDict['index_id'] = index[0]
                     magicFormulaDict['score_type_id'] = MAGIC_FORMULA_SCORE_TYPE_ID
                     curMagic.execute(Utils.createSqlString({'score_type_id', 'index_id', 'score_value', 'modified_at'}, 'tscore'), magicFormulaDict)
+                    totalUpdated += 1
+            if totalUpdated == maxItems:
+                break
+
+    if doPiotroski:
+        totalUpdated = 0
+        cur = conn.cursor()
+        if maxAge is not None:
+            cur.execute("""SELECT * FROM tindex i LEFT JOIN tscore sc on sc.index_id = i.index_id AND sc.score_type_id = %d WHERE sc.index_id IS NULL OR current_date - sc.modified_at >= %d""" % (PIOTROSKI_F_SCORE, maxAge))
+        else:
+            cur.execute("""SELECT * FROM tindex i LEFT JOIN tscore sc on sc.index_id = i.index_id AND sc.score_type_id = %d WHERE sc.index_id IS NULL""" % PIOTROSKI_F_SCORE)
+        for index in cur:
+            curStocks = conn.cursor()
+            curStocks.execute("""SELECT stock_id FROM tstockindex WHERE index_id = %d""" % index[0])
+            totalPiotroskiScore = 0
+            totalMarketCap = 0
+            for stock in curStocks:
+                curPiotroski = conn.cursor()
+                curPiotroski.execute("""SELECT * FROM vpiotroski WHERE stock_id = %d""" % stock[0])
+                piotroskiRow = curPiotroski.fetchone()
+                marketCap = piotroskiRow[13]
+                piotroskiStockVal = Utils.calculatePiotroski(piotroskiRow)
+                if piotroskiStockVal is not None and marketCap is not None:
+                    totalPiotroskiScore += piotroskiStockVal * float(marketCap)
+                    totalMarketCap += marketCap
+            if totalPiotroskiScore != 0 and totalMarketCap != 0:
+                piotroskiDict = dict()
+                piotroskiDict['score_value'] = float(totalPiotroskiScore / float(totalMarketCap))
+                piotroskiDict['modified_at'] = Utils.getActualDate()
+                curPiotroski.execute("""SELECT * FROM tscore s WHERE s.score_type_id = %d and s.index_id = %d""" % (PIOTROSKI_F_SCORE, index[0]))
+                piotroskiScoreDb = curPiotroski.fetchone()
+                if piotroskiScoreDb is not None:
+                    curPiotroski.execute(Utils.createSqlString({'score_value', 'modified_at'}, 'tscore', 'index_id = %d and score_type_id = %d' % (index[0], PIOTROSKI_F_SCORE), False), piotroskiDict)
+                    totalUpdated += 1
+                else:
+                    piotroskiDict['index_id'] = index[0]
+                    piotroskiDict['score_type_id'] = PIOTROSKI_F_SCORE
+                    curPiotroski.execute(Utils.createSqlString({'score_type_id', 'index_id', 'score_value', 'modified_at'}, 'tscore'), piotroskiDict)
                     totalUpdated += 1
             if totalUpdated == maxItems:
                 break

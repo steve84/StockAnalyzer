@@ -289,3 +289,57 @@ class Utils:
         earningsYield = magicFormulaData[2]
         if returnOnCapital is not None and earningsYield is not None:
             return float((returnOnCapital + earningsYield) / 2)
+    
+    def calculatePiotroski(piotroskiData):
+        earnings_per_share = piotroskiData[1]
+        cashflow_per_share = piotroskiData[2]
+        actual_roi_total_capital = piotroskiData[3]
+        last_roi_total_capital = piotroskiData[4]
+        actual_balance_sheet_equity_dept = piotroskiData[5]
+        last_balance_sheet_equity_dept = piotroskiData[6]
+        actual_stock_amount = piotroskiData[7]
+        last_stock_amount = piotroskiData[8]
+        actual_roi_ebit_marge = piotroskiData[9]
+        last_roi_ebit_marge = piotroskiData[10]
+        actual_asset_turnover = piotroskiData[11]
+        last_asset_turnover = piotroskiData[12]
+        
+        piotroskiScore = 0
+        hasPiotroskiScore = False
+        
+        if earnings_per_share is not None and earnings_per_share > 0:
+            hasPiotroskiScore = hasPiotroskiScore or True
+            piotroskiScore += 1
+
+        if cashflow_per_share is not None and cashflow_per_share > 0:
+            hasPiotroskiScore = hasPiotroskiScore or True
+            piotroskiScore += 1
+
+        if actual_roi_total_capital is not None and last_roi_total_capital is not None and actual_roi_total_capital > last_roi_total_capital:
+            hasPiotroskiScore = hasPiotroskiScore or True
+            piotroskiScore += 1
+
+        if cashflow_per_share is not None and earnings_per_share is not None and cashflow_per_share > earnings_per_share:
+            hasPiotroskiScore = hasPiotroskiScore or True
+            piotroskiScore += 1
+
+        if actual_balance_sheet_equity_dept is not None and last_balance_sheet_equity_dept is not None and actual_balance_sheet_equity_dept > last_balance_sheet_equity_dept:
+            hasPiotroskiScore = hasPiotroskiScore or True
+            piotroskiScore += 1
+
+        if actual_stock_amount is not None and last_stock_amount is not None and actual_stock_amount > last_stock_amount:
+            hasPiotroskiScore = hasPiotroskiScore or True
+            piotroskiScore += 1
+
+        if actual_roi_ebit_marge is not None and last_roi_ebit_marge is not None and actual_roi_ebit_marge > last_roi_ebit_marge:
+            hasPiotroskiScore = hasPiotroskiScore or True
+            piotroskiScore += 1
+
+        if actual_asset_turnover is not None and last_asset_turnover is not None and actual_asset_turnover > last_asset_turnover:
+            hasPiotroskiScore = hasPiotroskiScore or True
+            piotroskiScore += 1
+
+        if hasPiotroskiScore:
+            return piotroskiScore
+        else:
+            return None

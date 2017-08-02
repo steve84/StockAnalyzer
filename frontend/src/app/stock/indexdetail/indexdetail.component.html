@@ -18,7 +18,7 @@
       <p-column field="scores" header="Levermann-Punktzahl">
         <ng-template let-col let-stock="rowData" pTemplate="body">
           <span *ngFor="let score of stock['scores']">
-            <span *ngIf="score['scoreType']['name'] == 'Levermann'">{{score['scoreValue'] | number}}</span>
+            <span *ngIf="score['scoreType']['name'] == 'Levermann'">{{score['scoreValue']}}</span>
           </span>
         </ng-template>
 		  </p-column>
@@ -26,6 +26,13 @@
         <ng-template let-col let-stock="rowData" pTemplate="body">
           <span *ngFor="let score of stock['scores']">
             <span *ngIf="score['scoreType']['name'] == 'Magic Formula'">{{score['scoreValue'] | number}}</span>
+          </span>
+        </ng-template>
+      </p-column>
+      <p-column field="scores" header="Piotroski F-Score-Punktzahl">
+        <ng-template let-col let-stock="rowData" pTemplate="body">
+          <span *ngFor="let score of stock['scores']">
+            <span *ngIf="score['scoreType']['name'] == 'Piotroski F-Score'">{{score['scoreValue']}}</span>
           </span>
         </ng-template>
       </p-column>
