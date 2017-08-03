@@ -49,6 +49,13 @@ export class StockService {
     return this.http.get(link)
       .map(this.extractData);
   }
+  
+  getStockFromNormalizedValue(normalizedScoreId: number) {
+    let url = "http://localhost:8080/normalizedscores/" + normalizedScoreId + "/stock";
+    
+    return this.http.get(url)
+      .map(this.extractData);
+  }
 	
 	findByIsinOrName(query: string, size: number = 10) {
     let params = new URLSearchParams();
@@ -108,6 +115,19 @@ export class StockService {
 	return this.http.get(url, {search: params})
 	  .map(this.extractData);
 	}
+  
+  getNormalizedScores(levermannFactor: number, magicFormulaFactor: number, piotroskiFactor, rows: number = 10) {
+    let url = "http://localhost:8080/normalizedscores/search/getNormalizedScores";
+    let params = new URLSearchParams();
+    
+    params.set("levermannFactor", levermannFactor.toString());
+    params.set("magicFormulaFactor", magicFormulaFactor.toString());
+    params.set("piotroskiFactor", piotroskiFactor.toString());
+    params.set("rows", rows.toString());
+
+    return this.http.get(url, {search: params})
+      .map(this.extractData);
+  }
 
   extractData(resp: Response) {
 		return resp.json();

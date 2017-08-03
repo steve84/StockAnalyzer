@@ -14,7 +14,9 @@ import { DataTableModule,
 				 AutoCompleteModule,
 				 DropdownModule,
          InputTextModule,
-         MultiSelectModule } from 'primeng/primeng';
+         MultiSelectModule,
+         SliderModule,
+         MessagesModule } from 'primeng/primeng';
 
 import { ChartModule } from 'angular-highcharts';
 
@@ -33,6 +35,7 @@ import { IndexdetailComponent } from './indexdetail/indexdetail.component';
 import { StockcategoryPipe } from './stockcategory.pipe';
 import { StockquickfinderComponent } from './stockquickfinder/stockquickfinder.component';
 import { StocksearchComponent } from './stocksearch/stocksearch.component';
+import { ScorecombinerComponent } from './scorecombiner/scorecombiner.component';
 
 @NgModule({
   imports: [
@@ -50,6 +53,8 @@ import { StocksearchComponent } from './stocksearch/stocksearch.component';
     DropdownModule,
 		MultiSelectModule,
     InputTextModule,
+    SliderModule,
+    MessagesModule,
     SharedModule,
     ChartModule
   ],
@@ -62,6 +67,6 @@ import { StocksearchComponent } from './stocksearch/stocksearch.component';
     TechnicalDataService,
     IndexService
   ],
-  declarations: [StockComponent, FundamentalComponent, LevermannComponent, IndexComponent, IndexdetailComponent, StockcategoryPipe, StockquickfinderComponent, StocksearchComponent]
+  declarations: [StockComponent, FundamentalComponent, LevermannComponent, IndexComponent, IndexdetailComponent, StockcategoryPipe, StockquickfinderComponent, StocksearchComponent, ScorecombinerComponent]
 })
 export class StockModule { }

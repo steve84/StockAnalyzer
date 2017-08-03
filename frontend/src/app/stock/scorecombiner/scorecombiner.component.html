@@ -1,0 +1,63 @@
+<div class = "ui-g">
+<div class = "ui-g-12">
+<p-messages [(value)]="msgs"></p-messages>
+</div>
+</div>
+<div class = "ui-g">
+<div class = "ui-g-3">
+Levermann-Factor:
+</div>
+<div class = "ui-g-3">
+<input type="text" pInputText [(ngModel)]="levermannFactor" style="width:190px"/>
+</div>
+<div class = "ui-g-6">
+<p-slider [(ngModel)]="levermannFactor" [min]="0" [max]="100" (onChange)="handleChange($event)"></p-slider>
+</div>
+</div>
+<div class = "ui-g">
+<div class = "ui-g-3">
+Magic Formula-Factor:
+</div>
+<div class = "ui-g-3">
+<input type="text" pInputText [(ngModel)]="magicFormulaFactor" style="width:190px"/>
+</div>
+<div class = "ui-g-6">
+<p-slider [(ngModel)]="magicFormulaFactor" [min]="0" [max]="100" (onChange)="handleChange($event)"></p-slider>
+</div>
+</div>
+<div class = "ui-g">
+<div class = "ui-g-3">
+Piotroski F-Score-Factor:
+</div>
+<div class = "ui-g-3">
+<input type="text" pInputText [(ngModel)]="piotroskiFactor" style="width:190px"/>
+</div>
+<div class = "ui-g-6">
+<p-slider [(ngModel)]="piotroskiFactor" [min]="0" [max]="100" (onChange)="handleChange($event)"></p-slider>
+</div>
+</div>
+<div class = "ui-g">
+<div class = "ui-g-3">
+Anzahl Resultate:
+</div>
+<div class = "ui-g-9">
+<p-dropdown [options]="numRowValues" [(ngModel)]="numRows"></p-dropdown>
+</div>
+</div>
+<div class = "ui-g">
+<div class = "ui-g-12">
+<button type="button" pButton label="Suchen" (click)="getScoreValues()" [disabled]="!isValid()" icon="fa-search"></button>
+</div>
+</div>
+
+<p-dataTable [value]="scores" selectionMode="single" [(selection)]="selectedScore">
+  <p-column field="stock.isin" header="ISIN"></p-column>
+  <p-column field="stock.name" header="Aktie"></p-column>
+  <p-column field="stock.branch.name" header="Branche"></p-column>
+  <p-column field="stock.country.name" header="Land"></p-column>
+  <p-column field="scoreValue" header="Wert">
+    <ng-template let-col let-score="rowData" pTemplate="body">
+      {{score[col.field] * 100 | number}}
+    </ng-template>
+  </p-column>
+</p-dataTable>
