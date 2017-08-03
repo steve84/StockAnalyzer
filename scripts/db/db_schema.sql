@@ -636,6 +636,49 @@ CREATE OR REPLACE VIEW public.vpiotroski AS
 ALTER TABLE public.vpiotroski
   OWNER TO postgres; 
 
+-- View: public.vscore_normalized
+
+-- DROP VIEW public.vscore_normalized;
+
+CREATE OR REPLACE VIEW public.vscore_normalized AS 
+ SELECT s.score_id,
+    s.score_type_id,
+    s.stock_id,
+    s.index_id,
+        CASE
+            WHEN s.stock_id IS NOT NULL THEN (s.score_value - nss.min_value) / (nss.max_value - nss.min_value)
+            ELSE (s.score_value - nsi.min_value) / (nsi.max_value - nsi.min_value)
+        END AS score_value,
+    s.modified_at
+   FROM tscore s
+     LEFT JOIN ( SELECT t.score_type_id,
+            min(t.score_value) AS min_value,
+            max(t.score_value) AS max_value
+           FROM ( SELECT tscore.score_id,
+                    tscore.score_type_id,
+                    tscore.stock_id,
+                    tscore.index_id,
+                    tscore.score_value,
+                    tscore.modified_at
+                   FROM tscore
+                  WHERE tscore.stock_id IS NOT NULL) t
+          GROUP BY t.score_type_id) nss ON nss.score_type_id = s.score_type_id AND s.stock_id IS NOT NULL
+     LEFT JOIN ( SELECT t.score_type_id,
+            min(t.score_value) AS min_value,
+            max(t.score_value) AS max_value
+           FROM ( SELECT tscore.score_id,
+                    tscore.score_type_id,
+                    tscore.stock_id,
+                    tscore.index_id,
+                    tscore.score_value,
+                    tscore.modified_at
+                   FROM tscore
+                  WHERE tscore.index_id IS NOT NULL) t
+          GROUP BY t.score_type_id) nsi ON nsi.score_type_id = s.score_type_id AND s.index_id IS NOT NULL;
+
+ALTER TABLE public.vscore_normalized
+  OWNER TO postgres;
+
 --
 -- TOC entry 2130 (class 0 OID 0)
 -- Dependencies: 7

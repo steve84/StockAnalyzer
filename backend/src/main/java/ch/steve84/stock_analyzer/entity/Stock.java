@@ -46,7 +46,10 @@ public class Stock {
     private TechnicalData technicalData;
     @OneToMany
     @JoinColumn(name = "stock_id")
-    private List<Score> scores; 
+    private List<Score> scores;
+    @OneToMany
+    @JoinColumn(name = "stock_id")
+    private List<NormalizedScore> normalizedScores;
     @Transient
     private Integer levermannScore;
     @Transient
@@ -186,6 +189,14 @@ public class Stock {
 
 	public void setScores(List<Score> scores) {
 		this.scores = scores;
+	}
+
+	public List<NormalizedScore> getNormalizedScores() {
+		return normalizedScores;
+	}
+
+	public void setNormalizedScores(List<NormalizedScore> normalizedScores) {
+		this.normalizedScores = normalizedScores;
 	}
 
 	public void setLevermannScore(Integer levermannScore) {

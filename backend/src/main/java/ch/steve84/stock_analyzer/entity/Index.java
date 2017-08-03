@@ -31,7 +31,10 @@ public class Index {
 	private List<StockIndex> stocks;
     @OneToMany
     @JoinColumn(name = "index_id")
-    private List<Score> scores; 
+    private List<Score> scores;
+    @OneToMany
+    @JoinColumn(name = "index_id")
+    private List<NormalizedScore> normalizedScores; 
 	@Transient
 	private List<Stock> realStocks = new ArrayList<>();
 
@@ -79,6 +82,14 @@ public class Index {
 
 	public void setScores(List<Score> scores) {
 		this.scores = scores;
+	}
+
+	public List<NormalizedScore> getNormalizedScores() {
+		return normalizedScores;
+	}
+
+	public void setNormalizedScores(List<NormalizedScore> normalizedScores) {
+		this.normalizedScores = normalizedScores;
 	}
 
 	public List<Stock> getRealStocks() {
