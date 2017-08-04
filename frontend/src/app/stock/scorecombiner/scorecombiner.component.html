@@ -45,11 +45,21 @@ Anzahl Resultate:
 </div>
 </div>
 <div class = "ui-g">
+<div class = "ui-g-3">
+Resultat-Typ:
+</div>
+<div class = "ui-g-9">
+<p-selectButton [options]="stockOrIndexItem" [(ngModel)]="stockOrIndex" (onChange)="handleSelectChange($event)"></p-selectButton>
+</div>
+</div>
+<div class = "ui-g">
 <div class = "ui-g-12">
 <button type="button" pButton label="Suchen" (click)="getScoreValues()" [disabled]="!isValid()" icon="fa-search"></button>
 </div>
 </div>
 
+<div *ngIf="stockOrIndex == 'stock'" class = "ui-g">
+<div class = "ui-g-12">
 <p-dataTable [value]="scores" selectionMode="single" [(selection)]="selectedScore">
   <p-column field="stock.isin" header="ISIN"></p-column>
   <p-column field="stock.name" header="Aktie"></p-column>
@@ -61,3 +71,20 @@ Anzahl Resultate:
     </ng-template>
   </p-column>
 </p-dataTable>
+</div>
+</div>
+
+<div *ngIf="stockOrIndex == 'index'" class = "ui-g">
+<div class = "ui-g-12">
+<p-dataTable [value]="scores" selectionMode="single" [(selection)]="selectedScore">
+  <p-column field="index.name" header="Name"></p-column>
+  <p-column field="index.country.name" header="Land"></p-column>
+  <p-column field="index.realStocks.length" header="Anzahl Aktien"></p-column>
+  <p-column field="scoreValue" header="Wert">
+    <ng-template let-col let-score="rowData" pTemplate="body">
+      {{score[col.field] * 100 | number}}
+    </ng-template>
+  </p-column>
+</p-dataTable>
+</div>
+</div>

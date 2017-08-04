@@ -47,6 +47,13 @@ export class IndexService {
     return this.http.get(link)
       .map(this.extractData);
   }
+
+  getIndexFromNormalizedValue(normalizedScoreId: number) {
+    let url = "http://localhost:8080/normalizedscores/" + normalizedScoreId + "/index";
+    
+    return this.http.get(url)
+      .map(this.extractData);
+  }
 	
 	getAllIndices() {
 	  let url = "http://localhost:8080/indices/search/getAllIndices";
@@ -54,6 +61,19 @@ export class IndexService {
     return this.http.get(url)
       .map(this.extractData);
 	}
+
+  getNormalizedScores(levermannFactor: number, magicFormulaFactor: number, piotroskiFactor, rows: number = 10) {
+    let url = "http://localhost:8080/normalizedscores/search/getNormalizedScoresOfIndices";
+    let params = new URLSearchParams();
+    
+    params.set("levermannFactor", levermannFactor.toString());
+    params.set("magicFormulaFactor", magicFormulaFactor.toString());
+    params.set("piotroskiFactor", piotroskiFactor.toString());
+    params.set("rows", rows.toString());
+
+    return this.http.get(url, {search: params})
+      .map(this.extractData);
+  }
 
   extractData(resp: Response) {
     return resp.json();

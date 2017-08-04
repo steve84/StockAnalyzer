@@ -22,8 +22,21 @@ public interface NormalizedScoreRepository extends JpaRepository<NormalizedScore
 			+ "order by a.score_value desc "
 			+ "limit :rows",
 		   nativeQuery = true)
-	List<NormalizedScore> getNormalizedScores(@Param("levermannFactor") Float levermannFactor,
-			                                  @Param("magicFormulaFactor") Float magicFormulaFactor,
-			                                  @Param("piotroskiFactor") Float piotroskiFactor,
-			                                  @Param("rows") Integer rows);
+	List<NormalizedScore> getNormalizedScoresOfStocks(@Param("levermannFactor") Float levermannFactor,
+			                                          @Param("magicFormulaFactor") Float magicFormulaFactor,
+			                                          @Param("piotroskiFactor") Float piotroskiFactor,
+			                                          @Param("rows") Integer rows);
+
+	@Query(value = "select sn.score_id, null as score_type_id, null as stock_id, sn.index_id, a.score_value, null as modified_at from vscore_normalized sn "
+			+ "left join (select sn1.index_id, sum(case when score_type_id = 1 then :levermannFactor * score_value when score_type_id = 2 then :magicFormulaFactor * score_value else :piotroskiFactor * score_value end) as score_value "
+			+ "from vscore_normalized sn1 "
+			+ "group by sn1.index_id) a on a.index_id = sn.index_id "
+			+ "where sn.score_type_id = 1 and a.score_value is not null "
+			+ "order by a.score_value desc "
+			+ "limit :rows",
+		   nativeQuery = true)
+	List<NormalizedScore> getNormalizedScoresOfIndices(@Param("levermannFactor") Float levermannFactor,
+			                                          @Param("magicFormulaFactor") Float magicFormulaFactor,
+			                                          @Param("piotroskiFactor") Float piotroskiFactor,
+			                                          @Param("rows") Integer rows);
 }

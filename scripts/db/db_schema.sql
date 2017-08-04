@@ -558,7 +558,7 @@ ALTER TABLE public.vlevermann
 CREATE OR REPLACE VIEW public.vmagicformula AS 
  SELECT s.stock_id,
    af2.roi_equity as return_on_capital,
-   1 / df.price_earnings_ratio as earnings_yield,
+   case when df.price_earnings_ratio > 0 then 1::numeric / df.price_earnings_ratio else null end AS earnings_yield,
    af2.market_capitalization
    FROM tstock s
 	 LEFT JOIN tdailyfundamental df on s.stock_id = df.stock_id

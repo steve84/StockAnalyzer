@@ -16,7 +16,8 @@ import { DataTableModule,
          InputTextModule,
          MultiSelectModule,
          SliderModule,
-         MessagesModule } from 'primeng/primeng';
+         MessagesModule,
+         SelectButtonModule } from 'primeng/primeng';
 
 import { ChartModule } from 'angular-highcharts';
 
@@ -55,6 +56,7 @@ import { ScorecombinerComponent } from './scorecombiner/scorecombiner.component'
     InputTextModule,
     SliderModule,
     MessagesModule,
+    SelectButtonModule,
     SharedModule,
     ChartModule
   ],

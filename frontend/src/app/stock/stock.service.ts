@@ -117,7 +117,7 @@ export class StockService {
 	}
   
   getNormalizedScores(levermannFactor: number, magicFormulaFactor: number, piotroskiFactor, rows: number = 10) {
-    let url = "http://localhost:8080/normalizedscores/search/getNormalizedScores";
+    let url = "http://localhost:8080/normalizedscores/search/getNormalizedScoresOfStocks";
     let params = new URLSearchParams();
     
     params.set("levermannFactor", levermannFactor.toString());
