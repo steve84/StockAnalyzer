@@ -57,7 +57,8 @@ export class StockTableComponent implements OnInit {
 
   showFundamental(stock: Stock) {
     this.selectedStock = stock;
-    this.router.navigate(['/stocks', this.selectedStock.stockId]);
+    //this.router.navigate(['/stocks', this.selectedStock.stockId]);
+    this.stockService.getStockEmitter().emit(this.selectedStock);
   }
 
   closeFundamental(display: boolean) {

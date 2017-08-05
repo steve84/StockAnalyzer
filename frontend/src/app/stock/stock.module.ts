@@ -62,7 +62,9 @@ import { ScorecombinerComponent } from './scorecombiner/scorecombiner.component'
   ],
   exports: [
     StockTableComponent,
-    StockquickfinderComponent
+    StockquickfinderComponent,
+    FundamentalComponent,
+    IndexdetailComponent
   ],
   providers: [
     StockService,

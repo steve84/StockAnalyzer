@@ -1,11 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Response, URLSearchParams } from '@angular/http';
+
+import { IndexType } from './indextype';
 
 import 'rxjs/add/operator/map';
 
 @Injectable()
 export class IndexService {
-
+  private indexEmitter: EventEmitter<IndexType> = new EventEmitter<IndexType>();
   constructor(private http: Http) { }
 
   getIndices(page: number, size: number, sortField?: string, sortOrder?: number) {
@@ -73,6 +75,10 @@ export class IndexService {
 
     return this.http.get(url, {search: params})
       .map(this.extractData);
+  }
+  
+  getIndexEmitter() {
+    return this.indexEmitter;
   }
 
   extractData(resp: Response) {

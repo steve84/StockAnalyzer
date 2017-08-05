@@ -1,5 +1,7 @@
 import { Component, OnInit, OnChanges, SimpleChanges, EventEmitter, Input, Output } from '@angular/core';
 
+import { IndexService } from '../index.service';
+
 import { IndexType } from '../indextype';
 
 @Component({
@@ -14,16 +16,19 @@ export class IndexdetailComponent implements OnInit, OnChanges {
   private title: string;
 	private totalMarketCap: number = 0;
 
-  constructor() { }
+  constructor(private indexService: IndexService) { }
 
   ngOnInit() {
+    this.indexService.getIndexEmitter()
+      .subscribe((data:IndexType) => {
+        this.index = data;
+        this.title = data.name;
+        this.setTotalMarketCap();
+        this.display = true;
+      });
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.index && changes.index.currentValue) {
-      this.title = changes.index.currentValue.name;
-			this.setTotalMarketCap();
-    }
   }
 	
 	setTotalMarketCap() {

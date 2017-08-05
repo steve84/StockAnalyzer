@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Response, URLSearchParams } from '@angular/http';
 
 import 'rxjs/add/operator/map';
@@ -7,7 +7,7 @@ import { Stock } from './stock';
 
 @Injectable()
 export class StockService {
-
+  private stockEmitter: EventEmitter<Stock> = new EventEmitter<Stock>();
   constructor(private http: Http) { }
 
   getStocks(page: number, size: number, sortField?: string, sortOrder?: number) {
@@ -131,6 +131,10 @@ export class StockService {
 
   extractData(resp: Response) {
 		return resp.json();
+  }
+  
+  getStockEmitter() {
+    return this.stockEmitter;
   }
 
 }

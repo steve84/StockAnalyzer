@@ -29,7 +29,7 @@ export class StockquickfinderComponent implements OnInit {
 	
 	selectStock(stock: Stock) {
 	  this.onStockSelect.emit(stock);
-    this.router.navigate(['/stocks', stock.stockId]);
+    this.stockService.getStockEmitter().emit(stock);
 	}
 
 }

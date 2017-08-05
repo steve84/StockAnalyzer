@@ -56,11 +56,6 @@ export class IndexComponent implements OnInit {
 
   showIndexDetail(index: IndexType) {
     this.selectedIndex = index;
-    this.display = true;
+    this.indexService.getIndexEmitter().emit(index);
   }
-
-  closeIndexDetail(display: boolean) {
-    this.display = display;
-  }
-
 }

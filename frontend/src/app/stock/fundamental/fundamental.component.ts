@@ -59,6 +59,15 @@ export class FundamentalComponent implements OnInit, OnChanges {
           }
         }
       });
+    this.stockService.getStockEmitter()
+      .subscribe((data:Stock) => {
+        this.stock = data;
+        this.getFundamentals();
+        this.getTechnicalData();
+        this.getHistoricalData();
+        this.getIndexNames();
+        this.display = true;
+      });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -114,7 +123,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
     if (this.display) {
       this.display = false;
       this.close.emit(false);
-      this.location.back();
+      //this.location.back();
     }
   }
 
