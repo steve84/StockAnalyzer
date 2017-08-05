@@ -28,7 +28,7 @@ import { IndexService } from './index.service';
 
 import { stockRoutes } from './stock.routes';
 
-import { StockComponent } from './stock/stock.component';
+import { StockTableComponent } from './stocktable/stocktable.component';
 import { FundamentalComponent } from './fundamental/fundamental.component';
 import { LevermannComponent } from './levermann/levermann.component';
 import { IndexComponent } from './index/index.component';
@@ -61,7 +61,8 @@ import { ScorecombinerComponent } from './scorecombiner/scorecombiner.component'
     ChartModule
   ],
   exports: [
-    StockComponent
+    StockTableComponent,
+    StockquickfinderComponent
   ],
   providers: [
     StockService,
@@ -69,6 +70,6 @@ import { ScorecombinerComponent } from './scorecombiner/scorecombiner.component'
     TechnicalDataService,
     IndexService
   ],
-  declarations: [StockComponent, FundamentalComponent, LevermannComponent, IndexComponent, IndexdetailComponent, StockcategoryPipe, StockquickfinderComponent, StocksearchComponent, ScorecombinerComponent]
+  declarations: [StockTableComponent, FundamentalComponent, LevermannComponent, IndexComponent, IndexdetailComponent, StockcategoryPipe, StockquickfinderComponent, StocksearchComponent, ScorecombinerComponent]
 })
 export class StockModule { }

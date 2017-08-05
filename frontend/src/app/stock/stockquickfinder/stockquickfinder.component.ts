@@ -1,4 +1,5 @@
 import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { StockService } from '../stock.service';
 
@@ -14,7 +15,7 @@ export class StockquickfinderComponent implements OnInit {
 	private stock: Stock;
 	private suggestedStocks: Stock[];
 
-  constructor(private stockService: StockService) { }
+  constructor(private stockService: StockService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -28,6 +29,7 @@ export class StockquickfinderComponent implements OnInit {
 	
 	selectStock(stock: Stock) {
 	  this.onStockSelect.emit(stock);
+    this.router.navigate(['/stocks', stock.stockId]);
 	}
 
 }

@@ -1,6 +1,3 @@
-<app-stockquickfinder></app-stockquickfinder>
-<app-stocksearch></app-stocksearch>
-<app-scorecombiner></app-scorecombiner>
 <p-dataTable [value]="stocks" selectionMode="single" [(selection)]="selectedStock" [paginator]="true" [lazy]="true" [rows]="pageSize" (onLazyLoad)="loadData($event)" [totalRecords]="totalRecords" sortField="scoreLevermann" sortOrder="-1">
     <p-column field="isin" header="ISIN" [sortable]="true"></p-column>
     <p-column field="name" header="Name" [sortable]="true"></p-column>
@@ -39,5 +36,3 @@
       </ng-template>
     </p-column>
 </p-dataTable>
-
-<app-fundamental [display]="display" [stock]="selectedStock" (close)="closeFundamental($event)"></app-fundamental>

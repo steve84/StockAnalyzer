@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { StockService} from '../stock.service';
 import { IndexService} from '../index.service';
@@ -8,18 +9,20 @@ import { IndexType } from '../indextype';
 import { StockIndexImpl } from '../stockindex';
 
 @Component({
-  selector: 'app-stock',
-  templateUrl: './stock.component.html',
-  styleUrls: ['./stock.component.css']
+  selector: 'app-stocktable',
+  templateUrl: './stocktable.component.html',
+  styleUrls: ['./stocktable.component.css']
 })
-export class StockComponent implements OnInit {
+export class StockTableComponent implements OnInit {
   stocks: Stock[] = [];
   private selectedStock: Stock = null;
   private display: boolean = false;
   private totalRecords: number = 0;
   private pageSize: number = 10;
 
-  constructor(private stockService: StockService, private indexService: IndexService) {}
+  constructor(private stockService: StockService,
+              private indexService: IndexService,
+              private router: Router) {}
 
   loadData(event: any) {
     this.getStocks(Math.floor(event.first / event.rows), event.sortField, event.sortOrder);
@@ -54,7 +57,7 @@ export class StockComponent implements OnInit {
 
   showFundamental(stock: Stock) {
     this.selectedStock = stock;
-    this.display = true;
+    this.router.navigate(['/stocks', this.selectedStock.stockId]);
   }
 
   closeFundamental(display: boolean) {

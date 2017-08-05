@@ -25,7 +25,7 @@
     "core-js": "^2.4.1",
     "font-awesome": "^4.7.0",
     "highcharts": "^5.0.12",
-    "primeng": "^4.0.1",
+    "primeng": "^4.1.0",
     "rxjs": "^5.1.0",
     "zone.js": "^0.8.4"
   },

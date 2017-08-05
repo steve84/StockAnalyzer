@@ -1,4 +1,6 @@
 import { Component, OnInit, OnChanges, SimpleChanges, EventEmitter, Input, Output } from '@angular/core';
+import { ActivatedRoute, ParamMap } from '@angular/router';
+import { Location } from '@angular/common';
 
 import { Chart } from 'angular-highcharts';
 
@@ -10,6 +12,8 @@ import { Stock } from '../stock';
 import { DailyFundamental } from '../dailyfundamental';
 import { AnnualFundamental } from '../annualfundamental';
 import { TechnicalData } from '../technicaldata';
+
+import 'rxjs/add/operator/switchMap';
 
 @Component({
   selector: 'app-fundamental',
@@ -31,11 +35,30 @@ export class FundamentalComponent implements OnInit, OnChanges {
 
   constructor(private stockService: StockService,
               private fundamentalService: FundamentalService,
-              private technicalDataService: TechnicalDataService) {
+              private technicalDataService: TechnicalDataService,
+              private route: ActivatedRoute,
+              private location: Location) {
     this.title = "Fundamental data";
   }
 
   ngOnInit() {
+     this.route.params
+      .subscribe((params:any) => {
+        if (Object.keys(params).indexOf('id') > -1) {
+          let id = +params['id'];
+          if (!isNaN(id)) {
+            this.stockService.getStockById(id)
+              .subscribe((data:Stock) => {
+                this.stock = data;
+                this.getFundamentals();
+                this.getTechnicalData();
+                this.getHistoricalData();
+                this.getIndexNames();
+                this.display = true;
+              });
+          }
+        }
+      });
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -88,8 +111,11 @@ export class FundamentalComponent implements OnInit, OnChanges {
   }
 
   closeDisplay() {
-    this.display = false;
-    this.close.emit(false);
+    if (this.display) {
+      this.display = false;
+      this.close.emit(false);
+      this.location.back();
+    }
   }
 
 }

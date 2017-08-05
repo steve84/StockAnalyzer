@@ -4,25 +4,31 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
+import { MenubarModule } from 'primeng/primeng';
+
 import { StockModule } from './stock/stock.module';
 
 import { appRoutes } from './app.routes';
 
 import { AppComponent } from './app.component';
-import { StockComponent } from './stock/stock/stock.component';
+import { StockTableComponent } from './stock/stocktable/stocktable.component';
+import { StockquickfinderComponent } from './stock/stockquickfinder/stockquickfinder.component';
+import { MenubarComponent } from './menubar/menubar.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MenubarComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
     BrowserModule,
     FormsModule,
     HttpModule,
+    MenubarModule,
     StockModule
   ],
-  providers: [StockComponent],
+  providers: [StockTableComponent, StockquickfinderComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
