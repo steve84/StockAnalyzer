@@ -1,8 +1,28 @@
 import requests
 import urllib.parse
 import json
-import quandl
+import argparse
 
+from bs4 import BeautifulSoup
+import quandl
+import psycopg2
+
+# Argument parser
+parser = argparse.ArgumentParser(description='Load stock definitions to data tables.')
+parser.add_argument('-n', dest='maxItems', type=int, help='number of stocks to load')
+parser.add_argument('-u', dest='db_user', help='user name of the database')
+parser.add_argument('-p', dest='db_pwd', help='database password')
+parser.add_argument('-d', dest='db_name', help='database name')
+parser.add_argument('--host', dest='db_host', help='database name')
+
+maxItems = parser.parse_args().maxItems
+db_user = parser.parse_args().db_user
+db_pwd = parser.parse_args().db_pwd
+db_name = parser.parse_args().db_name
+db_host = parser.parse_args().db_host
+
+conn = psycopg2.connect("dbname=%s user=%s host=%s" % (db_name, db_user, db_host))
+cur = conn.cursor()
 
 totalHits = -1
 page = 1
@@ -31,11 +51,72 @@ while page <= totalPages:
         
         page = json_response['meta']['next_page']
         
-        datasets = json_response['datasets']
+        stocks = json_response['datasets']
         
-        for dataset in datasets:
-            if not dataset['premium']:
-                import pdb; pdb.set_trace()
+        for stock in stocks:
+            if stock['frequency'] == 'annual':
+                description_html = BeautifulSoup(stock['description'], 'html.parser')
+                description_html_parts = description_html.findAll('p')
+                for part in description_html_parts:
+                    if part.find('b') is None:
+                        name_parts = part[0].text.split('for ')
+                        if len(name_parts) == 2:
+                            stock['name'] = name_parts[1].strip()
+                    else:
+                        if part.find('b').text.find('Country') > -1:
+                            stock['country'] = part.text.replace('Country:', '').strip()
+                        if part.find('b').text.find('ISIN') > -1:
+                            stock['isin'] = part.text.replace('ISIN:', '').strip()
+                        if part.find('b').text.find('YF Ticker') > -1:
+                            stock['symbol'] = part.text.replace('YF Ticker:', '').strip()
+                        if part.find('b').text.find('Sector:') > -1:
+                            stock['branch'] = part.text.replace('Sector:', '').strip()
+                stock['business_year_end'] = stock['newest_available_data']
+                stock['country_id'] = None
+                stock['branch_id'] = None
+                isin = stock['url'].split('-Aktie-')
+                if len(isin) >= 2:
+                    stock['isin'] = isin[1]
+                    
+                # select
+                if not (noneStr(stock['country']) + noneStr(stock['countryCode'])) in existing_countries.keys():
+                    cur.execute("""SELECT * FROM tcountry WHERE name = %(country)s AND code = %(countryCode)s;""", stock)
+                    country = cur.fetchone()
+                    if not country:
+                        # insert
+                        cur.execute("""INSERT INTO tcountry (name, code) VALUES (%(country)s, %(countryCode)s) RETURNING country_id;""", stock)
+                        stock['country_id'] = cur.fetchone()[0]
+                        totalInserted['countries'] += 1
+                    else:
+                        stock['country_id'] = country[0]
+                    if stock['country'] and stock['countryCode']:
+                        existing_countries[(noneStr(stock['country']) + noneStr(stock['countryCode']))] = stock['country_id']
+                else:
+                    stock['country_id'] = existing_countries[(noneStr(stock['country']) + noneStr(stock['countryCode']))]
+
+                # select
+                if not noneStr(stock['branch']) in existing_branches.keys():
+                    cur.execute("""SELECT * FROM tbranch WHERE name = %(branch)s;""", stock)
+                    branch = cur.fetchone()
+                    if not branch:
+                        # insert
+                        cur.execute("""INSERT INTO tbranch (name) VALUES (%(branch)s) RETURNING branch_id;""", stock)
+                        stock['branch_id'] = cur.fetchone()[0]
+                        totalInserted['branches'] += 1
+                    else:
+                        stock['branch_id'] = branch[0]
+                    if stock['branch']:
+                        existing_branches[noneStr(stock['branch'])] = stock['branch_id']
+                else:
+                    stock['branch_id'] = existing_branches[noneStr(stock['branch'])]
+
+                # select
+                cur.execute("""SELECT * FROM tstock WHERE isin = %(isin)s;""", stock)
+                if cur.rowcount == 0:
+                    # insert
+                    cur.execute("""INSERT INTO tstock (name, nsin, isin, url, branch_id, country_id) VALUES (%(name)s, %(nsin)s, %(isin)s, %(url)s, %(branch_id)s, %(country_id)s);""", stock)
+                    totalInserted['stocks'] += 1
+                    totalProcessed += 1
     
     else:
         break
