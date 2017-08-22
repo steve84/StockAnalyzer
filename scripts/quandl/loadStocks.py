@@ -2,6 +2,7 @@ import requests
 import urllib.parse
 import json
 import argparse
+from datetime import datetime
 
 from bs4 import BeautifulSoup
 import quandl
@@ -64,11 +65,12 @@ while page <= totalPages:
         
         for stock in stocks:
             if stock['frequency'] == 'annual':
+                print(stock['description'])
                 description_html = BeautifulSoup(stock['description'], 'html.parser')
                 description_html_parts = description_html.findAll('p')
                 for part in description_html_parts:
                     if part.find('b') is None:
-                        name_parts = part[0].text.split('for ')
+                        name_parts = part.text.split('for ')
                         if len(name_parts) == 2:
                             stock['name'] = name_parts[1].strip()
                     else:
@@ -84,8 +86,12 @@ while page <= totalPages:
                             stock['branch_group'] = part.text.replace('Sector Group:', '').strip()
                         if part.find('b').text.find('Reference Currency') > -1:
                             stock['currency'] = part.text.replace('Reference Currency:', '').strip()
-                newest_date = datetime.strptime(stock['newest_available_data'], '%Y-%m-%d')
-                stock['business_year_end'] = newest_date.strftime('%d.%m.')
+
+                if 'newest_available_date' in stock.keys() and stock['newest_available_date'] is not None:
+                    newest_date = datetime.strptime(stock['newest_available_date'], '%Y-%m-%d')
+                    stock['business_year_end'] = newest_date.strftime('%d.%m.')
+                else:
+                    stock['business_year_end'] = 'n.a.'
                 stock['quandl_rb1_id'] = int(stock['dataset_code'].split('_')[0])
                 stock['country_id'] = None
                 stock['branch_id'] = None
@@ -107,7 +113,7 @@ while page <= totalPages:
                     stock['country_id'] = existing_countries[noneStr(stock['country'])]
 
                 # select
-                if not noneStr(stock['branch']) in existing_branches.keys():
+                if not (noneStr(stock['branch']) + noneStr(stock['branch_group']))  in existing_branches.keys():
                     cur.execute("""SELECT * FROM tbranch WHERE name = %(branch)s;""", stock)
                     branch = cur.fetchone()
                     if not branch:
@@ -118,15 +124,15 @@ while page <= totalPages:
                     else:
                         stock['branch_id'] = branch[0]
                     if stock['branch']:
-                        existing_branches[noneStr(stock['branch'])] = stock['branch_id']
+                        existing_branches[noneStr(stock['branch']) + noneStr(stock['branch_group'])] = stock['branch_id']
                 else:
-                    stock['branch_id'] = existing_branches[noneStr(stock['branch'])]
+                    stock['branch_id'] = existing_branches[noneStr(stock['branch']) + noneStr(stock['branch_group'])]
 
                 # select
                 cur.execute("""SELECT * FROM tstock WHERE isin = %(isin)s;""", stock)
                 if cur.rowcount == 0:
                     # insert
-                    cur.execute("""INSERT INTO tstock (name, symbol, isin, business_year_end, branch_id, country_id, currency, quandl_rb1_id) VALUES (%(name)s, %(symbol)s, %(isin)s, %(business_year_end)s, %(branch_id)s, %(country_id)s, %(currency)s, %(quandl_rb1_id)s);""", stock)
+                    cur.execute("""INSERT INTO tstock (name, isin, business_year_end, branch_id, country_id, currency, quandl_rb1_id) VALUES (%(name)s, %(isin)s, %(business_year_end)s, %(branch_id)s, %(country_id)s, %(currency)s, %(quandl_rb1_id)s);""", stock)
                     totalInserted['stocks'] += 1
                     totalProcessed += 1
 
