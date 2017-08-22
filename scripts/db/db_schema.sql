@@ -165,7 +165,8 @@ SET default_with_oids = false;
 
 CREATE TABLE tbranch (
     branch_id integer DEFAULT nextval('branch_seq'::regclass) NOT NULL,
-    name character varying
+    name character varying,
+    branch_group character varying
 );
 
 
@@ -194,13 +195,15 @@ CREATE TABLE tstock (
     stock_id integer DEFAULT nextval('stock_seq'::regclass) NOT NULL,
 	name character varying,
     nsin character varying,
-    isin character varying,
+    isin character varying NOT NULL,
     wkn character varying,
     symbol character varying,
     url character varying,
 	business_year_end character varying,
     country_id integer,
-    branch_id integer
+    branch_id integer,
+    currency character varying,
+    quandl_rb1_id integer NOT NULL
 );
 
 

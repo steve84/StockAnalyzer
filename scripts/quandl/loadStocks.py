@@ -33,6 +33,15 @@ baseUrl = 'https://www.quandl.com/api/v3/datasets.json'
 databaseCode = 'RB1'
 apiKey = 'c-7-dq_SdcLs_6me4Azt'
 
+# Program logic
+noneStr = lambda s: '' if s is None else str(s)
+
+totalProcessed = 0
+totalInserted = {'countries': 0, 'branches': 0, 'stocks': 0}
+
+existing_countries = dict()
+existing_branches = dict()
+
 while page <= totalPages:
     query_params = dict()
     query_params['database_code'] = databaseCode
@@ -71,28 +80,31 @@ while page <= totalPages:
                             stock['symbol'] = part.text.replace('YF Ticker:', '').strip()
                         if part.find('b').text.find('Sector:') > -1:
                             stock['branch'] = part.text.replace('Sector:', '').strip()
-                stock['business_year_end'] = stock['newest_available_data']
+                        if part.find('b').text.find('Sector Group:') > -1:
+                            stock['branch_group'] = part.text.replace('Sector Group:', '').strip()
+                        if part.find('b').text.find('Reference Currency') > -1:
+                            stock['currency'] = part.text.replace('Reference Currency:', '').strip()
+                newest_date = datetime.strptime(stock['newest_available_data'], '%Y-%m-%d')
+                stock['business_year_end'] = newest_date.strftime('%d.%m.')
+                stock['quandl_rb1_id'] = int(stock['dataset_code'].split('_')[0])
                 stock['country_id'] = None
                 stock['branch_id'] = None
-                isin = stock['url'].split('-Aktie-')
-                if len(isin) >= 2:
-                    stock['isin'] = isin[1]
                     
                 # select
-                if not (noneStr(stock['country']) + noneStr(stock['countryCode'])) in existing_countries.keys():
-                    cur.execute("""SELECT * FROM tcountry WHERE name = %(country)s AND code = %(countryCode)s;""", stock)
+                if not noneStr(stock['country']) in existing_countries.keys():
+                    cur.execute("""SELECT * FROM tcountry WHERE name = %(country)s;""", stock)
                     country = cur.fetchone()
                     if not country:
                         # insert
-                        cur.execute("""INSERT INTO tcountry (name, code) VALUES (%(country)s, %(countryCode)s) RETURNING country_id;""", stock)
+                        cur.execute("""INSERT INTO tcountry (name) VALUES (%(country)s) RETURNING country_id;""", stock)
                         stock['country_id'] = cur.fetchone()[0]
                         totalInserted['countries'] += 1
                     else:
                         stock['country_id'] = country[0]
-                    if stock['country'] and stock['countryCode']:
-                        existing_countries[(noneStr(stock['country']) + noneStr(stock['countryCode']))] = stock['country_id']
+                    if stock['country']:
+                        existing_countries[noneStr(stock['country'])] = stock['country_id']
                 else:
-                    stock['country_id'] = existing_countries[(noneStr(stock['country']) + noneStr(stock['countryCode']))]
+                    stock['country_id'] = existing_countries[noneStr(stock['country'])]
 
                 # select
                 if not noneStr(stock['branch']) in existing_branches.keys():
@@ -100,7 +112,7 @@ while page <= totalPages:
                     branch = cur.fetchone()
                     if not branch:
                         # insert
-                        cur.execute("""INSERT INTO tbranch (name) VALUES (%(branch)s) RETURNING branch_id;""", stock)
+                        cur.execute("""INSERT INTO tbranch (name, branch_group) VALUES (%(branch)s, %(branch_group)s) RETURNING branch_id;""", stock)
                         stock['branch_id'] = cur.fetchone()[0]
                         totalInserted['branches'] += 1
                     else:
@@ -114,9 +126,23 @@ while page <= totalPages:
                 cur.execute("""SELECT * FROM tstock WHERE isin = %(isin)s;""", stock)
                 if cur.rowcount == 0:
                     # insert
-                    cur.execute("""INSERT INTO tstock (name, nsin, isin, url, branch_id, country_id) VALUES (%(name)s, %(nsin)s, %(isin)s, %(url)s, %(branch_id)s, %(country_id)s);""", stock)
+                    cur.execute("""INSERT INTO tstock (name, symbol, isin, business_year_end, branch_id, country_id, currency, quandl_rb1_id) VALUES (%(name)s, %(symbol)s, %(isin)s, %(business_year_end)s, %(branch_id)s, %(country_id)s, %(currency)s, %(quandl_rb1_id)s);""", stock)
                     totalInserted['stocks'] += 1
                     totalProcessed += 1
+
+            if maxItems and totalProcessed >= maxItems:
+                break
+        if maxItems and totalProcessed >= maxItems:
+            break
     
     else:
         break
+
+
+conn.commit();
+conn.close();
+
+print('Totally processed: %s' % str(totalProcessed))
+print('Inserts to country table: %s' % str(totalInserted['countries']))
+print('Inserts to branch table: %s' % str(totalInserted['branches']))
+print('Inserts to stock table: %s' % str(totalInserted['stocks']))
