@@ -661,22 +661,22 @@ ALTER TABLE ONLY tscore
     ADD CONSTRAINT fscoreindex FOREIGN KEY (index_id) REFERENCES tindex(index_id);
 
 ALTER TABLE ONLY tincome
-	ADD CONSTRAINT fincomestock FOREIGN KEY (stock_id) REFERENCES tindex(stock_id);
+	ADD CONSTRAINT fincomestock FOREIGN KEY (stock_id) REFERENCES tstock(stock_id);
 
 ALTER TABLE ONLY tcashflow
-	ADD CONSTRAINT fcashflowstock FOREIGN KEY (stock_id) REFERENCES tindex(stock_id);
+	ADD CONSTRAINT fcashflowstock FOREIGN KEY (stock_id) REFERENCES tstock(stock_id);
 
 ALTER TABLE ONLY tbalance
-	ADD CONSTRAINT fbalancestock FOREIGN KEY (stock_id) REFERENCES tindex(stock_id);
+	ADD CONSTRAINT fbalancestock FOREIGN KEY (stock_id) REFERENCES tstock(stock_id);
 
 ALTER TABLE ONLY tsignals
-	ADD CONSTRAINT fsignalsstock FOREIGN KEY (stock_id) REFERENCES tindex(stock_id);
+	ADD CONSTRAINT fsignalsstock FOREIGN KEY (stock_id) REFERENCES tstock(stock_id);
 
 ALTER TABLE ONLY tvalues
-	ADD CONSTRAINT fvaluesstock FOREIGN KEY (stock_id) REFERENCES tindex(stock_id);
+	ADD CONSTRAINT fvaluesstock FOREIGN KEY (stock_id) REFERENCES tstock(stock_id);
 
 ALTER TABLE ONLY tforecast
-	ADD CONSTRAINT forecaststock FOREIGN KEY (stock_id) REFERENCES tindex(stock_id);
+	ADD CONSTRAINT forecaststock FOREIGN KEY (stock_id) REFERENCES tstock(stock_id);
 
 
 ALTER TABLE tbranch ADD CONSTRAINT ubranchname UNIQUE (name);
