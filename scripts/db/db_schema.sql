@@ -154,6 +154,72 @@ CREATE SEQUENCE score_seq
 ALTER TABLE score_seq OWNER TO postgres;
 
 
+CREATE SEQUENCE income_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE income_seq OWNER TO postgres;
+
+
+CREATE SEQUENCE cashflow_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE cashflow_seq OWNER TO postgres;
+
+
+CREATE SEQUENCE balance_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE balance_seq OWNER TO postgres;
+
+
+CREATE SEQUENCE signals_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE signals_seq OWNER TO postgres;
+
+
+CREATE SEQUENCE values_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE values_seq OWNER TO postgres;
+
+
+CREATE SEQUENCE forecast_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE forecast_seq OWNER TO postgres;
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -335,6 +401,120 @@ CREATE TABLE tscoretype (
 
 ALTER TABLE tscoretype OWNER TO postgres;
 
+
+CREATE TABLE tincome (
+    income_id integer DEFAULT nextval('income_seq'::regclass) NOT NULL,
+    stock_id integer,
+    revenue numeric,
+    operating_revenue numeric,
+    net_income_exc numeric,
+    net_income_inc numeric,
+    eps_exc numeric,
+    eps_inc numeric,
+    dividend numeric,
+    diluted_shares_os numeric,
+    historic_yield numeric,
+    share_price_eop numeric,
+    last_share_price numeric,
+    modified_at date
+);
+
+ALTER TABLE tincome OWNER TO postgres;
+
+
+CREATE TABLE tcashflow (
+    cashflow_id integer DEFAULT nextval('cashflow_seq'::regclass) NOT NULL,
+    stock_id integer,
+    cash_operations numeric,
+    depreciation numeric,
+    capex numeric,
+    cash_investing numeric,
+    issuance_of_stock numeric,
+    issuance_of_debt numeric,
+    cash_financing numeric,
+    start_cash numeric,
+    end_cash numeric,
+    modified_at date
+);
+
+ALTER TABLE tcashflow OWNER TO postgres;
+
+
+CREATE TABLE tbalance (
+    balance_id integer DEFAULT nextval('balance_seq'::regclass) NOT NULL,
+    stock_id integer,
+    current_assets numeric,
+    goodwill numeric,
+    intangibles numeric,
+    total_assets numeric,
+    current_liabilities numeric,
+    long_term_debt numeric,
+    total_liabilities numeric,
+    shareholder_equity numeric,
+    modified_at date
+);
+
+ALTER TABLE tbalance OWNER TO postgres;
+
+
+CREATE TABLE tsignals (
+    signals_id integer DEFAULT nextval('signals_seq'::regclass) NOT NULL,
+    stock_id integer,
+    current_ratio numeric,
+    buybacks numeric,
+    solvency numeric,
+    dividend_payout numeric,
+    operating_margin numeric,
+    net_inc_margin numeric,
+    roe numeric,
+    roae numeric,
+    rotc numeric,
+    lt_debt_op_income numeric,
+    modified_at date
+);
+
+ALTER TABLE tsignals OWNER TO postgres;
+
+
+
+CREATE TABLE tvalues (
+    values_id integer DEFAULT nextval('values_seq'::regclass) NOT NULL,
+    stock_id integer,
+    price_earnings_ratio numeric,
+    price_cashflow_ratio numeric,
+    price_book_ratio numeric,
+    peg_ratio numeric,
+    enterprice_ratio numeric,
+    price_52_wk numeric,
+    graham_multiplier numeric,
+    robur_score numeric,
+    current_yield numeric,
+    market_capitalization numeric,
+    modified_at date
+);
+
+ALTER TABLE tvalues OWNER TO postgres;
+
+
+CREATE TABLE tforecast (
+    forecast_id integer DEFAULT nextval('forecast_seq'::regclass) NOT NULL,
+    stock_id integer,
+    revenue numeric,
+    operating_income numeric,
+    net_income_exc numeric,
+    cash_operations numeric,
+    depreciation numeric,
+    capex numeric,
+    start_cash numeric,
+    end_cash numeric,
+    eps_exc numeric,
+    dividend numeric,
+    modified_at date
+);
+
+ALTER TABLE tforecast OWNER TO postgres;
+
+
 --
 -- TOC entry 2001 (class 2606 OID 16500)
 -- Name: pbranch; Type: CONSTRAINT; Schema: public; Owner: postgres
@@ -377,8 +557,27 @@ ALTER TABLE ONLY tscore
 	ADD CONSTRAINT pscore PRIMARY KEY (score_id);    
 
 ALTER TABLE ONLY tscoretype
-	ADD CONSTRAINT pscoretype PRIMARY KEY (score_type_id);    
-    
+	ADD CONSTRAINT pscoretype PRIMARY KEY (score_type_id);
+
+
+ALTER TABLE ONLY tincome
+	ADD CONSTRAINT pincome PRIMARY KEY (income_id);
+
+ALTER TABLE ONLY tcashflow
+	ADD CONSTRAINT pcashflow PRIMARY KEY (cashflow_id);
+
+ALTER TABLE ONLY tbalance
+	ADD CONSTRAINT pbalance PRIMARY KEY (balance_id);
+
+ALTER TABLE ONLY tsignals
+	ADD CONSTRAINT psignals PRIMARY KEY (signals_id);
+
+ALTER TABLE ONLY tvalues
+	ADD CONSTRAINT pvalues PRIMARY KEY (values_id);
+
+ALTER TABLE ONLY tforecast
+	ADD CONSTRAINT pforecast PRIMARY KEY (forecast_id);
+
 --
 -- TOC entry 2004 (class 1259 OID 16505)
 -- Name: fki_fbranch; Type: INDEX; Schema: public; Owner: postgres
@@ -409,6 +608,13 @@ CREATE INDEX fki_fstockindexindex ON tstockindex USING btree (index_id);
 CREATE INDEX fki_fscoretype ON tscore USING btree (score_type_id);
 CREATE INDEX fki_fscorestock ON tscore USING btree (stock_id);
 CREATE INDEX fki_fscoreindex ON tscore USING btree (index_id);
+
+CREATE INDEX fki_fincomestock ON tincome USING btree (stock_id);
+CREATE INDEX fki_fcashflowstock ON tcashflow USING btree (stock_id);
+CREATE INDEX fki_fbalancestock ON tbalance USING btree (stock_id);
+CREATE INDEX fki_fsignalsstock ON tsignals USING btree (stock_id);
+CREATE INDEX fki_fvaluesstock ON tvalues USING btree (stock_id);
+CREATE INDEX fki_fforecaststock ON tforecast USING btree (stock_id);
 
 --
 -- TOC entry 2008 (class 2606 OID 16507)
@@ -454,12 +660,32 @@ ALTER TABLE ONLY tscore
 ALTER TABLE ONLY tscore
     ADD CONSTRAINT fscoreindex FOREIGN KEY (index_id) REFERENCES tindex(index_id);
 
+ALTER TABLE ONLY tincome
+	ADD CONSTRAINT fincomestock FOREIGN KEY (stock_id) REFERENCES tindex(stock_id);
+
+ALTER TABLE ONLY tcashflow
+	ADD CONSTRAINT fcashflowstock FOREIGN KEY (stock_id) REFERENCES tindex(stock_id);
+
+ALTER TABLE ONLY tbalance
+	ADD CONSTRAINT fbalancestock FOREIGN KEY (stock_id) REFERENCES tindex(stock_id);
+
+ALTER TABLE ONLY tsignals
+	ADD CONSTRAINT fsignalsstock FOREIGN KEY (stock_id) REFERENCES tindex(stock_id);
+
+ALTER TABLE ONLY tvalues
+	ADD CONSTRAINT fvaluesstock FOREIGN KEY (stock_id) REFERENCES tindex(stock_id);
+
+ALTER TABLE ONLY tforecast
+	ADD CONSTRAINT forecaststock FOREIGN KEY (stock_id) REFERENCES tindex(stock_id);
+
 
 ALTER TABLE tbranch ADD CONSTRAINT ubranchname UNIQUE (name);
 
 ALTER TABLE tcountry ADD CONSTRAINT ucountry UNIQUE (name, code);
 
 ALTER TABLE tstock ADD CONSTRAINT ustockisin UNIQUE (isin);
+
+ALTER TABLE tstock ADD CONSTRAINT ustockquandl UNIQUE (quandl_rb1_id);
     
 ALTER TABLE tstockindex ADD CONSTRAINT ustockindex UNIQUE (stock_id, index_id);
 
