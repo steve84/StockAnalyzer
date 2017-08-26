@@ -1,0 +1,12 @@
+{
+  "Revenue": "revenue"
+  "Operating Income": "operating_income"
+  "Net Income exc": "net_income_exc"
+  "Cash from Ops": "cash_operations"
+  "Depreciation": "depreciation"
+  "Capex": "capex"
+  "Start Cash": "start_cash"
+  "End Cash": "end_cash"
+  "EPS exc": "eps_exc"
+  "Dividend": "dividend"
+}

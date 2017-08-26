@@ -1,0 +1,12 @@
+{
+  "Current Ratio": "current_ratio",
+  "Buybacks": "buybacks",
+  "Solvency": "solvency",
+  "Dividend Payout": "dividend_payout",
+  "Operating Margin": "operating_margin",
+  "Net Inc. Margin": "net_inc_margin",
+  "ROE%": "roe",
+  "ROAE%": "roae",
+  "ROTC%": "rotc",
+  "LT Debt": "lt_debt_op_income"
+}

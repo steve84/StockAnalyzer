@@ -1,0 +1,10 @@
+{
+  "Current Assets": "current_assets",
+  "Goodwill": "goodwill",
+  "Intangibles": "intangibles",
+  "Total Assets": "total_assets",
+  "Current Liabilities": "current_liabilities",
+  "Long Term Debt": "long_term_debt",
+  "Total Liabilities": "total_liabilities",
+  "Shareholder Equity": "shareholder_equity"
+}

@@ -1,0 +1,12 @@
+{
+  "Price:Earnings": "price_earnings_ratio",
+  "Price:Free Cashflow": "price_cashflow_ratio",
+  "Price:Book": "price_book_ratio",
+  "PEG Ratio": "peg_ratio",
+  "Enterprise Ratio": "enterprice_ratio",
+  "Price in 52-wk range": "price_52_wk",
+  "Graham Multiplier": "graham_multiplier",
+  "Robur Score": "robur_score",
+  "Current Yield": "current_yield",
+  "MktCap USD bn": "market_capitalization"
+}

@@ -1,0 +1,12 @@
+{
+  "Cash from Operations": "cash_operations",
+  "Depreciation": "depreciation",
+  "Capex": "capex",
+  "Cash from Investing": "cash_investing",
+  "Issuance of Stock": "issuance_of_stock",
+  "Issuance of Debt": "issuance_of_debt",
+  "Cash from Financing": "cash_financing",
+  "Start Cash": "start_cash",
+  "End Cash": "end_cash"
+}
+

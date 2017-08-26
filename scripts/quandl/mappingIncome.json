@@ -1,0 +1,13 @@
+{
+  "Revenue": "revenue"
+  "Operating Income": "operating_revenue",
+  "Net Income exc. extra": "net_income_exc",
+  "Net Income inc. extra": "net_income_inc",
+  "EPS exc. extra": "eps_exc",
+  "EPS inc. extra": "eps_inc",
+  "Dividend": "dividend",
+  "Diluted Shares OS": "diluted_shares_os",
+  "Historic Yield": "historic_yield",
+  "Share Price at EoP": "share_price_eop",
+  "Last Share Price": "last_share_price"
+}
