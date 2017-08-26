@@ -1,6 +1,7 @@
 import re
 import json
 import requests
+import quandl
 from bs4 import BeautifulSoup
 from datetime import datetime, date
 
@@ -62,6 +63,20 @@ class Utils:
                                 counter += 1
                     i += 1
         return data
+    
+    def getKeyFiguresQuandl(tableName, mappingFileName, quandlKey)
+        quandl.ApiConfig.api_key = quandlKey
+        data = dict()
+        years = list()
+        mappings = Utils.getMappingDict(mappingFileName)
+        res = quandl.get(tableName)
+        for index, row in res.iterrows():
+            for key in test.keys():
+                for mapping in mappings.keys():
+                    if key.find(mapping) > -1:
+                        data[index.date()][mapping] = row[key]
+        return data
+                
         
     def getTechnicalFigures(link, mappingFileName):
         data = dict()
