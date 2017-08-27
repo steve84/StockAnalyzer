@@ -14,6 +14,7 @@ parser.add_argument('-n', dest='maxItems', type=int, help='number of stocks to l
 parser.add_argument('-u', dest='db_user', help='user name of the database')
 parser.add_argument('-p', dest='db_pwd', help='database password')
 parser.add_argument('-d', dest='db_name', help='database name')
+parser.add_argument('-k', dest='quandl_key', help='quandl api key')
 parser.add_argument('--host', dest='db_host', help='database name')
 
 maxItems = parser.parse_args().maxItems
@@ -21,6 +22,7 @@ db_user = parser.parse_args().db_user
 db_pwd = parser.parse_args().db_pwd
 db_name = parser.parse_args().db_name
 db_host = parser.parse_args().db_host
+quandl_key = parser.parse_args().quandl_key
 
 conn = psycopg2.connect("dbname=%s user=%s host=%s" % (db_name, db_user, db_host))
 cur = conn.cursor()
@@ -49,7 +51,7 @@ while page <= totalPages:
     query_params['per_page'] = pageSize
     query_params['sort_by'] = 'id'
     query_params['page'] = page
-    query_params['api_key'] = apiKey
+    query_params['api_key'] = quandl_key
 
     link = baseUrl + '?' +  urllib.parse.urlencode(query_params)
     response = requests.get(link)
