@@ -35,7 +35,7 @@ for stock in cur:
     quandlId = stock[11]
     curStock = conn.cursor()
     for tableName in quandlTables:
-        data = Utils.getKeyFiguresQuandl(databaseCode + '/' + quandlId + '_' + tableName, tableMapping[tableName], quandl_key)
+        data = Utils.getKeyFiguresQuandl(databaseCode + '/' + str(quandlId) + '_' + tableName, 'quandl/' + tableMapping[tableName] + '.json', quandl_key)
         for rowDate in data.keys():
             data[rowDate]['stock_id'] = stock[0]
             data[rowDate]['modified_at'] = rowDate
