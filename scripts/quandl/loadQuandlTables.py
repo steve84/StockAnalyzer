@@ -32,14 +32,20 @@ cur = conn.cursor()
 cur.execute("""SELECT * FROM tstock""")
 
 for stock in cur:
-    quandlId = stock[11]
-    curStock = conn.cursor()
-    for tableName in quandlTables:
-        data = Utils.getKeyFiguresQuandl(databaseCode + '/' + str(quandlId) + '_' + tableName, 'quandl/' + tableMapping[tableName] + '.json', quandl_key)
-        for rowDate in data.keys():
-            data[rowDate]['stock_id'] = stock[0]
-            data[rowDate]['modified_at'] = rowDate
-            curStock.execute(Utils.createSqlString(data[rowDate], 't' + tableName.lower()), data[rowDate])
+    try:
+        quandlId = stock[11]
+        curStock = conn.cursor()
+        for tableName in quandlTables:
+            data = Utils.getKeyFiguresQuandl(databaseCode + '/' + str(quandlId) + '_' + tableName, 'quandl/' + tableMapping[tableName] + '.json', quandl_key)
+            for rowDate in data.keys():
+                data[rowDate]['stock_id'] = stock[0]
+                data[rowDate]['modified_at'] = rowDate
+                curStock.execute(Utils.createSqlString(data[rowDate], 't' + tableName.lower()), data[rowDate])
+        conn.commit()
+    except Exception as e:
+        conn.rollback()
+        print("An error occured: %s" % stock[1])
+        print("Error message: %s" % e)
 
 conn.commit()
 conn.close()
