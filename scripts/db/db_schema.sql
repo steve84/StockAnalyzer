@@ -757,7 +757,7 @@ CREATE OR REPLACE VIEW public.vstock AS
    LEFT JOIN (select stock_id, max(modified_at) as last_date_balance from tbalance group by stock_id) ba ON s.stock_id = ba.stock_id
    LEFT JOIN (select stock_id, max(modified_at) as last_date_signals from tsignals group by stock_id) si ON s.stock_id = si.stock_id
    LEFT JOIN (select stock_id, max(modified_at) as last_date_values from tvalues group by stock_id) v ON s.stock_id = v.stock_id
-   LEFT JOIN (select stock_id, max(modified_at) as last_date_forecast from tforecast group by stock_id) f ON s.stock_id = f.stock_id
+   LEFT JOIN (select stock_id, max(modified_at) as last_date_forecast from tforecast group by stock_id) f ON s.stock_id = f.stock_id;
 
 ALTER TABLE public.vstock
   OWNER TO postgres;

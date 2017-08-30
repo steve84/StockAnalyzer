@@ -25,27 +25,29 @@ databaseCode = 'RB1'
 
 quandlTables = ['INCOME', 'CASHFLOW', 'BALANCE', 'SIGNALS', 'VALUES', 'FORECAST']
 tableMapping = {'INCOME': 'mappingIncome', 'CASHFLOW': 'mappingCashflow', 'BALANCE': 'mappingBalance', 'SIGNALS': 'mappingSignals', 'VALUES': 'mappingValues', 'FORECAST': 'mappingForecast'}
+maxDateMapping = {'INCOME': 13, 'CASHFLOW': 14, 'BALANCE': 15, 'SIGNALS': 16, 'VALUES': 17, 'FORECAST': 18}
 
 conn = psycopg2.connect("dbname=%s user=%s host=%s" % (db_name, db_user, db_host))
 cur = conn.cursor()
 
-cur.execute("""SELECT * FROM tstock""")
+cur.execute("""SELECT * FROM vstock""")
 
 for stock in cur:
-    try:
-        quandlId = stock[11]
-        curStock = conn.cursor()
-        for tableName in quandlTables:
+    quandlId = stock[9]
+    for tableName in quandlTables:
+        try:
+            curStock = conn.cursor()
             data = Utils.getKeyFiguresQuandl(databaseCode + '/' + str(quandlId) + '_' + tableName, 'quandl/' + tableMapping[tableName] + '.json', quandl_key)
             for rowDate in data.keys():
-                data[rowDate]['stock_id'] = stock[0]
-                data[rowDate]['modified_at'] = rowDate
-                curStock.execute(Utils.createSqlString(data[rowDate], 't' + tableName.lower()), data[rowDate])
-        conn.commit()
-    except Exception as e:
-        conn.rollback()
-        print("An error occured: %s" % stock[1])
-        print("Error message: %s" % e)
+                if stock[maxDateMapping[tableName]] is None or rowDate > stock[maxDateMapping[tableName]]:
+                    data[rowDate]['stock_id'] = stock[0]
+                    data[rowDate]['modified_at'] = rowDate
+                    curStock.execute(Utils.createSqlString(data[rowDate], 't' + tableName.lower()), data[rowDate])
+            conn.commit()
+        except Exception as e:
+            conn.rollback()
+            print("An error occured: %s" % stock[1])
+            print("Error message: %s" % e)
 
 conn.commit()
 conn.close()
