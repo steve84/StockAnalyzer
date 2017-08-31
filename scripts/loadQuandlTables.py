@@ -26,7 +26,7 @@ databaseCode = 'RB1'
 
 quandlTables = ['INCOME', 'CASHFLOW', 'BALANCE', 'SIGNALS', 'VALUES', 'FORECAST']
 tableMapping = {'INCOME': 'mappingIncome', 'CASHFLOW': 'mappingCashflow', 'BALANCE': 'mappingBalance', 'SIGNALS': 'mappingSignals', 'VALUES': 'mappingValues', 'FORECAST': 'mappingForecast'}
-maxDateMapping = {'INCOME': 13, 'CASHFLOW': 14, 'BALANCE': 15, 'SIGNALS': 16, 'VALUES': 17, 'FORECAST': 18}
+maxDateMapping = {'INCOME': 8, 'CASHFLOW': 9, 'BALANCE': 10, 'SIGNALS': 11, 'VALUES': 12, 'FORECAST': 13}
 
 conn = psycopg2.connect("dbname=%s user=%s host=%s" % (db_name, db_user, db_host))
 cur = conn.cursor()
@@ -34,7 +34,7 @@ cur = conn.cursor()
 cur.execute("""SELECT * FROM vstock""")
 
 for stock in cur:
-    quandlId = stock[9]
+    quandlId = stock[5]
     for tableName in quandlTables:
         try:
             curStock = conn.cursor()
