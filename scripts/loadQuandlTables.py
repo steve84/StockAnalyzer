@@ -34,11 +34,11 @@ cur = conn.cursor()
 cur.execute("""SELECT * FROM vstock""")
 
 for stock in cur:
-    quandlId = stock[5]
+    quandlId = str(stock[5]).zfill(4)
     for tableName in quandlTables:
         try:
             curStock = conn.cursor()
-            data = Utils.getKeyFiguresQuandl(databaseCode + '/' + str(quandlId) + '_' + tableName, 'quandl/' + tableMapping[tableName] + '.json', quandl_key)
+            data = Utils.getKeyFiguresQuandl(databaseCode + '/' + quandlId + '_' + tableName, 'quandl/' + tableMapping[tableName] + '.json', quandl_key)
             for rowDate in data.keys():
                 if stock[maxDateMapping[tableName]] is None or rowDate > stock[maxDateMapping[tableName]]:
                     data[rowDate]['stock_id'] = stock[0]
