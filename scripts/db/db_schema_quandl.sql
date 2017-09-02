@@ -589,24 +589,22 @@ ALTER TABLE public.vstock
 
 CREATE OR REPLACE VIEW public.vlevermann AS 
  SELECT s.stock_id,
-   af2.roi_equity,
-   af2.roi_ebit_marge,
-   af2.balance_sheet_equity_ratio,
-   af2.market_capitalization,
-   df.price_earnings_ratio,
-   df.price_earnings_ratio_5y_avg,
-   df.earnings_per_share_growth_expected,
-   df.analyst_sell_ratio,
-   100 - df.analyst_sell_ratio AS analyst_buy_ratio,
-   td.performance_6m,
-   td.performance_1y
+   si.roe * 100 as roi_equity,
+   si.operating_margin * 100 as roi_ebit_marge,
+   (b.shareholder_equity / b.total_assets) * 100 as balance_sheet_equity_ratio,
+   v.market_capitalization * 1000,
+   v.price_earnings_ratio,
+   va.price_earnings_ratio_5y_avg,
+   NULL as earnings_per_share_growth_expected,
+   NULL as analyst_sell_ratio,
+   NULL as analyst_buy_ratio,
+   NULL as performance_6m,
+   NULL as performance_1y
    FROM tstock s
-   LEFT JOIN tcountry c ON s.country_id = c.country_id
- LEFT JOIN tbranch b ON s.branch_id = b.branch_id
-	 LEFT JOIN tdailyfundamental df on s.stock_id = df.stock_id
-	 LEFT JOIN (select stock_id, max(year_value) as max_year from tannualfundamental group by stock_id) af1 on s.stock_id = af1.stock_id
-	 LEFT JOIN tannualfundamental af2 on af1.stock_id = af2.stock_id and af1.max_year = af2.year_value
-	 LEFT JOIN ttechnicaldata td on s.stock_id = td.stock_id;
+   LEFT JOIN (select si.* from (select stock_id, max(modified_at) max_date from tsignals group by stock_id) a left join tsignals si on si.stock_id = a.stock_id and si.modified_at = a.max_date) si on si.stock_id = s.stock_id
+   LEFT JOIN (select b.* from (select stock_id, max(modified_at) max_date from tbalance group by stock_id) a left join tbalance b on b.stock_id = a.stock_id and b.modified_at = a.max_date) b on b.stock_id = s.stock_id
+   LEFT JOIN (select v.* from (select stock_id, max(modified_at) max_date from tvalues group by stock_id) a left join tvalues v on v.stock_id = a.stock_id and v.modified_at = a.max_date) v on v.stock_id = s.stock_id
+   LEFT JOIN (select stock_id, avg(price_earnings_ratio) as price_earnings_ratio_5y_avg from (select stock_id, price_earnings_ratio from tvalues where modified_at >= current_date - interval '5 years') v group by stock_id) va on va.stock_id = s.stock_id;
 
 ALTER TABLE public.vlevermann
   OWNER TO postgres;
