@@ -667,28 +667,24 @@ ALTER TABLE public.vagg_market_cap
 -- DROP VIEW public.vpiotroski;
 
 CREATE OR REPLACE VIEW public.vpiotroski AS 
- SELECT s.stock_id,
-    df.earnings_per_share,
-    df.cashflow_per_share,
-    af2.roi_total_capital AS actual_roi_total_capital,
-    af3.roi_total_capital AS last_roi_total_capital,
-    af2.balance_sheet_equity_dept AS actual_balance_sheet_equity_dept,
-    af3.balance_sheet_equity_dept AS last_balance_sheet_equity_dept,
-    CASE WHEN af2.bookvalue_price_ratio * af2.bookvalue_per_share = 0 THEN NULL ELSE af2.market_capitalization / af2.bookvalue_price_ratio * af2.bookvalue_per_share END AS actual_stock_amount,
-    CASE WHEN af3.bookvalue_price_ratio * af3.bookvalue_per_share = 0 THEN NULL ELSE af3.market_capitalization / af3.bookvalue_price_ratio * af3.bookvalue_per_share END AS last_stock_amount,
-    af2.roi_ebit_marge AS actual_roi_ebit_marge,
-    af3.roi_ebit_marge AS last_roi_ebit_marge,
-    CASE WHEN af2.balance_sheet_total = 0 THEN NULL ELSE af2.turnover / af2.balance_sheet_total END AS actual_asset_turnover,
-    CASE WHEN af3.balance_sheet_total = 0 THEN NULL ELSE af3.turnover / af3.balance_sheet_total END AS last_asset_turnover,
-    af2.market_capitalization
-   FROM tstock s
-     LEFT JOIN tdailyfundamental df ON s.stock_id = df.stock_id
-     LEFT JOIN ( SELECT tannualfundamental.stock_id,
-            max(tannualfundamental.year_value) AS max_year
-           FROM tannualfundamental
-          GROUP BY tannualfundamental.stock_id) af1 ON s.stock_id = af1.stock_id
-     LEFT JOIN tannualfundamental af2 ON af1.stock_id = af2.stock_id AND af1.max_year = af2.year_value
-     LEFT JOIN tannualfundamental af3 ON af1.stock_id = af3.stock_id AND (af1.max_year - 1) = af3.year_value;
+	select
+	s.stock_id,
+	ai.net_income_inc > 0 as net_income,
+	c.cash_operations > 0 as cash_operations,
+	asi.roae > lsi.roae as return_on_assets,
+	(c.cash_operations - c.capex) > ai.net_income_inc as accruals,
+	(ab.long_term_debt / ab.total_assets) < (lb.long_term_debt / lb.total_assets) as long_term_ratio,
+	asi.current_ratio > lsi.current_ratio as current_ratio,
+	ai.diluted_shares_os <= li.diluted_shares_os as shares_outstanding,
+	(ai.revenue / ab.total_assets) > (li.revenue / lb.total_assets) as asset_turnover
+	from tstock s
+	left join (select i.* from (select stock_id, max(modified_at) max_date from tincome group by stock_id) a left join tincome i on i.stock_id = a.stock_id and i.modified_at = a.max_date) ai on ai.stock_id = s.stock_id
+	left join (select i.* from (select stock_id, max(modified_at) max_date from tincome group by stock_id) a left join tincome i on i.stock_id = a.stock_id and i.modified_at = a.max_date - interval '1 year') li on li.stock_id = s.stock_id
+	left join (select c.* from (select stock_id, max(modified_at) max_date from tcashflow group by stock_id) a left join tcashflow c on c.stock_id = a.stock_id and c.modified_at = a.max_date) c on c.stock_id = s.stock_id
+	left join (select si.* from (select stock_id, max(modified_at) max_date from tsignals group by stock_id) a left join tsignals si on si.stock_id = a.stock_id and si.modified_at = a.max_date) asi on asi.stock_id = s.stock_id
+	left join (select si.* from (select stock_id, max(modified_at) max_date from tsignals group by stock_id) a left join tsignals si on si.stock_id = a.stock_id and si.modified_at = a.max_date - interval '1 year') lsi on lsi.stock_id = s.stock_id
+	left join (select b.* from (select stock_id, max(modified_at) max_date from tbalance group by stock_id) a left join tbalance b on b.stock_id = a.stock_id and b.modified_at = a.max_date) ab on ab.stock_id = s.stock_id
+	left join (select b.* from (select stock_id, max(modified_at) max_date from tbalance group by stock_id) a left join tbalance b on b.stock_id = a.stock_id and b.modified_at = a.max_date - interval '1 year') lb on lb.stock_id = s.stock_id;
 
 ALTER TABLE public.vpiotroski
   OWNER TO postgres; 
