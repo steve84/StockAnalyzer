@@ -64,17 +64,20 @@ class Utils:
                     i += 1
         return data
     
-    def getKeyFiguresQuandl(tableName, mappingFileName, quandlKey)
+    def getKeyFiguresQuandl(tableName, mappingFileName, quandlKey):
         quandl.ApiConfig.api_key = quandlKey
         data = dict()
         years = list()
         mappings = Utils.getMappingDict(mappingFileName)
         res = quandl.get(tableName)
         for index, row in res.iterrows():
-            for key in test.keys():
+            for key in res.keys():
                 for mapping in mappings.keys():
                     if key.find(mapping) > -1:
-                        data[index.date()][mapping] = row[key]
+                        if index.date() not in data.keys():
+                            data[index.date()] = dict()
+                        data[index.date()][mappings[mapping]] = row[key]
+                        break
         return data
                 
         

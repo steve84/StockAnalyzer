@@ -34,7 +34,6 @@ pageSize = 100
 
 baseUrl = 'https://www.quandl.com/api/v3/datasets.json'
 databaseCode = 'RB1'
-apiKey = 'c-7-dq_SdcLs_6me4Azt'
 
 # Program logic
 noneStr = lambda s: '' if s is None else str(s)

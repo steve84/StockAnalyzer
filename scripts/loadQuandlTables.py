@@ -1,5 +1,6 @@
 import quandl
 import psycopg2
+import argparse
 
 from utils import Utils
 
@@ -25,21 +26,29 @@ databaseCode = 'RB1'
 
 quandlTables = ['INCOME', 'CASHFLOW', 'BALANCE', 'SIGNALS', 'VALUES', 'FORECAST']
 tableMapping = {'INCOME': 'mappingIncome', 'CASHFLOW': 'mappingCashflow', 'BALANCE': 'mappingBalance', 'SIGNALS': 'mappingSignals', 'VALUES': 'mappingValues', 'FORECAST': 'mappingForecast'}
+maxDateMapping = {'INCOME': 8, 'CASHFLOW': 9, 'BALANCE': 10, 'SIGNALS': 11, 'VALUES': 12, 'FORECAST': 13}
 
 conn = psycopg2.connect("dbname=%s user=%s host=%s" % (db_name, db_user, db_host))
 cur = conn.cursor()
 
-cur.execute("""SELECT * FROM tstock""")
+cur.execute("""SELECT * FROM vstock""")
 
 for stock in cur:
-    quandlId = stock[11]
-    curStock = conn.cursor()
+    quandlId = str(stock[5]).zfill(4)
     for tableName in quandlTables:
-        data = Utils.getKeyFiguresQuandl(databaseCode + '/' + quandlId + '_' + tableName, tableMapping[tableName], quandl_key)
-        for rowDate in data.keys():
-            data[rowDate]['stock_id'] = stock[0]
-            data[rowDate]['modified_at'] = rowDate
-            curStock.execute(Utils.createSqlString(data[rowDate], 't' + tableName.lower()), data[rowDate])
+        try:
+            curStock = conn.cursor()
+            data = Utils.getKeyFiguresQuandl(databaseCode + '/' + quandlId + '_' + tableName, 'quandl/' + tableMapping[tableName] + '.json', quandl_key)
+            for rowDate in data.keys():
+                if stock[maxDateMapping[tableName]] is None or rowDate > stock[maxDateMapping[tableName]]:
+                    data[rowDate]['stock_id'] = stock[0]
+                    data[rowDate]['modified_at'] = rowDate
+                    curStock.execute(Utils.createSqlString(data[rowDate], 't' + tableName.lower()), data[rowDate])
+            conn.commit()
+        except Exception as e:
+            conn.rollback()
+            print("An error occured: %s" % stock[1])
+            print("Error message: %s" % e)
 
 conn.commit()
 conn.close()

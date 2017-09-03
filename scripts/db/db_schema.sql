@@ -738,22 +738,26 @@ CREATE OR REPLACE VIEW public.vstock AS
 	s.symbol,
 	s.url,
 	s.business_year_end,
+    s.currency,
+    s.quandl_rb1_id,
 	c.name AS country_name,
 	c.code,
 	b.name AS branch_name,
-	df.daily_fundamental_id,
-	df.modified_at AS daily_modified_at,
-	af2.annual_fundamental_id,
-	af2.year_value AS max_annual_year,
-	td.technical_data_id,
-	td.modified_at AS technical_modified_at
+    i.last_date_income,
+    cf.last_date_cashflow,
+    ba.last_date_balance,
+    si.last_date_signals,
+    v.last_date_values,
+    f.last_date_forecast
    FROM tstock s
    LEFT JOIN tcountry c ON s.country_id = c.country_id
- LEFT JOIN tbranch b ON s.branch_id = b.branch_id
-	 LEFT JOIN tdailyfundamental df on s.stock_id = df.stock_id
-	 LEFT JOIN (select stock_id, max(year_value) as max_year from tannualfundamental group by stock_id) af1 on s.stock_id = af1.stock_id
-	 LEFT JOIN tannualfundamental af2 on af1.stock_id = af2.stock_id and af1.max_year = af2.year_value
-	 LEFT JOIN ttechnicaldata td on s.stock_id = td.stock_id;
+   LEFT JOIN tbranch b ON s.branch_id = b.branch_id
+   LEFT JOIN (select stock_id, max(modified_at) as last_date_income from tincome group by stock_id) i ON s.stock_id = i.stock_id
+   LEFT JOIN (select stock_id, max(modified_at) as last_date_cashflow from tcashflow group by stock_id) cf ON s.stock_id = cf.stock_id
+   LEFT JOIN (select stock_id, max(modified_at) as last_date_balance from tbalance group by stock_id) ba ON s.stock_id = ba.stock_id
+   LEFT JOIN (select stock_id, max(modified_at) as last_date_signals from tsignals group by stock_id) si ON s.stock_id = si.stock_id
+   LEFT JOIN (select stock_id, max(modified_at) as last_date_values from tvalues group by stock_id) v ON s.stock_id = v.stock_id
+   LEFT JOIN (select stock_id, max(modified_at) as last_date_forecast from tforecast group by stock_id) f ON s.stock_id = f.stock_id;
 
 ALTER TABLE public.vstock
   OWNER TO postgres;
