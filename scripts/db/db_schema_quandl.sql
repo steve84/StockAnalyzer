@@ -592,7 +592,7 @@ CREATE OR REPLACE VIEW public.vlevermann AS
    si.roe * 100 as roi_equity,
    si.operating_margin * 100 as roi_ebit_marge,
    (b.shareholder_equity / b.total_assets) * 100 as balance_sheet_equity_ratio,
-   v.market_capitalization * 1000,
+   v.market_capitalization * 1000 as market_capitalization,
    v.price_earnings_ratio,
    va.price_earnings_ratio_5y_avg,
    NULL as earnings_per_share_growth_expected,
@@ -612,13 +612,12 @@ ALTER TABLE public.vlevermann
 
 CREATE OR REPLACE VIEW public.vmagicformula AS 
  SELECT s.stock_id,
-   af2.roi_equity as return_on_capital,
-   case when df.price_earnings_ratio > 0 then 1::numeric / df.price_earnings_ratio else null end AS earnings_yield,
-   af2.market_capitalization
+   si.rotc * 100 as return_on_capital,
+   case when v.price_earnings_ratio > 0 then 1::numeric / v.price_earnings_ratio else null end AS earnings_yield,
+   v.market_capitalization * 100 as market_capitalization
    FROM tstock s
-	 LEFT JOIN tdailyfundamental df on s.stock_id = df.stock_id
-	 LEFT JOIN (select stock_id, max(year_value) as max_year from tannualfundamental group by stock_id) af1 on s.stock_id = af1.stock_id
-	 LEFT JOIN tannualfundamental af2 on af1.stock_id = af2.stock_id and af1.max_year = af2.year_value;
+   LEFT JOIN (select si.* from (select stock_id, max(modified_at) max_date from tsignals group by stock_id) a left join tsignals si on si.stock_id = a.stock_id and si.modified_at = a.max_date) si on si.stock_id = s.stock_id
+   LEFT JOIN (select v.* from (select stock_id, max(modified_at) max_date from tvalues group by stock_id) a left join tvalues v on v.stock_id = a.stock_id and v.modified_at = a.max_date) v on v.stock_id = s.stock_id;
 
 ALTER TABLE public.vmagicformula
   OWNER TO postgres;
