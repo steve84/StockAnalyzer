@@ -367,7 +367,7 @@ CREATE TABLE tvalues (
     price_cashflow_ratio numeric,
     price_book_ratio numeric,
     peg_ratio numeric,
-    enterprice_ratio numeric,
+    enterprise_ratio numeric,
     price_52_wk numeric,
     graham_multiplier numeric,
     robur_score numeric,

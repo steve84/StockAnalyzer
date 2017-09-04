@@ -35,15 +35,24 @@ public class Stock {
     @OneToOne
     @JoinColumn(name = "stock_id")
     private Levermann levermann;
-    @OneToOne
-    @JoinColumn(name = "stock_id")
-    private DailyFundamental dailyFundamental;
     @OneToMany
     @JoinColumn(name = "stock_id")
-    private List<AnnualFundamental> annualFundamentals;
-    @OneToOne
+    private List<Income> income;
+    @OneToMany
     @JoinColumn(name = "stock_id")
-    private TechnicalData technicalData;
+    private List<Forecast> forecast;
+    @OneToMany
+    @JoinColumn(name = "stock_id")
+    private List<Balance> balance;
+    @OneToMany
+    @JoinColumn(name = "stock_id")
+    private List<Values> values;
+    @OneToMany
+    @JoinColumn(name = "stock_id")
+    private List<Signals> signals;
+    @OneToMany
+    @JoinColumn(name = "stock_id")
+    private List<Cashflow> cashflow;
     @OneToMany
     @JoinColumn(name = "stock_id")
     private List<Score> scores;
@@ -159,28 +168,52 @@ public class Stock {
 		calculateLevermannScore();
 	}
 
-	public DailyFundamental getDailyFundamental() {
-		return dailyFundamental;
+	public List<Income> getIncome() {
+		return income;
 	}
 
-	public void setDailyFundamental(DailyFundamental dailyFundamental) {
-		this.dailyFundamental = dailyFundamental;
+	public void setIncome(List<Income> income) {
+		this.income = income;
 	}
 
-	public TechnicalData getTechnicalData() {
-		return technicalData;
+	public List<Forecast> getForecast() {
+		return forecast;
 	}
 
-	public void setTechnicalData(TechnicalData technicalData) {
-		this.technicalData = technicalData;
+	public void setForecast(List<Forecast> forecast) {
+		this.forecast = forecast;
 	}
 
-	public List<AnnualFundamental> getAnnualFundamentals() {
-		return annualFundamentals;
+	public List<Balance> getBalance() {
+		return balance;
 	}
 
-	public void setAnnualFundamentals(List<AnnualFundamental> annualFundamentals) {
-		this.annualFundamentals = annualFundamentals;
+	public void setBalance(List<Balance> balance) {
+		this.balance = balance;
+	}
+
+	public List<Values> getValues() {
+		return values;
+	}
+
+	public void setValues(List<Values> values) {
+		this.values = values;
+	}
+
+	public List<Signals> getSignals() {
+		return signals;
+	}
+
+	public void setSignals(List<Signals> signals) {
+		this.signals = signals;
+	}
+
+	public List<Cashflow> getCashflow() {
+		return cashflow;
+	}
+
+	public void setCashflow(List<Cashflow> cashflow) {
+		this.cashflow = cashflow;
 	}
 
 	public List<Score> getScores() {
