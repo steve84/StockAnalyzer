@@ -7,10 +7,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EntityScan(basePackages = {
-		"ch.steve84.stock_analyzer.entity"
+		"ch.steve84.stock_analyzer.entity.quandl"
 })
 @EnableJpaRepositories(basePackages = {
-		"ch.steve84.stock_analyzer.repository"
+		"ch.steve84.stock_analyzer.repository.quandl"
 })
 public class StockAnalyzerApplication {
 
