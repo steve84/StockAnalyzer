@@ -2,6 +2,7 @@ import re
 import json
 import requests
 import quandl
+import math
 from bs4 import BeautifulSoup
 from datetime import datetime, date
 
@@ -225,38 +226,38 @@ class Utils:
         levermannScore = 0
         hasLevermannScore = False
 
-        if roiEquity is not None:
+        if roiEquity is not None and not math.isnan(roiEquity):
             hasLevermannScore = hasLevermannScore or True
             if roiEquity > 20:
                 levermannScore += 1
             elif roiEquity < 10:
                 levermannScore -= 1
 
-        if roiEbitMarge is not None:
+        if roiEbitMarge is not None and not math.isnan(roiEbitMarge):
             hasLevermannScore = hasLevermannScore or True
             if roiEbitMarge > 12:
                 levermannScore += 1
 
-        if balanceSheetEquityRatio is not None:
+        if balanceSheetEquityRatio is not None and not math.isnan(balanceSheetEquityRatio):
             hasLevermannScore = hasLevermannScore or True
             if balanceSheetEquityRatio > 25:
                 levermannScore += 1
 
-        if priceEarningsRatio is not None:
+        if priceEarningsRatio is not None and not math.isnan(priceEarningsRatio):
             hasLevermannScore = hasLevermannScore or True
             if priceEarningsRatio > 0 and priceEarningsRatio < 12:
                 levermannScore += 1
             elif priceEarningsRatio > 16:
                 levermannScore -= 1
 
-        if priceEarningsRatio5yAvg is not None:
+        if priceEarningsRatio5yAvg is not None and not math.isnan(priceEarningsRatio5yAvg):
             hasLevermannScore = hasLevermannScore or True
             if priceEarningsRatio5yAvg > 0 and priceEarningsRatio5yAvg < 12:
                 levermannScore += 1
             elif priceEarningsRatio5yAvg > 16:
                 levermannScore -= 1
 
-        if analystSellRatio is not None and marketCapitalization is not None:
+        if analystSellRatio is not None and not math.isnan(analystSellRatio) and marketCapitalization is not None and not math.isnan(marketCapitalization):
             hasLevermannScore = hasLevermannScore or True
             if marketCapitalization >= 10000:
                 if analystBuyRatio >= 60:
@@ -269,28 +270,28 @@ class Utils:
                 else:
                     levermannScore -= 1
 
-        if performance6m is not None:
+        if performance6m is not None and not math.isnan(performance6m):
             hasLevermannScore = hasLevermannScore or True
             if performance6m > 5:
                 levermannScore += 1
             elif performance6m < -5:
                 levermannScore -= 1
 
-        if performance1y is not None:
+        if performance1y is not None and not math.isnan(performance1y):
             hasLevermannScore = hasLevermannScore or True
             if performance1y > 5:
                 levermannScore += 1
             elif performance1y < -5:
                 levermannScore -= 1
 
-        if performance6m is not None and performance1y is not None:
+        if performance6m is not None and not math.isnan(performance6m) and performance1y is not None and not math.isnan(performance1y):
             hasLevermannScore = hasLevermannScore or True
             if performance1y < 0 and performance6m > 0:
                 levermannScore += 1
             elif performance1y > 0 and performance6m < 0:
                 levermannScore -= 1
 
-        if earningsPerShareGrowthExpected is not None:
+        if earningsPerShareGrowthExpected is not None and not math.isnan(earningsPerShareGrowthExpected):
             hasLevermannScore = hasLevermannScore or True
             if earningsPerShareGrowthExpected > 5:
                 levermannScore += 1
@@ -305,55 +306,55 @@ class Utils:
     def calculateMagicFormula(magicFormulaData):
         returnOnCapital = magicFormulaData[1]
         earningsYield = magicFormulaData[2]
-        if returnOnCapital is not None and earningsYield is not None:
+        if returnOnCapital is not None and not math.isnan(returnOnCapital) and earningsYield is not None and not math.isnan(earningsYield):
             return float((returnOnCapital + earningsYield) / 2)
     
     def calculatePiotroski(piotroskiData):
-        earnings_per_share = piotroskiData[1]
-        cashflow_per_share = piotroskiData[2]
-        actual_roi_total_capital = piotroskiData[3]
-        last_roi_total_capital = piotroskiData[4]
-        actual_balance_sheet_equity_dept = piotroskiData[5]
-        last_balance_sheet_equity_dept = piotroskiData[6]
-        actual_stock_amount = piotroskiData[7]
-        last_stock_amount = piotroskiData[8]
-        actual_roi_ebit_marge = piotroskiData[9]
-        last_roi_ebit_marge = piotroskiData[10]
+        net_income = piotroskiData[1]
+        cash_operations = piotroskiData[2]
+        actual_return_on_assets = piotroskiData[3]
+        last_return_on_assets = piotroskiData[4]
+        actual_long_term_ratio = piotroskiData[5]
+        last_long_term_ratio = piotroskiData[6]
+        actual_current_ratio = piotroskiData[7]
+        last_current_ratio = piotroskiData[8]
+        actual_shares_outstanding = piotroskiData[9]
+        last_shares_outstanding = piotroskiData[10]
         actual_asset_turnover = piotroskiData[11]
         last_asset_turnover = piotroskiData[12]
         
         piotroskiScore = 0
         hasPiotroskiScore = False
-        
-        if earnings_per_share is not None and earnings_per_share > 0:
+
+        if net_income is not None and not math.isnan(net_income) and net_income > 0:
             hasPiotroskiScore = hasPiotroskiScore or True
             piotroskiScore += 1
 
-        if cashflow_per_share is not None and cashflow_per_share > 0:
+        if cash_operations is not None and not math.isnan(cash_operations) and cash_operations > 0:
             hasPiotroskiScore = hasPiotroskiScore or True
             piotroskiScore += 1
 
-        if actual_roi_total_capital is not None and last_roi_total_capital is not None and actual_roi_total_capital > last_roi_total_capital:
+        if actual_return_on_assets is not None and not math.isnan(actual_return_on_assets) and last_return_on_assets is not None and not math.isnan(last_return_on_assets) and actual_return_on_assets > last_return_on_assets:
             hasPiotroskiScore = hasPiotroskiScore or True
             piotroskiScore += 1
 
-        if cashflow_per_share is not None and earnings_per_share is not None and cashflow_per_share > earnings_per_share:
+        if cash_operations is not None and not math.isnan(cash_operations) and net_income is not None and not math.isnan(net_income) and cash_operations > net_income:
             hasPiotroskiScore = hasPiotroskiScore or True
             piotroskiScore += 1
 
-        if actual_balance_sheet_equity_dept is not None and last_balance_sheet_equity_dept is not None and actual_balance_sheet_equity_dept > last_balance_sheet_equity_dept:
+        if actual_long_term_ratio is not None and not math.isnan(actual_long_term_ratio) and last_long_term_ratio is not None and not math.isnan(last_long_term_ratio) and actual_long_term_ratio < last_long_term_ratio:
             hasPiotroskiScore = hasPiotroskiScore or True
             piotroskiScore += 1
 
-        if actual_stock_amount is not None and last_stock_amount is not None and actual_stock_amount > last_stock_amount:
+        if actual_current_ratio is not None and not math.isnan(actual_current_ratio) and last_current_ratio is not None and not math.isnan(last_current_ratio) and actual_current_ratio > last_current_ratio:
             hasPiotroskiScore = hasPiotroskiScore or True
             piotroskiScore += 1
 
-        if actual_roi_ebit_marge is not None and last_roi_ebit_marge is not None and actual_roi_ebit_marge > last_roi_ebit_marge:
+        if actual_shares_outstanding is not None and not math.isnan(actual_shares_outstanding) and last_shares_outstanding is not None and not math.isnan(last_shares_outstanding) and actual_shares_outstanding <= last_shares_outstanding:
             hasPiotroskiScore = hasPiotroskiScore or True
             piotroskiScore += 1
 
-        if actual_asset_turnover is not None and last_asset_turnover is not None and actual_asset_turnover > last_asset_turnover:
+        if actual_asset_turnover is not None and not math.isnan(actual_asset_turnover) and last_asset_turnover is not None and not math.isnan(last_asset_turnover) and actual_asset_turnover > last_asset_turnover:
             hasPiotroskiScore = hasPiotroskiScore or True
             piotroskiScore += 1
 

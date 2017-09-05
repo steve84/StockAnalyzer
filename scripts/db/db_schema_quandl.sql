@@ -666,14 +666,19 @@ ALTER TABLE public.vagg_market_cap
 CREATE OR REPLACE VIEW public.vpiotroski AS 
 	select
 	s.stock_id,
-	ai.net_income_inc > 0 as net_income,
-	c.cash_operations > 0 as cash_operations,
-	asi.roae > lsi.roae as return_on_assets,
-	(c.cash_operations - c.capex) > ai.net_income_inc as accruals,
-	(ab.long_term_debt / ab.total_assets) < (lb.long_term_debt / lb.total_assets) as long_term_ratio,
-	asi.current_ratio > lsi.current_ratio as current_ratio,
-	ai.diluted_shares_os <= li.diluted_shares_os as shares_outstanding,
-	(ai.revenue / ab.total_assets) > (li.revenue / lb.total_assets) as asset_turnover
+	ai.net_income_inc as net_income,
+	c.cash_operations as cash_operations,
+	asi.roae as actual_return_on_assets,
+	lsi.roae as last_return_on_assets,
+	ab.long_term_debt / ab.total_assets as actual_long_term_ratio,
+	lb.long_term_debt / lb.total_assets as last_long_term_ratio,
+	asi.current_ratio as actual_current_ratio,
+	lsi.current_ratio as last_current_ratio,
+	ai.diluted_shares_os as actual_shares_outstanding,
+	li.diluted_shares_os as last_shares_outstanding,
+	ai.revenue / ab.total_assets as actual_asset_turnover,
+	li.revenue / lb.total_assets as last_asset_turnover,
+	v.market_capitalization
 	from tstock s
 	left join (select i.* from (select stock_id, max(modified_at) max_date from tincome group by stock_id) a left join tincome i on i.stock_id = a.stock_id and i.modified_at = a.max_date) ai on ai.stock_id = s.stock_id
 	left join (select i.* from (select stock_id, max(modified_at) max_date from tincome group by stock_id) a left join tincome i on i.stock_id = a.stock_id and i.modified_at = a.max_date - interval '1 year') li on li.stock_id = s.stock_id
@@ -681,7 +686,8 @@ CREATE OR REPLACE VIEW public.vpiotroski AS
 	left join (select si.* from (select stock_id, max(modified_at) max_date from tsignals group by stock_id) a left join tsignals si on si.stock_id = a.stock_id and si.modified_at = a.max_date) asi on asi.stock_id = s.stock_id
 	left join (select si.* from (select stock_id, max(modified_at) max_date from tsignals group by stock_id) a left join tsignals si on si.stock_id = a.stock_id and si.modified_at = a.max_date - interval '1 year') lsi on lsi.stock_id = s.stock_id
 	left join (select b.* from (select stock_id, max(modified_at) max_date from tbalance group by stock_id) a left join tbalance b on b.stock_id = a.stock_id and b.modified_at = a.max_date) ab on ab.stock_id = s.stock_id
-	left join (select b.* from (select stock_id, max(modified_at) max_date from tbalance group by stock_id) a left join tbalance b on b.stock_id = a.stock_id and b.modified_at = a.max_date - interval '1 year') lb on lb.stock_id = s.stock_id;
+	left join (select b.* from (select stock_id, max(modified_at) max_date from tbalance group by stock_id) a left join tbalance b on b.stock_id = a.stock_id and b.modified_at = a.max_date - interval '1 year') lb on lb.stock_id = s.stock_id
+	left join (select v.* from (select stock_id, max(modified_at) max_date from tvalues group by stock_id) a left join tvalues v on v.stock_id = a.stock_id and v.modified_at = a.max_date) v on v.stock_id = s.stock_id;
 
 ALTER TABLE public.vpiotroski
   OWNER TO postgres; 
