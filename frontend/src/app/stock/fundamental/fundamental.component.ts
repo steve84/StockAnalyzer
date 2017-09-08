@@ -6,12 +6,8 @@ import { Chart } from 'angular-highcharts';
 
 import { StockService } from '../stock.service';
 import { FundamentalService } from '../fundamental.service';
-import { TechnicalDataService } from '../technicaldata.service';
 
 import { Stock } from '../stock';
-import { DailyFundamental } from '../dailyfundamental';
-import { AnnualFundamental } from '../annualfundamental';
-import { TechnicalData } from '../technicaldata';
 
 import 'rxjs/add/operator/switchMap';
 
@@ -25,9 +21,6 @@ export class FundamentalComponent implements OnInit, OnChanges {
   @Input('stock') stock: Stock;
   @Output('close') close: EventEmitter<boolean> = new EventEmitter<boolean>();
   private title: string;
-  private dailyfundamental: DailyFundamental;
-  private annualfundamental: AnnualFundamental;
-  private technicaldata: TechnicalData;
   private historicalData: any[] = [];
   private chart: Chart;
   private historicalChart: Chart;
@@ -35,7 +28,6 @@ export class FundamentalComponent implements OnInit, OnChanges {
 
   constructor(private stockService: StockService,
               private fundamentalService: FundamentalService,
-              private technicalDataService: TechnicalDataService,
               private route: ActivatedRoute,
               private location: Location) {
     this.title = "Fundamental data";
@@ -51,7 +43,6 @@ export class FundamentalComponent implements OnInit, OnChanges {
               .subscribe((data:Stock) => {
                 this.stock = data;
                 this.getFundamentals();
-                this.getTechnicalData();
                 this.getHistoricalData();
                 this.getIndexNames();
                 this.display = true;
@@ -63,7 +54,6 @@ export class FundamentalComponent implements OnInit, OnChanges {
       .subscribe((data:Stock) => {
         this.stock = data;
         this.getFundamentals();
-        this.getTechnicalData();
         this.getHistoricalData();
         this.getIndexNames();
         this.display = true;
@@ -73,7 +63,6 @@ export class FundamentalComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.display && changes.display.currentValue) {
       this.getFundamentals();
-      this.getTechnicalData();
       this.getHistoricalData();
       this.getIndexNames();
     }
@@ -81,33 +70,9 @@ export class FundamentalComponent implements OnInit, OnChanges {
 
   getFundamentals() {
     if (this.stock) {
-      this.fundamentalService.getDailyFundamentalByStockId(this.stock.stockId)
-        .subscribe((data:DailyFundamental) => {
-            this.dailyfundamental = data;
-        });
-
-      this.fundamentalService.getAnnualFundamentalByStockId(this.stock.stockId)
-        .subscribe((data:AnnualFundamental[]) => {
-				  if (data && data.length == 0)
-					  this.annualfundamental = null;
-          let newestAnnualFundamental: AnnualFundamental = null;
-          for (let af of data) {
-            if (!newestAnnualFundamental || newestAnnualFundamental.yearValue < af.yearValue) {
-              this.annualfundamental = af;
-            }
-          }
-        });
     }
   }
 
-  getTechnicalData() {
-    if (this.stock) {
-      this.technicalDataService.getTechnicalDataByStockId(this.stock.stockId)
-        .subscribe((data:TechnicalData) => {
-			this.technicaldata = data;
-        });
-    }
-  }
 
   getIndexNames() {
     this.indexNames = [];

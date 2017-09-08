@@ -5,6 +5,12 @@ import { StockIndex } from './stockindex';
 import { IndexType } from './indextype';
 import { Score } from './score';
 
+import { Balance } from './balance';
+import { Cashflow } from './cashflow';
+import { Forecast } from './forecast';
+import { Income } from './income';
+
+
 export interface Stock {
   stockId?: number,
   nsin?: string,
@@ -22,5 +28,9 @@ export interface Stock {
   indices?: any[],
   stockIndex?: StockIndex[],
   indexParticipation?: any[],
-  indexNames: string
+  indexNames: string,
+  balance: Balance[],
+  cashflow: Cashflow[],
+  forecast: Forecast[],
+  income: Income[]
 }

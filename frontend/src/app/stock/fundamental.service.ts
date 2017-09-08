@@ -8,31 +8,22 @@ export class FundamentalService {
 
   constructor(private http: Http) { }
 
-  getDailyFundamentalByStockId(stockId: number) {
-	  let params = new URLSearchParams();
-		params.set("stockId", stockId.toString());
-    let url = "http://localhost:8080/dailyfundamentals/search/findByStockId";
+  getValuesByStockId(stockId: number) {
+    let url = "http://localhost:8080/values/" + stockId;
 
-    return this.http.get(url, {search: params})
-      .map(this.extractDailyData);
+    return this.http.get(url)
+      .map(this.extractData);
   }
 
-  getAnnualFundamentalByStockId(stockId: number) {
-		let params = new URLSearchParams();
-		params.set("stockId", stockId.toString());
-    let url = "http://localhost:8080/annualfundamentals/search/findByStockId";
+  getSignalsByStockId(stockId: number) {
+    let url = "http://localhost:8080/signals/" + stockId;
 
-    return this.http.get(url, {search: params})
-      .map(this.extractAnnualData);
+    return this.http.get(url)
+      .map(this.extractData);
   }
 
-  extractDailyData(resp: Response) {
+  extractData(resp: Response) {
     let json_resp = resp.json();
     return json_resp._embedded.dailyfundamental[0];
-  }
-
-  extractAnnualData(resp: Response) {
-    let json_resp = resp.json();
-    return json_resp._embedded.annualfundamental;
   }
 }

@@ -6,24 +6,22 @@ import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { DataTableModule,
-         SharedModule,
-				 DialogModule,
-				 ButtonModule,
-				 TabViewModule,
-				 AccordionModule,
-				 AutoCompleteModule,
-				 DropdownModule,
-         InputTextModule,
-         MultiSelectModule,
-         SliderModule,
-         MessagesModule,
-         SelectButtonModule } from 'primeng/primeng';
+        SharedModule,
+        DialogModule,
+        ButtonModule,
+        TabViewModule,
+        AccordionModule,
+        AutoCompleteModule,
+        DropdownModule,
+        InputTextModule,
+        MultiSelectModule,
+        SliderModule,
+        MessagesModule,
+        SelectButtonModule } from 'primeng/primeng';
 
 import { ChartModule } from 'angular-highcharts';
 
 import { StockService } from './stock.service';
-import { FundamentalService } from './fundamental.service';
-import { TechnicalDataService } from './technicaldata.service';
 import { IndexService } from './index.service';
 
 import { stockRoutes } from './stock.routes';
@@ -50,9 +48,9 @@ import { ScorecombinerComponent } from './scorecombiner/scorecombiner.component'
     ButtonModule,
     TabViewModule,
     AccordionModule,
-		AutoCompleteModule,
+    AutoCompleteModule,
     DropdownModule,
-		MultiSelectModule,
+    MultiSelectModule,
     InputTextModule,
     SliderModule,
     MessagesModule,
@@ -69,7 +67,6 @@ import { ScorecombinerComponent } from './scorecombiner/scorecombiner.component'
   providers: [
     StockService,
     FundamentalService,
-    TechnicalDataService,
     IndexService
   ],
   declarations: [StockTableComponent, FundamentalComponent, LevermannComponent, IndexComponent, IndexdetailComponent, StockcategoryPipe, StockquickfinderComponent, StocksearchComponent, ScorecombinerComponent]
