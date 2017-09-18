@@ -1,5 +1,6 @@
 export interface Income {
     incomeId?: number,
+    stockId?: number,
     revenue?: number,
     operatingRevenue?: number,
     netIncomeExc?: number,

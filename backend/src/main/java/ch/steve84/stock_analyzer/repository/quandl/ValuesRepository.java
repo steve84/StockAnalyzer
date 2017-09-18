@@ -10,5 +10,5 @@ import ch.steve84.stock_analyzer.entity.quandl.Values;
 
 @RepositoryRestResource(collectionResourceRel = "value", path = "values")
 public interface ValuesRepository extends PagingAndSortingRepository<Values, Integer> {
-	List<Values> findByStockId(@Param("stockId") Integer stockId);
+	List<Values> findFirst1ByStockIdOrderByModifiedAtDesc(@Param("stockId") Integer stockId);
 }

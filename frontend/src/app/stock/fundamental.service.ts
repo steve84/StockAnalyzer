@@ -14,6 +14,16 @@ export class FundamentalService {
     return this.http.get(url)
       .map(this.extractDataValues);
   }
+  
+  getNewestValueByStockId(stockId: number) {
+    let url = "http://localhost:8080/values/search/findFirst1ByStockIdOrderByModifiedAtDesc";
+
+    let params = new URLSearchParams();
+    params.set("stockId", stockId.toString());
+
+    return this.http.get(url, {search: params})
+      .map(this.extractDataValues);
+  }
 
   getSignalsByStockId(stockId: number) {
     let url = "http://localhost:8080/stocks/" + stockId + "/signals";

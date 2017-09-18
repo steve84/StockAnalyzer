@@ -11,6 +11,10 @@
         </div>
         <div class = "ui-g">
           <div class = "ui-g-3">Geschäftsjahresende</div><div class = "ui-g-3">{{stock.balance[0].modifiedAt | date:'dd.MM.'}}</div>
+          <div class = "ui-g-3"></div><div class = "ui-g-3"></div>
+        </div>
+        <div *ngIf="values && values.length > 0" class = "ui-g">
+          <div class = "ui-g-3">Marktkapitalisierung</div><div class = "ui-g-3">{{values[values.length - 1].marketCapitalization}}</div>
           <div class = "ui-g-3">Aktienkategorie</div><div class = "ui-g-3">{{stock.stockCategory}}</div>
         </div>
         <div *ngFor="let index of indexNames" class = "ui-g">
@@ -47,8 +51,10 @@
       </div>
     </p-tabPanel>
         <p-tabPanel header="Values">
-      <div *ngIf="values">
+      <div *ngIf="value">
         <div class = "ui-g">
+          <div class = "ui-g-3">KGV</div><div class = "ui-g-3">{{value.priceEarningsRatio}}</div>
+          <div class = "ui-g-3">KCV</div><div class = "ui-g-3">{{value.priceCashflowRatio}}</div>
         </div>
       </div>
     </p-tabPanel>

@@ -18,6 +18,9 @@ public class Income {
     @Column(name = "income_id")
     private Integer incomeId;
     
+    @Column(name = "stock_id")
+    private Integer stockId;
+    
     @Column(name = "revenue")
     private Double revenue;
 
@@ -53,6 +56,14 @@ public class Income {
 
     @Column(name = "modified_at")
     private Calendar modifiedAt;
+
+	public Integer getStockId() {
+		return stockId;
+	}
+
+	public void setStockId(Integer stockId) {
+		this.stockId = stockId;
+	}
 
 	public Double getRevenue() {
 		return revenue;

@@ -23,7 +23,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
   @Input('stock') stock: Stock;
   @Output('close') close: EventEmitter<boolean> = new EventEmitter<boolean>();
   private title: string;
-  private values: Values[] = [];
+  private value: Values;
   private signals: Signals[] = [];
   private chart: Chart;
   private historicalChart: Chart;
@@ -45,7 +45,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
             this.stockService.getStockById(id)
               .subscribe((data:Stock) => {
                 this.stock = data;
-                this.getValues();
+                this.getValue();
                 this.getSignals();
                 this.getIndexNames();
                 this.display = true;
@@ -56,7 +56,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
     this.stockService.getStockEmitter()
       .subscribe((data:Stock) => {
         this.stock = data;
-        this.getValues();
+        this.getValue();
         this.getSignals();
         this.getIndexNames();
         this.display = true;
@@ -65,16 +65,16 @@ export class FundamentalComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.display && changes.display.currentValue) {
-      this.getValues();
+      this.getValue();
       this.getSignals();
       this.getIndexNames();
     }
   }
 
-  getValues() {
+  getValue() {
     if (this.stock) {
-      this.fundamentalService.getValuesByStockId(this.stock.stockId)
-        .subscribe((data:Values[]) => this.values = data);
+      this.fundamentalService.getNewestValueByStockId(this.stock.stockId)
+        .subscribe((data:Values[]) => this.value = data[0]);
     }
   }
 
