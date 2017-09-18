@@ -1,7 +1,7 @@
 <p-dialog [header]="title" [(visible)]="display" (onHide)="closeDisplay()">
   <p-tabView>
     <p-tabPanel header="Übersicht">
-      <div *ngIf="stock">
+      <div *ngIf="stock && stock.balance">
         <div class = "ui-g">
           <div class = "ui-g-12"><button type="button" pButton label="Vergleichen" (click)="addToCompare(symbol)" icon="fa-plus-circle"></button></div>
         </div>
@@ -10,11 +10,7 @@
           <div class = "ui-g-3">ISIN</div><div class = "ui-g-3">{{stock.isin}}</div>
         </div>
         <div class = "ui-g">
-          <div class = "ui-g-3">NSIN</div><div class = "ui-g-3">{{stock.nsin}}</div>
-          <div class = "ui-g-3">URL</div><div class = "ui-g-3">{{stock.url}}</div>
-        </div>
-        <div class = "ui-g">
-          <div class = "ui-g-3">Geschäftsjahresende</div><div class = "ui-g-3">{{stock.businessYearEnd}}</div>
+          <div class = "ui-g-3">Geschäftsjahresende</div><div class = "ui-g-3">{{stock.balance[0].modifiedAt | date:'dd.MM.'}}</div>
           <div class = "ui-g-3">Aktienkategorie</div><div class = "ui-g-3">{{stock.stockCategory}}</div>
         </div>
         <div *ngFor="let index of indexNames" class = "ui-g">
@@ -24,58 +20,55 @@
       </div>
     </p-tabPanel>
     <p-tabPanel header="Bilanz">
-      <div *ngIf="technicaldata">
+      <div *ngIf="stock && stock.balance">
         <div class = "ui-g">
-          <div class = "ui-g-2">Performance (1 Woche)</div><div class = "ui-g-2">{{technicaldata.performance7d}}%</div>
-          <div class = "ui-g-2">Performance (1 Monat)</div><div class = "ui-g-2">{{technicaldata.performance30d}}%</div>
-          <div class = "ui-g-2">Performance (6 Monate)</div><div class = "ui-g-2">{{technicaldata.performance6m}}%</div>
+          <p-dataTable [value]="createTableObject(transposeData(stock.balance))">
+              <p-column *ngFor="let col of getColsFromData(transposeData(stock.balance))" [field]="col.field" [header]="col.header"></p-column>
+          </p-dataTable>
         </div>
       </div>
     </p-tabPanel>
     <p-tabPanel header="Cashflow">
-      <div *ngIf="technicaldata">
+      <div *ngIf="stock && stock.cashflow">
         <div class = "ui-g">
-          <div class = "ui-g-2">Performance (1 Woche)</div><div class = "ui-g-2">{{technicaldata.performance7d}}%</div>
-          <div class = "ui-g-2">Performance (1 Monat)</div><div class = "ui-g-2">{{technicaldata.performance30d}}%</div>
-          <div class = "ui-g-2">Performance (6 Monate)</div><div class = "ui-g-2">{{technicaldata.performance6m}}%</div>
+          <p-dataTable [value]="createTableObject(transposeData(stock.cashflow))">
+              <p-column *ngFor="let col of getColsFromData(transposeData(stock.cashflow))" [field]="col.field" [header]="col.header"></p-column>
+          </p-dataTable>
         </div>
       </div>
     </p-tabPanel>
     <p-tabPanel header="Gewinn -und Verlustrechnung">
-      <div *ngIf="technicaldata">
+      <div *ngIf="stock && stock.income">
         <div class = "ui-g">
-          <div class = "ui-g-2">Performance (1 Woche)</div><div class = "ui-g-2">{{technicaldata.performance7d}}%</div>
-          <div class = "ui-g-2">Performance (1 Monat)</div><div class = "ui-g-2">{{technicaldata.performance30d}}%</div>
-          <div class = "ui-g-2">Performance (6 Monate)</div><div class = "ui-g-2">{{technicaldata.performance6m}}%</div>
+          <p-dataTable [value]="createTableObject(transposeData(stock.income))">
+              <p-column *ngFor="let col of getColsFromData(transposeData(stock.income))" [field]="col.field" [header]="col.header"></p-column>
+          </p-dataTable>
         </div>
       </div>
     </p-tabPanel>
         <p-tabPanel header="Values">
-      <div *ngIf="technicaldata">
+      <div *ngIf="values">
         <div class = "ui-g">
-          <div class = "ui-g-2">Performance (1 Woche)</div><div class = "ui-g-2">{{technicaldata.performance7d}}%</div>
-          <div class = "ui-g-2">Performance (1 Monat)</div><div class = "ui-g-2">{{technicaldata.performance30d}}%</div>
-          <div class = "ui-g-2">Performance (6 Monate)</div><div class = "ui-g-2">{{technicaldata.performance6m}}%</div>
         </div>
       </div>
     </p-tabPanel>
     <p-tabPanel header="Signals">
-      <div *ngIf="technicaldata">
+      <div *ngIf="signals">
         <div class = "ui-g">
-          <div class = "ui-g-2">Performance (1 Woche)</div><div class = "ui-g-2">{{technicaldata.performance7d}}%</div>
-          <div class = "ui-g-2">Performance (1 Monat)</div><div class = "ui-g-2">{{technicaldata.performance30d}}%</div>
-          <div class = "ui-g-2">Performance (6 Monate)</div><div class = "ui-g-2">{{technicaldata.performance6m}}%</div>
-        </div>
-      </div>
-    <p-tabPanel header="Prognosen">
-      <div *ngIf="technicaldata">
-        <div class = "ui-g">
-          <div class = "ui-g-2">Performance (1 Woche)</div><div class = "ui-g-2">{{technicaldata.performance7d}}%</div>
-          <div class = "ui-g-2">Performance (1 Monat)</div><div class = "ui-g-2">{{technicaldata.performance30d}}%</div>
-          <div class = "ui-g-2">Performance (6 Monate)</div><div class = "ui-g-2">{{technicaldata.performance6m}}%</div>
+          <p-dataTable [value]="createTableObject(transposeData(signals))">
+              <p-column *ngFor="let col of getColsFromData(transposeData(signals))" [field]="col.field" [header]="col.header"></p-column>
+          </p-dataTable>
         </div>
       </div>
     </p-tabPanel>
+    <p-tabPanel header="Prognosen">
+      <div *ngIf="stock && stock.forecast">
+        <div class = "ui-g">
+          <p-dataTable [value]="createTableObject(transposeData(stock.forecast))">
+              <p-column *ngFor="let col of getColsFromData(transposeData(stock.forecast))" [field]="col.field" [header]="col.header"></p-column>
+          </p-dataTable>
+        </div>
+      </div>
     </p-tabPanel>
     <p-tabPanel header="Levermann">
       <app-levermann [stock]="stock"></app-levermann>

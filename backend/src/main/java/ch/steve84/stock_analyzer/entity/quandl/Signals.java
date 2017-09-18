@@ -13,9 +13,9 @@ import javax.persistence.Table;
 @Table(name = "tsignals")
 public class Signals {
     @Id
-    @GeneratedValue(generator="singals_seq")
-    @SequenceGenerator(name="singals_seq",sequenceName="singals_seq", allocationSize=1)
-    @Column(name = "singals_id")
+    @GeneratedValue(generator="signals_seq")
+    @SequenceGenerator(name="signals_seq",sequenceName="signals_seq", allocationSize=1)
+    @Column(name = "signals_id")
 	private Integer signalsId;
 
     @Column(name = "stock_id")

@@ -23,6 +23,7 @@ import { ChartModule } from 'angular-highcharts';
 
 import { StockService } from './stock.service';
 import { IndexService } from './index.service';
+import { FundamentalService } from './fundamental.service';
 
 import { stockRoutes } from './stock.routes';
 

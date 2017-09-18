@@ -4,12 +4,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
 
-import ch.steve84.stock_analyzer.entity.Branch;
-import ch.steve84.stock_analyzer.entity.Country;
-import ch.steve84.stock_analyzer.entity.Index;
-import ch.steve84.stock_analyzer.entity.Levermann;
-import ch.steve84.stock_analyzer.entity.NormalizedScore;
-import ch.steve84.stock_analyzer.entity.Stock;
+import ch.steve84.stock_analyzer.entity.quandl.Branch;
+import ch.steve84.stock_analyzer.entity.quandl.Country;
+import ch.steve84.stock_analyzer.entity.quandl.Index;
+import ch.steve84.stock_analyzer.entity.quandl.Levermann;
+import ch.steve84.stock_analyzer.entity.quandl.NormalizedScore;
+import ch.steve84.stock_analyzer.entity.quandl.Stock;
 import ch.steve84.stock_analyzer.entity.quandl.Balance;
 import ch.steve84.stock_analyzer.entity.quandl.Cashflow;
 import ch.steve84.stock_analyzer.entity.quandl.Forecast;

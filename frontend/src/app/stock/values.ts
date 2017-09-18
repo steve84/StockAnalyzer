@@ -11,5 +11,5 @@ export interface Values {
     roburScore?: number,
     currentYield?: number,
     marketCapitalization?: number,
-    Calendar modifiedAt?: number
+    modifiedAt?: string
 }

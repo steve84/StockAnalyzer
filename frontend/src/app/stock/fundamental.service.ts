@@ -9,21 +9,26 @@ export class FundamentalService {
   constructor(private http: Http) { }
 
   getValuesByStockId(stockId: number) {
-    let url = "http://localhost:8080/values/" + stockId;
+    let url = "http://localhost:8080/stocks/" + stockId + "/values";
 
     return this.http.get(url)
-      .map(this.extractData);
+      .map(this.extractDataValues);
   }
 
   getSignalsByStockId(stockId: number) {
-    let url = "http://localhost:8080/signals/" + stockId;
+    let url = "http://localhost:8080/stocks/" + stockId + "/signals";
 
     return this.http.get(url)
-      .map(this.extractData);
+      .map(this.extractDataSignals);
   }
 
-  extractData(resp: Response) {
+  extractDataValues(resp: Response) {
     let json_resp = resp.json();
-    return json_resp._embedded.dailyfundamental[0];
+    return json_resp._embedded.value;
+  }
+
+  extractDataSignals(resp: Response) {
+    let json_resp = resp.json();
+    return json_resp._embedded.signal;
   }
 }

@@ -9,7 +9,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-import ch.steve84.stock_analyzer.entity.Index;
+import ch.steve84.stock_analyzer.entity.quandl.Index;
 
 @RepositoryRestResource(collectionResourceRel = "index", path = "indices")
 public interface IndexRepository extends PagingAndSortingRepository<Index, Integer> {
