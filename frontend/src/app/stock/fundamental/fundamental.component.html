@@ -11,11 +11,11 @@
         </div>
         <div class = "ui-g">
           <div class = "ui-g-3">Geschäftsjahresende</div><div class = "ui-g-3">{{stock.balance[0].modifiedAt | date:'dd.MM.'}}</div>
-          <div class = "ui-g-3"></div><div class = "ui-g-3"></div>
+          <div class = "ui-g-3">Währung</div><div class = "ui-g-3">{{stock.currency}}</div>
         </div>
-        <div *ngIf="values && values.length > 0" class = "ui-g">
-          <div class = "ui-g-3">Marktkapitalisierung</div><div class = "ui-g-3">{{values[values.length - 1].marketCapitalization}}</div>
-          <div class = "ui-g-3">Aktienkategorie</div><div class = "ui-g-3">{{stock.stockCategory}}</div>
+        <div *ngIf="value" class = "ui-g">
+          <div class = "ui-g-3">Marktkapitalisierung</div><div class = "ui-g-3">{{value.marketCapitalization}}</div>
+          <div class = "ui-g-3">Aktienkategorie</div><div class = "ui-g-3">{{value.marketCapitalization * 1000 | stockcategory}}</div>
         </div>
         <div *ngFor="let index of indexNames" class = "ui-g">
           <div class = "ui-g-3">{{index}}</div><div class = "ui-g-3">{{stock.indexParticipation[index]*100 | number}}%</div>

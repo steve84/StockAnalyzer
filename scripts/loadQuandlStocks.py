@@ -145,8 +145,8 @@ while page <= totalPages:
     else:
         break
 
+    conn.commit();
 
-conn.commit();
 conn.close();
 
 print('Totally processed: %s' % str(totalProcessed))

@@ -30,6 +30,7 @@ public class Stock {
     @JoinColumn(name = "branch_id")
     private Branch branch;
     private String name;
+    private String currency;
 	@OneToMany(mappedBy = "stock")
     private List<StockIndex> indices;
     @OneToOne
@@ -145,6 +146,14 @@ public class Stock {
     public void setName(String name) {
         this.name = name;
     }
+
+	public String getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(String currency) {
+		this.currency = currency;
+	}
 
 	public List<StockIndex> getIndices() {
 		for (StockIndex si : indices)

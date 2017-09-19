@@ -28,9 +28,10 @@ export interface Stock {
   indices?: any[],
   stockIndex?: StockIndex[],
   indexParticipation?: any[],
-  indexNames: string,
-  balance: Balance[],
-  cashflow: Cashflow[],
-  forecast: Forecast[],
-  income: Income[]
+  indexNames?: string,
+  balance?: Balance[],
+  cashflow?: Cashflow[],
+  forecast?: Forecast[],
+  income?: Income[],
+  currency?: string
 }

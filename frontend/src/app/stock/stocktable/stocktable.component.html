@@ -26,7 +26,7 @@
     </p-column>
     <p-column field="levermann.marketCapitalization" header="Unternehmensgrösse" [sortable]="true">
       <ng-template let-col let-stock="rowData" pTemplate="body">
-        {{stock['levermann'] | stockcategory}}
+        {{stock['stockCategory']}}
       </ng-template>
     </p-column>
     <p-column field="indexNames" header="Indizes"></p-column>
