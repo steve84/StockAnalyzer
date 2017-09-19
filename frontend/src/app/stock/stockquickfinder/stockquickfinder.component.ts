@@ -12,8 +12,8 @@ import { Stock } from '../stock';
 })
 export class StockquickfinderComponent implements OnInit {
 	@Output("OnStockSelect") onStockSelect: EventEmitter<Stock> = new EventEmitter<Stock>();
-	private stock: Stock;
-	private suggestedStocks: Stock[];
+	stock: Stock;
+	suggestedStocks: Stock[];
 
   constructor(private stockService: StockService, private router: Router) { }
 

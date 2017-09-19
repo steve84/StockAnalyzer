@@ -15,10 +15,10 @@ import { StockIndexImpl } from '../stockindex';
 })
 export class StockTableComponent implements OnInit {
   stocks: Stock[] = [];
-  private selectedStock: Stock = null;
-  private display: boolean = false;
-  private totalRecords: number = 0;
-  private pageSize: number = 10;
+  selectedStock: Stock = null;
+  display: boolean = false;
+  totalRecords: number = 0;
+  pageSize: number = 10;
 
   constructor(private stockService: StockService,
               private indexService: IndexService,

@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="en" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="stock.table.name.header" datatype="html">
+        <source>Name</source>
+        <target>Name</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/stocktable/stocktable.component.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/scorecombiner/scorecombiner.component.ts</context>
+          <context context-type="linenumber">65</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stock.table.country.header" datatype="html">
+        <source>Country</source>
+        <target>Land</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/stocktable/stocktable.component.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/scorecombiner/scorecombiner.component.ts</context>
+          <context context-type="linenumber">67</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stock.table.branch.header" datatype="html">
+        <source>Branch</source>
+        <target>Branche</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/stocktable/stocktable.component.ts</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/scorecombiner/scorecombiner.component.ts</context>
+          <context context-type="linenumber">66</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stock.table.levermann.header" datatype="html">
+        <source>Levermann-Score</source>
+        <target>Levermann-Punktzahl</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/stocktable/stocktable.component.ts</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stock.table.magicformula.header" datatype="html">
+        <source>Magic Formula-Score</source>
+        <target>Magic Formula-Punktzahl</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/stocktable/stocktable.component.ts</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stock.table.piotroski.header" datatype="html">
+        <source>Piotroski F-Score-Score</source>
+        <target>Piotroski F-Score-Punktzahl</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/stocktable/stocktable.component.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stock.table.company_size.header" datatype="html">
+        <source>Company size</source>
+        <target>Unternehmensgrösse</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/stocktable/stocktable.component.ts</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stock.table.indices.header" datatype="html">
+        <source>Indices</source>
+        <target>Indizes</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/stocktable/stocktable.component.ts</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="search.name.label" datatype="html">
+        <source>Name</source>
+        <target>Name</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/stocksearch/stocksearch.component.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="search.country.label" datatype="html">
+        <source>Country</source>
+        <target>Land</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/stocksearch/stocksearch.component.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="search.choice.label" datatype="html">
+        <source>Choose</source>
+        <target>Wähle</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/stocksearch/stocksearch.component.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/stocksearch/stocksearch.component.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/stocksearch/stocksearch.component.ts</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="search.choice.selected.label" datatype="html">
+        <source>{0} Einträge selektiert</source>
+        <target></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/stocksearch/stocksearch.component.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/stocksearch/stocksearch.component.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/stocksearch/stocksearch.component.ts</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="search.branch.label" datatype="html">
+        <source>Branch</source>
+        <target>Branche</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/stocksearch/stocksearch.component.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="search.index.label" datatype="html">
+        <source>Index</source>
+        <target>Index</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/stocksearch/stocksearch.component.ts</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="search.nbrofstocks.label" datatype="html">
+        <source>Number of stocks:</source>
+        <target>Anzahl Aktien</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/stocksearch/stocksearch.component.ts</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="search.search.label" datatype="html">
+        <source>Search</source>
+        <target>Suchen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/stocksearch/stocksearch.component.ts</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="search.reset.label" datatype="html">
+        <source>Reset filters</source>
+        <target>Filter zurücksetzen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/stocksearch/stocksearch.component.ts</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="score.combiner.levermann_factor.label" datatype="html">
+        <source>
+Levermann-Factor:
+</source>
+        <target>Levermann-Faktor:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/scorecombiner/scorecombiner.component.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="score.combiner.magic_formula_factor.label" datatype="html">
+        <source>
+Magic Formula-Factor:
+</source>
+        <target>Magic Formula-Faktor:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/scorecombiner/scorecombiner.component.ts</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="score.combiner.piotroski_factor.label" datatype="html">
+        <source>
+Piotroski F-Score-Factor:
+</source>
+        <target>Piotroski F-Score-Faktor:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/scorecombiner/scorecombiner.component.ts</context>
+          <context context-type="linenumber">29</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="score.combiner.number_of_results.label" datatype="html">
+        <source>
+Number of results:
+</source>
+        <target>Anzahl Resultate:</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/scorecombiner/scorecombiner.component.ts</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="score.combiner.type_of_results.label" datatype="html">
+        <source>
+Type of results:
+</source>
+        <target></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/scorecombiner/scorecombiner.component.ts</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7e892ba15f2c6c17e83510e273b3e10fc32ea016" datatype="html">
+        <source>Search</source>
+        <target>Suchen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/scorecombiner/scorecombiner.component.ts</context>
+          <context context-type="linenumber">57</context>
+        </context-group>
+        <note priority="1" from="description">score.combiner.search.label</note>
+      </trans-unit>
+      <trans-unit id="stock.table.score.header" datatype="html">
+        <source>Score</source>
+        <target>Punktzahl</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/scorecombiner/scorecombiner.component.ts</context>
+          <context context-type="linenumber">68</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="index.table.name.header" datatype="html">
+        <source>Name</source>
+        <target>Name</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/scorecombiner/scorecombiner.component.ts</context>
+          <context context-type="linenumber">80</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/index/index.component.ts</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="index.table.country.header" datatype="html">
+        <source>Country</source>
+        <target>Land</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/scorecombiner/scorecombiner.component.ts</context>
+          <context context-type="linenumber">81</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/index/index.component.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="index.table.nbrofstocks.header" datatype="html">
+        <source>Number of Stocks</source>
+        <target>Anzahl Aktien</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/scorecombiner/scorecombiner.component.ts</context>
+          <context context-type="linenumber">82</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/index/index.component.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="index.table.score.header" datatype="html">
+        <source>Score</source>
+        <target>Punktzahl</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/scorecombiner/scorecombiner.component.ts</context>
+          <context context-type="linenumber">83</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stock.detail.name" datatype="html">
+        <source>Name</source>
+        <target>Name</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/fundamental/fundamental.component.ts</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/fundamental/fundamental.component.ts</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/fundamental/fundamental.component.ts</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/fundamental/fundamental.component.ts</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/fundamental/fundamental.component.ts</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stock.detail.isin" datatype="html">
+        <source>ISIN</source>
+        <target>ISIN</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/fundamental/fundamental.component.ts</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stock.detail.businessyearend" datatype="html">
+        <source>End of business year</source>
+        <target>Geschäftsabschluss</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/fundamental/fundamental.component.ts</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stock.detail.currency" datatype="html">
+        <source>Currency</source>
+        <target>Währung</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/fundamental/fundamental.component.ts</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stock.detail.marketcap" datatype="html">
+        <source>Market capitalization</source>
+        <target>Marktkapitalisierung</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/fundamental/fundamental.component.ts</context>
+          <context context-type="linenumber">17</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stock.detail.companysize" datatype="html">
+        <source>Company size</source>
+        <target>Unternehmensgrösse</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/fundamental/fundamental.component.ts</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stock.detail.tab.overview.header" datatype="html">
+        <source>Overview</source>
+        <target>Übersicht</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/fundamental/fundamental.component.ts</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stock.detail.tab.balance.header" datatype="html">
+        <source>Balance</source>
+        <target>Bilanz</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/fundamental/fundamental.component.ts</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stock.detail.tab.cashflow.header" datatype="html">
+        <source>Cashflow</source>
+        <target>Geldfluss</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/fundamental/fundamental.component.ts</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stock.detail.tab.income.header" datatype="html">
+        <source>Income</source>
+        <target>Gewinn und Verlust</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/fundamental/fundamental.component.ts</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stock.detail.tab.values.header" datatype="html">
+        <source>Values</source>
+        <target>Werte</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/fundamental/fundamental.component.ts</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stock.detail.tab.signals.header" datatype="html">
+        <source>Signals</source>
+        <target>Signale</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/fundamental/fundamental.component.ts</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stock.detail.tab.forecast.header" datatype="html">
+        <source>Forecast</source>
+        <target>Prognosen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/fundamental/fundamental.component.ts</context>
+          <context context-type="linenumber">70</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stock.detail.tab.levermann.header" datatype="html">
+        <source>Levermann</source>
+        <target>Levermann</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/fundamental/fundamental.component.ts</context>
+          <context context-type="linenumber">79</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="index.table.levermann_score.header" datatype="html">
+        <source>Levermann-Score</source>
+        <target>Levermann-Punkte</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/index/index.component.ts</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="index.table.magic_formula_score.header" datatype="html">
+        <source>Magic Formula-Score</source>
+        <target>Magic Formula-Punkte</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/index/index.component.ts</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="index.table.piotroski_score.header" datatype="html">
+        <source>Piotroski F-Score-Score</source>
+        <target>Piotroski F-Score-Punkte</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/index/index.component.ts</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stock.quickfinder.placeholder" datatype="html">
+        <source>ISIN or stock name</source>
+        <target>ISIN oder Name</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/stockquickfinder/stockquickfinder.component.ts</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

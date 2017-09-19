@@ -10,6 +10,8 @@ import { Country } from '../country';
 import { Branch } from '../branch';
 import { IndexType } from '../indextype';
 
+import { CountryTranslationPipe } from '../country_translation.pipe';
+
 @Component({
   selector: 'app-stocksearch',
   templateUrl: './stocksearch.component.html',
@@ -17,17 +19,18 @@ import { IndexType } from '../indextype';
 })
 export class StocksearchComponent implements OnInit {
 	@Output("OnStocksFound") onStocksFound: EventEmitter<Stock[]> = new EventEmitter<Stock[]>();
-	private name: string;
-	private isin: string;
-	private nsin: string;
-	private wkn: string;
-	private selectedCountries: number[];
-	private countries: SelectItem[];
-	private selectedBranches: number[];
-	private branches: SelectItem[];
-	private selectedIndices: number[];
-	private indices: SelectItem[];
-	private nbrStocksFound: number = 0;
+	name: string;
+	isin: string;
+	nsin: string;
+	wkn: string;
+	selectedCountries: number[];
+	countries: SelectItem[];
+	selectedBranches: number[];
+	branches: SelectItem[];
+	selectedIndices: number[];
+	indices: SelectItem[];
+	nbrStocksFound: number = 0;
+  countryTranslationPipe: CountryTranslationPipe = new CountryTranslationPipe();
 
   constructor(private stockService: StockService, private indexService: IndexService) {
 	  this.stockService.getAllCountries()
@@ -35,7 +38,7 @@ export class StocksearchComponent implements OnInit {
 			  this.countries = [];
 				if (data && Object.keys(data).indexOf("_embedded") > -1 && Object.keys(data._embedded).indexOf("countries") > -1)
 					for (let country of data._embedded.countries) {
-					  this.countries.push({label: country.name, value: country.countryId});
+					  this.countries.push({label: this.countryTranslationPipe.transform(country.name), value: country.countryId});
 					}
 			});
 

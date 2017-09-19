@@ -1,21 +1,21 @@
 <p-dialog [header]="title" [(visible)]="display" (onHide)="closeDisplay()">
   <p-tabView>
-    <p-tabPanel header="Übersicht">
+    <p-tabPanel i18n-header="@@stock.detail.tab.overview.header" header="Overview">
       <div *ngIf="stock && stock.balance">
         <div class = "ui-g">
           <div class = "ui-g-12"><button type="button" pButton label="Vergleichen" (click)="addToCompare(symbol)" icon="fa-plus-circle"></button></div>
         </div>
         <div class = "ui-g">
-          <div class = "ui-g-3">Name</div><div class = "ui-g-3">{{stock.name}}</div>
-          <div class = "ui-g-3">ISIN</div><div class = "ui-g-3">{{stock.isin}}</div>
+          <div class = "ui-g-3" i18n="@@stock.detail.name">Name</div><div class = "ui-g-3">{{stock.name}}</div>
+          <div class = "ui-g-3" i18n="@@stock.detail.isin">ISIN</div><div class = "ui-g-3">{{stock.isin}}</div>
         </div>
         <div class = "ui-g">
-          <div class = "ui-g-3">Geschäftsjahresende</div><div class = "ui-g-3">{{stock.balance[0].modifiedAt | date:'dd.MM.'}}</div>
-          <div class = "ui-g-3">Währung</div><div class = "ui-g-3">{{stock.currency}}</div>
+          <div class = "ui-g-3" i18n="@@stock.detail.businessyearend">End of business year</div><div class = "ui-g-3">{{stock.balance[0].modifiedAt | date:'dd.MM.'}}</div>
+          <div class = "ui-g-3" i18n="@@stock.detail.currency">Currency</div><div class = "ui-g-3">{{stock.currency}}</div>
         </div>
         <div *ngIf="value" class = "ui-g">
-          <div class = "ui-g-3">Marktkapitalisierung</div><div class = "ui-g-3">{{value.marketCapitalization}}</div>
-          <div class = "ui-g-3">Aktienkategorie</div><div class = "ui-g-3">{{value.marketCapitalization * 1000 | stockcategory}}</div>
+          <div class = "ui-g-3" i18n="@@stock.detail.marketcap">Market capitalization</div><div class = "ui-g-3">{{value.marketCapitalization}}</div>
+          <div class = "ui-g-3" i18n="@@stock.detail.companysize">Company size</div><div class = "ui-g-3">{{value.marketCapitalization * 1000 | stockcategory}}</div>
         </div>
         <div *ngFor="let index of indexNames" class = "ui-g">
           <div class = "ui-g-3">{{index}}</div><div class = "ui-g-3">{{stock.indexParticipation[index]*100 | number}}%</div>
@@ -23,7 +23,7 @@
         </div>
       </div>
     </p-tabPanel>
-    <p-tabPanel header="Bilanz">
+    <p-tabPanel i18n-header="@@stock.detail.tab.balance.header" header="Balance">
       <div *ngIf="stock && stock.balance">
         <div class = "ui-g">
           <p-dataTable [value]="createTableObject(transposeData(stock.balance))">
@@ -32,7 +32,7 @@
         </div>
       </div>
     </p-tabPanel>
-    <p-tabPanel header="Cashflow">
+    <p-tabPanel i18n-header="@@stock.detail.tab.cashflow.header" header="Cashflow">
       <div *ngIf="stock && stock.cashflow">
         <div class = "ui-g">
           <p-dataTable [value]="createTableObject(transposeData(stock.cashflow))">
@@ -41,7 +41,7 @@
         </div>
       </div>
     </p-tabPanel>
-    <p-tabPanel header="Gewinn -und Verlustrechnung">
+    <p-tabPanel i18n-header="@@stock.detail.tab.income.header" header="Income">
       <div *ngIf="stock && stock.income">
         <div class = "ui-g">
           <p-dataTable [value]="createTableObject(transposeData(stock.income))">
@@ -50,7 +50,7 @@
         </div>
       </div>
     </p-tabPanel>
-        <p-tabPanel header="Values">
+        <p-tabPanel i18n-header="@@stock.detail.tab.values.header" header="Values">
       <div *ngIf="value">
         <div class = "ui-g">
           <div class = "ui-g-3">KGV</div><div class = "ui-g-3">{{value.priceEarningsRatio}}</div>
@@ -58,7 +58,7 @@
         </div>
       </div>
     </p-tabPanel>
-    <p-tabPanel header="Signals">
+    <p-tabPanel i18n-header="@@stock.detail.tab.signals.header" header="Signals">
       <div *ngIf="signals">
         <div class = "ui-g">
           <p-dataTable [value]="createTableObject(transposeData(signals))">
@@ -67,7 +67,7 @@
         </div>
       </div>
     </p-tabPanel>
-    <p-tabPanel header="Prognosen">
+    <p-tabPanel i18n-header="@@stock.detail.tab.forecast.header" header="Forecast">
       <div *ngIf="stock && stock.forecast">
         <div class = "ui-g">
           <p-dataTable [value]="createTableObject(transposeData(stock.forecast))">
@@ -76,7 +76,7 @@
         </div>
       </div>
     </p-tabPanel>
-    <p-tabPanel header="Levermann">
+    <p-tabPanel i18n-header="@@stock.detail.tab.levermann.header" header="Levermann">
       <app-levermann [stock]="stock"></app-levermann>
     </p-tabPanel>
   </p-tabView>

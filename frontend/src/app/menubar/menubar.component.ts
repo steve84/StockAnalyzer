@@ -2,23 +2,26 @@ import { Component, OnInit } from '@angular/core';
 
 import { MenuItem } from 'primeng/primeng';
 
+import { CommonTranslationPipe } from '../stock/common_translation.pipe'
+
 @Component({
   selector: 'app-menubar',
   templateUrl: './menubar.component.html',
   styleUrls: ['./menubar.component.css']
 })
 export class MenubarComponent implements OnInit {
-  private items: MenuItem[] = [];
+  items: MenuItem[] = [];
+  commonTranslationPipe: CommonTranslationPipe = new CommonTranslationPipe();
   constructor() { }
 
   ngOnInit() {
    this.items = [
-     {label: 'Listen', icon: 'fa-table', items: [
-       {label: 'Aktien', routerLink: ['/stocks']},
-       {label: 'Indizes', routerLink: ['/indices']}
+     {label: this.commonTranslationPipe.transform('Lists'), icon: 'fa-table', items: [
+       {label: this.commonTranslationPipe.transform('Stocks'), routerLink: ['/stocks']},
+       {label: this.commonTranslationPipe.transform('Indices'), routerLink: ['/indices']}
      ]},
-     {label: 'Aktien-Suche', icon: 'fa-search', routerLink: ['/stocks/search']},
-     {label: 'Advisor', icon: ' fa-lightbulb-o', routerLink: ['/combiner']}
+     {label: this.commonTranslationPipe.transform('Stock screener'), icon: 'fa-search', routerLink: ['/stocks/search']},
+     {label: this.commonTranslationPipe.transform('Advisor'), icon: ' fa-lightbulb-o', routerLink: ['/combiner']}
    ];
   }
 

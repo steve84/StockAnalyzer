@@ -13,8 +13,8 @@ export class IndexdetailComponent implements OnInit, OnChanges {
   @Input('display') display: boolean = false;
   @Input('index') index: IndexType;
   @Output('close') close: EventEmitter<boolean> = new EventEmitter<boolean>();
-  private title: string;
-	private totalMarketCap: number = 0;
+  title: string;
+	totalMarketCap: number = 0;
 
   constructor(private indexService: IndexService) { }
 

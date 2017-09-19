@@ -12,8 +12,8 @@ import { Levermann } from '../levermann';
 })
 export class LevermannComponent implements OnInit, OnChanges {
   @Input('stock') stock: Stock;
-  private levermannData: Levermann;
-  private levermannAdvice: string = "nicht kaufen/verkaufen";
+  levermannData: Levermann;
+  levermannAdvice: string = "nicht kaufen/verkaufen";
   constructor(private stockService: StockService) { }
 
   ngOnInit() {}

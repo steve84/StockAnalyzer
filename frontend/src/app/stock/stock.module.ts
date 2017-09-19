@@ -36,6 +36,9 @@ import { StockcategoryPipe } from './stockcategory.pipe';
 import { StockquickfinderComponent } from './stockquickfinder/stockquickfinder.component';
 import { StocksearchComponent } from './stocksearch/stocksearch.component';
 import { ScorecombinerComponent } from './scorecombiner/scorecombiner.component';
+import { CountryTranslationPipe } from './country_translation.pipe';
+import { BranchTranslationPipe } from './branch_translation.pipe';
+import { CommonTranslationPipe } from './common_translation.pipe';
 
 @NgModule({
   imports: [
@@ -70,6 +73,6 @@ import { ScorecombinerComponent } from './scorecombiner/scorecombiner.component'
     FundamentalService,
     IndexService
   ],
-  declarations: [StockTableComponent, FundamentalComponent, LevermannComponent, IndexComponent, IndexdetailComponent, StockcategoryPipe, StockquickfinderComponent, StocksearchComponent, ScorecombinerComponent]
+  declarations: [StockTableComponent, FundamentalComponent, LevermannComponent, IndexComponent, IndexdetailComponent, StockcategoryPipe, StockquickfinderComponent, StocksearchComponent, ScorecombinerComponent, CountryTranslationPipe, BranchTranslationPipe, CommonTranslationPipe]
 })
 export class StockModule { }

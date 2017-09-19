@@ -9,29 +9,32 @@ import { Score } from '../score';
 import { Stock } from '../stock';
 import { IndexType } from '../indextype';
 
+import { CommonTranslationPipe } from '../common_translation.pipe';
+
 @Component({
   selector: 'app-scorecombiner',
   templateUrl: './scorecombiner.component.html',
   styleUrls: ['./scorecombiner.component.css']
 })
 export class ScorecombinerComponent implements OnInit {
-  private levermannFactor: number = 40;
-  private magicFormulaFactor: number = 20;
-  private piotroskiFactor: number = 40;
-  private numRowValues: SelectItem[] = [];
-  private numRows: number = 10;
-  private msgs: Message[] = [];
-  private scores: Score[];
-  private selectedScore: Score;
-  private stockOrIndexItem: SelectItem[] = [];
-  private stockOrIndex: string = 'stock';
+  levermannFactor: number = 40;
+  magicFormulaFactor: number = 20;
+  piotroskiFactor: number = 40;
+  numRowValues: SelectItem[] = [];
+  numRows: number = 10;
+  msgs: Message[] = [];
+  scores: Score[];
+  selectedScore: Score;
+  stockOrIndexItem: SelectItem[] = [];
+  stockOrIndex: string = 'stock';
+  commonTranslationPipe: CommonTranslationPipe = new CommonTranslationPipe();
   constructor(private stockService: StockService, private indexService: IndexService) {
     this.numRowValues.push({label: '10', value: 10});
     this.numRowValues.push({label: '20', value: 20});
     this.numRowValues.push({label: '30', value: 30});
 
-    this.stockOrIndexItem.push({label: 'Aktien', value: 'stock'});
-    this.stockOrIndexItem.push({label: 'Indizes', value: 'index'});
+    this.stockOrIndexItem.push({label: this.commonTranslationPipe.transform('Stocks'), value: 'stock'});
+    this.stockOrIndexItem.push({label: this.commonTranslationPipe.transform('Indices'), value: 'index'});
   }
 
   ngOnInit() {
@@ -62,7 +65,7 @@ export class ScorecombinerComponent implements OnInit {
   handleChange(event: any) {
     let sumFactors = this.levermannFactor + this.magicFormulaFactor + this.piotroskiFactor;
     if (sumFactors != 100)
-      this.msgs = [{severity: 'info', summary: 'Information', detail: "Summe der Faktoren muss 100 betragen (aktuell: " + sumFactors + ")"}];
+      this.msgs = [{severity: 'info', summary: this.commonTranslationPipe.transform('Information'), detail: this.commonTranslationPipe.transform('The sum of the factors has to be 100 (actual: ') + sumFactors + ")"}];
     else
       this.msgs = [];
   }

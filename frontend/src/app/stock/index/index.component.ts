@@ -12,12 +12,12 @@ import { Stock } from '../stock';
   styleUrls: ['./index.component.css']
 })
 export class IndexComponent implements OnInit {
-  private display: boolean = false;
-  private title: string;
-  private indices: IndexType[] = [];
-  private selectedIndex: IndexType = null;
-  private totalRecords: number = 0;
-  private pageSize: number = 10;
+  display: boolean = false;
+  title: string;
+  indices: IndexType[] = [];
+  selectedIndex: IndexType = null;
+  totalRecords: number = 0;
+  pageSize: number = 10;
 
   constructor(private stockService: StockService, private indexService: IndexService) {}
 

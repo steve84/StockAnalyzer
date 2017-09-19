@@ -4,7 +4,7 @@
 </div>
 </div>
 <div class = "ui-g">
-<div class = "ui-g-3">
+<div class = "ui-g-3" i18n="@@score.combiner.levermann_factor.label">
 Levermann-Factor:
 </div>
 <div class = "ui-g-3">
@@ -15,7 +15,7 @@ Levermann-Factor:
 </div>
 </div>
 <div class = "ui-g">
-<div class = "ui-g-3">
+<div class = "ui-g-3" i18n="@@score.combiner.magic_formula_factor.label">
 Magic Formula-Factor:
 </div>
 <div class = "ui-g-3">
@@ -26,7 +26,7 @@ Magic Formula-Factor:
 </div>
 </div>
 <div class = "ui-g">
-<div class = "ui-g-3">
+<div class = "ui-g-3" i18n="@@score.combiner.piotroski_factor.label">
 Piotroski F-Score-Factor:
 </div>
 <div class = "ui-g-3">
@@ -37,16 +37,16 @@ Piotroski F-Score-Factor:
 </div>
 </div>
 <div class = "ui-g">
-<div class = "ui-g-3">
-Anzahl Resultate:
+<div class = "ui-g-3" i18n="@@score.combiner.number_of_results.label">
+Number of results:
 </div>
 <div class = "ui-g-9">
 <p-dropdown [options]="numRowValues" [(ngModel)]="numRows"></p-dropdown>
 </div>
 </div>
 <div class = "ui-g">
-<div class = "ui-g-3">
-Resultat-Typ:
+<div class = "ui-g-3" i18n="@@score.combiner.type_of_results.label">
+Type of results:
 </div>
 <div class = "ui-g-9">
 <p-selectButton [options]="stockOrIndexItem" [(ngModel)]="stockOrIndex" (onChange)="handleSelectChange($event)"></p-selectButton>
@@ -54,7 +54,7 @@ Resultat-Typ:
 </div>
 <div class = "ui-g">
 <div class = "ui-g-12">
-<button type="button" pButton label="Suchen" (click)="getScoreValues()" [disabled]="!isValid()" icon="fa-search"></button>
+<button type="button" pButton i18n-label="score.combiner.search.label" label="Search" (click)="getScoreValues()" [disabled]="!isValid()" icon="fa-search"></button>
 </div>
 </div>
 
@@ -62,10 +62,10 @@ Resultat-Typ:
 <div class = "ui-g-12">
 <p-dataTable [value]="scores" selectionMode="single" [(selection)]="selectedScore">
   <p-column field="stock.isin" header="ISIN"></p-column>
-  <p-column field="stock.name" header="Aktie"></p-column>
-  <p-column field="stock.branch.name" header="Branche"></p-column>
-  <p-column field="stock.country.name" header="Land"></p-column>
-  <p-column field="scoreValue" header="Wert">
+  <p-column field="stock.name" i18n-header="@@stock.table.name.header" header="Name"></p-column>
+  <p-column field="stock.branch.name" i18n-header="@@stock.table.branch.header" header="Branch"></p-column>
+  <p-column field="stock.country.name" i18n-header="@@stock.table.country.header" header="Country"></p-column>
+  <p-column field="scoreValue" i18n-header="@@stock.table.score.header" header="Score">
     <ng-template let-col let-score="rowData" pTemplate="body">
       {{score[col.field] * 100 | number}}
     </ng-template>
@@ -77,10 +77,10 @@ Resultat-Typ:
 <div *ngIf="stockOrIndex == 'index'" class = "ui-g">
 <div class = "ui-g-12">
 <p-dataTable [value]="scores" selectionMode="single" [(selection)]="selectedScore">
-  <p-column field="index.name" header="Name"></p-column>
-  <p-column field="index.country.name" header="Land"></p-column>
-  <p-column field="index.realStocks.length" header="Anzahl Aktien"></p-column>
-  <p-column field="scoreValue" header="Wert">
+  <p-column field="index.name" i18n-header="@@index.table.name.header" header="Name"></p-column>
+  <p-column field="index.country.name" i18n-header="@@index.table.country.header" header="Country"></p-column>
+  <p-column field="index.realStocks.length" i18n-header="@@index.table.nbrofstocks.header" header="Number of Stocks"></p-column>
+  <p-column field="scoreValue" i18n-header="@@index.table.score.header" header="Score">
     <ng-template let-col let-score="rowData" pTemplate="body">
       {{score[col.field] * 100 | number}}
     </ng-template>

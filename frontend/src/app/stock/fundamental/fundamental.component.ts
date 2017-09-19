@@ -22,12 +22,12 @@ export class FundamentalComponent implements OnInit, OnChanges {
   @Input('display') display: boolean = false;
   @Input('stock') stock: Stock;
   @Output('close') close: EventEmitter<boolean> = new EventEmitter<boolean>();
-  private title: string;
-  private value: Values;
-  private signals: Signals[] = [];
-  private chart: Chart;
-  private historicalChart: Chart;
-  private indexNames: string[] = [];
+  title: string;
+  value: Values;
+  signals: Signals[] = [];
+  chart: Chart;
+  historicalChart: Chart;
+  indexNames: string[] = [];
 
   constructor(private stockService: StockService,
               private fundamentalService: FundamentalService,
