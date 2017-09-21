@@ -1,3 +1,10 @@
 <p-menubar [model]="items">
   <app-stockquickfinder></app-stockquickfinder>
+  <span *ngIf="getUsername()">
+    {{getUsername()}}
+    <button type="button" pButton i18n-label="@@menubar.logout.label" label="Logout" (click)="logout()" icon="fa-sign-out"></button>
+  </span>
+  <span *ngIf="!getUsername()">
+    <button type="button" pButton i18n-label="@@menubar.login.label" label="Login" (click)="login()" icon="fa-sign-in"></button>
+  </span>
 </p-menubar>

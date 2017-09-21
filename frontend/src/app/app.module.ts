@@ -4,9 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
-import { MenubarModule } from 'primeng/primeng';
+import { MenubarModule, DialogModule, ButtonModule, InputTextModule } from 'primeng/primeng';
 
 import { StockModule } from './stock/stock.module';
+import { AuthModule } from './auth/auth.module';
 
 import { appRoutes } from './app.routes';
 
@@ -14,11 +15,16 @@ import { AppComponent } from './app.component';
 import { StockTableComponent } from './stock/stocktable/stocktable.component';
 import { StockquickfinderComponent } from './stock/stockquickfinder/stockquickfinder.component';
 import { MenubarComponent } from './menubar/menubar.component';
+import { LoginComponent } from './login/login.component';
+
+import { UserService } from './user.service';
+import { AuthGuard } from './auth/authguard.service';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MenubarComponent
+    MenubarComponent,
+    LoginComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -26,9 +32,13 @@ import { MenubarComponent } from './menubar/menubar.component';
     FormsModule,
     HttpModule,
     MenubarModule,
-    StockModule
+    DialogModule,
+    ButtonModule,
+    InputTextModule,
+    StockModule,
+    AuthModule
   ],
-  providers: [StockTableComponent, StockquickfinderComponent],
+  providers: [StockTableComponent, StockquickfinderComponent, UserService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

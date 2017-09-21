@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, URLSearchParams } from '@angular/http';
 
+import { AuthHttp } from 'angular2-jwt';
+
 import 'rxjs/add/operator/map';
 
 @Injectable()
 export class FundamentalService {
 
-  constructor(private http: Http) { }
+  constructor(private http: AuthHttp) { }
 
   getValuesByStockId(stockId: number) {
     let url = "http://localhost:8080/stocks/" + stockId + "/values";

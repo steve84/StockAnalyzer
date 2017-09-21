@@ -1,6 +1,8 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { Http, Response, URLSearchParams } from '@angular/http';
 
+import { AuthHttp } from 'angular2-jwt';
+
 import { IndexType } from './indextype';
 
 import 'rxjs/add/operator/map';
@@ -8,7 +10,7 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class IndexService {
   private indexEmitter: EventEmitter<IndexType> = new EventEmitter<IndexType>();
-  constructor(private http: Http) { }
+  constructor(private http: AuthHttp) { }
 
   getIndices(page: number, size: number, sortField?: string, sortOrder?: number) {
     let url = "http://localhost:8080/indices";

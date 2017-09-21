@@ -421,6 +421,46 @@ Type of results:
           <context context-type="linenumber">1</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="login.username.label" datatype="html">
+        <source>Username</source>
+        <target/>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/login/login.component.ts</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.password.label" datatype="html">
+        <source>Password</source>
+        <target/>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/login/login.component.ts</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="login.login.label" datatype="html">
+        <source>Login</source>
+        <target/>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/login/login.component.ts</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="menubar.logout.label" datatype="html">
+        <source>Logout</source>
+        <target/>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/menubar/menubar.component.ts</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="menubar.login.label" datatype="html">
+        <source>Login</source>
+        <target/>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/menubar/menubar.component.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>

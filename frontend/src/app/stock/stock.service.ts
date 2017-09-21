@@ -1,5 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { Http, Response, URLSearchParams } from '@angular/http';
+import { Response, URLSearchParams } from '@angular/http';
+
+import { AuthHttp } from 'angular2-jwt';
 
 import 'rxjs/add/operator/map';
 
@@ -8,7 +10,7 @@ import { Stock } from './stock';
 @Injectable()
 export class StockService {
   private stockEmitter: EventEmitter<Stock> = new EventEmitter<Stock>();
-  constructor(private http: Http) { }
+  constructor(private http: AuthHttp) { }
 
   getStocks(page: number, size: number, sortField?: string, sortOrder?: number) {
     let url = "http://localhost:8080/stocks";
