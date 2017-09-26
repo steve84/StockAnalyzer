@@ -11,7 +11,6 @@ import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
 import ch.steve84.stock_analyzer.entity.Branch;
 import ch.steve84.stock_analyzer.entity.Country;
-import ch.steve84.stock_analyzer.entity.Index;
 import ch.steve84.stock_analyzer.entity.Stock;
 
 @RepositoryRestResource(collectionResourceRel = "stock", path = "stocks")
