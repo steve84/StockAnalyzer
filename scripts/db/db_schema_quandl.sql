@@ -187,6 +187,26 @@ CREATE SEQUENCE forecast_seq
 
 ALTER TABLE forecast_seq OWNER TO postgres;
 
+CREATE SEQUENCE user_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE user_seq OWNER TO postgres;
+
+
+CREATE SEQUENCE role_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE role_seq OWNER TO postgres;
 
 SET default_tablespace = '';
 
@@ -397,6 +417,23 @@ CREATE TABLE tforecast (
 
 ALTER TABLE tforecast OWNER TO postgres;
 
+CREATE TABLE tuser (
+    user_id integer DEFAULT nextval('user_seq'::regclass) NOT NULL,
+    username character varying,
+    password character varying,
+    role_id integer
+);
+
+
+ALTER TABLE tuser OWNER TO postgres;
+
+CREATE TABLE trole (
+    role_id integer DEFAULT nextval('role_seq'::regclass) NOT NULL,
+    role_name character varying
+);
+
+ALTER TABLE trole OWNER TO postgres;
+
 
 --
 -- TOC entry 2001 (class 2606 OID 16500)
@@ -451,6 +488,11 @@ ALTER TABLE ONLY tvalues
 ALTER TABLE ONLY tforecast
 	ADD CONSTRAINT pforecast PRIMARY KEY (forecast_id);
 
+  ALTER TABLE ONLY tuser
+    ADD CONSTRAINT puser PRIMARY KEY (user_id);
+
+ALTER TABLE ONLY trole
+    ADD CONSTRAINT prole PRIMARY KEY (role_id);
 --
 -- TOC entry 2004 (class 1259 OID 16505)
 -- Name: fki_fbranch; Type: INDEX; Schema: public; Owner: postgres
@@ -536,6 +578,8 @@ ALTER TABLE ONLY tvalues
 ALTER TABLE ONLY tforecast
 	ADD CONSTRAINT forecaststock FOREIGN KEY (stock_id) REFERENCES tstock(stock_id);
 
+ALTER TABLE ONLY tuser
+  ADD CONSTRAINT fuser FOREIGN KEY (role_id) REFERENCES trole(role_id);
 
 ALTER TABLE tbranch ADD CONSTRAINT ubranchname UNIQUE (name);
 
@@ -553,7 +597,7 @@ ALTER TABLE tscoretype ADD CONSTRAINT uscoretype UNIQUE (name);
 
 ALTER TABLE tscore ADD CONSTRAINT uscorestock UNIQUE (score_type_id, stock_id);
 
-
+ALTER TABLE tuser ADD CONSTRAINT uuser UNIQUE (username);
 
 ALTER TABLE tscore ADD CONSTRAINT cscore CHECK ((stock_id is NULL) <> (index_id is NULL));
 
