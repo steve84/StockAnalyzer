@@ -8,6 +8,7 @@ import { JwtHelper } from 'angular2-jwt';
 export class UserService {
 
   username: string;
+  roles: string;
 
   constructor(private http: Http) {
     this.decodeToken();
@@ -23,6 +24,7 @@ export class UserService {
   logout() {
     this.removeToken();
     this.setUsername('');
+    this.setRoles('');
   }
   
   getUsername(): string {
@@ -33,12 +35,21 @@ export class UserService {
     this.username = username;
   }
   
+  getRoles(): string {
+    return this.roles;
+  }
+  
+  setRoles(roles: string) {
+    this.roles = roles;
+  }
+  
   decodeToken() {
     let token = localStorage.getItem('token');
     let jwtHelper = new JwtHelper();
     if (token) {
       let decodedToken = jwtHelper.decodeToken(token);
       this.setUsername(decodedToken.sub);
+      this.setRoles(decodedToken.roles);
     }
   }
   

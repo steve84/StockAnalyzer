@@ -4,14 +4,14 @@ import org.springframework.security.core.GrantedAuthority;
 
 public class AdminAuthority implements GrantedAuthority {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7994062682213888660L;
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7994062682213888660L;
 
-	@Override
-	public String getAuthority() {
-		return "admin";
-	}
+    @Override
+    public String getAuthority() {
+        return "admin";
+    }
 
 }
