@@ -47,9 +47,9 @@ public class TokenAuthenticationService {
 
             if (user != null) {
                 if (authorities.size() > 0)
-                    new UsernamePasswordAuthenticationToken(user, null, authorities);
+                    return new UsernamePasswordAuthenticationToken(user, null, authorities);
                 else
-                    new UsernamePasswordAuthenticationToken(user, null, emptyList());
+                    return new UsernamePasswordAuthenticationToken(user, null, emptyList());
             }
         }
         return null;
