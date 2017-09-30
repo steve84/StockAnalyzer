@@ -1,6 +1,6 @@
 <div class = "ui-g">
 <div class = "ui-g-12">
-<p-messages [(value)]="msgs"></p-messages>
+<p-messages [(value)]="msgs" [closable]="false"></p-messages>
 </div>
 </div>
 <div class = "ui-g">
@@ -60,7 +60,7 @@ Type of results:
 
 <div *ngIf="stockOrIndex == 'stock'" class = "ui-g">
 <div class = "ui-g-12">
-<p-dataTable [value]="scores" selectionMode="single" [(selection)]="selectedScore">
+<p-dataTable [value]="scores" selectionMode="single" [(selection)]="selectedScore" resizableColumns="true">
   <p-column field="stock.isin" header="ISIN"></p-column>
   <p-column field="stock.name" i18n-header="@@stock.table.name.header" header="Name"></p-column>
   <p-column field="stock.branch.name" i18n-header="@@stock.table.branch.header" header="Branch"></p-column>
@@ -76,7 +76,7 @@ Type of results:
 
 <div *ngIf="stockOrIndex == 'index'" class = "ui-g">
 <div class = "ui-g-12">
-<p-dataTable [value]="scores" selectionMode="single" [(selection)]="selectedScore">
+<p-dataTable [value]="scores" selectionMode="single" [(selection)]="selectedScore" resizableColumns="true">
   <p-column field="index.name" i18n-header="@@index.table.name.header" header="Name"></p-column>
   <p-column field="index.country.name" i18n-header="@@index.table.country.header" header="Country"></p-column>
   <p-column field="index.realStocks.length" i18n-header="@@index.table.nbrofstocks.header" header="Number of Stocks"></p-column>
