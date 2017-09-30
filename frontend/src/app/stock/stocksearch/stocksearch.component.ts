@@ -30,6 +30,7 @@ export class StocksearchComponent implements OnInit {
 	selectedIndices: number[];
 	indices: SelectItem[];
 	nbrStocksFound: number = 0;
+  stocks: Stock[] = [];
   countryTranslationPipe: CountryTranslationPipe = new CountryTranslationPipe();
 
   constructor(private stockService: StockService, private indexService: IndexService) {
@@ -70,6 +71,7 @@ export class StocksearchComponent implements OnInit {
 			  if (data && data.page)
 			    this.nbrStocksFound = data.page.totalElements;
 			  this.onStocksFound.emit(data._embedded.stock);
+        this.stocks = data._embedded.stock;
 			});
 	}
 	
@@ -82,6 +84,7 @@ export class StocksearchComponent implements OnInit {
     this.selectedBranches = [];
     this.selectedIndices = [];
     this.nbrStocksFound = 0;
+    this.stocks = [];
 	}
 
 }

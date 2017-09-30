@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { StockService} from '../stock.service';
@@ -13,16 +13,26 @@ import { StockIndexImpl } from '../stockindex';
   templateUrl: './stocktable.component.html',
   styleUrls: ['./stocktable.component.css']
 })
-export class StockTableComponent implements OnInit {
+export class StockTableComponent implements OnInit, OnChanges {
   stocks: Stock[] = [];
   selectedStock: Stock = null;
   display: boolean = false;
   totalRecords: number = 0;
   pageSize: number = 10;
-
+  lazy: boolean = true;
+  @Input('stocks') stocksInput: Stock[];
+  @Input('simpleTable') simpleTable: boolean = false;
   constructor(private stockService: StockService,
               private indexService: IndexService,
               private router: Router) {}
+              
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.stocksInput.currentValue) {
+      debugger
+      this.lazy = false;
+      this.stocks = changes.stocksInput.currentValue;
+    }
+  }
 
   loadData(event: any) {
     this.getStocks(Math.floor(event.first / event.rows), event.sortField, event.sortOrder);

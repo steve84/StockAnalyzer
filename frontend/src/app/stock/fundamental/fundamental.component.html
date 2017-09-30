@@ -1,4 +1,4 @@
-<p-dialog [header]="title" [(visible)]="display" (onHide)="closeDisplay()">
+<p-dialog [header]="title" [(visible)]="display" (onHide)="closeDisplay()" [width]="600">
   <p-tabView>
     <p-tabPanel i18n-header="@@stock.detail.tab.overview.header" header="Overview">
       <div *ngIf="stock && stock.balance">
@@ -26,9 +26,7 @@
     <p-tabPanel i18n-header="@@stock.detail.tab.balance.header" header="Balance">
       <div *ngIf="stock && stock.balance">
         <div class = "ui-g">
-          <p-dataTable [value]="createTableObject(transposeData(stock.balance))">
-              <p-column *ngFor="let col of getColsFromData(transposeData(stock.balance))" [field]="col.field" [header]="col.header"></p-column>
-          </p-dataTable>
+          <app-balancetable [balance]="stock.balance"></app-balancetable>
         </div>
       </div>
     </p-tabPanel>

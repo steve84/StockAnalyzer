@@ -15,13 +15,15 @@ export class IndexdetailComponent implements OnInit, OnChanges {
   @Output('close') close: EventEmitter<boolean> = new EventEmitter<boolean>();
   title: string;
 	totalMarketCap: number = 0;
+  stocks: any[] = [];
 
-  constructor(private indexService: IndexService) { }
+  constructor(private indexService: IndexService) {}
 
   ngOnInit() {
     this.indexService.getIndexEmitter()
       .subscribe((data:IndexType) => {
         this.index = data;
+        this.stocks = data.realStocks;
         this.title = data.name;
         this.setTotalMarketCap();
         this.display = true;

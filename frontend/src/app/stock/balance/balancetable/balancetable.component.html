@@ -1,0 +1,11 @@
+<p-dataTable [value]="balanceValues" selectionMode="single" [(selection)]="selectedRow">
+    <p-column *ngFor="let col of getColsFromData(transposeData(balance))" [field]="col.field" [header]="col.header">
+      <ng-template let-col pTemplate="header">
+        <span *ngIf="col.field != 'title'">{{col.field}}</span>
+      </ng-template>
+      <ng-template let-col let-balance="rowData" pTemplate="body">
+        <span *ngIf="col.field != 'title'">{{balance[col.field]}}</span>
+        <span *ngIf="col.field == 'title'">{{fieldToLabelName(balance[col.field])}}</span>
+      </ng-template>
+    </p-column>
+</p-dataTable>

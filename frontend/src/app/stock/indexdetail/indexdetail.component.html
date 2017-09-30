@@ -1,41 +1,39 @@
-<p-dialog [header]="title" [(visible)]="display" (onHide)="closeDisplay()">
-  <div *ngIf="index">
-    <p-dataTable [value]="index.realStocks" selectionMode="single">
-      <p-column field="isin" header="ISIN"></p-column>
-      <p-column field="name" header="Name"></p-column>
-      <p-column field="country.name" header="Land"></p-column>
-      <p-column field="branch.name" header="Branche"></p-column>
-      <p-column field="levermann.marketCapitalization" header="Unternehmensgrösse">
-        <ng-template let-col let-stock="rowData" pTemplate="body">
-          {{stock['stockCategory']}}
-        </ng-template>
-      </p-column>
-      <p-column field="indexParticipation" header="Anteil">
-        <ng-template let-col let-stock="rowData" pTemplate="body">
-            <span *ngIf="stock.levermann && stock.levermann.marketCapitalization">{{stock.levermann.marketCapitalization / totalMarketCap * 100 | number}}%</span>
-        </ng-template>
-      </p-column>
-      <p-column field="scores" header="Levermann-Punktzahl">
-        <ng-template let-col let-stock="rowData" pTemplate="body">
-          <span *ngFor="let score of stock['scores']">
-            <span *ngIf="score['scoreType']['name'] == 'Levermann'">{{score['scoreValue']}}</span>
-          </span>
-        </ng-template>
-		  </p-column>
-      <p-column field="scores" header="Magic Formula-Punktzahl">
-        <ng-template let-col let-stock="rowData" pTemplate="body">
-          <span *ngFor="let score of stock['scores']">
-            <span *ngIf="score['scoreType']['name'] == 'Magic Formula'">{{score['scoreValue'] | number}}</span>
-          </span>
-        </ng-template>
-      </p-column>
-      <p-column field="scores" header="Piotroski F-Score-Punktzahl">
-        <ng-template let-col let-stock="rowData" pTemplate="body">
-          <span *ngFor="let score of stock['scores']">
-            <span *ngIf="score['scoreType']['name'] == 'Piotroski F-Score'">{{score['scoreValue']}}</span>
-          </span>
-        </ng-template>
-      </p-column>
-    </p-dataTable>
-  </div>
+<p-dialog [header]="title" [(visible)]="display" (onHide)="closeDisplay()" [width]="600">
+  <p-dataTable [value]="stocks" selectionMode="single">
+    <p-column field="isin" header="ISIN"></p-column>
+    <p-column field="name" header="Name"></p-column>
+    <p-column field="country.name" header="Land"></p-column>
+    <p-column field="branch.name" header="Branche"></p-column>
+    <p-column field="levermann.marketCapitalization" header="Unternehmensgrösse">
+      <ng-template let-col let-stock="rowData" pTemplate="body">
+        {{stock['stockCategory']}}
+      </ng-template>
+    </p-column>
+    <p-column field="indexParticipation" header="Anteil">
+      <ng-template let-col let-stock="rowData" pTemplate="body">
+          <span *ngIf="stock.levermann && stock.levermann.marketCapitalization">{{stock.levermann.marketCapitalization / totalMarketCap * 100 | number}}%</span>
+      </ng-template>
+    </p-column>
+    <p-column field="scores" header="Levermann-Punktzahl">
+      <ng-template let-col let-stock="rowData" pTemplate="body">
+        <span *ngFor="let score of stock['scores']">
+          <span *ngIf="score['scoreType']['name'] == 'Levermann'">{{score['scoreValue']}}</span>
+        </span>
+      </ng-template>
+    </p-column>
+    <p-column field="scores" header="Magic Formula-Punktzahl">
+      <ng-template let-col let-stock="rowData" pTemplate="body">
+        <span *ngFor="let score of stock['scores']">
+          <span *ngIf="score['scoreType']['name'] == 'Magic Formula'">{{score['scoreValue'] | number}}</span>
+        </span>
+      </ng-template>
+    </p-column>
+    <p-column field="scores" header="Piotroski F-Score-Punktzahl">
+      <ng-template let-col let-stock="rowData" pTemplate="body">
+        <span *ngFor="let score of stock['scores']">
+          <span *ngIf="score['scoreType']['name'] == 'Piotroski F-Score'">{{score['scoreValue']}}</span>
+        </span>
+      </ng-template>
+    </p-column>
+  </p-dataTable>
 </p-dialog>
