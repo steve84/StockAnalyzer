@@ -1,0 +1,63 @@
+<div class="ui-g">
+    <div class="ui-g-12">
+        <p-dropdown [options]="" [(ngModel)]="" ></p-dropdown>
+    </div>
+</div>
+<div class="ui-g">
+    <div class="ui-g-12">
+        <table cellspacing="0" cellpadding="2px">
+            <tr>
+                <th colspan="3" style="border-bottom: 1px solid #000; border-right: 1px solid #000;">Active</th>
+                <th colspan="3" style="border-bottom: 1px solid #000;">Passive</th>
+            </tr>
+            <tr>
+                <td>(A1)</td>
+                <td i18n="@@balance.sheet.currentassets.label">Current Assets</td>
+                <td style="border-right: 1px solid #000;">{{balance.currentAssets}}</td>
+                <td>(P1)</td>
+                <td i18n="@@balance.sheet.currentliabilities.label">Current Liabilities</td>
+                <td>{{balance.currentLiabilities}}</td>
+            </tr>
+            <tr>
+                <td>(A2)</td>
+                <td i18n="@@balance.sheet.noncurrentassets.label">Non-Current Assets</td>
+                <td style="border-right: 1px solid #000;">{{balance.totalAssets - balance.currentAssets}}</td>
+                <td>(P2)</td>
+                <td i18n="@@balance.sheet.notcurrentliabilities.label">Non-Current Liabilities</td>
+                <td>{{balance.totalLiabilities - balance.currentLiabilities}}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td i18n="@@balance.sheet.goodwill.label"><i>Goodwill</i></td>
+                <td style="border-right: 1px solid #000;"><i>{{balance.goodwill}}</i></td>
+                <td></td>
+                <td i18n="@@balance.sheet.longtermdebt.label"><i>Long-term Debt</i></td>
+                <td><i>{{balance.longTermDebt}}</i></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td style="border-right: 1px solid #000;"></td>
+                <td>(P1+P2)</td>
+                <td i18n="@@balance.sheet.totalliabilities.label">Total Liabilities</td>
+                <td>{{balance.totalLiabilities}}</td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td style="border-right: 1px solid #000;"></td>
+                <td>(P3)</td>
+                <td i18n="@@balance.sheet.shareholderequity.label">Shareholder Equity</td>
+                <td>{{balance.shareholderEquity}}</td>
+            </tr>
+            <tr>
+                <td>(A1+A2)</td>
+                <td i18n="@@balance.sheet.totalassets.label">Total Assets</td>
+                <td style="border-bottom: 4px double #000; border-right: 1px solid #000;">{{balance.totalAssets}}</td>
+                <td>(P1+P2+P3)</td>
+                <td i18n="@@balance.sheet.totalassets.label">Total Assets</td>
+                <td style="border-bottom: 4px double #000;">{{balance.totalAssets}}</td>
+            </tr>
+        </table>
+    </div>
+</div>

@@ -28,12 +28,46 @@ export class FundamentalComponent implements OnInit, OnChanges {
   chart: Chart;
   historicalChart: Chart;
   indexNames: string[] = [];
+  
+  balanceFields: string[] = [];
+  cashflowFields: string[] = [];
+  incomeFields: string[] = [];
+  valueFields: string[] = [];
+  signalFields: string[] = [];
+  forecastFields: string[] = [];
+  
+  balanceLabels: any = {};
+  cashflowLabels: any = {};
+  incomeLabels: any = {};
+  valueLabels: any = {};
+  signalLabels: any = {};
+  forecastLabels: any = {};
 
   constructor(private stockService: StockService,
               private fundamentalService: FundamentalService,
               private route: ActivatedRoute,
               private location: Location) {
     this.title = "Fundamental data";
+    
+    this.balanceFields.push('currentAssets');
+    this.balanceFields.push('goodwill');
+    this.balanceFields.push('intangibles');
+    this.balanceFields.push('totalAssets');
+    this.balanceFields.push('currentLiabilities');
+    this.balanceFields.push('longTermDebt');
+    this.balanceFields.push('totalLiabilities');
+    this.balanceFields.push('shareholderEquity');
+    
+    this.balanceLabels = {
+      'currentAssets': 'Current Assets';
+      'totalAssets': 'Total Assets';
+      'goodwill': 'Goodwill';
+      'intangibles': 'Intangibles';
+      'currentLiabilities': 'Current Liabilities';
+      'totalLiabilities': 'Total Liabilities';
+      'longTermDebt': 'Long-term Debt';
+      'shareholderEquity': 'Shareholder Equity';
+    };
   }
 
   ngOnInit() {
@@ -85,42 +119,6 @@ export class FundamentalComponent implements OnInit, OnChanges {
     }
   }
   
-  transposeData(origData: any[]) {
-    let transposedData: any[] = [];
-    for (let arr of origData) {
-      for (let key of Object.keys(arr)) {
-        if (key != '_links') {
-          if (Object.keys(transposedData).indexOf(key) < 0)
-            transposedData[key] = [];
-          transposedData[key][arr['modifiedAt']] = arr[key];
-        }
-      }
-    }
-    return transposedData;
-  }
-
-  createTableObject(obj: any) {
-    let res: any[] = [];
-    for (let key of Object.keys(obj)) {
-      let entry: any = {title: key};
-      for (let subkey of Object.keys(obj[key])) {
-        entry[subkey.split('-')[0]] = obj[key][subkey];
-      }
-      res.push(entry);
-    }
-    return res;
-  }
-  
-  getColsFromData(arr: any[]) {
-    let cols: any[] = [];
-    cols.push({field: 'title', header: 'title'});
-    for (let key of Object.keys(arr)) {
-      for (let subkey of Object.keys(arr[key])) {
-        cols.push({field: subkey.split('-')[0], header: subkey.split('-')[0]});
-      }
-      return cols;
-    }
-  }
 
   getIndexNames() {
     this.indexNames = [];

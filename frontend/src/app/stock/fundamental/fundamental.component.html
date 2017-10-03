@@ -23,54 +23,45 @@
         </div>
       </div>
     </p-tabPanel>
-    <p-tabPanel i18n-header="@@stock.detail.tab.balance.header" header="Balance">
-      <div *ngIf="stock && stock.balance">
-        <div class = "ui-g">
-          <app-balancetable [balance]="stock.balance"></app-balancetable>
+    <p-tabPanel *ngIf="stock && stock.balance" i18n-header="@@stock.detail.tab.balance.header" header="Balance">
+      <div class = "ui-g">
+        <div class="ui-g-12">
+          <app-figurestable [data]="stock.balance" [fields]="balanceFields" [labels]="balanceLabels"></app-figurestable>
         </div>
       </div>
     </p-tabPanel>
-    <p-tabPanel i18n-header="@@stock.detail.tab.cashflow.header" header="Cashflow">
-      <div *ngIf="stock && stock.cashflow">
-        <div class = "ui-g">
-          <p-dataTable [value]="createTableObject(transposeData(stock.cashflow))">
-              <p-column *ngFor="let col of getColsFromData(transposeData(stock.cashflow))" [field]="col.field" [header]="col.header"></p-column>
-          </p-dataTable>
+    <p-tabPanel *ngIf="stock && stock.cashflow" i18n-header="@@stock.detail.tab.cashflow.header" header="Cashflow">
+      <div class = "ui-g">
+        <div class="ui-g-12">
+          <app-figurestable [data]="stock.cashflow" [fields]="cashflowFields" [labels]="cashflowLabels"></app-figurestable>
         </div>
       </div>
     </p-tabPanel>
-    <p-tabPanel i18n-header="@@stock.detail.tab.income.header" header="Income">
-      <div *ngIf="stock && stock.income">
-        <div class = "ui-g">
-          <p-dataTable [value]="createTableObject(transposeData(stock.income))">
-              <p-column *ngFor="let col of getColsFromData(transposeData(stock.income))" [field]="col.field" [header]="col.header"></p-column>
-          </p-dataTable>
+    <p-tabPanel *ngIf="stock && stock.income" i18n-header="@@stock.detail.tab.income.header" header="Income">
+      <div class = "ui-g">
+        <div class="ui-g-12">
+          <app-figurestable [data]="stock.income" [fields]="incomeFields" [labels]="incomeLabels"></app-figurestable>
         </div>
       </div>
     </p-tabPanel>
-        <p-tabPanel i18n-header="@@stock.detail.tab.values.header" header="Values">
-      <div *ngIf="value">
-        <div class = "ui-g">
-          <div class = "ui-g-3">KGV</div><div class = "ui-g-3">{{value.priceEarningsRatio}}</div>
-          <div class = "ui-g-3">KCV</div><div class = "ui-g-3">{{value.priceCashflowRatio}}</div>
+    <p-tabPanel *ngIf="value" i18n-header="@@stock.detail.tab.values.header" header="Values">
+      <div class = "ui-g">
+        <div class="ui-g-12">
+          <app-figurestable [data]="value" [fields]="valueFields" [labels]="valueLabels"></app-figurestable>
         </div>
       </div>
     </p-tabPanel>
-    <p-tabPanel i18n-header="@@stock.detail.tab.signals.header" header="Signals">
-      <div *ngIf="signals">
-        <div class = "ui-g">
-          <p-dataTable [value]="createTableObject(transposeData(signals))">
-              <p-column *ngFor="let col of getColsFromData(transposeData(signals))" [field]="col.field" [header]="col.header"></p-column>
-          </p-dataTable>
+    <p-tabPanel *ngIf="signals" i18n-header="@@stock.detail.tab.signals.header" header="Signals">
+      <div class = "ui-g">
+        <div class="ui-g-12">
+          <app-figurestable [data]="signals" [fields]="signalFields" [labels]="signalLabels"></app-figurestable>
         </div>
       </div>
     </p-tabPanel>
-    <p-tabPanel i18n-header="@@stock.detail.tab.forecast.header" header="Forecast">
-      <div *ngIf="stock && stock.forecast">
-        <div class = "ui-g">
-          <p-dataTable [value]="createTableObject(transposeData(stock.forecast))">
-              <p-column *ngFor="let col of getColsFromData(transposeData(stock.forecast))" [field]="col.field" [header]="col.header"></p-column>
-          </p-dataTable>
+    <p-tabPanel *ngIf="stock && stock.forecast" i18n-header="@@stock.detail.tab.forecast.header" header="Forecast">
+      <div class = "ui-g">
+        <div class="ui-g-12">
+          <app-figurestable [data]="stock.forecast" [fields]="forecastFields" [labels]="forecastLabels"></app-figurestable>
         </div>
       </div>
     </p-tabPanel>

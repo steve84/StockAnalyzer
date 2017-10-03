@@ -1,0 +1,11 @@
+<p-dataTable [value]="data">
+    <p-column *ngFor="let col of getColsFromData(transposeData(data))" [field]="col.field" [header]="col.header">
+      <ng-template let-col pTemplate="header">
+        <span *ngIf="col.field != 'title'">{{col.field}}</span>
+      </ng-template>
+      <ng-template let-col let-data="rowData" pTemplate="body">
+        <span *ngIf="col.field != 'title'">{{data[col.field]}}</span>
+        <span *ngIf="col.field == 'title'">{{fieldToLabelName(data[col.field])}}</span>
+      </ng-template>
+    </p-column>
+</p-dataTable>
