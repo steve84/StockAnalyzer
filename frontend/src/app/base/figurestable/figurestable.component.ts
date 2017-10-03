@@ -27,8 +27,8 @@ export class FigurestableComponent implements OnInit, OnChanges {
   }
   
   fieldToLabelName(fieldName: string): string {
-    if (Object.keys(labels).indexOf(fieldName) > -1)
-        return labels[fieldName];
+    if (Object.keys(this.labels).indexOf(fieldName) > -1)
+        return this.labels[fieldName];
     return fieldName;
   }
   

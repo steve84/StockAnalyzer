@@ -1,4 +1,4 @@
-<p-autoComplete [(ngModel)]="stock" [suggestions]="suggestedStocks" (completeMethod)="search($event)" (onSelect)="selectStock($event)" i18n-placeholder="@@stock.quickfinder.placeholder" placeholder="ISIN or stock name" size="30">
+<p-autoComplete [(ngModel)]="stock" [suggestions]="suggestedStocks" (completeMethod)="search($event)" (onSelect)="selectStock($event)" field="name" i18n-placeholder="@@stock.quickfinder.placeholder" placeholder="ISIN or stock name" size="30">
   <ng-template let-stock pTemplate="item">
     {{stock.isin}}: <b>{{stock.name}}</b>
   </ng-template>

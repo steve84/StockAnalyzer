@@ -11,5 +11,5 @@ export interface Forecast {
     endCash?: number,
     epsExc?: number,
     dividend?: number,
-    modifiedAt?: number
+    modifiedAt?: string
 }

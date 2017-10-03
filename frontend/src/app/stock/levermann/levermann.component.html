@@ -1,66 +1,133 @@
 <div *ngIf="levermannData" class="ui-g">
-  <div *ngFor="let score of stock.scores" class="ui-g-12">
-    {{score['scoreType']['name']}}-Punktzahl: {{score['scoreValue']}}
-  </div>
   <div class="ui-g-12">
     <p-accordion [multiple]="true">
       <p-accordionTab>
         <p-header>
-          Eigenkapitalrendite
+          <div class="ui-g">
+            <div class="ui-g-10">
+              Eigenkapitalrendite
+            </div>
+            <div class="ui-g-2" style="text-align: right;">
+              {{getRoiEquityScore(levermannData.roiEquity)}}
+            </div>
+          </div>
         </p-header>
         {{levermannData.roiEquity | number}}%
       </p-accordionTab>
       <p-accordionTab>
         <p-header>
-          EBIT-Marge
+          <div class="ui-g">
+            <div class="ui-g-10">
+              EBIT-Marge
+            </div>
+            <div class="ui-g-2" style="text-align: right;">
+              {{getRoiEbitMargeScore(levermannData.roiEbitMarge)}}
+            </div>
+          </div>
         </p-header>
         {{levermannData.roiEbitMarge | number}}%
       </p-accordionTab>
       <p-accordionTab>
         <p-header>
-          Eigenkapitalquote
+          <div class="ui-g">
+            <div class="ui-g-10">
+              Eigenkapitalquote
+            </div>
+            <div class="ui-g-2" style="text-align: right;">
+              {{getBalanceSheetEquityRatioScore(levermannData.balanceSheetEquityRatio)}}
+            </div>
+          </div>
         </p-header>
         {{levermannData.balanceSheetEquityRatio | number}}%
       </p-accordionTab>
       <p-accordionTab>
         <p-header>
-          Durchschnittliches KGV
+          <div class="ui-g">
+            <div class="ui-g-10">
+              Durchschnittliches KGV
+            </div>
+            <div class="ui-g-2" style="text-align: right;">
+              {{getPriceEarningsRatio5yAvgScore(levermannData.priceEarningsRatio5YearAverage)}}
+            </div>
+          </div>
         </p-header>
         {{levermannData.priceEarningsRatio5YearAverage | number}}
       </p-accordionTab>
       <p-accordionTab>
         <p-header>
-          Aktuelles KGV
+          <div class="ui-g">
+            <div class="ui-g-10">
+              Aktuelles KGV
+            </div>
+            <div class="ui-g-2" style="text-align: right;">
+              {{getPriceEarningsRatioScore(levermannData.priceEarningsRatio)}}
+            </div>
+          </div>
         </p-header>
         {{levermannData.priceEarningsRatio | number}}
       </p-accordionTab>
       <p-accordionTab>
         <p-header>
-          Analystenmeinung
+          <div class="ui-g">
+            <div class="ui-g-10">
+              Analystenmeinung
+            </div>
+            <div class="ui-g-2" style="text-align: right;">
+              0
+            </div>
+          </div>
         </p-header>
         Kaufen: {{levermannData.analystBuyRatio | number}}%, Verkaufen: {{levermannData.analystSellRatio | number}}%
       </p-accordionTab>
       <p-accordionTab>
         <p-header>
-          Kursentwicklung (6 Monate)
+          <div class="ui-g">
+            <div class="ui-g-10">
+              Kursentwicklung (6 Monate)
+            </div>
+            <div class="ui-g-2" style="text-align: right;">
+              0
+            </div>
+          </div>
         </p-header>
         {{levermannData.performance6m | number}}%
       </p-accordionTab>
       <p-accordionTab>
         <p-header>
-          Kursentwicklung (12 Monate)
+          <div class="ui-g">
+            <div class="ui-g-10">
+              Kursentwicklung (12 Monate)
+            </div>
+            <div class="ui-g-2" style="text-align: right;">
+              0
+            </div>
+          </div>
         </p-header>
         {{levermannData.performance1y | number}}%
       </p-accordionTab>
       <p-accordionTab>
         <p-header>
-          Kursmomentum
+          <div class="ui-g">
+            <div class="ui-g-10">
+              Kursmomentum
+            </div>
+            <div class="ui-g-2" style="text-align: right;">
+              0
+            </div>
+          </div>
         </p-header>
         {{levermannData.performance6m | number}}% nach {{levermannData.performance1y | number}}%
       </p-accordionTab>
       <p-accordionTab>
         <p-header>
-          Erwarteter Gewinnwachstum
+          <div class="ui-g">
+            <div class="ui-g-10">
+              Erwarteter Gewinnwachstum
+            </div>
+            <div class="ui-g-2" style="text-align: right;">
+              0
+            </div>
+          </div>
         </p-header>
         {{levermannData.earningsPerShareGrowthExpected | number}}%
       </p-accordionTab>

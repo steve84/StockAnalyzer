@@ -19,14 +19,12 @@ import { LoginComponent } from './login/login.component';
 
 import { UserService } from './user.service';
 import { AuthGuard } from './auth/authguard.service';
-import { FigurestableComponent } from './base/figurestable/figurestable.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenubarComponent,
-    LoginComponent,
-    FigurestableComponent
+    LoginComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

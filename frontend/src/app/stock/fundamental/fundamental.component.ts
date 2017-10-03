@@ -59,15 +59,124 @@ export class FundamentalComponent implements OnInit, OnChanges {
     this.balanceFields.push('shareholderEquity');
     
     this.balanceLabels = {
-      'currentAssets': 'Current Assets';
-      'totalAssets': 'Total Assets';
-      'goodwill': 'Goodwill';
-      'intangibles': 'Intangibles';
-      'currentLiabilities': 'Current Liabilities';
-      'totalLiabilities': 'Total Liabilities';
-      'longTermDebt': 'Long-term Debt';
-      'shareholderEquity': 'Shareholder Equity';
+      'currentAssets': 'Current Assets',
+      'totalAssets': 'Total Assets',
+      'goodwill': 'Goodwill',
+      'intangibles': 'Intangibles',
+      'currentLiabilities': 'Current Liabilities',
+      'totalLiabilities': 'Total Liabilities',
+      'longTermDebt': 'Long-term Debt',
+      'shareholderEquity': 'Shareholder Equity'
     };
+
+    this.cashflowFields.push('cashOperations');
+    this.cashflowFields.push('depreciation');
+    this.cashflowFields.push('capex');
+    this.cashflowFields.push('cashInvesting');
+    this.cashflowFields.push('issuanceOfStock');
+    this.cashflowFields.push('issuanceOfDdebt');
+    this.cashflowFields.push('cashFinancing');
+    this.cashflowFields.push('startCash');
+    this.cashflowFields.push('endCash');
+    
+    this.cashflowLabels = {
+      'cashOperations': 'Operating Cashflow',
+      'depreciation': 'Depreciation',
+      'capex': 'CAPEX',
+      'cashInvesting': 'Investing Cashflow',
+      'issuanceOfStock': 'Issuance of Stock',
+      'issuanceOfDdebt': 'Issuance of Debt',
+      'cashFinancing': 'Financing Cashflow',
+      'startCash': 'Start Cash',
+      'endCash': 'End Cash'
+    };
+    
+    this.incomeFields.push('revenue');
+    this.incomeFields.push('operatingRevenue');
+    this.incomeFields.push('netIncomeExc');
+    this.incomeFields.push('epsExc');
+    this.incomeFields.push('dividend');
+    this.incomeFields.push('dilutedSharesOs');
+    this.incomeFields.push('historicYield');
+    this.incomeFields.push('sharePriceEop');
+    
+    this.incomeLabels = {
+      'revenue': 'Revenue',
+      'operatingRevenue': 'Operating Revenue',
+      'netIncomeExc': 'Net Income',
+      'epsExc': 'EPS',
+      'dividend': 'Dividend',
+      'dilutedSharesOs': 'Diluted Shares OS',
+      'historicYield': 'Historic Yield',
+      'sharePriceEop': 'Share Price EoP'
+    };
+    
+    this.valueFields.push('priceEarningsRatio');
+    this.valueFields.push('priceCashflowRatio');
+    this.valueFields.push('priceBookRatio');
+    this.valueFields.push('pegRatio');
+    this.valueFields.push('enterpriseRatio');
+    this.valueFields.push('price52Wk');
+    this.valueFields.push('currentYield');
+    
+    this.valueLabels = {
+      'priceEarningsRatio': 'PER',
+      'priceCashflowRatio': 'PCR',
+      'priceBookRatio': 'PBR',
+      'pegRatio': 'PEG',
+      'enterpriseRatio': 'Enterprise Ratio',
+      'price52Wk': 'Price 52W',
+      'currentYield': 'Current Yield'
+    };
+    
+    this.signalFields.push('currentRatio');
+    this.signalFields.push('buybacks');
+    this.signalFields.push('solvency');
+    this.signalFields.push('dividendPayout');
+    this.signalFields.push('operatingMargin');
+    this.signalFields.push('netIncMargin');
+    this.signalFields.push('roe');
+    this.signalFields.push('roae');
+    this.signalFields.push('rotc');
+    this.signalFields.push('ltDebtOpIncome');
+    
+    this.signalLabels = {
+      'currentRatio': 'Current Ratio',
+      'buybacks': 'Buybacks',
+      'solvency': 'Solvency',
+      'dividendPayout': 'Dividend Payout',
+      'operatingMargin': 'Operating Margin',
+      'netIncMargin': 'Net Margin',
+      'roe': 'ROE',
+      'roae': 'ROAE',
+      'rotc': 'ROTC',
+      'ltDebtOpIncome': 'Long-term Dept to Operating Income'
+    };
+
+    this.forecastFields.push('revenue');
+    this.forecastFields.push('operatingIncome');
+    this.forecastFields.push('netIncomeExc');
+    this.forecastFields.push('cashOperations');
+    this.forecastFields.push('depreciation');
+    this.forecastFields.push('capex');
+    this.forecastFields.push('startCash');
+    this.forecastFields.push('endCash');
+    this.forecastFields.push('epsExc');
+    this.forecastFields.push('dividend');
+    
+    this.forecastLabels = {
+      'revenue': 'Revenue',
+      'operatingIncome': 'Operating Income',
+      'netIncomeExc': 'Net Income',
+      'cashOperations': 'Operating Cashflow',
+      'depreciation': 'Depreciation',
+      'capex': 'CAPEX',
+      'startCash': 'Start Cash',
+      'endCash': 'End Cash',
+      'epsExc': 'EPS',
+      'dividend': 'Dividend'
+    };
+
   }
 
   ngOnInit() {

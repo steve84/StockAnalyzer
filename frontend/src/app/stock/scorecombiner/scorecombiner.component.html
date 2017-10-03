@@ -60,7 +60,12 @@ Type of results:
 
 <div *ngIf="stockOrIndex == 'stock'" class = "ui-g">
 <div class = "ui-g-12">
-<p-dataTable [value]="scores" selectionMode="single" [(selection)]="selectedScore" resizableColumns="true">
+<p-dataTable #dt [value]="scores" selectionMode="single" [(selection)]="selectedScore" resizableColumns="true">
+  <p-header>
+    <div class="ui-helper-clearfix">
+      <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left"></button>
+    </div>
+  </p-header>
   <p-column field="stock.isin" header="ISIN"></p-column>
   <p-column field="stock.name" i18n-header="@@stock.table.name.header" header="Name"></p-column>
   <p-column field="stock.branch.name" i18n-header="@@stock.table.branch.header" header="Branch"></p-column>
@@ -76,7 +81,12 @@ Type of results:
 
 <div *ngIf="stockOrIndex == 'index'" class = "ui-g">
 <div class = "ui-g-12">
-<p-dataTable [value]="scores" selectionMode="single" [(selection)]="selectedScore" resizableColumns="true">
+<p-dataTable #dt [value]="scores" selectionMode="single" [(selection)]="selectedScore" resizableColumns="true">
+  <p-header>
+    <div class="ui-helper-clearfix">
+      <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left"></button>
+    </div>
+  </p-header>
   <p-column field="index.name" i18n-header="@@index.table.name.header" header="Name"></p-column>
   <p-column field="index.country.name" i18n-header="@@index.table.country.header" header="Country"></p-column>
   <p-column field="index.realStocks.length" i18n-header="@@index.table.nbrofstocks.header" header="Number of Stocks"></p-column>

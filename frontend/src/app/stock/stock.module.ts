@@ -41,6 +41,7 @@ import { BranchTranslationPipe } from './branch_translation.pipe';
 import { CommonTranslationPipe } from './common_translation.pipe';
 import { BalancetableComponent } from './balance/balancetable/balancetable.component';
 import { BalancesheetComponent } from './balance/balancesheet/balancesheet.component';
+import { FigurestableComponent } from '../base/figurestable/figurestable.component';
 
 @NgModule({
   imports: [
@@ -75,6 +76,6 @@ import { BalancesheetComponent } from './balance/balancesheet/balancesheet.compo
     FundamentalService,
     IndexService
   ],
-  declarations: [StockTableComponent, FundamentalComponent, LevermannComponent, IndexComponent, IndexdetailComponent, StockcategoryPipe, StockquickfinderComponent, StocksearchComponent, ScorecombinerComponent, CountryTranslationPipe, BranchTranslationPipe, CommonTranslationPipe, BalancetableComponent, BalancesheetComponent]
+  declarations: [StockTableComponent, FundamentalComponent, LevermannComponent, IndexComponent, IndexdetailComponent, StockcategoryPipe, StockquickfinderComponent, StocksearchComponent, ScorecombinerComponent, CountryTranslationPipe, BranchTranslationPipe, CommonTranslationPipe, BalancetableComponent, BalancesheetComponent, FigurestableComponent]
 })
 export class StockModule { }

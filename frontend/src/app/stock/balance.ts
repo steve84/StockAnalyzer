@@ -9,5 +9,5 @@ export interface Balance {
     longTermDebt?: number,
     totalLiabilities?: number,
     shareholderEquity?: number,
-    modifiedAt?: number
+    modifiedAt?: string
 }

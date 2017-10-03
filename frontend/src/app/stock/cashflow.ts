@@ -10,5 +10,5 @@ export interface Cashflow {
     cashFinancing?: number,
     startCash?: number,
     endCash?: number,
-    modifiedAt?: number
+    modifiedAt?: string
 }

@@ -11,5 +11,6 @@ export interface Income {
     dilutedSharesOs?: number,
     historicYield?: number,
     sharePriceEop?: number,
-    lastSharePrice?: number
+    lastSharePrice?: number,
+    modifiedAt?: string
 }

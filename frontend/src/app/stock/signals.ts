@@ -11,5 +11,5 @@ export interface Signals {
     roae?: number,
     rotc?: number,
     ltDebtOpIncome?: number,
-    modifiedAt?: number
+    modifiedAt?: string
 }

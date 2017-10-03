@@ -1,4 +1,4 @@
-<p-dialog [header]="title" [(visible)]="display" (onHide)="closeDisplay()" [width]="600">
+<p-dialog [header]="title" [(visible)]="display" (onHide)="closeDisplay()" [width]="1200">
   <p-tabView>
     <p-tabPanel i18n-header="@@stock.detail.tab.overview.header" header="Overview">
       <div *ngIf="stock && stock.balance">
@@ -27,6 +27,11 @@
       <div class = "ui-g">
         <div class="ui-g-12">
           <app-figurestable [data]="stock.balance" [fields]="balanceFields" [labels]="balanceLabels"></app-figurestable>
+        </div>
+      </div>
+      <div class = "ui-g">
+        <div class="ui-g-12">
+          <app-balancesheet [balance]="stock.balance"></app-balancesheet>
         </div>
       </div>
     </p-tabPanel>
