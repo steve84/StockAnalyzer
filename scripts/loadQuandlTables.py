@@ -31,9 +31,12 @@ maxDateMapping = {'INCOME': 8, 'CASHFLOW': 9, 'BALANCE': 10, 'SIGNALS': 11, 'VAL
 conn = psycopg2.connect("dbname=%s user=%s host=%s" % (db_name, db_user, db_host))
 cur = conn.cursor()
 
-cur.execute("""SELECT * FROM vstock""")
+stockUpdated = 0
+
+cur.execute("""SELECT * FROM vstock ORDER BY last_date_performance""")
 
 for stock in cur:
+    stockUpdate = False
     quandlId = str(stock[5]).zfill(4)
     for tableName in quandlTables:
         try:
@@ -44,11 +47,17 @@ for stock in cur:
                     data[rowDate]['stock_id'] = stock[0]
                     data[rowDate]['modified_at'] = rowDate
                     curStock.execute(Utils.createSqlString(data[rowDate], 't' + tableName.lower()), data[rowDate])
+                    stockUpdate = True
             conn.commit()
         except Exception as e:
             conn.rollback()
             print("An error occured: %s" % stock[1])
             print("Error message: %s" % e)
+    
+    if stockUpdate:
+        stockUpdated += 1
+        if stockUpdated >= maxItems:
+            break
 
 conn.commit()
 conn.close()

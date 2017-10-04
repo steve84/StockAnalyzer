@@ -8,6 +8,8 @@ from bs4 import BeautifulSoup
 import quandl
 import psycopg2
 
+from utils import Utils
+
 # Argument parser
 parser = argparse.ArgumentParser(description='Load stock definitions to data tables.')
 parser.add_argument('-n', dest='maxItems', type=int, help='number of stocks to load')
@@ -34,6 +36,7 @@ pageSize = 100
 
 baseUrl = 'https://www.quandl.com/api/v3/datasets.json'
 databaseCode = 'RB1'
+priceDatabaseCode = 'SSE'
 
 # Program logic
 noneStr = lambda s: '' if s is None else str(s)
@@ -79,8 +82,6 @@ while page <= totalPages:
                             stock['country'] = part.text.replace('Country:', '').strip()
                         if part.find('b').text.find('ISIN') > -1:
                             stock['isin'] = part.text.replace('ISIN:', '').strip()
-                        if part.find('b').text.find('YF Ticker') > -1:
-                            stock['symbol'] = part.text.replace('YF Ticker:', '').strip()
                         if part.find('b').text.find('Sector:') > -1:
                             stock['branch'] = part.text.replace('Sector:', '').strip()
                         if part.find('b').text.find('Sector Group:') > -1:
@@ -94,6 +95,7 @@ while page <= totalPages:
                 else:
                     stock['business_year_end'] = 'n.a.'
                 stock['quandl_rb1_id'] = int(stock['dataset_code'].split('_')[0])
+                stock['quandl_price_dataset'] = Utils.getQuandlStockPriceDataset(priceDatabaseCode, stock['isin'], quandl_key)
                 stock['country_id'] = None
                 stock['branch_id'] = None
                     
@@ -133,7 +135,7 @@ while page <= totalPages:
                 cur.execute("""SELECT * FROM tstock WHERE isin = %(isin)s;""", stock)
                 if cur.rowcount == 0:
                     # insert
-                    cur.execute("""INSERT INTO tstock (name, isin, business_year_end, branch_id, country_id, currency, quandl_rb1_id) VALUES (%(name)s, %(isin)s, %(business_year_end)s, %(branch_id)s, %(country_id)s, %(currency)s, %(quandl_rb1_id)s);""", stock)
+                    cur.execute("""INSERT INTO tstock (name, isin, business_year_end, branch_id, country_id, currency, quandl_rb1_id, quandl_price_dataset) VALUES (%(name)s, %(isin)s, %(business_year_end)s, %(branch_id)s, %(country_id)s, %(currency)s, %(quandl_rb1_id)s, %(quandl_price_dataset)s;""", stock)
                     totalInserted['stocks'] += 1
                     totalProcessed += 1
 

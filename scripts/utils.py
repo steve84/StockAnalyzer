@@ -1,6 +1,7 @@
 import re
 import json
 import requests
+import urllib.parse
 import quandl
 import math
 from bs4 import BeautifulSoup
@@ -191,6 +192,22 @@ class Utils:
             return actualYear - 1
         else:
             return actualYear - 2
+    
+    def getQuandlStockPriceDataset(databaseCode, isin, quandl_key):
+        baseUrl = 'https://www.quandl.com/api/v3/datasets.json'
+        query_params = dict()
+        query_params['database_code'] = databaseCode
+        query_params['per_page'] = 1
+        query_params['page'] = 1
+        query_params['query'] = str(isin)
+        query_params['api_key'] = quandl_key
+        
+        link = baseUrl + '?' +  urllib.parse.urlencode(query_params)
+        response = requests.get(link)
+        if response.status_code == 200:
+            json_response = response.json()
+            if 'datasets' in json_response.keys() and len(json_response['datasets']) > 0 and json_response['datasets'][0].find(isin) > -1:
+                return databaseCode + '/' + json_response['datasets'][0]['dataset_code']
 
     def avgYearValue(factDict, targetKey, maxYear):
         i = 0

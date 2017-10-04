@@ -208,6 +208,18 @@ CREATE SEQUENCE role_seq
 
 ALTER TABLE role_seq OWNER TO postgres;
 
+
+CREATE SEQUENCE performance_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE performance_seq OWNER TO postgres;
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -257,7 +269,8 @@ CREATE TABLE tstock (
     country_id integer,
     branch_id integer,
     currency character varying,
-    quandl_rb1_id integer NOT NULL
+    quandl_rb1_id integer NOT NULL,
+    quandl_price_dataset character varying
 );
 
 
@@ -434,6 +447,16 @@ CREATE TABLE trole (
 
 ALTER TABLE trole OWNER TO postgres;
 
+CREATE TABLE tperformance (
+    performance_id integer DEFAULT nextval('performance_seq'::regclass) NOT NULL,
+    stock_id integer,
+    performance_6m numeric,
+    performance_1y numeric,
+    modified_at date
+);
+
+ALTER TABLE tperformance OWNER TO postgres;
+
 
 --
 -- TOC entry 2001 (class 2606 OID 16500)
@@ -493,6 +516,9 @@ ALTER TABLE ONLY tforecast
 
 ALTER TABLE ONLY trole
     ADD CONSTRAINT prole PRIMARY KEY (role_id);
+    
+ALTER TABLE ONLY tperformance
+    ADD CONSTRAINT pperformance PRIMARY KEY (performance_id);
 --
 -- TOC entry 2004 (class 1259 OID 16505)
 -- Name: fki_fbranch; Type: INDEX; Schema: public; Owner: postgres
@@ -524,6 +550,8 @@ CREATE INDEX fki_fbalancestock ON tbalance USING btree (stock_id);
 CREATE INDEX fki_fsignalsstock ON tsignals USING btree (stock_id);
 CREATE INDEX fki_fvaluesstock ON tvalues USING btree (stock_id);
 CREATE INDEX fki_fforecaststock ON tforecast USING btree (stock_id);
+
+CREATE INDEX fki_fperformancestock ON tperformance USING btree (stock_id);
 
 --
 -- TOC entry 2008 (class 2606 OID 16507)
@@ -581,6 +609,9 @@ ALTER TABLE ONLY tforecast
 ALTER TABLE ONLY tuser
   ADD CONSTRAINT fuser FOREIGN KEY (role_id) REFERENCES trole(role_id);
 
+ALTER TABLE ONLY tperformance
+  ADD CONSTRAINT fperformance FOREIGN KEY (stock_id) REFERENCES tstock(stock_id);
+
 ALTER TABLE tbranch ADD CONSTRAINT ubranchname UNIQUE (name);
 
 ALTER TABLE tcountry ADD CONSTRAINT ucountry UNIQUE (name, code);
@@ -617,6 +648,7 @@ CREATE OR REPLACE VIEW public.vstock AS
     si.last_date_signals,
     v.last_date_values,
     f.last_date_forecast
+    p.modified_at AS last_date_performance
    FROM tstock s
    LEFT JOIN tcountry c ON s.country_id = c.country_id
    LEFT JOIN tbranch b ON s.branch_id = b.branch_id
@@ -625,7 +657,8 @@ CREATE OR REPLACE VIEW public.vstock AS
    LEFT JOIN (select stock_id, max(modified_at) as last_date_balance from tbalance group by stock_id) ba ON s.stock_id = ba.stock_id
    LEFT JOIN (select stock_id, max(modified_at) as last_date_signals from tsignals group by stock_id) si ON s.stock_id = si.stock_id
    LEFT JOIN (select stock_id, max(modified_at) as last_date_values from tvalues group by stock_id) v ON s.stock_id = v.stock_id
-   LEFT JOIN (select stock_id, max(modified_at) as last_date_forecast from tforecast group by stock_id) f ON s.stock_id = f.stock_id;
+   LEFT JOIN (select stock_id, max(modified_at) as last_date_forecast from tforecast group by stock_id) f ON s.stock_id = f.stock_id
+   LEFT JOIN tperformance p on s.stock_id = p.stock_id;
 
 ALTER TABLE public.vstock
   OWNER TO postgres;
