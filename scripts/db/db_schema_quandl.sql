@@ -648,7 +648,6 @@ CREATE OR REPLACE VIEW public.vstock AS
     si.last_date_signals,
     v.last_date_values,
     f.last_date_forecast
-    p.modified_at AS last_date_performance
    FROM tstock s
    LEFT JOIN tcountry c ON s.country_id = c.country_id
    LEFT JOIN tbranch b ON s.branch_id = b.branch_id
@@ -657,8 +656,7 @@ CREATE OR REPLACE VIEW public.vstock AS
    LEFT JOIN (select stock_id, max(modified_at) as last_date_balance from tbalance group by stock_id) ba ON s.stock_id = ba.stock_id
    LEFT JOIN (select stock_id, max(modified_at) as last_date_signals from tsignals group by stock_id) si ON s.stock_id = si.stock_id
    LEFT JOIN (select stock_id, max(modified_at) as last_date_values from tvalues group by stock_id) v ON s.stock_id = v.stock_id
-   LEFT JOIN (select stock_id, max(modified_at) as last_date_forecast from tforecast group by stock_id) f ON s.stock_id = f.stock_id
-   LEFT JOIN tperformance p on s.stock_id = p.stock_id;
+   LEFT JOIN (select stock_id, max(modified_at) as last_date_forecast from tforecast group by stock_id) f ON s.stock_id = f.stock_id;
 
 ALTER TABLE public.vstock
   OWNER TO postgres;
@@ -675,13 +673,14 @@ CREATE OR REPLACE VIEW public.vlevermann AS
    NULL as earnings_per_share_growth_expected,
    NULL as analyst_sell_ratio,
    NULL as analyst_buy_ratio,
-   NULL as performance_6m,
-   NULL as performance_1y
+   p.performance_6m,
+   p.performance_1y
    FROM tstock s
    LEFT JOIN (select si.* from (select stock_id, max(modified_at) max_date from tsignals group by stock_id) a left join tsignals si on si.stock_id = a.stock_id and si.modified_at = a.max_date) si on si.stock_id = s.stock_id
    LEFT JOIN (select b.* from (select stock_id, max(modified_at) max_date from tbalance group by stock_id) a left join tbalance b on b.stock_id = a.stock_id and b.modified_at = a.max_date) b on b.stock_id = s.stock_id
    LEFT JOIN (select v.* from (select stock_id, max(modified_at) max_date from tvalues group by stock_id) a left join tvalues v on v.stock_id = a.stock_id and v.modified_at = a.max_date) v on v.stock_id = s.stock_id
-   LEFT JOIN (select stock_id, avg(price_earnings_ratio) as price_earnings_ratio_5y_avg from (select stock_id, price_earnings_ratio from tvalues where modified_at >= current_date - interval '5 years') v group by stock_id) va on va.stock_id = s.stock_id;
+   LEFT JOIN (select stock_id, avg(price_earnings_ratio) as price_earnings_ratio_5y_avg from (select stock_id, price_earnings_ratio from tvalues where modified_at >= current_date - interval '5 years') v group by stock_id) va on va.stock_id = s.stock_id
+   LEFT JOIN tperformance p ON p.stock_id = s.stock_id;
 
 ALTER TABLE public.vlevermann
   OWNER TO postgres;

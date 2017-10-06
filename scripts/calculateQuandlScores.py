@@ -10,6 +10,7 @@ parser.add_argument('-n', dest='maxItems', type=int, help='number of stocks to l
 parser.add_argument('-u', dest='db_user', help='user name of the database')
 parser.add_argument('-p', dest='db_pwd', help='database password')
 parser.add_argument('-d', dest='db_name', help='database name')
+parser.add_argument('-k', dest='quandl_key', help='quandl api key')
 parser.add_argument('--host', dest='db_host', help='database host')
 parser.add_argument('--stocks', dest='doStocks', action='store_true', help='calculate values for stocks')
 parser.add_argument('--indices', dest='doIndices', action='store_true', help='calculate values for indices')
@@ -23,6 +24,7 @@ db_user = parser.parse_args().db_user
 db_pwd = parser.parse_args().db_pwd
 db_name = parser.parse_args().db_name
 db_host = parser.parse_args().db_host
+quandl_key = parser.parse_args().quandl_key
 doStocks = parser.parse_args().doStocks
 doIndices = parser.parse_args().doIndices
 doLevermann = parser.parse_args().doLevermann
@@ -40,10 +42,26 @@ if doStocks:
         totalUpdated = 0
         cur = conn.cursor()
         if maxAge is not None:
-            cur.execute("""SELECT * FROM tstock s LEFT JOIN tscore sc ON sc.stock_id = s.stock_id AND sc.score_type_id = %d WHERE sc.stock_id IS NULL OR current_date - sc.modified_at >= %d""" % (LEVERMANN_SCORE_TYPE_ID, maxAge))
+            cur.execute("""SELECT * FROM tstock s LEFT JOIN tscore sc ON sc.stock_id = s.stock_id AND sc.score_type_id = %d WHERE sc.stock_id IS NULL OR current_date - sc.modified_at >= %d ORDER BY sc.modified_at NULLS FIRST""" % (LEVERMANN_SCORE_TYPE_ID, maxAge))
         else:
             cur.execute("""SELECT * FROM tstock s LEFT JOIN tscore sc ON sc.stock_id = s.stock_id AND sc.score_type_id = %d WHERE sc.stock_id IS NULL""" % LEVERMANN_SCORE_TYPE_ID)
         for stock in cur:
+            prices = Utils.getQuandlStockPrice(stock[12], quandl_key)
+            if len(prices) == 3:
+                pricesDict = dict()
+                pricesDict['stock_id'] = stock[0]
+                pricesDict['performance_6m'] = Utils.calcGrowth(prices[1], prices[0])
+                pricesDict['performance_1y'] = Utils.calcGrowth(prices[2], prices[0])
+                pricesDict['modified_at'] = Utils.getActualDate()
+                curPrices = conn.cursor()
+                curPrices.execute("""SELECT * FROM tperformance p WHERE stock_id = %d """ % stock[0])
+                pricesDb = curPrices.fetchone()
+                if pricesDb is not None:
+                    curPrices.execute(Utils.createSqlString({'performance_6m', 'performance_1y', 'modified_at'}, 'tperformance', 'stock_id = %d' % stock[0], False), pricesDict)
+                else
+                    curPrices.execute(Utils.createSqlString(pricesDict.keys(), 'tperformance'), pricesDict)
+                curPrices.commit()
+
             curLevermann = conn.cursor()
             curLevermann.execute("""SELECT * FROM vlevermann WHERE stock_id = %d""" % stock[0])
             levermannScore = Utils.calculateLevermann(curLevermann.fetchone())
@@ -68,7 +86,7 @@ if doStocks:
         totalUpdated = 0
         cur = conn.cursor()
         if maxAge is not None:
-            cur.execute("""SELECT * FROM tstock s LEFT JOIN tscore sc on sc.stock_id = s.stock_id AND sc.score_type_id = %d WHERE sc.stock_id IS NULL OR current_date - sc.modified_at >= %d""" % (MAGIC_FORMULA_SCORE_TYPE_ID, maxAge))
+            cur.execute("""SELECT * FROM tstock s LEFT JOIN tscore sc on sc.stock_id = s.stock_id AND sc.score_type_id = %d WHERE sc.stock_id IS NULL OR current_date - sc.modified_at >= %d ORDER BY sc.modified_at NULLS FIRST""" % (MAGIC_FORMULA_SCORE_TYPE_ID, maxAge))
         else:
             cur.execute("""SELECT * FROM tstock s LEFT JOIN tscore sc on sc.stock_id = s.stock_id AND sc.score_type_id = %d WHERE sc.stock_id IS NULL""" % MAGIC_FORMULA_SCORE_TYPE_ID)
         for stock in cur:
@@ -96,7 +114,7 @@ if doStocks:
         totalUpdated = 0
         cur = conn.cursor()
         if maxAge is not None:
-            cur.execute("""SELECT * FROM tstock s LEFT JOIN tscore sc on sc.stock_id = s.stock_id AND sc.score_type_id = %d WHERE sc.stock_id IS NULL OR current_date - sc.modified_at >= %d""" % (PIOTROSKI_F_SCORE, maxAge))
+            cur.execute("""SELECT * FROM tstock s LEFT JOIN tscore sc on sc.stock_id = s.stock_id AND sc.score_type_id = %d WHERE sc.stock_id IS NULL OR current_date - sc.modified_at >= %d ORDER BY sc.modified_at NULLS FIRST""" % (PIOTROSKI_F_SCORE, maxAge))
         else:
             cur.execute("""SELECT * FROM tstock s LEFT JOIN tscore sc on sc.stock_id = s.stock_id AND sc.score_type_id = %d WHERE sc.stock_id IS NULL""" % PIOTROSKI_F_SCORE)
         for stock in cur:
@@ -124,7 +142,7 @@ if doIndices:
         totalUpdated = 0
         cur = conn.cursor()
         if maxAge is not None:
-            cur.execute("""SELECT * FROM tindex i LEFT JOIN tscore sc on sc.index_id = i.index_id AND sc.score_type_id = %d WHERE sc.index_id IS NULL OR current_date - sc.modified_at >= %d""" % (LEVERMANN_SCORE_TYPE_ID, maxAge))
+            cur.execute("""SELECT * FROM tindex i LEFT JOIN tscore sc on sc.index_id = i.index_id AND sc.score_type_id = %d WHERE sc.index_id IS NULL OR current_date - sc.modified_at >= %d ORDER BY sc.modified_at NULLS FIRST""" % (LEVERMANN_SCORE_TYPE_ID, maxAge))
         else:
             cur.execute("""SELECT * FROM tindex i LEFT JOIN tscore sc on sc.index_id = i.index_id AND sc.score_type_id = %d WHERE sc.index_id IS NULL""" % LEVERMANN_SCORE_TYPE_ID)
         for index in cur:
@@ -133,6 +151,21 @@ if doIndices:
             totalMarketCap = 0
             totalLevermannScore = 0
             for stock in curStocks:
+                prices = Utils.getQuandlStockPrice(stock[12], quandl_key)
+                if len(prices) == 3:
+                    pricesDict = dict()
+                    pricesDict['stock_id'] = stock[0]
+                    pricesDict['performance_6m'] = Utils.calcGrowth(prices[1], prices[0])
+                    pricesDict['performance_1y'] = Utils.calcGrowth(prices[2], prices[0])
+                    pricesDict['modified_at'] = Utils.getActualDate()
+                    curPrices = conn.cursor()
+                    curPrices.execute("""SELECT * FROM tperformance p WHERE stock_id = %d """ % stock[0])
+                    pricesDb = curPrices.fetchone()
+                    if pricesDb is not None:
+                        curPrices.execute(Utils.createSqlString({'performance_6m', 'performance_1y', 'modified_at'}, 'tperformance', 'stock_id = %d' % stock[0], False), pricesDict)
+                    else
+                        curPrices.execute(Utils.createSqlString(pricesDict.keys(), 'tperformance'), pricesDict)
+                    curPrices.commit()
                 curLevermann = conn.cursor()
                 curLevermann.execute("""SELECT * FROM vlevermann WHERE stock_id = %d""" % stock[0])
                 levermannRow = curLevermann.fetchone()
@@ -162,7 +195,7 @@ if doIndices:
         totalUpdated = 0
         cur = conn.cursor()
         if maxAge is not None:
-            cur.execute("""SELECT * FROM tindex i LEFT JOIN tscore sc on sc.index_id = i.index_id AND sc.score_type_id = %d WHERE sc.index_id IS NULL OR current_date - sc.modified_at >= %d""" % (MAGIC_FORMULA_SCORE_TYPE_ID, maxAge))
+            cur.execute("""SELECT * FROM tindex i LEFT JOIN tscore sc on sc.index_id = i.index_id AND sc.score_type_id = %d WHERE sc.index_id IS NULL OR current_date - sc.modified_at >= %d ORDER BY sc.modified_at NULLS FIRST""" % (MAGIC_FORMULA_SCORE_TYPE_ID, maxAge))
         else:
             cur.execute("""SELECT * FROM tindex i LEFT JOIN tscore sc on sc.index_id = i.index_id AND sc.score_type_id = %d WHERE sc.index_id IS NULL""" % MAGIC_FORMULA_SCORE_TYPE_ID)
         for index in cur:
@@ -200,7 +233,7 @@ if doIndices:
         totalUpdated = 0
         cur = conn.cursor()
         if maxAge is not None:
-            cur.execute("""SELECT * FROM tindex i LEFT JOIN tscore sc on sc.index_id = i.index_id AND sc.score_type_id = %d WHERE sc.index_id IS NULL OR current_date - sc.modified_at >= %d""" % (PIOTROSKI_F_SCORE, maxAge))
+            cur.execute("""SELECT * FROM tindex i LEFT JOIN tscore sc on sc.index_id = i.index_id AND sc.score_type_id = %d WHERE sc.index_id IS NULL OR current_date - sc.modified_at >= %d ORDER BY sc.modified_at NULLS FIRST""" % (PIOTROSKI_F_SCORE, maxAge))
         else:
             cur.execute("""SELECT * FROM tindex i LEFT JOIN tscore sc on sc.index_id = i.index_id AND sc.score_type_id = %d WHERE sc.index_id IS NULL""" % PIOTROSKI_F_SCORE)
         for index in cur:

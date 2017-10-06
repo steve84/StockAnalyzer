@@ -209,6 +209,23 @@ class Utils:
             if 'datasets' in json_response.keys() and len(json_response['datasets']) > 0 and json_response['datasets'][0].find(isin) > -1:
                 return databaseCode + '/' + json_response['datasets'][0]['dataset_code']
 
+    def getQuandlStockPrice(code, quandl_key):
+        quandl.ApiConfig.api_key = quandl_key
+        
+        try:
+            data = quandl.get(code, collapse='monthly')
+        
+            if len(data.index) >= 13:
+                actual_value =  data['Last'][-1]
+                six_month_date = data.index[-7].date()
+                six_month_value =  data['Last'][-7]
+                one_year_date = data.index[-13].date()
+                one_year_value =  data['Last'][-13]
+                return [actual_value, six_month_value, one_year_value]
+            return list()
+        except:
+            return list()
+
     def avgYearValue(factDict, targetKey, maxYear):
         i = 0
         value = 0

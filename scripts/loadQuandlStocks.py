@@ -51,8 +51,9 @@ while page <= totalPages:
     query_params = dict()
     query_params['database_code'] = databaseCode
     query_params['per_page'] = pageSize
-    query_params['sort_by'] = 'id'
+    query_params['query'] = 'values'
     query_params['page'] = page
+    query_params['frequency'] = 'daily'
     query_params['api_key'] = quandl_key
 
     link = baseUrl + '?' +  urllib.parse.urlencode(query_params)
@@ -68,8 +69,7 @@ while page <= totalPages:
         stocks = json_response['datasets']
         
         for stock in stocks:
-            if stock['frequency'] == 'annual':
-                print(stock['description'])
+            if 'dataset_code' in stock.keys() and stock['dataset_code'] is not None and stock['dataset_code'].find('_VALUES') > -1:
                 description_html = BeautifulSoup(stock['description'], 'html.parser')
                 description_html_parts = description_html.findAll('p')
                 for part in description_html_parts:
@@ -82,6 +82,8 @@ while page <= totalPages:
                             stock['country'] = part.text.replace('Country:', '').strip()
                         if part.find('b').text.find('ISIN') > -1:
                             stock['isin'] = part.text.replace('ISIN:', '').strip()
+                        if part.find('b').text.find('YF Ticker') > -1:
+                            stock['symbol'] = part.text.replace('YF Ticker:', '').strip()
                         if part.find('b').text.find('Sector:') > -1:
                             stock['branch'] = part.text.replace('Sector:', '').strip()
                         if part.find('b').text.find('Sector Group:') > -1:
@@ -89,11 +91,6 @@ while page <= totalPages:
                         if part.find('b').text.find('Reference Currency') > -1:
                             stock['currency'] = part.text.replace('Reference Currency:', '').strip()
 
-                if 'newest_available_date' in stock.keys() and stock['newest_available_date'] is not None:
-                    newest_date = datetime.strptime(stock['newest_available_date'], '%Y-%m-%d')
-                    stock['business_year_end'] = newest_date.strftime('%d.%m.')
-                else:
-                    stock['business_year_end'] = 'n.a.'
                 stock['quandl_rb1_id'] = int(stock['dataset_code'].split('_')[0])
                 stock['quandl_price_dataset'] = Utils.getQuandlStockPriceDataset(priceDatabaseCode, stock['isin'], quandl_key)
                 stock['country_id'] = None
@@ -135,7 +132,7 @@ while page <= totalPages:
                 cur.execute("""SELECT * FROM tstock WHERE isin = %(isin)s;""", stock)
                 if cur.rowcount == 0:
                     # insert
-                    cur.execute("""INSERT INTO tstock (name, isin, business_year_end, branch_id, country_id, currency, quandl_rb1_id, quandl_price_dataset) VALUES (%(name)s, %(isin)s, %(business_year_end)s, %(branch_id)s, %(country_id)s, %(currency)s, %(quandl_rb1_id)s, %(quandl_price_dataset)s;""", stock)
+                    cur.execute("""INSERT INTO tstock (name, isin, branch_id, country_id, currency, quandl_rb1_id, quandl_price_dataset) VALUES (%(name)s, %(isin)s, %(branch_id)s, %(country_id)s, %(currency)s, %(quandl_rb1_id)s, %(quandl_price_dataset)s;""", stock)
                     totalInserted['stocks'] += 1
                     totalProcessed += 1
 

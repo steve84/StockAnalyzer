@@ -33,13 +33,13 @@ cur = conn.cursor()
 
 stockUpdated = 0
 
-cur.execute("""SELECT * FROM vstock ORDER BY last_date_performance""")
+cur.execute("""SELECT * FROM vstock ORDER BY last_date_values NULLS FIRST""")
 
 for stock in cur:
     stockUpdate = False
     quandlId = str(stock[5]).zfill(4)
-    for tableName in quandlTables:
-        try:
+    try:
+        for tableName in quandlTables:
             curStock = conn.cursor()
             data = Utils.getKeyFiguresQuandl(databaseCode + '/' + quandlId + '_' + tableName, 'quandl/' + tableMapping[tableName] + '.json', quandl_key)
             for rowDate in data.keys():
@@ -48,11 +48,12 @@ for stock in cur:
                     data[rowDate]['modified_at'] = rowDate
                     curStock.execute(Utils.createSqlString(data[rowDate], 't' + tableName.lower()), data[rowDate])
                     stockUpdate = True
-            conn.commit()
-        except Exception as e:
-            conn.rollback()
-            print("An error occured: %s" % stock[1])
-            print("Error message: %s" % e)
+        conn.commit()
+    except Exception as e:
+        conn.rollback()
+        stockUpdate = False
+        print("An error occured: %s" % stock[1])
+        print("Error message: %s" % e)
     
     if stockUpdate:
         stockUpdated += 1

@@ -54,6 +54,9 @@ public class Stock {
     @OneToMany
     @JoinColumn(name = "stock_id")
     private List<Cashflow> cashflow;
+    @ManyToOne
+    @JoinColumn(name = "stock_id")
+    private Performance performance;
     @OneToMany
     @JoinColumn(name = "stock_id")
     private List<Score> scores;
@@ -225,7 +228,15 @@ public class Stock {
 		this.cashflow = cashflow;
 	}
 
-	public List<Score> getScores() {
+	public Performance getPerformance() {
+        return performance;
+    }
+
+    public void setPerformance(Performance performance) {
+        this.performance = performance;
+    }
+
+    public List<Score> getScores() {
 		return scores;
 	}
 

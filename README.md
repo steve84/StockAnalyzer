@@ -30,7 +30,7 @@ Install git, docker and docker-compose
 10. sudo docker-compose exec db psql -h localhost -p 5432 -U postgres -d stock_db -f /usr/src/scripts/insert_stockindex_quandl.sql
 10. sudo docker-compose exec db psql -h localhost -p 5432 -U postgres -d stock_db -f /usr/src/scripts/insert_msci_cap_quandl.sql
 11. sudo docker-compose exec db psql -h localhost -p 5432 -U postgres -d stock_db -f /usr/src/scripts/insert_scoretype.sql
-12. sudo docker-compose run scripts python3 calculateScores.py --host db -u postgres -d stock_db --stocks --indices --levermann --piotroski --magic
+12. sudo docker-compose run scripts python3 calculateScores.py --host db -u postgres -d stock_db -k <quandl_key> --stocks --indices --levermann --piotroski --magic
 13. Go to http://localhost
 
 ## I18n
