@@ -674,7 +674,8 @@ CREATE OR REPLACE VIEW public.vlevermann AS
    NULL as analyst_sell_ratio,
    NULL as analyst_buy_ratio,
    p.performance_6m,
-   p.performance_1y
+   p.performance_1y,
+   s.isin
    FROM tstock s
    LEFT JOIN (select si.* from (select stock_id, max(modified_at) max_date from tsignals group by stock_id) a left join tsignals si on si.stock_id = a.stock_id and si.modified_at = a.max_date) si on si.stock_id = s.stock_id
    LEFT JOIN (select b.* from (select stock_id, max(modified_at) max_date from tbalance group by stock_id) a left join tbalance b on b.stock_id = a.stock_id and b.modified_at = a.max_date) b on b.stock_id = s.stock_id

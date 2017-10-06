@@ -119,7 +119,8 @@ class Utils:
                             data[mapping[map]] = None
         return data
 
-    def getAnalystRatings(link, mappingFileName):
+    def getAnalystRatings(isin, mappingFileName):
+        analyst_rating_url = "http://www.onvista.de/news/boxes/aggregated-analyses?timespan=-3+months&assetType=Stock&assetId=" + isin
         data = dict()
         totalRatings = 0
         mapping = Utils.getMappingDict(mappingFileName)
@@ -253,8 +254,9 @@ class Utils:
         priceEarningsRatio = levermannData[5]
         priceEarningsRatio5yAvg = levermannData[6]
         earningsPerShareGrowthExpected = levermannData[7]
-        analystSellRatio = levermannData[8]
-        analystBuyRatio = levermannData[9]
+        analyst_ratings = Utils.getAnalystRatings(levermannData[12], 'quandl/mappingAnalystRatings.json')
+        analystSellRatio = analyst_ratings['sell']
+        analystBuyRatio = levermannData['buy']
         performance6m = levermannData[10]
         performance1y = levermannData[11]
         levermannScore = 0
@@ -291,7 +293,7 @@ class Utils:
             elif priceEarningsRatio5yAvg > 16:
                 levermannScore -= 1
 
-        if analystSellRatio is not None and not math.isnan(analystSellRatio) and marketCapitalization is not None and not math.isnan(marketCapitalization):
+        if analystBuyRatio is not None and not math.isnan(analystBuyRatio) and marketCapitalization is not None and not math.isnan(marketCapitalization):
             hasLevermannScore = hasLevermannScore or True
             if marketCapitalization >= 10000:
                 if analystBuyRatio >= 60:
