@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -18,23 +20,28 @@ public class Performance {
     @Column(name = "performance_id")
     private Integer performanceId;
 
-    @Column(name = "stock_id")
-    private Integer stockId;
+    @OneToOne
+    @JoinColumn(name = "stock_id")
+    private Stock stock;
+
+    @Column(name = "performance_6m")
     private Double performance6m;
+
+    @Column(name = "performance_1y")
     private Double performance1y;
 
     @Column(name = "modified_at")
     private Calendar modifiedAt;
 
-    public Integer getStockId() {
-        return stockId;
-    }
+    public Stock getStock() {
+		return stock;
+	}
 
-    public void setStockId(Integer stockId) {
-        this.stockId = stockId;
-    }
+	public void setStock(Stock stock) {
+		this.stock = stock;
+	}
 
-    public Double getPerformance6m() {
+	public Double getPerformance6m() {
         return performance6m;
     }
 

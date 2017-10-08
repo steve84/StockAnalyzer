@@ -9,6 +9,7 @@ import ch.steve84.stock_analyzer.entity.quandl.Country;
 import ch.steve84.stock_analyzer.entity.quandl.Index;
 import ch.steve84.stock_analyzer.entity.quandl.Levermann;
 import ch.steve84.stock_analyzer.entity.quandl.NormalizedScore;
+import ch.steve84.stock_analyzer.entity.quandl.Performance;
 import ch.steve84.stock_analyzer.entity.quandl.Stock;
 import ch.steve84.stock_analyzer.entity.quandl.Balance;
 import ch.steve84.stock_analyzer.entity.quandl.Cashflow;
@@ -31,6 +32,7 @@ public class StockAnalyzerConfiguration extends RepositoryRestConfigurerAdapter 
         config.exposeIdsFor(Income.class);
         config.exposeIdsFor(Signals.class);
         config.exposeIdsFor(Values.class);
+        config.exposeIdsFor(Performance.class);
         config.exposeIdsFor(Levermann.class);
         config.exposeIdsFor(Index.class);
         config.exposeIdsFor(NormalizedScore.class);

@@ -1,7 +1,7 @@
 <p-dialog [header]="title" [(visible)]="display" (onHide)="closeDisplay()" [width]="1200">
   <p-tabView>
     <p-tabPanel i18n-header="@@stock.detail.tab.overview.header" header="Overview">
-      <div *ngIf="stock && stock.balance">
+      <div *ngIf="stock">
         <div class = "ui-g">
           <div class = "ui-g-12"><button type="button" pButton label="Vergleichen" (click)="addToCompare(symbol)" icon="fa-plus-circle"></button></div>
         </div>
@@ -9,7 +9,7 @@
           <div class = "ui-g-3" i18n="@@stock.detail.name">Name</div><div class = "ui-g-3">{{stock.name}}</div>
           <div class = "ui-g-3" i18n="@@stock.detail.isin">ISIN</div><div class = "ui-g-3">{{stock.isin}}</div>
         </div>
-        <div class = "ui-g">
+        <div *ngIf="stock.balance && stock.balance.length > 0" class = "ui-g">
           <div class = "ui-g-3" i18n="@@stock.detail.businessyearend">End of business year</div><div class = "ui-g-3">{{stock.balance[0].modifiedAt | date:'dd.MM.'}}</div>
           <div class = "ui-g-3" i18n="@@stock.detail.currency">Currency</div><div class = "ui-g-3">{{stock.currency}}</div>
         </div>

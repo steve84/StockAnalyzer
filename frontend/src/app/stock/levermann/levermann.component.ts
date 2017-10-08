@@ -13,6 +13,7 @@ import { Levermann } from '../levermann';
 export class LevermannComponent implements OnInit, OnChanges {
   @Input('stock') stock: Stock;
   levermannData: Levermann;
+  levermannScore: number = 0;
   levermannAdvice: string = "nicht kaufen/verkaufen";
   constructor(private stockService: StockService) { }
 
@@ -21,6 +22,10 @@ export class LevermannComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     if (changes.stock && changes.stock.currentValue) {
       this.levermannData = changes.stock.currentValue.levermann;
+      for (let score of this.stock.scores) {
+        if (score.scoreType.name == 'Levermann')
+          this.levermannScore = score.scoreValue;
+      }
     }
   }
   
@@ -63,5 +68,28 @@ export class LevermannComponent implements OnInit, OnChanges {
       return -1;
     else
       return 0;
+  }
+  
+  getPerformanceScore(value: number) {
+    if (value > 5)
+      return 1;
+    else if (value < -5)
+      return -1
+    return 0;
+  }
+  
+  getMomentumScore(value6m: number, value1y: number) {
+    if (value6m > 0 && value1y < 0)
+      return 1;
+    else if (value6m < 0 && value1y > 0)
+      return -1;
+    return 0;
+  }
+  getEPSGrowthScore(value: number) {
+    if (value > 5)
+      return 1;
+    else if (value < -5)
+      return -1
+    return 0;
   }
 }

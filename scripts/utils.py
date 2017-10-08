@@ -124,7 +124,7 @@ class Utils:
         data = dict()
         totalRatings = 0
         mapping = Utils.getMappingDict(mappingFileName)
-        htmlSoup = Utils.getHtmlSoup(link)
+        htmlSoup = Utils.getHtmlSoup(analyst_rating_url)
         table = htmlSoup.find('tbody')
         if table is not None: 
             rows = table.findAll('tr')
@@ -207,7 +207,7 @@ class Utils:
         response = requests.get(link)
         if response.status_code == 200:
             json_response = response.json()
-            if 'datasets' in json_response.keys() and len(json_response['datasets']) > 0 and json_response['datasets'][0].find(isin) > -1:
+            if 'datasets' in json_response.keys() and len(json_response['datasets']) > 0 and 'description' in json_response['datasets'][0].keys() and json_response['datasets'][0]['description'].find(isin) > -1:
                 return databaseCode + '/' + json_response['datasets'][0]['dataset_code']
 
     def getQuandlStockPrice(code, quandl_key):
@@ -255,8 +255,11 @@ class Utils:
         priceEarningsRatio5yAvg = levermannData[6]
         earningsPerShareGrowthExpected = levermannData[7]
         analyst_ratings = Utils.getAnalystRatings(levermannData[12], 'quandl/mappingAnalystRatings.json')
-        analystSellRatio = analyst_ratings['sell']
-        analystBuyRatio = levermannData['buy']
+        analystSellRatio = None
+        analystBuyRatio = None
+        if 'sell' in analyst_ratings.keys() and 'buy' in analyst_ratings.keys():
+            analystSellRatio = analyst_ratings['sell']
+            analystBuyRatio = analyst_ratings['buy']
         performance6m = levermannData[10]
         performance1y = levermannData[11]
         levermannScore = 0

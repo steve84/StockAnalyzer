@@ -132,7 +132,7 @@ while page <= totalPages:
                 cur.execute("""SELECT * FROM tstock WHERE isin = %(isin)s;""", stock)
                 if cur.rowcount == 0:
                     # insert
-                    cur.execute("""INSERT INTO tstock (name, isin, branch_id, country_id, currency, quandl_rb1_id, quandl_price_dataset) VALUES (%(name)s, %(isin)s, %(branch_id)s, %(country_id)s, %(currency)s, %(quandl_rb1_id)s, %(quandl_price_dataset)s;""", stock)
+                    cur.execute("""INSERT INTO tstock (name, isin, branch_id, country_id, currency, quandl_rb1_id, quandl_price_dataset) VALUES (%(name)s, %(isin)s, %(branch_id)s, %(country_id)s, %(currency)s, %(quandl_rb1_id)s, %(quandl_price_dataset)s);""", stock)
                     totalInserted['stocks'] += 1
                     totalProcessed += 1
 

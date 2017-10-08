@@ -54,8 +54,7 @@ public class Stock {
     @OneToMany
     @JoinColumn(name = "stock_id")
     private List<Cashflow> cashflow;
-    @ManyToOne
-    @JoinColumn(name = "stock_id")
+    @OneToOne(mappedBy = "stock")
     private Performance performance;
     @OneToMany
     @JoinColumn(name = "stock_id")

@@ -1,6 +1,18 @@
 <div *ngIf="levermannData" class="ui-g">
   <div class="ui-g-12">
     <p-accordion [multiple]="true">
+      <p-accordionTab [disabled]="true">
+        <p-header>
+          <div class="ui-g">
+            <div class="ui-g-10">
+              Levermanm Score
+            </div>
+            <div class="ui-g-2" style="text-align: right;">
+              {{levermannScore}}
+            </div>
+          </div>
+        </p-header>
+      </p-accordionTab>
       <p-accordionTab>
         <p-header>
           <div class="ui-g">
@@ -86,7 +98,7 @@
               Kursentwicklung (6 Monate)
             </div>
             <div class="ui-g-2" style="text-align: right;">
-              0
+              {{getPerformanceScore(levermannData.performance6m)}}
             </div>
           </div>
         </p-header>
@@ -99,7 +111,7 @@
               Kursentwicklung (12 Monate)
             </div>
             <div class="ui-g-2" style="text-align: right;">
-              0
+              {{getPerformanceScore(levermannData.performance1y)}}
             </div>
           </div>
         </p-header>
@@ -112,7 +124,7 @@
               Kursmomentum
             </div>
             <div class="ui-g-2" style="text-align: right;">
-              0
+              {{getMomentumScore(levermannData.performance6m, levermannData.performance1y)}}
             </div>
           </div>
         </p-header>
@@ -125,7 +137,7 @@
               Erwarteter Gewinnwachstum
             </div>
             <div class="ui-g-2" style="text-align: right;">
-              0
+              {{getEPSGrowthScore(levermannData.getEPSGrowthScore)}}
             </div>
           </div>
         </p-header>

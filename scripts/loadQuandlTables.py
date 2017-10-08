@@ -1,4 +1,5 @@
 import quandl
+from quandl.errors.quandl_error import QuandlError
 import psycopg2
 import argparse
 
@@ -41,13 +42,18 @@ for stock in cur:
     try:
         for tableName in quandlTables:
             curStock = conn.cursor()
-            data = Utils.getKeyFiguresQuandl(databaseCode + '/' + quandlId + '_' + tableName, 'quandl/' + tableMapping[tableName] + '.json', quandl_key)
-            for rowDate in data.keys():
-                if stock[maxDateMapping[tableName]] is None or rowDate > stock[maxDateMapping[tableName]]:
-                    data[rowDate]['stock_id'] = stock[0]
-                    data[rowDate]['modified_at'] = rowDate
-                    curStock.execute(Utils.createSqlString(data[rowDate], 't' + tableName.lower()), data[rowDate])
-                    stockUpdate = True
+            try:
+              data = Utils.getKeyFiguresQuandl(databaseCode + '/' + quandlId + '_' + tableName, 'quandl/' + tableMapping[tableName] + '.json', quandl_key)
+              for rowDate in data.keys():
+                  if stock[maxDateMapping[tableName]] is None or rowDate > stock[maxDateMapping[tableName]]:
+                      data[rowDate]['stock_id'] = stock[0]
+                      data[rowDate]['modified_at'] = rowDate
+                      curStock.execute(Utils.createSqlString(data[rowDate], 't' + tableName.lower()), data[rowDate])
+                      stockUpdate = True
+            except QuandlError as qe:
+              print("Quandl error during dataset %s_%s" % (quandlId, tableName))
+              print("Exception: %s" % qe)
+              continue
         conn.commit()
     except Exception as e:
         conn.rollback()
@@ -57,7 +63,7 @@ for stock in cur:
     
     if stockUpdate:
         stockUpdated += 1
-        if stockUpdated >= maxItems:
+        if maxItems is not None and stockUpdated >= maxItems:
             break
 
 conn.commit()

@@ -10,6 +10,8 @@ import { Cashflow } from './cashflow';
 import { Forecast } from './forecast';
 import { Income } from './income';
 
+import { Performance } from './performance';
+
 
 export interface Stock {
   stockId?: number,
@@ -33,5 +35,6 @@ export interface Stock {
   cashflow?: Cashflow[],
   forecast?: Forecast[],
   income?: Income[],
+  performance?: Performance,
   currency?: string
 }

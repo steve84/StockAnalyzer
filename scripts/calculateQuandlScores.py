@@ -58,9 +58,8 @@ if doStocks:
                 pricesDb = curPrices.fetchone()
                 if pricesDb is not None:
                     curPrices.execute(Utils.createSqlString({'performance_6m', 'performance_1y', 'modified_at'}, 'tperformance', 'stock_id = %d' % stock[0], False), pricesDict)
-                else
+                else:
                     curPrices.execute(Utils.createSqlString(pricesDict.keys(), 'tperformance'), pricesDict)
-                curPrices.commit()
 
             curLevermann = conn.cursor()
             curLevermann.execute("""SELECT * FROM vlevermann WHERE stock_id = %d""" % stock[0])
@@ -163,10 +162,10 @@ if doIndices:
                     pricesDb = curPrices.fetchone()
                     if pricesDb is not None:
                         curPrices.execute(Utils.createSqlString({'performance_6m', 'performance_1y', 'modified_at'}, 'tperformance', 'stock_id = %d' % stock[0], False), pricesDict)
-                    else
+                    else:
                         curPrices.execute(Utils.createSqlString(pricesDict.keys(), 'tperformance'), pricesDict)
-                    curPrices.commit()
-                curLevermann = conn.cursor()
+
+                        curLevermann = conn.cursor()
                 curLevermann.execute("""SELECT * FROM vlevermann WHERE stock_id = %d""" % stock[0])
                 levermannRow = curLevermann.fetchone()
                 marketCap = levermannRow[4]
