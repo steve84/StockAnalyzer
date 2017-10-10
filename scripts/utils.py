@@ -67,6 +67,7 @@ class Utils:
         return data
     
     def getKeyFiguresQuandl(tableName, mappingFileName, quandlKey):
+        nanToNone = lambda s: None if math.isnan(s) else s
         quandl.ApiConfig.api_key = quandlKey
         data = dict()
         years = list()
@@ -78,7 +79,7 @@ class Utils:
                     if key.find(mapping) > -1:
                         if index.date() not in data.keys():
                             data[index.date()] = dict()
-                        data[index.date()][mappings[mapping]] = row[key]
+                        data[index.date()][mappings[mapping]] = nanToNone(row[key])
                         break
         return data
                 

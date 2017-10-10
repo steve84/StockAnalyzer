@@ -19,12 +19,14 @@ import { LoginComponent } from './login/login.component';
 
 import { UserService } from './user.service';
 import { AuthGuard } from './auth/authguard.service';
+import { DialogsizeDirective } from './dialogsize.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenubarComponent,
-    LoginComponent
+    LoginComponent,
+    DialogsizeDirective
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
