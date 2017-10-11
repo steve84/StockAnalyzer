@@ -27,7 +27,6 @@ db_host = parser.parse_args().db_host
 quandl_key = parser.parse_args().quandl_key
 
 conn = psycopg2.connect("dbname=%s user=%s host=%s" % (db_name, db_user, db_host))
-cur = conn.cursor()
 
 totalHits = -1
 page = 1
@@ -48,6 +47,7 @@ existing_countries = dict()
 existing_branches = dict()
 
 while page <= totalPages:
+    cur = conn.cursor()
     query_params = dict()
     query_params['database_code'] = databaseCode
     query_params['per_page'] = pageSize

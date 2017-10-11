@@ -146,11 +146,11 @@ if doIndices:
             cur.execute("""SELECT * FROM tindex i LEFT JOIN tscore sc on sc.index_id = i.index_id AND sc.score_type_id = %d WHERE sc.index_id IS NULL""" % LEVERMANN_SCORE_TYPE_ID)
         for index in cur:
             curStocks = conn.cursor()
-            curStocks.execute("""SELECT stock_id FROM tstockindex WHERE index_id = %d""" % index[0])
+            curStocks.execute("""SELECT s.stock_id, s.quandl_price_dataset FROM tstockindex si LEFT JOIN tstock s ON s.stock_id = si.stock_id WHERE si.index_id = %d""" % index[0])
             totalMarketCap = 0
             totalLevermannScore = 0
             for stock in curStocks:
-                prices = Utils.getQuandlStockPrice(stock[12], quandl_key)
+                prices = Utils.getQuandlStockPrice(stock[1], quandl_key)
                 if len(prices) == 3:
                     pricesDict = dict()
                     pricesDict['stock_id'] = stock[0]

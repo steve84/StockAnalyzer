@@ -3,7 +3,7 @@ import { DomHandler } from 'primeng/components/dom/domhandler';
 @Directive({
   selector: '[appDialogsize]'
 })
-export class ResizerPDialogDirective {
+export class DialogSizeDirective {
   @Input() dialogWidth: number = 90; //dialog size in percent relative to screen
   private domHandler: DomHandler = new DomHandler();
   constructor(private el: ElementRef, private renderer: Renderer, private _view: ViewContainerRef) {
