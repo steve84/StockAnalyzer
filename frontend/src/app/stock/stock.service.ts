@@ -118,13 +118,17 @@ export class StockService {
 	  .map(this.extractData);
 	}
   
-  getNormalizedScores(levermannFactor: number, magicFormulaFactor: number, piotroskiFactor, rows: number = 10) {
+  getNormalizedScores(levermannFactor: number, magicFormulaFactor: number, piotroskiFactor, excludedCountries: number[], excludedBranches: number[], rows: number = 10) {
     let url = "http://localhost:8080/normalizedscores/search/getNormalizedScoresOfStocks";
     let params = new URLSearchParams();
-    
+
     params.set("levermannFactor", levermannFactor.toString());
     params.set("magicFormulaFactor", magicFormulaFactor.toString());
     params.set("piotroskiFactor", piotroskiFactor.toString());
+    if (excludedCountries && excludedCountries.length > 0)
+      params.set("excludeCountryIds", excludedCountries.join(','));
+    if (excludedBranches && excludedBranches.length > 0)
+      params.set("excludeBranchIds", excludedBranches.join(','));
     params.set("rows", rows.toString());
 
     return this.http.get(url, {search: params})

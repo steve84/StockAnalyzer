@@ -37,6 +37,22 @@ Piotroski F-Score-Factor:
 </div>
 </div>
 <div class = "ui-g">
+<div class = "ui-g-3" i18n="@@score.combiner.exclude_countries.label">
+Exclude countries:
+</div>
+<div class = "ui-g-9">
+<p-multiSelect [options]="countries" [(ngModel)]="excludedCountries" i18n-defaultLabel="@@search.choice.label" defaultLabel="Choose" i18n-selectedItemsLabel="@@search.choice.selected.label" selectedItemsLabel="{0} entries selected" maxSelectedLabels=2></p-multiSelect>
+</div>
+</div>
+<div *ngIf="stockOrIndex == 'stock'" class = "ui-g">
+<div class = "ui-g-3" i18n="@@score.combiner.exclude_countries.label">
+Exclude branches:
+</div>
+<div class = "ui-g-9">
+<p-multiSelect [options]="branches" [(ngModel)]="excludedBranches" i18n-defaultLabel="@@search.choice.label" defaultLabel="Choose" i18n-selectedItemsLabel="@@search.choice.selected.label" selectedItemsLabel="{0} entries selected" maxSelectedLabels=2></p-multiSelect>
+</div>
+</div>
+<div class = "ui-g">
 <div class = "ui-g-3" i18n="@@score.combiner.number_of_results.label">
 Number of results:
 </div>
@@ -55,6 +71,7 @@ Type of results:
 <div class = "ui-g">
 <div class = "ui-g-12">
 <button type="button" pButton i18n-label="score.combiner.search.label" label="Search" (click)="getScoreValues()" [disabled]="!isValid()" icon="fa-search"></button>
+<button type="button" pButton i18n-label="@@search.reset.label" label="Reset filters" (click)="reset()" icon="fa-remove"></button>
 </div>
 </div>
 

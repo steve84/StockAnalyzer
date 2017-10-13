@@ -78,7 +78,8 @@ class Utils:
                     if key.find(mapping) > -1:
                         if index.date() not in data.keys():
                             data[index.date()] = dict()
-                        data[index.date()][mappings[mapping]] = row[key]
+                        if row[key] is not None and not math.isnan(row[key]):
+                            data[index.date()][mappings[mapping]] = row[key]
                         break
         return data
                 
