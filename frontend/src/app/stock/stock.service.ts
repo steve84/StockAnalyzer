@@ -118,7 +118,7 @@ export class StockService {
 	  .map(this.extractData);
 	}
   
-  getNormalizedScores(levermannFactor: number, magicFormulaFactor: number, piotroskiFactor, excludedCountries: number[], excludedBranches: number[], rows: number = 10) {
+  getNormalizedScores(levermannFactor: number, magicFormulaFactor: number, piotroskiFactor, excludedCountries: number[], excludedBranches: number[], fromMarketCap: number, toMarketCap: number, rows: number = 10) {
     let url = "http://localhost:8080/normalizedscores/search/getNormalizedScoresOfStocks";
     let params = new URLSearchParams();
 
@@ -129,6 +129,10 @@ export class StockService {
       params.set("excludeCountryIds", excludedCountries.join(','));
     if (excludedBranches && excludedBranches.length > 0)
       params.set("excludeBranchIds", excludedBranches.join(','));
+    if (fromMarketCap)
+      params.set("fromMarketCap", fromMarketCap.toString());
+    if (toMarketCap)
+      params.set("toMarketCap", toMarketCap.toString());
     params.set("rows", rows.toString());
 
     return this.http.get(url, {search: params})

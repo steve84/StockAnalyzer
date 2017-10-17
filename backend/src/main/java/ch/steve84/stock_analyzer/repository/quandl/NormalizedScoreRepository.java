@@ -16,9 +16,11 @@ public interface NormalizedScoreRepository extends JpaRepository<NormalizedScore
 			+ "from vscore_normalized sn1 "
 			+ "group by sn1.stock_id) a on a.stock_id = sn.stock_id "
 			+ "left join tstock s on s.stock_id = sn.stock_id "
+			+ "left join vmarketcap mc on mc.stock_id = s.stock_id"
 			+ "where sn.score_type_id = 1 and a.score_value is not null and "
 			+ "(:excludeCountryIds is null or not cast(s.country_id as text) = any(string_to_array(cast(:excludeCountryIds as text), cast(',' as text)))) and "
-			+ "(:excludeBranchIds is null or not cast(s.branch_id as text) = any(string_to_array(cast(:excludeBranchIds as text), cast(',' as text)))) "
+			+ "(:excludeBranchIds is null or not cast(s.branch_id as text) = any(string_to_array(cast(:excludeBranchIds as text), cast(',' as text)))) and "
+			+ "(:fromMarketCap is null or va.market_capitalization >= :fromMarketCap) and (:toMarketCap is null or va.market_capitalization < :toMarketCap) "
 			+ "order by a.score_value desc "
 			+ "limit :rows",
 		   nativeQuery = true)
@@ -27,6 +29,8 @@ public interface NormalizedScoreRepository extends JpaRepository<NormalizedScore
 			                                          @Param("piotroskiFactor") Float piotroskiFactor,
 			                                          @Param("excludeCountryIds") String countryIds,
 			                                          @Param("excludeBranchIds") String branchIds,
+			                                          @Param("fromMarketCap") Integer fromMarketCap,
+			                                          @Param("toMarketCap") Integer toMarketCap,
 			                                          @Param("rows") Integer rows);
 
 	@Query(value = "select sn.score_id, null as score_type_id, null as stock_id, sn.index_id, a.score_value, null as modified_at from vscore_normalized sn "

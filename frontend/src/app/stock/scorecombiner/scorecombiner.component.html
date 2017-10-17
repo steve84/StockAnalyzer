@@ -52,6 +52,14 @@ Exclude branches:
 <p-multiSelect [options]="branches" [(ngModel)]="excludedBranches" i18n-defaultLabel="@@search.choice.label" defaultLabel="Choose" i18n-selectedItemsLabel="@@search.choice.selected.label" selectedItemsLabel="{0} entries selected" maxSelectedLabels=2></p-multiSelect>
 </div>
 </div>
+<div *ngIf="stockOrIndex == 'stock'" class = "ui-g">
+<div class = "ui-g-3" i18n="@@score.combiner.companysize.label">
+Company size:
+</div>
+<div class = "ui-g-9">
+<p-selectButton [options]="companySizeItems" [(ngModel)]="companySize"></p-selectButton>
+</div>
+</div>
 <div class = "ui-g">
 <div class = "ui-g-3" i18n="@@score.combiner.number_of_results.label">
 Number of results:

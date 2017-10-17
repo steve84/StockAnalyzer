@@ -619,7 +619,7 @@ ALTER TABLE tcountry ADD CONSTRAINT ucountry UNIQUE (name, code);
 ALTER TABLE tstock ADD CONSTRAINT ustockisin UNIQUE (isin);
 
 ALTER TABLE tstock ADD CONSTRAINT ustockquandl UNIQUE (quandl_rb1_id);
-    
+
 ALTER TABLE tstockindex ADD CONSTRAINT ustockindex UNIQUE (stock_id, index_id);
 
 ALTER TABLE tindex ADD CONSTRAINT uindex UNIQUE (name);
@@ -814,6 +814,16 @@ CREATE OR REPLACE VIEW public.vscore_normalized AS
 ALTER TABLE public.vscore_normalized
   OWNER TO postgres;
 
+  
+CREATE OR REPLACE VIEW public.vmarketcap AS 
+ SELECT s.stock_id,
+	v.market_capitalization
+   FROM tstock s
+   LEFT JOIN (select stock_id, market_capitalization from tvalues order by modified_at desc limit 1) v ON v.stock_id = s.stock_id;
+
+ALTER TABLE public.vmarketcap
+  OWNER TO postgres;
+  
 --
 -- TOC entry 2130 (class 0 OID 0)
 -- Dependencies: 7

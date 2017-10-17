@@ -33,7 +33,9 @@ export class ScorecombinerComponent implements OnInit {
   excludedBranches: number[];
   selectedScore: Score;
   stockOrIndexItem: SelectItem[] = [];
+  companySizeItems: SelectItem[] = [];
   stockOrIndex: string = 'stock';
+  companySize: number = 0;
   commonTranslationPipe: CommonTranslationPipe = new CommonTranslationPipe();
   countryTranslationPipe: CountryTranslationPipe = new CountryTranslationPipe();
   constructor(private stockService: StockService, private indexService: IndexService) {
@@ -43,6 +45,12 @@ export class ScorecombinerComponent implements OnInit {
 
     this.stockOrIndexItem.push({label: this.commonTranslationPipe.transform('Stocks'), value: 'stock'});
     this.stockOrIndexItem.push({label: this.commonTranslationPipe.transform('Indices'), value: 'index'});
+    
+    this.companySizeItems.push({label: 'Large, Mid and Small Caps', value: 0});
+    this.companySizeItems.push({label: 'Large and Mid Caps', value: 1});
+    this.companySizeItems.push({label: 'Large Caps', value: 2});
+    this.companySizeItems.push({label: 'Mid Caps', value: 3});
+    this.companySizeItems.push({label: 'Small Caps', value: 4});
     
       this.stockService.getAllCountries()
           .subscribe((data:any) => {
@@ -67,8 +75,28 @@ export class ScorecombinerComponent implements OnInit {
   }
   
   getScoreValues() {
+    let fromMarketCap: number = null;
+    let toMarketCap: number = null;
+    switch (this.companySize) {
+      // 'Large and Mid Caps'
+      case 1:
+        fromMarketCap = 2000;
+        break;
+      // 'Large Caps'
+      case 2:
+        fromMarketCap = 10000;
+        break;
+      // 'Mid Caps'
+      case 3:
+        fromMarketCap = 2000;
+        toMarketCap = 10000;
+        break;
+      // 'Small Caps'
+      case 4:
+        toMarketCap = 2000;
+    }
     if (this.stockOrIndex == 'stock') {
-      this.stockService.getNormalizedScores(this.levermannFactor / 100, this.magicFormulaFactor / 100, this.piotroskiFactor / 100, this.excludedCountries, this.excludedBranches, this.numRows)
+      this.stockService.getNormalizedScores(this.levermannFactor / 100, this.magicFormulaFactor / 100, this.piotroskiFactor / 100, this.excludedCountries, this.excludedBranches, fromMarketCap, toMarketCap, this.numRows)
         .subscribe((data: any) => {
         this.scores = data["_embedded"]["normalizedscore"];
         for (let score of this.scores) {
