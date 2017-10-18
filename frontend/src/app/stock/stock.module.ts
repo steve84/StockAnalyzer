@@ -17,9 +17,9 @@ import { DataTableModule,
         MultiSelectModule,
         SliderModule,
         MessagesModule,
-        SelectButtonModule } from 'primeng/primeng';
-
-import { ChartModule } from 'angular-highcharts';
+        SelectButtonModule,
+        SpinnerModule,
+        ChartModule } from 'primeng/primeng';
 
 import { StockService } from './stock.service';
 import { IndexService } from './index.service';
@@ -63,7 +63,8 @@ import { FigurestableComponent } from '../base/figurestable/figurestable.compone
     MessagesModule,
     SelectButtonModule,
     SharedModule,
-    ChartModule
+    ChartModule,
+    SpinnerModule
   ],
   exports: [
     StockTableComponent,

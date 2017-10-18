@@ -1,0 +1,20 @@
+<form [formGroup]="registerform" (ngSubmit)="onSubmit(registerform.value)">
+    <div class = "ui-g">
+        <div class = "ui-g-3" i18n="@@search.name.label">E-Mail-Address</div>
+        <div class = "ui-g-3"><input type="text" pInputText formControlName="username" [(ngModel)]="username"/></div>
+        <div class = "ui-g-6">
+            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!registerform.controls['username'].valid&&registerform.controls['username'].touched"></div>
+        </div>
+        <div class = "ui-g-3" i18n="@@search.name.label">Password</div>
+        <div class = "ui-g-3"><input type="text" pInputText formControlName="password" [(ngModel)]="password"/></div>
+        <div class = "ui-g-6">
+            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!registerform.controls['password'].valid&&registerform.controls['password'].touched"></div>
+        </div>
+        <div class = "ui-g-3" i18n="@@search.name.label">Password (Repeat)</div>
+        <div class = "ui-g-3"><input type="text" pInputText formControlName="passwordR" [(ngModel)]="passwordR"/></div>
+        <div class = "ui-g-6">
+            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!registerform.controls['passwordR'].valid&&registerform.controls['passwordR'].dirty"></div>
+        </div>
+        <div class = "ui-g-12"><button pButton type="submit" label="Submit" [disabled]="!registerform.valid" i18n-label="@@registerform.register.label"></button></div>
+    </div>
+</form>

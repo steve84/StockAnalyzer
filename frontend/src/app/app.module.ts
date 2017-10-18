@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
@@ -20,18 +20,21 @@ import { LoginComponent } from './login/login.component';
 import { UserService } from './user.service';
 import { AuthGuard } from './auth/authguard.service';
 import { DialogSizeDirective } from './dialogsize.directive';
+import { UserRegistrationComponent } from './userregistration/userregistration.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MenubarComponent,
     LoginComponent,
-    DialogSizeDirective
+    DialogSizeDirective,
+    UserRegistrationComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
     BrowserModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     MenubarModule,
     DialogModule,

@@ -65,7 +65,7 @@ Company size:
 Number of results:
 </div>
 <div class = "ui-g-9">
-<p-dropdown [options]="numRowValues" [(ngModel)]="numRows"></p-dropdown>
+<p-spinner [(ngModel)]="numRows" [min]="1" [max]="50"></p-spinner>
 </div>
 </div>
 <div class = "ui-g">

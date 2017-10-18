@@ -2,8 +2,6 @@ import { Component, OnInit, OnChanges, SimpleChanges, EventEmitter, Input, Outpu
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 
-import { Chart } from 'angular-highcharts';
-
 import { StockService } from '../stock.service';
 import { FundamentalService } from '../fundamental.service';
 
@@ -25,8 +23,6 @@ export class FundamentalComponent implements OnInit, OnChanges {
   title: string;
   value: Values;
   signals: Signals[] = [];
-  chart: Chart;
-  historicalChart: Chart;
   indexNames: string[] = [];
   
   balanceFields: string[] = [];
