@@ -816,10 +816,10 @@ ALTER TABLE public.vscore_normalized
 
   
 CREATE OR REPLACE VIEW public.vmarketcap AS 
- SELECT s.stock_id,
+ SELECT v.stock_id,
 	v.market_capitalization
-   FROM tstock s
-   LEFT JOIN (select stock_id, market_capitalization from tvalues order by modified_at desc limit 1) v ON v.stock_id = s.stock_id;
+   FROM tvalues v
+   WHERE v.modified_at = (select max(v2.modified_at) from tvalues v2 where v.stock_id = v2.stock_id);
 
 ALTER TABLE public.vmarketcap
   OWNER TO postgres;

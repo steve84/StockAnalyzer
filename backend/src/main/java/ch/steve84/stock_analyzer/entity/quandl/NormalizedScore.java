@@ -33,7 +33,19 @@ public class NormalizedScore {
     @Column(name = "modified_at")
     private Calendar modifiedAt;
 
-	public ScoreType getScoreType() {
+    public NormalizedScore() {}
+
+	public NormalizedScore(Stock stock, Double scoreValue) {
+        this.stock = stock;
+        this.scoreValue = scoreValue;
+    }
+
+    public NormalizedScore(Index index, Double scoreValue) {
+        this.index = index;
+        this.scoreValue = scoreValue;
+    }
+
+    public ScoreType getScoreType() {
 		return scoreType;
 	}
 

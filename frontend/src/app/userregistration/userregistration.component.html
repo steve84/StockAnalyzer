@@ -15,6 +15,9 @@
         <div class = "ui-g-6">
             <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!registerform.controls['passwordR'].valid&&registerform.controls['passwordR'].dirty"></div>
         </div>
-        <div class = "ui-g-12"><button pButton type="submit" label="Submit" [disabled]="!registerform.valid" i18n-label="@@registerform.register.label"></button></div>
+        <div class = "ui-g-3"></div>
+        <div class = "ui-g-3"><p-captcha siteKey="d41d8cd98f00b204e9800998ecf8427e" size="compact" (onResponse)="showResponse($event)"></p-captcha></div>
+        <div class = "ui-g-6"></div>
+        <div class = "ui-g-12"><button pButton type="submit" label="Submit" [disabled]="!registerform.valid || !validCaptcha" i18n-label="@@registerform.register.label"></button></div>
     </div>
 </form>

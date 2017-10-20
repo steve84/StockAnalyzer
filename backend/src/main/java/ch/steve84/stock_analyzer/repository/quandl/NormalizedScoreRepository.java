@@ -2,6 +2,7 @@ package ch.steve84.stock_analyzer.repository.quandl;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -44,8 +45,36 @@ public interface NormalizedScoreRepository extends JpaRepository<NormalizedScore
 			+ "limit :rows",
 		   nativeQuery = true)
 	List<NormalizedScore> getNormalizedScoresOfIndices(@Param("levermannFactor") Float levermannFactor,
-			                                          @Param("magicFormulaFactor") Float magicFormulaFactor,
-			                                          @Param("piotroskiFactor") Float piotroskiFactor,
-			                                          @Param("excludeCountryIds") String countryIds,
-			                                          @Param("rows") Integer rows);
+			                                           @Param("magicFormulaFactor") Float magicFormulaFactor,
+			                                           @Param("piotroskiFactor") Float piotroskiFactor,
+			                                           @Param("excludeCountryIds") String countryIds,
+			                                           @Param("rows") Integer rows);
+
+
+
+    @Query("select new ch.steve84.stock_analyzer.entity.quandl.NormalizedScore(ns.stock, sum(case when ns.scoreType.scoreTypeId = 1 then ns.scoreValue * :levermannFactor when ns.scoreType.scoreTypeId = 2 then ns.scoreValue * :magicFormulaFactor else ns.scoreValue * :piotroskiFactor)) "
+         + "from NormalizedScore ns "
+         + "left join MarketCapitalization mc on ns.stock.stockId = mc.stockId "
+         + "where (:excludeCountryIds is null or ns.stock.country.countryId not in (:excludeCountryIds)) and "
+         + "(:excludeBranchIds is null or ns.stock.branch.branchId not in (:excludeBranchIds)) and "
+         + "(:fromMarketCap is null or mc.marketCapitalization >= :fromMarketCap) and (:toMarketCap is null or mc.marketCapitalization < :toMarketCap) "
+         + "group by ns.stock.stockId")
+    List<NormalizedScore> getNormalizedScoresOfStocksJPQL(@Param("levermannFactor") Float levermannFactor,
+                                                          @Param("magicFormulaFactor") Float magicFormulaFactor,
+                                                          @Param("piotroskiFactor") Float piotroskiFactor,
+                                                          @Param("excludeCountryIds") String countryIds,
+                                                          @Param("excludeBranchIds") String branchIds,
+                                                          @Param("fromMarketCap") Integer fromMarketCap,
+                                                          @Param("toMarketCap") Integer toMarketCap,
+                                                          Pageable pageable);
+
+    @Query("select new ch.steve84.stock_analyzer.entity.quandl.NormalizedScore(ns.index, sum(case when ns.scoreType.scoreTypeId = 1 then ns.scoreValue * :levermannFactor when ns.scoreType.scoreTypeId = 2 then ns.scoreValue * :magicFormulaFactor else ns.scoreValue * :piotroskiFactor)) "
+         + "from NormalizedScore ns "
+         + "where (:excludeCountryIds is null or ns.index.country is null or ns.index.country.countryId not in (:excludeCountryIds)) "
+         + "group by ns.index.indexId")
+    List<NormalizedScore> getNormalizedScoresOfIndicesJPQL(@Param("levermannFactor") Float levermannFactor,
+                                                           @Param("magicFormulaFactor") Float magicFormulaFactor,
+                                                           @Param("piotroskiFactor") Float piotroskiFactor,
+                                                           @Param("excludeCountryIds") String countryIds,
+                                                           Pageable pageable);
 }

@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
-import { MenubarModule, DialogModule, ButtonModule, InputTextModule } from 'primeng/primeng';
+import { MenubarModule, DialogModule, ButtonModule, InputTextModule, CaptchaModule } from 'primeng/primeng';
 
 import { StockModule } from './stock/stock.module';
 import { AuthModule } from './auth/auth.module';
@@ -40,6 +40,7 @@ import { UserRegistrationComponent } from './userregistration/userregistration.c
     DialogModule,
     ButtonModule,
     InputTextModule,
+    CaptchaModule,
     StockModule,
     AuthModule
   ],

@@ -8,6 +8,7 @@ import ch.steve84.stock_analyzer.entity.quandl.Branch;
 import ch.steve84.stock_analyzer.entity.quandl.Country;
 import ch.steve84.stock_analyzer.entity.quandl.Index;
 import ch.steve84.stock_analyzer.entity.quandl.Levermann;
+import ch.steve84.stock_analyzer.entity.quandl.MarketCapitalization;
 import ch.steve84.stock_analyzer.entity.quandl.NormalizedScore;
 import ch.steve84.stock_analyzer.entity.quandl.Performance;
 import ch.steve84.stock_analyzer.entity.quandl.Stock;
@@ -36,5 +37,6 @@ public class StockAnalyzerConfiguration extends RepositoryRestConfigurerAdapter 
         config.exposeIdsFor(Levermann.class);
         config.exposeIdsFor(Index.class);
         config.exposeIdsFor(NormalizedScore.class);
+        config.exposeIdsFor(MarketCapitalization.class);
     }
 }
