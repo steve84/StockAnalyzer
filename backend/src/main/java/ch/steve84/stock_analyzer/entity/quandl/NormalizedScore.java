@@ -35,12 +35,14 @@ public class NormalizedScore {
 
     public NormalizedScore() {}
 
-	public NormalizedScore(Stock stock, Double scoreValue) {
+	public NormalizedScore(Integer scoreId, Stock stock, Double scoreValue) {
+		this.scoreId = scoreId;
         this.stock = stock;
         this.scoreValue = scoreValue;
     }
 
-    public NormalizedScore(Index index, Double scoreValue) {
+    public NormalizedScore(Integer scoreId, Index index, Double scoreValue) {
+    	this.scoreId = scoreId;
         this.index = index;
         this.scoreValue = scoreValue;
     }

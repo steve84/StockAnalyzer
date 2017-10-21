@@ -47,6 +47,9 @@
         <div class="ui-g-12">
           <app-figurestable [data]="stock.income" [fields]="incomeFields" [labels]="incomeLabels"></app-figurestable>
         </div>
+        <div class="ui-g-12">
+          <p-chart type="line" [data]="incomeChart"></p-chart>
+        </div>
       </div>
     </p-tabPanel>
     <p-tabPanel *ngIf="value" i18n-header="@@stock.detail.tab.values.header" header="Values">

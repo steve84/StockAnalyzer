@@ -66,7 +66,7 @@ export class IndexService {
       .map(this.extractData);
 	}
 
-  getNormalizedScores(levermannFactor: number, magicFormulaFactor: number, piotroskiFactor, excludedCountries: number[], rows: number = 10) {
+  getNormalizedScores(levermannFactor: number, magicFormulaFactor: number, piotroskiFactor, excludedCountries: number[], size: number = 10) {
     let url = "http://localhost:8080/normalizedscores/search/getNormalizedScoresOfIndices";
     let params = new URLSearchParams();
     
@@ -75,7 +75,9 @@ export class IndexService {
     params.set("piotroskiFactor", piotroskiFactor.toString());
     if (excludedCountries && excludedCountries.length > 0)
       params.set("excludeCountryIds", excludedCountries.join(','));
-    params.set("rows", rows.toString());
+    else
+      params.set("excludeCountryIds", '-1');
+    params.set("size", size.toString());
 
     return this.http.get(url, {search: params})
       .map(this.extractData);

@@ -1,5 +1,7 @@
 import { Component, OnInit, OnChanges, SimpleChanges, EventEmitter, Input, Output } from '@angular/core';
 
+import { HelperService } from '../../helper.service';
+
 import { IndexService } from '../index.service';
 
 import { IndexType } from '../indextype';
@@ -16,9 +18,10 @@ export class IndexdetailComponent implements OnInit, OnChanges {
   title: string;
 	totalMarketCap: number = 0;
   stocks: any[] = [];
+  chartData: any;
 
-  constructor(private indexService: IndexService) {}
-
+  constructor(private indexService: IndexService, private helperService: HelperService) {}
+  
   ngOnInit() {
     this.indexService.getIndexEmitter()
       .subscribe((data:IndexType) => {
@@ -26,6 +29,7 @@ export class IndexdetailComponent implements OnInit, OnChanges {
         this.stocks = data.realStocks;
         this.title = data.name;
         this.setTotalMarketCap();
+        this.chartData = this.helperService.createPieChartData(this.stocks, 'country.name', null, true, true);
         this.display = true;
       });
   }

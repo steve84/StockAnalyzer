@@ -2,6 +2,8 @@ import { Component, OnInit, OnChanges, SimpleChanges, EventEmitter, Input, Outpu
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 
+import { HelperService } from '../../helper.service';
+
 import { StockService } from '../stock.service';
 import { FundamentalService } from '../fundamental.service';
 
@@ -23,6 +25,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
   title: string;
   value: Values;
   signals: Signals[] = [];
+  incomeChart: any;
   indexNames: string[] = [];
   
   balanceFields: string[] = [];
@@ -41,9 +44,12 @@ export class FundamentalComponent implements OnInit, OnChanges {
 
   constructor(private stockService: StockService,
               private fundamentalService: FundamentalService,
+              private helperService: HelperService,
               private route: ActivatedRoute,
               private location: Location) {
     this.title = "Fundamental data";
+    
+    this.incomeChart = this.helperService.createLineChartData(null, '', [''])
     
     this.balanceFields.push('currentAssets');
     this.balanceFields.push('goodwill');

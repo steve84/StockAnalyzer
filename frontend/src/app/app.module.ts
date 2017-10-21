@@ -18,6 +18,7 @@ import { MenubarComponent } from './menubar/menubar.component';
 import { LoginComponent } from './login/login.component';
 
 import { UserService } from './user.service';
+import { HelperService } from './helper.service';
 import { AuthGuard } from './auth/authguard.service';
 import { DialogSizeDirective } from './dialogsize.directive';
 import { UserRegistrationComponent } from './userregistration/userregistration.component';
@@ -44,7 +45,7 @@ import { UserRegistrationComponent } from './userregistration/userregistration.c
     StockModule,
     AuthModule
   ],
-  providers: [StockTableComponent, StockquickfinderComponent, UserService, AuthGuard],
+  providers: [StockTableComponent, StockquickfinderComponent, UserService, HelperService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
