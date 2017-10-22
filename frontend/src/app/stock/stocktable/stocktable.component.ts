@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { StockService} from '../stock.service';
@@ -17,25 +17,29 @@ export class StockTableComponent implements OnInit, OnChanges {
   stocks: Stock[] = [];
   selectedStock: Stock = null;
   display: boolean = false;
-  totalRecords: number = 0;
-  pageSize: number = 10;
   lazy: boolean = true;
+  @Input('totalRecords') totalRecords: number = 0;
+  @Input('pageSize') pageSize: number = 20;
   @Input('stocks') stocksInput: Stock[];
-  @Input('simpleTable') simpleTable: boolean = false;
+  @Input('external') external: boolean = false;
+  @Output() onLazyLoad: EventEmitter<any> = new EventEmitter<any>();
   constructor(private stockService: StockService,
               private indexService: IndexService,
               private router: Router) {}
               
   ngOnChanges(changes: SimpleChanges) {
     if (changes.stocksInput.currentValue) {
-      debugger
-      this.lazy = false;
       this.stocks = changes.stocksInput.currentValue;
     }
   }
 
   loadData(event: any) {
-    this.getStocks(Math.floor(event.first / event.rows), event.sortField, event.sortOrder);
+    if (this.external) {
+      this.onLazyLoad.emit(event);
+    } else {
+      this.pageSize = event.rows;
+      this.getStocks(Math.floor(event.first / event.rows), event.sortField, event.sortOrder);
+    }
   }
 
   getStocks(page: number, sortField?: string, sortOrder?: number) {

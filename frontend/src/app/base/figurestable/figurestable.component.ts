@@ -1,20 +1,26 @@
-import { Component, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'app-figurestable',
   templateUrl: './figurestable.component.html',
-  styleUrls: ['./figurestable.component.css']
+  styleUrls: ['./figurestable.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FigurestableComponent implements OnInit, OnChanges {
   @Input('data') data: any[];
   @Input('fields') fields: any[];
   @Input('labels') labels: any;
+  @Output() onRowSelect: EventEmitter<any> = new EventEmitter<any>();
   constructor() { }
 
   ngOnInit() {
   }
   
   ngOnChanges(changes: SimpleChanges) {
+  }
+  
+  selectRow(event: any) {
+    this.onRowSelect.emit(event.data);
   }
   
   removeUnvisibleRows(data: any[]): any[] {

@@ -31,6 +31,9 @@ export class StocksearchComponent implements OnInit {
 	indices: SelectItem[];
 	nbrStocksFound: number = 0;
   stocks: Stock[] = [];
+  totalRecords: number = 0;
+  pageSize: number = 20;
+  page: number = 0;
   countryTranslationPipe: CountryTranslationPipe = new CountryTranslationPipe();
 
   constructor(private stockService: StockService, private indexService: IndexService) {
@@ -64,12 +67,18 @@ export class StocksearchComponent implements OnInit {
 
   ngOnInit() {
   }
+  
+  onLazyLoad(event: any) {
+    this.pageSize = event.rows;
+    this.page = (event.first / event.rows);
+    this.searchStocks();
+  }
 	
 	searchStocks() {
-	  this.stockService.searchStocks(this.name, this.isin, this.nsin, this.wkn, this.selectedCountries, this.selectedBranches, this.selectedIndices)
+	  this.stockService.searchStocks(this.name, this.isin, this.nsin, this.wkn, this.selectedCountries, this.selectedBranches, this.selectedIndices, this.page, this.pageSize)
 		  .subscribe((data:any) => {
-			  if (data && data.page)
-			    this.nbrStocksFound = data.page.totalElements;
+			  if (data && data.page) 
+			    this.totalRecords = this.nbrStocksFound = data.page.totalElements;
 			  this.onStocksFound.emit(data._embedded.stock);
         this.stocks = data._embedded.stock;
 			});
@@ -85,6 +94,8 @@ export class StocksearchComponent implements OnInit {
     this.selectedIndices = [];
     this.nbrStocksFound = 0;
     this.stocks = [];
+    this.totalRecords = 0;
+    this.page = 0;
 	}
 
 }

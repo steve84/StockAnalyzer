@@ -113,6 +113,10 @@ export class StockService {
 		params.set("branchIds", branchIds.join(','));
 	if (indexIds && indexIds.length)
 		params.set("indexIds", indexIds.join(','));
+	if (page)
+		params.set("page", page.toString());
+	if (size)
+		params.set("size", size.toString());
 
 	return this.http.get(url, {search: params})
 	  .map(this.extractData);

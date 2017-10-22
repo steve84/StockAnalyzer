@@ -46,25 +46,25 @@ export class HelperService {
   }
   
   
-  createLineChartData(data: any[], xAxis: string, yAxis: string[]) {
-     let lineData = {};
-     lineData['labels'] = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-     lineData['datasets'] = [];
-     let firstDataset = {};
-     firstDataset['label'] = 'First Dataset';
-     firstDataset['data'] = [65, 59, 80, 81, 56, 55, 40];
-     firstDataset['fill'] = false;
-     firstDataset['borderColor'] = '#4bc0c0';
-     firstDataset['lineTension'] = 0;
-     lineData['datasets'].push(firstDataset);
-     let secondDataset = {};
-     secondDataset['label'] = 'Second Dataset';
-     secondDataset['data'] = [28, 48, 40, 19, 86, 27, 90];
-     secondDataset['fill'] = false;
-     secondDataset['borderColor'] = '#565656';
-     secondDataset['lineTension'] = 0;
-     lineData['datasets'].push(secondDataset);
-     return lineData;
+  createLineChartData(datasetName: string, xAxis: string[], yAxis: number[], existingChart?: any) {
+    let lineData = {};
+    if (!existingChart) {
+      lineData['labels'] = xAxis;
+      lineData['datasets'] = [];
+    }
+    let dataset = {};
+    dataset['label'] = datasetName;
+    dataset['data'] = yAxis;
+    dataset['fill'] = false;
+    dataset['borderColor'] = this.randomColor();
+    dataset['lineTension'] = 0;
+    if (!existingChart) {
+      lineData['datasets'].push(dataset);
+      return lineData;       
+    } else {
+      existingChart['datasets'].push(dataset);
+      return existingChart;
+    }
   }
   
   getValueByString(data: any, key: string) {

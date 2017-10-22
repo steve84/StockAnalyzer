@@ -1,4 +1,4 @@
-<p-dataTable [value]="stocks" selectionMode="single" [(selection)]="selectedStock" [paginator]="true" [lazy]="lazy" [rows]="pageSize" (onLazyLoad)="loadData($event)" [totalRecords]="totalRecords" sortField="scoreLevermann" sortOrder="-1" resizableColumns="true">
+<p-dataTable [value]="stocks" selectionMode="single" [(selection)]="selectedStock" [paginator]="true" [lazy]="lazy" [rows]="pageSize" [rowsPerPageOptions]="[10,20,30]" (onLazyLoad)="loadData($event)" [totalRecords]="totalRecords" sortField="scoreLevermann" sortOrder="-1" resizableColumns="true">
     <p-column field="isin" header="ISIN" [sortable]="true"></p-column>
     <p-column field="name" i18n-header="@@stock.table.name.header" header="Name" [sortable]="true"></p-column>
     <p-column field="country.name" i18n-header="@@stock.table.country.header" header="Country" [sortable]="true">

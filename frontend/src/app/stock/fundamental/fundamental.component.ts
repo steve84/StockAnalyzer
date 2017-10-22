@@ -49,8 +49,6 @@ export class FundamentalComponent implements OnInit, OnChanges {
               private location: Location) {
     this.title = "Fundamental data";
     
-    this.incomeChart = this.helperService.createLineChartData(null, '', [''])
-    
     this.balanceFields.push('currentAssets');
     this.balanceFields.push('goodwill');
     this.balanceFields.push('intangibles');
@@ -215,6 +213,19 @@ export class FundamentalComponent implements OnInit, OnChanges {
       this.getIndexNames();
     }
   }
+  
+  onRowSelect(data: any) {
+    let xAxisLabels: string[] = [];
+    let yData: number[] = [];
+    for (let key of Object.keys(data)) {
+      if (key != 'title' && key != '_$visited')
+        xAxisLabels.push(key);
+    }
+    for (let label of xAxisLabels) {
+      yData.push(data[label]);
+    }
+    this.incomeChart = this.helperService.createLineChartData(this.incomeLabels[data['title']], xAxisLabels, yData, this.incomeChart);
+  }
 
   getValue() {
     if (this.stock) {
@@ -241,6 +252,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
   closeDisplay() {
     if (this.display) {
       this.display = false;
+      this.incomeChart = null;
       this.close.emit(false);
       //this.location.back();
     }
