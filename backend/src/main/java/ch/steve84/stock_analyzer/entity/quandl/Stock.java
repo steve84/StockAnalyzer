@@ -36,6 +36,12 @@ public class Stock {
     @OneToOne
     @JoinColumn(name = "stock_id")
     private Levermann levermann;
+    @OneToOne
+    @JoinColumn(name = "stock_id")
+    private MagicFormula magicFormula;
+    @OneToOne
+    @JoinColumn(name = "stock_id")
+    private Piotroski piotroski;  
     @OneToMany
     @JoinColumn(name = "stock_id")
     private List<Income> income;
@@ -177,6 +183,22 @@ public class Stock {
 		this.levermann = levermann;
 		evaluateStockCategory();
 		calculateLevermannScore();
+	}
+
+	public MagicFormula getMagicFormula() {
+		return magicFormula;
+	}
+
+	public void setMagicFormula(MagicFormula magicFormula) {
+		this.magicFormula = magicFormula;
+	}
+
+	public Piotroski getPiotroski() {
+		return piotroski;
+	}
+
+	public void setPiotroski(Piotroski piotroski) {
+		this.piotroski = piotroski;
 	}
 
 	public List<Income> getIncome() {
