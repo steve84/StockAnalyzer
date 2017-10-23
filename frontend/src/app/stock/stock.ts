@@ -1,9 +1,12 @@
 import { Country } from './country';
 import { Branch } from './branch';
-import { Levermann } from './levermann';
 import { StockIndex } from './stockindex';
 import { IndexType } from './indextype';
 import { Score } from './score';
+
+import { Levermann } from './levermann';
+import { MagicFormula } from './magicformula';
+import { Piotroski } from './piotroski';
 
 import { Balance } from './balance';
 import { Cashflow } from './cashflow';
@@ -25,6 +28,8 @@ export interface Stock {
   branch?: Branch,
   name?: string,
   levermann?: Levermann,
+  magicFormula?: MagicFormula,
+  piotroski?: Piotroski,
   scores?: Score[],
   stockCategory?: string,
   indices?: any[],

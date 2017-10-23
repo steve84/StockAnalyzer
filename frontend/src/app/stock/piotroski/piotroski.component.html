@@ -1,0 +1,134 @@
+<div *ngIf="piotroskiData" class="ui-g">
+  <div class="ui-g-12">
+    <p-accordion [multiple]="true">
+      <p-accordionTab [disabled]="true">
+        <p-header>
+          <div class="ui-g">
+            <div class="ui-g-10">
+              Piotroski Score
+            </div>
+            <div class="ui-g-2" style="text-align: right;">
+              {{piotroskiScore}}
+            </div>
+          </div>
+        </p-header>
+      </p-accordionTab>
+      <p-accordionTab>
+        <p-header>
+          <div class="ui-g">
+            <div class="ui-g-10">
+              Nettoertrag
+            </div>
+            <div class="ui-g-2" style="text-align: right;">
+              {{getNetIncomeScore(piotroskiData.netIncome)}}
+            </div>
+          </div>
+        </p-header>
+        {{piotroskiData.netIncome | number}}
+      </p-accordionTab>
+      <p-accordionTab>
+        <p-header>
+          <div class="ui-g">
+            <div class="ui-g-10">
+              Operativer Cashflow
+            </div>
+            <div class="ui-g-2" style="text-align: right;">
+              {{getCashOperationScore(piotroskiData.cashOperations)}}
+            </div>
+          </div>
+        </p-header>
+        {{piotroskiData.cashOperations | number}}%
+      </p-accordionTab>
+      <p-accordionTab>
+        <p-header>
+          <div class="ui-g">
+            <div class="ui-g-10">
+              Gesamtkapitalrendite
+            </div>
+            <div class="ui-g-2" style="text-align: right;">
+              {{getReturnOnAssetsScore(piotroskiData.actualReturnOnAssets, piotroskiData.lastReturnOnAssets)}}
+            </div>
+          </div>
+        </p-header>
+        {{piotroskiData.actualReturnOnAssets | number}}% / {{piotroskiData.lastReturnOnAssets | number}}%
+      </p-accordionTab>
+      <p-accordionTab>
+        <p-header>
+          <div class="ui-g">
+            <div class="ui-g-10">
+              Rückstellungsquote
+            </div>
+            <div class="ui-g-2" style="text-align: right;">
+              {{getAccrualsScore(piotroskiData.netIncome, piotroskiData.cashOperations)}}
+            </div>
+          </div>
+        </p-header>
+        {{piotroskiData.actualReturnOnAssets | number}}% / {{piotroskiData.lastReturnOnAssets | number}}%
+      </p-accordionTab>
+      <p-accordionTab>
+        <p-header>
+          <div class="ui-g">
+            <div class="ui-g-10">
+              Langfristige Finanzverbindlichkeiten
+            </div>
+            <div class="ui-g-2" style="text-align: right;">
+              {{getLongTermRatioScore(piotroskiData.actualLongTermRatio, piotroskiData.lastLongTermRatio)}}
+            </div>
+          </div>
+        </p-header>
+        {{piotroskiData.actualLongTermRatio | number}}% / {{piotroskiData.lastLongTermRatio | number}}%
+      </p-accordionTab>
+      <p-accordionTab>
+        <p-header>
+          <div class="ui-g">
+            <div class="ui-g-10">
+              Liquidität 3. Grades
+            </div>
+            <div class="ui-g-2" style="text-align: right;">
+              {{getCurrentRatioScore(piotroskiData.actualCurrentRatio, piotroskiData.lastCurrentRatio)}}
+            </div>
+          </div>
+        </p-header>
+        {{piotroskiData.actualCurrentRatio | number}}% / {{piotroskiData.lastCurrentRatio | number}}%
+      </p-accordionTab>
+      <p-accordionTab>
+        <p-header>
+          <div class="ui-g">
+            <div class="ui-g-10">
+              Ausstehende Aktien
+            </div>
+            <div class="ui-g-2" style="text-align: right;">
+              {{getSharesOutstandingScore(piotroskiData.actualSharesOutstanding, piotroskiData.lastSharesOutstanding)}}
+            </div>
+          </div>
+        </p-header>
+        {{piotroskiData.actualSharesOutstanding | number}}% / {{piotroskiData.lastSharesOutstanding | number}}%
+      </p-accordionTab>
+      <p-accordionTab>
+        <p-header>
+          <div class="ui-g">
+            <div class="ui-g-10">
+              Brutto-Marge
+            </div>
+            <div class="ui-g-2" style="text-align: right;">
+              n.a.
+            </div>
+          </div>
+        </p-header>
+      </p-accordionTab>
+      <p-accordionTab>
+        <p-header>
+          <div class="ui-g">
+            <div class="ui-g-10">
+              Kapitalumschlag
+            </div>
+            <div class="ui-g-2" style="text-align: right;">
+              {{getAssetTurnoverScore(piotroskiData.actualAssetTurnover, piotroskiData.lastAssetTurnover)}}
+            </div>
+          </div>
+        </p-header>
+        {{piotroskiData.actualAssetTurnover | number}}% / {{piotroskiData.lastAssetTurnover | number}}%
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+</div>

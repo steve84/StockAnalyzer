@@ -1,0 +1,42 @@
+<div *ngIf="magicFormulaData" class="ui-g">
+  <div class="ui-g-12">
+    <p-accordion [multiple]="true">
+      <p-accordionTab [disabled]="true">
+        <p-header>
+          <div class="ui-g">
+            <div class="ui-g-10">
+              Magic Formula Score
+            </div>
+            <div class="ui-g-2" style="text-align: right;">
+              {{magicFormulaScore}}
+            </div>
+          </div>
+        </p-header>
+      </p-accordionTab>
+      <p-accordionTab>
+        <p-header>
+          <div class="ui-g">
+            <div class="ui-g-10">
+              Gesamtkapitalrendite
+            </div>
+            <div class="ui-g-2" style="text-align: right;">
+              {{magicFormulaData.returnOnCapital | number}}%
+            </div>
+          </div>
+        </p-header>
+      </p-accordionTab>
+      <p-accordionTab>
+        <p-header>
+          <div class="ui-g">
+            <div class="ui-g-10">
+              Gewinnrendite
+            </div>
+            <div class="ui-g-2" style="text-align: right;">
+              {{magicFormulaData.earningsYield | number}}%
+            </div>
+          </div>
+        </p-header>
+      </p-accordionTab>
+    </p-accordion>
+  </div>
+</div>

@@ -42,6 +42,8 @@ import { CommonTranslationPipe } from './common_translation.pipe';
 import { BalancetableComponent } from './balance/balancetable/balancetable.component';
 import { BalancesheetComponent } from './balance/balancesheet/balancesheet.component';
 import { FigurestableComponent } from '../base/figurestable/figurestable.component';
+import { PiotroskiComponent } from './piotroski/piotroski.component';
+import { MagicformulaComponent } from './magicformula/magicformula.component';
 
 @NgModule({
   imports: [
@@ -77,6 +79,6 @@ import { FigurestableComponent } from '../base/figurestable/figurestable.compone
     FundamentalService,
     IndexService
   ],
-  declarations: [StockTableComponent, FundamentalComponent, LevermannComponent, IndexComponent, IndexdetailComponent, StockcategoryPipe, StockquickfinderComponent, StocksearchComponent, ScorecombinerComponent, CountryTranslationPipe, BranchTranslationPipe, CommonTranslationPipe, BalancetableComponent, BalancesheetComponent, FigurestableComponent]
+  declarations: [StockTableComponent, FundamentalComponent, LevermannComponent, IndexComponent, IndexdetailComponent, StockcategoryPipe, StockquickfinderComponent, StocksearchComponent, ScorecombinerComponent, CountryTranslationPipe, BranchTranslationPipe, CommonTranslationPipe, BalancetableComponent, BalancesheetComponent, FigurestableComponent, PiotroskiComponent, MagicformulaComponent]
 })
 export class StockModule { }
