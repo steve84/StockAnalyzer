@@ -1,4 +1,4 @@
-<p-dialog [header]="title" [(visible)]="display" (onHide)="closeDisplay()" [width]="1200">
+<p-dialog appDialogsize [header]="title" [(visible)]="display" (onHide)="closeDisplay()">
   <p-tabView>
     <p-tabPanel i18n-header="@@stock.detail.tab.overview.header" header="Overview">
       <div *ngIf="stock">

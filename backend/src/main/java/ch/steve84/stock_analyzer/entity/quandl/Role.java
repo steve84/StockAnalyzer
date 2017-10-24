@@ -18,6 +18,14 @@ public class Role {
     @Column(name = "role_name")
 	private String roleName;
 
+    public Role() {}
+
+    public Role(Integer roleId, String roleName) {
+        super();
+        this.roleId = roleId;
+        this.roleName = roleName;
+    }
+
 	public String getRoleName() {
 		return roleName;
 	}
@@ -29,4 +37,8 @@ public class Role {
 	public Integer getRoleId() {
 		return roleId;
 	}
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
+    }
 }

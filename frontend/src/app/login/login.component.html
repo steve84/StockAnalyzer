@@ -1,19 +1,17 @@
-<p-dialog [header]="title" visible="true" [width]="350">
-  <div class = "ui-g">
-    <div class = "ui-g-12">
-      <div class="ui-inputgroup">
-        <span class="ui-inputgroup-addon" i18n="@@login.username.label">Username</span>
-        <input type="text" pInputText [(ngModel)]="username">      
-      </div>
-    </div>
-    <div class = "ui-g-12">
-      <div class="ui-inputgroup">
-        <span class="ui-inputgroup-addon" i18n="@@login.password.label">Password</span>
-        <input type="password" pInputText [(ngModel)]="password">      
-      </div>
-    </div>
-    <div class = "ui-g-12">
-      <button type="button" pButton i18n-label="@@login.login.label" label="Login" (click)="login()"></button>
-    </div>
+<div class = "ui-g">
+<div class = "ui-g-12">
+  <div class="ui-inputgroup">
+    <span class="ui-inputgroup-addon" i18n="@@login.username.label">Username</span>
+    <input type="text" pInputText [(ngModel)]="username">      
   </div>
-</p-dialog>
+</div>
+<div class = "ui-g-12">
+  <div class="ui-inputgroup">
+    <span class="ui-inputgroup-addon" i18n="@@login.password.label">Password</span>
+    <input type="password" pInputText [(ngModel)]="password">      
+  </div>
+</div>
+<div class = "ui-g-12">
+  <button type="button" pButton i18n-label="@@login.login.label" label="Login" (click)="login()"></button>
+</div>
+</div>

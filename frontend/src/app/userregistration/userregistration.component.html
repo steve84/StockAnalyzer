@@ -1,5 +1,6 @@
 <form [formGroup]="registerform" (ngSubmit)="onSubmit(registerform.value)">
     <div class = "ui-g">
+        <div class = "ui-g-12"><p-messages [(value)]="msgs" [closable]="false"></p-messages></div>
         <div class = "ui-g-3" i18n="@@search.name.label">E-Mail-Address</div>
         <div class = "ui-g-3"><input type="text" pInputText formControlName="username" [(ngModel)]="username"/></div>
         <div class = "ui-g-6">
@@ -14,6 +15,7 @@
         <div class = "ui-g-3"><input type="text" pInputText formControlName="passwordR" [(ngModel)]="passwordR"/></div>
         <div class = "ui-g-6">
             <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!registerform.controls['passwordR'].valid&&registerform.controls['passwordR'].dirty"></div>
+            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="registerform.controls['password'] != registerform.controls['passwordR']"></div>
         </div>
         <div class = "ui-g-3"></div>
         <div class = "ui-g-3"><p-captcha siteKey="6LezhzUUAAAAALbeAyQWkJiPIK8hdNtu74QV6_8C" size="compact" (onResponse)="showResponse($event)"></p-captcha></div>

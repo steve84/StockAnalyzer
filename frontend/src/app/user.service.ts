@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
+import { Headers. URLSearchParams } from '@angular/http';
 
-import { Http, Headers } from '@angular/http';
+import { AuthHttp, JwtHelper } from 'angular2-jwt';
 
-import { JwtHelper } from 'angular2-jwt';
+import 'rxjs/add/operator/map';
 
 @Injectable()
 export class UserService {
@@ -10,7 +11,7 @@ export class UserService {
   username: string;
   roles: string;
 
-  constructor(private http: Http) {
+  constructor(private http: AuthHttp) {
     this.decodeToken();
   }
   
@@ -19,6 +20,17 @@ export class UserService {
     let headers = new Headers({'Content-Type': 'application/json'});
 
     return this.http.post('http://localhost:8080/login', JSON.stringify(body), {headers: headers});
+  }
+  
+  validateCaptcha(token: string) {
+    let params = new URLSearchParams();
+    params.set("token", page.toString());
+    return this.http.get('http://localhost:8080/user/validateCaptcha', {search: params});  
+  }
+  
+  register(body: string) {
+    let headers = new Headers({'Content-Type': 'application/json'});
+    return this.http.post('http://localhost:8080/user/register', JSON.stringify(body), {headers: headers});
   }
   
   logout() {
