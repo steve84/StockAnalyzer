@@ -1,4 +1,5 @@
 export interface Branch {
   branchId?: number,
-  name?: string
+  name?: string,
+  createdAt?: string
 }

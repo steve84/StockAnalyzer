@@ -1,5 +1,7 @@
 package ch.steve84.stock_analyzer.entity.quandl;
 
+import java.util.Calendar;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -17,6 +19,8 @@ public class Country {
     private Integer countryId;
     private String name;
     private String code;
+    @Column(name = "created_at")
+    private Calendar createdAt;
     
     public Country() {}
     
@@ -48,5 +52,13 @@ public class Country {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public Calendar getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Calendar createdAt) {
+        this.createdAt = createdAt;
     }
 }

@@ -1,6 +1,7 @@
 package ch.steve84.stock_analyzer.repository.quandl;
 
 import java.net.URI;
+import java.util.Calendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,6 +28,7 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
         user.setUsername(username);
         user.setPassword(password);
         user.setRole(Roles.GPU.getRole());
+        user.setCreatedAt(Calendar.getInstance());
         return this.userRepository.save(user);
     }
 

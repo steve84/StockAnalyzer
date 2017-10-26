@@ -232,7 +232,8 @@ SET default_with_oids = false;
 CREATE TABLE tbranch (
     branch_id integer DEFAULT nextval('branch_seq'::regclass) NOT NULL,
     name character varying,
-    branch_group character varying
+    branch_group character varying,
+    created_at date
 );
 
 
@@ -245,8 +246,9 @@ ALTER TABLE tbranch OWNER TO postgres;
 
 CREATE TABLE tcountry (
     country_id integer DEFAULT nextval('country_seq'::regclass) NOT NULL,
-    name character varying,
-    code character varying
+    name character varying NOT NULL,
+    code character varying,
+    created_at date NOT NULL
 );
 
 
@@ -259,18 +261,20 @@ ALTER TABLE tcountry OWNER TO postgres;
 
 CREATE TABLE tstock (
     stock_id integer DEFAULT nextval('stock_seq'::regclass) NOT NULL,
-	name character varying,
+	name character varying NOT NULL,
     nsin character varying,
     isin character varying NOT NULL,
     wkn character varying,
     symbol character varying,
     url character varying,
 	business_year_end character varying,
-    country_id integer,
-    branch_id integer,
+    country_id integer NOT NULL,
+    branch_id integer NOT NULL,
     currency character varying,
     quandl_rb1_id integer NOT NULL,
-    quandl_price_dataset character varying
+    quandl_price_dataset character varying,
+    public_stock boolean default false,
+    created_at date NOT NULL
 );
 
 
@@ -280,9 +284,11 @@ ALTER TABLE tstock OWNER TO postgres;
 
 CREATE TABLE tindex (
     index_id integer DEFAULT nextval('index_seq'::regclass) NOT NULL,
-    name character varying,
+    name character varying NOT NULL,
     description character varying,
-    country_id integer
+    country_id integer,
+    public_index boolean default false,
+    created_at date NOT NULL
 );
 
 ALTER TABLE tindex OWNER TO postgres;
@@ -434,7 +440,8 @@ CREATE TABLE tuser (
     user_id integer DEFAULT nextval('user_seq'::regclass) NOT NULL,
     username character varying,
     password character varying,
-    role_id integer
+    role_id integer,
+    created_at date
 );
 
 
@@ -661,6 +668,16 @@ CREATE OR REPLACE VIEW public.vstock AS
 ALTER TABLE public.vstock
   OWNER TO postgres;
 
+  
+CREATE OR REPLACE VIEW public.vmarketcap AS 
+ SELECT v.stock_id,
+	v.market_capitalization
+   FROM tvalues v
+   WHERE v.modified_at = (select max(v2.modified_at) from tvalues v2 where v.stock_id = v2.stock_id);
+
+ALTER TABLE public.vmarketcap
+  OWNER TO postgres;
+
 
 CREATE OR REPLACE VIEW public.vlevermann AS 
  SELECT s.stock_id,
@@ -712,26 +729,26 @@ CREATE OR REPLACE VIEW public.vagg_market_cap AS
     sum(tmc2.cap_ratio) * 100::numeric AS agg_cap_ratio
    FROM ( SELECT s.stock_id,
             tmc.country_id,
-            l.market_capitalization / tmc.total_market_cap AS cap_ratio
+            mc.market_capitalization / tmc.total_market_cap AS cap_ratio
            FROM tstock s
              LEFT JOIN ( SELECT c.country_id,
-                    sum(l_1.market_capitalization) AS total_market_cap
+                    sum(mc.market_capitalization) AS total_market_cap
                    FROM tstock s_1
                      LEFT JOIN tcountry c ON c.country_id = s_1.country_id
-                     LEFT JOIN vlevermann l_1 ON l_1.stock_id = s_1.stock_id
+                     LEFT JOIN vmarketcap mc ON mc.stock_id = s_1.stock_id
                   GROUP BY c.country_id) tmc ON tmc.country_id = s.country_id
-             LEFT JOIN vlevermann l ON l.stock_id = s.stock_id) tmc1
+             LEFT JOIN vmarketcap mc ON mc.stock_id = s.stock_id) tmc1
      LEFT JOIN ( SELECT s.stock_id,
             tmc.country_id,
-            l.market_capitalization / tmc.total_market_cap AS cap_ratio
+            mc.market_capitalization / tmc.total_market_cap AS cap_ratio
            FROM tstock s
              LEFT JOIN ( SELECT c.country_id,
-                    sum(l_1.market_capitalization) AS total_market_cap
+                    sum(mc.market_capitalization) AS total_market_cap
                    FROM tstock s_1
                      LEFT JOIN tcountry c ON c.country_id = s_1.country_id
-                     LEFT JOIN vlevermann l_1 ON l_1.stock_id = s_1.stock_id
+                     LEFT JOIN vmarketcap mc ON mc.stock_id = s_1.stock_id
                   GROUP BY c.country_id) tmc ON tmc.country_id = s.country_id
-             LEFT JOIN vlevermann l ON l.stock_id = s.stock_id) tmc2 ON tmc1.country_id = tmc2.country_id AND tmc1.cap_ratio <= tmc2.cap_ratio
+             LEFT JOIN vmarketcap mc ON mc.stock_id = s.stock_id) tmc2 ON tmc1.country_id = tmc2.country_id AND tmc1.cap_ratio <= tmc2.cap_ratio
   GROUP BY tmc1.stock_id, tmc1.country_id
   ORDER BY tmc1.country_id, (sum(tmc2.cap_ratio) * 100::numeric);
 
@@ -814,16 +831,7 @@ CREATE OR REPLACE VIEW public.vscore_normalized AS
 ALTER TABLE public.vscore_normalized
   OWNER TO postgres;
 
-  
-CREATE OR REPLACE VIEW public.vmarketcap AS 
- SELECT v.stock_id,
-	v.market_capitalization
-   FROM tvalues v
-   WHERE v.modified_at = (select max(v2.modified_at) from tvalues v2 where v.stock_id = v2.stock_id);
-
-ALTER TABLE public.vmarketcap
-  OWNER TO postgres;
-  
+ 
 --
 -- TOC entry 2130 (class 0 OID 0)
 -- Dependencies: 7

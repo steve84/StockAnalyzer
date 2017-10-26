@@ -35,7 +35,7 @@ export class UserRegistrationComponent implements OnInit {
         this.validCaptcha = true; 
       }, (err: any) => {
         this.validCaptcha = false;
-        this.msgs = [{{severity: 'error', summary: 'Captcha', detail: 'Captcha not valid'}];
+        this.msgs = [{severity: 'error', summary: 'Captcha', detail: 'Captcha not valid'}];
       });
     
   }
@@ -43,9 +43,9 @@ export class UserRegistrationComponent implements OnInit {
   onSubmit(value: string) {
     this.userService.register(value)
       .subscribe((data:any) => {
-        this.msgs = [{{severity: 'info', summary: 'Registration', detail: 'User registered successfully'}];
+        this.msgs = [{severity: 'info', summary: 'Registration', detail: 'User registered successfully'}];
       }, (err: any) => {
-        this.msgs = [{{severity: 'error', summary: 'Registration', detail: 'Error during user registration'}];
+        this.msgs = [{severity: 'error', summary: 'Registration', detail: 'Error during user registration'}];
       });
   }
 }

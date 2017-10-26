@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 
 import ch.steve84.stock_analyzer.entity.quandl.User;
 import ch.steve84.stock_analyzer.repository.quandl.UserRepository;
-import ch.steve84.stock_analyzer.security.authority.AdminAuthority;
+import ch.steve84.stock_analyzer.security.authority.UserGroupAuthority;
 
 @Component
 public class AuthenticationManagerDb implements AuthenticationManager {
@@ -43,12 +43,7 @@ public class AuthenticationManagerDb implements AuthenticationManager {
 
     private List<GrantedAuthority> getAuthoritiesOfUser(User user) {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-
-        switch (user.getRole().getRoleName().toLowerCase()) {
-            case "admin":
-                authorities.add(new AdminAuthority());
-                break;
-        }
+        authorities.add(new UserGroupAuthority(user.getRole()));
         return authorities;
     }
 }

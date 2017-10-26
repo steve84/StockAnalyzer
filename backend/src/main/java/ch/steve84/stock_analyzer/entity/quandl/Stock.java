@@ -1,5 +1,6 @@
 package ch.steve84.stock_analyzer.entity.quandl;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +75,10 @@ public class Stock {
     private String stockCategory;
     @Transient
     private Map<String, Double> indexParticipation = new HashMap<>();
+    @Column(name = "public_stock")
+    private Boolean publicStock;
+    @Column(name = "created_at")
+    private Calendar createdAt;
     
     public Integer getStockId() {
         return stockId;
@@ -297,7 +302,23 @@ public class Stock {
 		this.indexParticipation = indexParticipation;
 	}
 
-	private void calculateLevermannScore() {
+	public Boolean getPublicStock() {
+        return publicStock;
+    }
+
+    public void setPublicStock(Boolean publicStock) {
+        this.publicStock = publicStock;
+    }
+
+    public Calendar getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Calendar createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    private void calculateLevermannScore() {
 		if (levermann != null) {
 			levermannScore = 0;
 			if (levermann.getRoiEquity() != null) {

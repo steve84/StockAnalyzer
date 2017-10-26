@@ -8,5 +8,6 @@ export interface IndexType {
   description?: string,
   country?: Country,
   realStocks?: Stock[],
-  scores?: Score[]
+  scores?: Score[],
+  createdAt?: string
 }

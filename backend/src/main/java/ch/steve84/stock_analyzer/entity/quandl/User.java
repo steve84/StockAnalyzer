@@ -1,5 +1,7 @@
 package ch.steve84.stock_analyzer.entity.quandl;
 
+import java.util.Calendar;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,6 +24,8 @@ public class User {
 	@ManyToOne
 	@JoinColumn(name = "role_id")
 	private Role role;
+    @Column(name = "created_at")
+    private Calendar createdAt;  
 	
 	public String getUsername() {
 		return username;
@@ -46,6 +50,14 @@ public class User {
 	public void setRole(Role role) {
 		this.role = role;
 	}
+
+    public Calendar getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Calendar createdAt) {
+        this.createdAt = createdAt;
+    }
 
 	public Integer getUserId() {
 		return userId;

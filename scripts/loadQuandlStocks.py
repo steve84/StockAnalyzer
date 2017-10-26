@@ -95,6 +95,7 @@ while page <= totalPages:
                 stock['quandl_price_dataset'] = Utils.getQuandlStockPriceDataset(priceDatabaseCode, stock['isin'], quandl_key)
                 stock['country_id'] = None
                 stock['branch_id'] = None
+                stock['created_at'] = Utils.getActualDate()
                     
                 # select
                 if not noneStr(stock['country']) in existing_countries.keys():
@@ -102,7 +103,7 @@ while page <= totalPages:
                     country = cur.fetchone()
                     if not country:
                         # insert
-                        cur.execute("""INSERT INTO tcountry (name) VALUES (%(country)s) RETURNING country_id;""", stock)
+                        cur.execute("""INSERT INTO tcountry (name, created_at) VALUES (%(country)s, %(created_at)s) RETURNING country_id;""", stock)
                         stock['country_id'] = cur.fetchone()[0]
                         totalInserted['countries'] += 1
                     else:
@@ -118,7 +119,7 @@ while page <= totalPages:
                     branch = cur.fetchone()
                     if not branch:
                         # insert
-                        cur.execute("""INSERT INTO tbranch (name, branch_group) VALUES (%(branch)s, %(branch_group)s) RETURNING branch_id;""", stock)
+                        cur.execute("""INSERT INTO tbranch (name, branch_group, created_at) VALUES (%(branch)s, %(branch_group)s, %(created_at)s) RETURNING branch_id;""", stock)
                         stock['branch_id'] = cur.fetchone()[0]
                         totalInserted['branches'] += 1
                     else:
@@ -132,7 +133,7 @@ while page <= totalPages:
                 cur.execute("""SELECT * FROM tstock WHERE isin = %(isin)s;""", stock)
                 if cur.rowcount == 0:
                     # insert
-                    cur.execute("""INSERT INTO tstock (name, isin, branch_id, country_id, currency, quandl_rb1_id, quandl_price_dataset) VALUES (%(name)s, %(isin)s, %(branch_id)s, %(country_id)s, %(currency)s, %(quandl_rb1_id)s, %(quandl_price_dataset)s);""", stock)
+                    cur.execute("""INSERT INTO tstock (name, isin, branch_id, country_id, currency, quandl_rb1_id, quandl_price_dataset, created_at) VALUES (%(name)s, %(isin)s, %(branch_id)s, %(country_id)s, %(currency)s, %(quandl_rb1_id)s, %(quandl_price_dataset)s, %(created_at)s);""", stock)
                     totalInserted['stocks'] += 1
                     totalProcessed += 1
 

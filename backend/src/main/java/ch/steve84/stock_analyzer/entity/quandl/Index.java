@@ -1,6 +1,7 @@
 package ch.steve84.stock_analyzer.entity.quandl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -35,6 +36,10 @@ public class Index {
     @OneToMany
     @JoinColumn(name = "index_id")
     private List<NormalizedScore> normalizedScores; 
+    @Column(name = "public_index")
+    private Boolean publicIndex;
+    @Column(name = "created_at")
+    private Calendar createdAt;    
 	@Transient
 	private List<Stock> realStocks = new ArrayList<>();
 
@@ -91,6 +96,22 @@ public class Index {
 	public void setNormalizedScores(List<NormalizedScore> normalizedScores) {
 		this.normalizedScores = normalizedScores;
 	}
+
+    public Boolean getPublicIndex() {
+        return publicIndex;
+    }
+
+    public void setPublicIndex(Boolean publicIndex) {
+        this.publicIndex = publicIndex;
+    }
+
+    public Calendar getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Calendar createdAt) {
+        this.createdAt = createdAt;
+    }
 
 	public List<Stock> getRealStocks() {
 		return realStocks;

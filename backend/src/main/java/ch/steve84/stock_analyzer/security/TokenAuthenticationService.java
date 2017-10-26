@@ -10,7 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
-import ch.steve84.stock_analyzer.security.authority.AdminAuthority;
+import ch.steve84.stock_analyzer.security.authority.UserGroupAuthority;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -20,10 +20,10 @@ import static java.util.Collections.emptyList;
 import java.util.ArrayList;
 
 public class TokenAuthenticationService {
-    static final long EXPIRATIONTIME = 864_000_000; // 10 days
-    static final String SECRET = "ThisIsASecret";
-    static final String TOKEN_PREFIX = "Bearer";
-    static final String HEADER_STRING = "Authorization";
+	static final long EXPIRATIONTIME = 864_000_000; // 10 days
+	static final String SECRET = "ThisIsASecret";
+	static final String TOKEN_PREFIX = "Bearer";
+	static final String HEADER_STRING = "Authorization";
     static final String ROLES = "roles";
 
     static void addAuthentication(HttpServletResponse res, String username, String roles) {
@@ -61,7 +61,7 @@ public class TokenAuthenticationService {
         for (String role : rolesArray) {
             switch (role.toLowerCase()) {
                 case "admin":
-                    authorities.add(new AdminAuthority());
+                    authorities.add(new UserGroupAuthority());
                     break;
             }
         }
