@@ -37,6 +37,14 @@ Piotroski F-Score-Factor:
 </div>
 </div>
 <div class = "ui-g">
+<div class = "ui-g-3">
+</div>
+<div class = "ui-g-9">
+<button type="button" pButton i18n-label="score.combiner.levermann.label" label="Levermann" (click)="setPureLevermann()" [disabled]="isPureLevermann()" class="ui-button-secondary"></button>
+<button type="button" pButton i18n-label="score.combiner.piotroski.label" label="Piotroski" (click)="setPurePiotroski()" [disabled]="isPurePiotroski()" class="ui-button-secondary"></button>
+<button type="button" pButton i18n-label="score.combiner.magicformula.label" label="Magic Formula" (click)="setPureMagicFormula()()" [disabled]="!isPureMagicFormula()" class="ui-button-secondary"></button>
+</div>
+<div class = "ui-g">
 <div class = "ui-g-3" i18n="@@score.combiner.exclude_countries.label">
 Exclude countries:
 </div>

@@ -22,6 +22,9 @@ import { HelperService } from './helper.service';
 import { AuthGuard } from './auth/authguard.service';
 import { DialogSizeDirective } from './dialogsize.directive';
 import { UserRegistrationComponent } from './userregistration/userregistration.component';
+import { ImpressumComponent } from './content/impressum/impressum.component';
+import { FrontpageComponent } from './content/frontpage/frontpage.component';
+import { ContactComponent } from './content/contact/contact.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +32,10 @@ import { UserRegistrationComponent } from './userregistration/userregistration.c
     MenubarComponent,
     LoginComponent,
     DialogSizeDirective,
-    UserRegistrationComponent
+    UserRegistrationComponent,
+    ImpressumComponent,
+    FrontpageComponent,
+    ContactComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

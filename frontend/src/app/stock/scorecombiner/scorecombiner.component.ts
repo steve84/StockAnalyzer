@@ -132,6 +132,36 @@ export class ScorecombinerComponent implements OnInit {
     return (this.levermannFactor + this.magicFormulaFactor + this.piotroskiFactor) == 100;
   }
   
+  setPureLevermann() {
+    this.levermannFactor = 100;
+    this.magicFormulaFactor = 0;
+    this.piotroskiFactor = 0;
+  }
+  
+  setPurePiotroski() {
+    this.levermannFactor = 0;
+    this.magicFormulaFactor = 0;
+    this.piotroskiFactor = 100;
+  }
+  
+  setPureMagicFormula() {
+    this.levermannFactor = 0;
+    this.magicFormulaFactor = 100;
+    this.piotroskiFactor = 0;
+  }
+  
+  isPureLevermann() {
+      return this.levermannFactor == 100 && this.piotroskiFactor == 0 && this.magicFormulaFactor == 0;
+  }
+
+  setPurePiotroski() {
+      return this.levermannFactor == 0 && this.piotroskiFactor == 100 && this.magicFormulaFactor == 0;
+  }
+  
+  setPureMagicFormula() {
+      return this.levermannFactor == 0 && this.piotroskiFactor == 0 && this.magicFormulaFactor == 100;
+  }
+
   reset() {
     this.levermannFactor = 40;
     this.magicFormulaFactor = 20;
