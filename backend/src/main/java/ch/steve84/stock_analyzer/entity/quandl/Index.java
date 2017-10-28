@@ -10,12 +10,22 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
+@NamedQueries({
+@NamedQuery(name = "Index.findById", query = "select i from Index i where i.indexId = :id"),
+@NamedQuery(name = "Index.findByIdPublic", query = "select i from Index i where i.indexId = :id and i.publicIndex = TRUE"),
+@NamedQuery(name = "Index.findAllIndices", query = "select i from Index i"),
+@NamedQuery(name = "Index.countAllIndices", query = "select count(i) from Index i"),
+@NamedQuery(name = "Index.findAllPublicIndices", query = "select i from Index i where i.publicIndex = TRUE"),
+@NamedQuery(name = "Index.countAllPublicIndices", query = "select count(i) from Index i where i.publicIndex = TRUE")
+})
 @Table(name = "tindex")
 public class Index {
     @Id

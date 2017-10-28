@@ -3,8 +3,14 @@ package ch.steve84.stock_analyzer.repository.quandl;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
@@ -18,16 +24,29 @@ public class IndexRepositoryImpl implements ReadOnlyRepository<Index, Integer> {
 
     @Autowired
     private IndexRepository indexRepository;
-    private Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    @PersistenceContext
+    private EntityManager em;
+
 
     @Override
     public Index findOne(Integer id) {
-        Index index = this.indexRepository.findByIndexId(id);
-        
-        if (hasAccess(index))
-            return index;
-        else
-            return null;
+        if (hasAccess()) {
+        	Query q = em.createNamedQuery("Index.findById");
+        	q.setParameter("id", id);
+        	try {
+        		return (Index)q.getSingleResult();
+        	} catch (NoResultException e) {
+        		return null;
+        	}
+        } else {
+        	Query q = em.createNamedQuery("Index.findByIdPublic");
+        	q.setParameter("id", id);
+        	try {
+        		return (Index)q.getSingleResult();
+        	} catch (NoResultException e) {
+        		return null;
+        	}
+        }
     }
 
     @Override
@@ -42,19 +61,40 @@ public class IndexRepositoryImpl implements ReadOnlyRepository<Index, Integer> {
 
     @Override
     public Page<Index> findAll(Pageable pageable) {
-        if (hasAccess())
-            return this.indexRepository.findAll(pageable);
-        else
-            return this.indexRepository.findByPublicIndexTrue(pageable);
+        if (hasAccess()) {
+        	Query q = em.createNamedQuery("Index.countAllIndices");
+        	Long totalRecords = (Long)q.getSingleResult();
+        	
+        	q = em.createNamedQuery("Index.findAllIndices");
+        	q.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
+        	q.setMaxResults(pageable.getPageSize());
+        	List<Index> res = q.getResultList();
+        	Page<Index> p = new PageImpl<Index>(res, pageable, totalRecords);
+        	return p;
+        } else {
+        	Query q = em.createNamedQuery("Index.countAllPublicIndices");
+        	Long totalRecords = (Long)q.getSingleResult();
+        	
+        	q = em.createNamedQuery("Index.findAllPublicIndices");
+        	q.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
+        	q.setMaxResults(pageable.getPageSize());
+        	List<Index> res = q.getResultList();
+        	Page<Index> p = new PageImpl<Index>(res, pageable, totalRecords);
+        	return p;
+        }
     }
-
+    
     private boolean hasAccess(Index index) {
         return index.getPublicIndex() || hasAccess();
     }
     
     private boolean hasAccess() {
-        List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>(auth.getAuthorities());
-        return authorities.size() > 0 && (authorities.get(0).getAuthority().equals(Roles.ADMIN.getRole().getRoleName()) || authorities.get(0).getAuthority().equals(Roles.ABO.getRole().getRoleName()));
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	if (auth != null) {
+    		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>(auth.getAuthorities());
+    		return authorities.size() > 0 && (authorities.get(0).getAuthority().equals(Roles.ADMIN.getRole().getRoleName()) || authorities.get(0).getAuthority().equals(Roles.ABO.getRole().getRoleName()));
+    	}
+    	return false;
     }
 
 }

@@ -5,12 +5,14 @@ import { AuthHttp } from 'angular2-jwt';
 
 import { IndexType } from './indextype';
 
+import { UserService } from '../user.service';
+
 import 'rxjs/add/operator/map';
 
 @Injectable()
 export class IndexService {
   private indexEmitter: EventEmitter<IndexType> = new EventEmitter<IndexType>();
-  constructor(private http: AuthHttp) { }
+  constructor(private http: AuthHttp, private userService: UserService) { }
 
   getIndices(page: number, size: number, sortField?: string, sortOrder?: number) {
     let url = "http://localhost:8080/indices";
@@ -19,17 +21,16 @@ export class IndexService {
     params.set("size", size.toString());
     if (sortField && sortOrder)
       if (sortField == "scoreLevermann" || sortField == "scoreMagicFormula" || sortField == "scorePiotroski") {
-        url += "/search/findByScoresIsNullOrScores_ScoreType_NameOrderByScores_ScoreValue";
+        if (this.userService.getRoles().toLowerCase().indexOf('gpu') > -1)
+          url += "/search/findByScoreTypeGPU";
+        else
+          url += "/search/findByScoreType";
         if (sortField == "scoreLevermann")
           params.set("name", "Levermann");
         else if (sortField == "scoreMagicFormula")
           params.set("name", "Magic Formula"); 
         else if (sortField == "scorePiotroski")
           params.set("name", "Piotroski F-Score"); 
-        if(sortOrder == 1)
-          url += "Asc";
-        else
-          url += "Desc";
       } else {
         if(sortOrder == 1)
           params.set("sort", sortField + ",asc");
@@ -60,7 +61,7 @@ export class IndexService {
   }
 	
 	getAllIndices() {
-	  let url = "http://localhost:8080/indices/search/getAllIndices";
+	  let url = "http://localhost:8080/indices";
 
     return this.http.get(url)
       .map(this.extractData);

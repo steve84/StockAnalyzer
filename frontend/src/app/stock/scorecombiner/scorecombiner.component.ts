@@ -133,33 +133,37 @@ export class ScorecombinerComponent implements OnInit {
   }
   
   setPureLevermann() {
+    debugger
     this.levermannFactor = 100;
     this.magicFormulaFactor = 0;
     this.piotroskiFactor = 0;
+    this.handleChange(null);
   }
   
   setPurePiotroski() {
     this.levermannFactor = 0;
     this.magicFormulaFactor = 0;
     this.piotroskiFactor = 100;
+    this.handleChange(null);
   }
   
   setPureMagicFormula() {
     this.levermannFactor = 0;
     this.magicFormulaFactor = 100;
     this.piotroskiFactor = 0;
+    this.handleChange(null);
   }
   
   isPureLevermann() {
-      return this.levermannFactor == 100 && this.piotroskiFactor == 0 && this.magicFormulaFactor == 0;
+    return this.levermannFactor == 100 && this.piotroskiFactor == 0 && this.magicFormulaFactor == 0;
   }
 
-  setPurePiotroski() {
-      return this.levermannFactor == 0 && this.piotroskiFactor == 100 && this.magicFormulaFactor == 0;
+  isPurePiotroski() {
+    return this.levermannFactor == 0 && this.piotroskiFactor == 100 && this.magicFormulaFactor == 0;
   }
   
-  setPureMagicFormula() {
-      return this.levermannFactor == 0 && this.piotroskiFactor == 0 && this.magicFormulaFactor == 100;
+  isPureMagicFormula() {
+    return this.levermannFactor == 0 && this.piotroskiFactor == 0 && this.magicFormulaFactor == 100;
   }
 
   reset() {

@@ -8,18 +8,18 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 import ch.steve84.stock_analyzer.entity.quandl.Index;
+import ch.steve84.stock_analyzer.enums.Roles;
 
 @RepositoryRestResource(collectionResourceRel = "index", path = "indices")
 public interface IndexRepository extends ReadOnlyRepository<Index, Integer> {
-	Page<Index> findByScoresIsNullOrScores_ScoreType_NameOrderByScores_ScoreValueAsc(@Param("name") String name, Pageable pageable);
-	Page<Index> findByScoresIsNullOrScores_ScoreType_NameOrderByScores_ScoreValueDesc(@Param("name") String name, Pageable pageable);
-	@Query("select i from Index i")
-	List<Index> getAllIndices();
-	
-//	List<Index> findByPublicIndexTrue();
-	Page<Index> findByPublicIndexTrue(Pageable pageable);
-	Index findByIndexId(Integer indexId);
-//	List<Index> findByPublicIndexTrue(Sort sort);
+	@PreAuthorize("hasAuthority('GPU')")
+	@Query("select i from Index i left join i.scores s left join s.scoreType t where (s is null or t.name = :name) and i.publicIndex = TRUE")
+	Page<Index> findByScoreTypeGPU(@Param("name") String name, Pageable pageable);
+
+	@PreAuthorize("hasAnyAuthority('Admin', 'Abo')")
+	@Query("select i from Index i left join i.scores s left join s.scoreType t where s is null or t.name = :name")
+	Page<Index> findByScoreType(@Param("name") String name, Pageable pageable);
 }

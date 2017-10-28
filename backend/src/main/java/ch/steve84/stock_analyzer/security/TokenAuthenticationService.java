@@ -10,6 +10,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 
+import ch.steve84.stock_analyzer.enums.Roles;
 import ch.steve84.stock_analyzer.security.authority.UserGroupAuthority;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -61,8 +62,13 @@ public class TokenAuthenticationService {
         for (String role : rolesArray) {
             switch (role.toLowerCase()) {
                 case "admin":
-                    authorities.add(new UserGroupAuthority());
+                    authorities.add(new UserGroupAuthority(Roles.ADMIN.getRole()));
                     break;
+                case "abo":
+                    authorities.add(new UserGroupAuthority(Roles.ABO.getRole()));
+                    break;
+                default:
+                	authorities.add(new UserGroupAuthority(Roles.GPU.getRole()));
             }
         }
         return authorities;
