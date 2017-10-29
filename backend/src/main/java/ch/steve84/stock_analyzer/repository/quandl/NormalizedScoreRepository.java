@@ -27,6 +27,23 @@ public interface NormalizedScoreRepository extends ReadOnlyRepository<Normalized
                                                       @Param("toMarketCap") Double toMarketCap,
                                                       Pageable pageable);
 
+    @Query("select new ch.steve84.stock_analyzer.entity.quandl.NormalizedScore(max(ns.scoreId), ns.stock, sum(case when ns.scoreType.scoreTypeId = 1 then (ns.scoreValue * :levermannFactor) when ns.scoreType.scoreTypeId = 2 then (ns.scoreValue * :magicFormulaFactor) else (ns.scoreValue * :piotroskiFactor) end)) "
+            + "from NormalizedScore ns, MarketCapitalization mc "
+            + "where ns.stock.stockId = mc.stockId and "
+            + "ns.stock.country.countryId not in :excludeCountryIds and "
+            + "ns.stock.branch.branchId not in :excludeBranchIds and "
+            + "ns.stock.publicStock = TRUE and "
+            + "(:fromMarketCap is null or (mc.marketCapitalization * 1000) >= :fromMarketCap) and (:toMarketCap is null or (mc.marketCapitalization * 1000) < :toMarketCap) "
+            + "group by ns.stock.stockId")
+       List<NormalizedScore> getNormalizedScoresOfStocksGPU(@Param("levermannFactor") Double levermannFactor,
+                                                         	@Param("magicFormulaFactor") Double magicFormulaFactor,
+                                                         	@Param("piotroskiFactor") Double piotroskiFactor,
+                                                         	@Param("excludeCountryIds") List<Integer> countryIds,
+                                                         	@Param("excludeBranchIds") List<Integer> branchIds,
+                                                         	@Param("fromMarketCap") Double fromMarketCap,
+                                                         	@Param("toMarketCap") Double toMarketCap,
+                                                         	Pageable pageable);
+
     @Query("select new ch.steve84.stock_analyzer.entity.quandl.NormalizedScore(max(ns.scoreId), ns.index, sum(case when ns.scoreType.scoreTypeId = 1 then (ns.scoreValue * :levermannFactor) when ns.scoreType.scoreTypeId = 2 then (ns.scoreValue * :magicFormulaFactor) else (ns.scoreValue * :piotroskiFactor) end)) "
          + "from NormalizedScore ns "
          + "where ns.index.country.countryId not in :excludeCountryIds "
@@ -36,4 +53,15 @@ public interface NormalizedScoreRepository extends ReadOnlyRepository<Normalized
                                                        @Param("piotroskiFactor") Double piotroskiFactor,
                                                        @Param("excludeCountryIds") List<Integer> countryIds,
                                                        Pageable pageable);
+
+    @Query("select new ch.steve84.stock_analyzer.entity.quandl.NormalizedScore(max(ns.scoreId), ns.index, sum(case when ns.scoreType.scoreTypeId = 1 then (ns.scoreValue * :levermannFactor) when ns.scoreType.scoreTypeId = 2 then (ns.scoreValue * :magicFormulaFactor) else (ns.scoreValue * :piotroskiFactor) end)) "
+            + "from NormalizedScore ns "
+            + "where ns.index.country.countryId not in :excludeCountryIds and "
+            + "ns.index.publicIndex = TRUE "
+            + "group by ns.index.indexId")
+       List<NormalizedScore> getNormalizedScoresOfIndicesGPU(@Param("levermannFactor") Double levermannFactor,
+                                                          	 @Param("magicFormulaFactor") Double magicFormulaFactor,
+                                                          	 @Param("piotroskiFactor") Double piotroskiFactor,
+                                                          	 @Param("excludeCountryIds") List<Integer> countryIds,
+                                                          	 Pageable pageable);
 }

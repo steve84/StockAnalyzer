@@ -7,10 +7,12 @@ import 'rxjs/add/operator/map';
 
 import { Stock } from './stock';
 
+import { UserService } from '../user.service';
+
 @Injectable()
 export class StockService {
   private stockEmitter: EventEmitter<Stock> = new EventEmitter<Stock>();
-  constructor(private http: AuthHttp) { }
+  constructor(private http: AuthHttp, private userService: UserService) { }
 
   getStocks(page: number, size: number, sortField?: string, sortOrder?: number) {
     let url = "http://localhost:8080/stocks";
@@ -19,17 +21,16 @@ export class StockService {
     params.set("size", size.toString());
     if (sortField && sortOrder) {
       if (sortField == "scoreLevermann" || sortField == "scoreMagicFormula" || sortField == "scorePiotroski") {
-        url += "/search/findByScoresIsNullOrScores_ScoreType_NameOrderByScores_ScoreValue";
+        if (this.userService.getRoles().toLowerCase().indexOf('gpu') > -1)
+          url += "/search/findByScoreTypeGPU";
+        else
+          url += "/search/findByScoreType";
         if (sortField == "scoreLevermann")
           params.set("name", "Levermann");
         else if (sortField == "scoreMagicFormula")
           params.set("name", "Magic Formula");
         else if (sortField == "scorePiotroski")
           params.set("name", "Piotroski F-Score");  
-        if(sortOrder == 1)
-          url += "Asc";
-        else
-          url += "Desc";
       } else {
         if(sortOrder == 1)
           params.set("sort", sortField + ",asc");
@@ -65,8 +66,11 @@ export class StockService {
     params.set("name", query);
 		params.set("size", size.toString());
 		params.set("page", "0");
+    
+    let url = "http://localhost:8080/stocks/search/findByIsinOrName";
+    if (this.userService.getRoles().toLowerCase().indexOf('gpu') > -1)
+      url += "GPU";
 		
-		let url = "http://localhost:8080/stocks/search/findByIsinContainingIgnoreCaseOrNameContainingIgnoreCase";
 		return this.http.get(url, {search: params})
       .map(this.extractData);
 	}
@@ -97,8 +101,11 @@ export class StockService {
 							 sortField?: string,
 							 sortOrder?: number) {
 	let url = "http://localhost:8080/stocks/search/searchStocks";
-  let params = new URLSearchParams();
 	
+  if (this.userService.getRoles().toLowerCase().indexOf('gpu') > -1)
+    url += "GPU";
+  
+  let params = new URLSearchParams();
 	if (name)
 		params.set("name", name.toUpperCase());
 	if (isin)
@@ -124,8 +131,10 @@ export class StockService {
   
   getNormalizedScores(levermannFactor: number, magicFormulaFactor: number, piotroskiFactor, excludedCountries: number[], excludedBranches: number[], fromMarketCap: number, toMarketCap: number, size: number = 10) {
     let url = "http://localhost:8080/normalizedscores/search/getNormalizedScoresOfStocks";
+    if (this.userService.getRoles().toLowerCase().indexOf('gpu') > -1)
+      url += "GPU";
+    
     let params = new URLSearchParams();
-
     params.set("levermannFactor", levermannFactor.toString());
     params.set("magicFormulaFactor", magicFormulaFactor.toString());
     params.set("piotroskiFactor", piotroskiFactor.toString());

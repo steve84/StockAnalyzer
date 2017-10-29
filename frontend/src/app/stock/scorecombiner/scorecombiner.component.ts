@@ -133,7 +133,6 @@ export class ScorecombinerComponent implements OnInit {
   }
   
   setPureLevermann() {
-    debugger
     this.levermannFactor = 100;
     this.magicFormulaFactor = 0;
     this.piotroskiFactor = 0;

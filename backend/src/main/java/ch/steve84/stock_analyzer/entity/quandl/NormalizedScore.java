@@ -7,9 +7,19 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
+@NamedQueries({
+@NamedQuery(name = "NormalizedScore.findById", query = "select ns from NormalizedScore ns where ns.scoreId = :id"),
+@NamedQuery(name = "NormalizedScore.findByIdPublic", query = "select ns from NormalizedScore ns where ns.scoreId = :id and (ns.stock.publicStock = TRUE or ns.index.publicIndex = TRUE)"),
+@NamedQuery(name = "NormalizedScore.findAllNormalizedScores", query = "select ns from NormalizedScore ns"),
+@NamedQuery(name = "NormalizedScore.countAllNormalizedScores", query = "select count(ns) from NormalizedScore ns"),
+@NamedQuery(name = "NormalizedScore.findAllPublicNormalizedScores", query = "select ns from NormalizedScore ns where ns.stock.publicStock = TRUE or ns.index.publicIndex = TRUE"),
+@NamedQuery(name = "NormalizedScore.countAllPublicNormalizedScores", query = "select count(ns) from NormalizedScore ns where ns.stock.publicStock = TRUE or ns.index.publicIndex = TRUE")
+})
 @Table(name = "vscore_normalized")
 public class NormalizedScore {
 	@Id

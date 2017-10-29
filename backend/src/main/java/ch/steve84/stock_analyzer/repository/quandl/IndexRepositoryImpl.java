@@ -8,7 +8,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -22,11 +21,8 @@ import ch.steve84.stock_analyzer.enums.Roles;
 
 public class IndexRepositoryImpl implements ReadOnlyRepository<Index, Integer> {
 
-    @Autowired
-    private IndexRepository indexRepository;
     @PersistenceContext
     private EntityManager em;
-
 
     @Override
     public Index findOne(Integer id) {
@@ -54,6 +50,12 @@ public class IndexRepositoryImpl implements ReadOnlyRepository<Index, Integer> {
         return null;
     }
 
+	@Override
+	public Iterable<Index> findAll(Iterable<Integer> ids) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
     @Override
     public Iterable<Index> findAll(Sort sort) {
     	return null;
@@ -68,9 +70,13 @@ public class IndexRepositoryImpl implements ReadOnlyRepository<Index, Integer> {
         	q = em.createNamedQuery("Index.findAllIndices");
         	q.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
         	q.setMaxResults(pageable.getPageSize());
-        	List<Index> res = q.getResultList();
-        	Page<Index> p = new PageImpl<Index>(res, pageable, totalRecords);
-        	return p;
+        	try {
+        		List<Index> res = q.getResultList();
+        		Page<Index> p = new PageImpl<Index>(res, pageable, totalRecords);
+        		return p;
+        	} catch (NoResultException e) {
+        		return null;
+        	}
         } else {
         	Query q = em.createNamedQuery("Index.countAllPublicIndices");
         	Long totalRecords = (Long)q.getSingleResult();
@@ -78,14 +84,14 @@ public class IndexRepositoryImpl implements ReadOnlyRepository<Index, Integer> {
         	q = em.createNamedQuery("Index.findAllPublicIndices");
         	q.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
         	q.setMaxResults(pageable.getPageSize());
-        	List<Index> res = q.getResultList();
-        	Page<Index> p = new PageImpl<Index>(res, pageable, totalRecords);
-        	return p;
+        	try {
+        		List<Index> res = q.getResultList();
+        		Page<Index> p = new PageImpl<Index>(res, pageable, totalRecords);
+        		return p;
+        	} catch (NoResultException e) {
+        		return null;
+        	}
         }
-    }
-    
-    private boolean hasAccess(Index index) {
-        return index.getPublicIndex() || hasAccess();
     }
     
     private boolean hasAccess() {
@@ -96,5 +102,4 @@ public class IndexRepositoryImpl implements ReadOnlyRepository<Index, Integer> {
     	}
     	return false;
     }
-
 }

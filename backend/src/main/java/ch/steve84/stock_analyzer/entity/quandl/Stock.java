@@ -10,6 +10,14 @@ import javax.persistence.*;
 import ch.steve84.stock_analyzer.enums.StockCategory;
 
 @Entity
+@NamedQueries({
+@NamedQuery(name = "Stock.findById", query = "select s from Stock s where s.stockId = :id"),
+@NamedQuery(name = "Stock.findByIdPublic", query = "select s from Stock s where s.stockId = :id and s.publicStock = TRUE"),
+@NamedQuery(name = "Stock.findAllStocks", query = "select s from Stock s"),
+@NamedQuery(name = "Stock.countAllStocks", query = "select count(s) from Stock s"),
+@NamedQuery(name = "Stock.findAllPublicStocks", query = "select s from Stock s where s.publicStock = TRUE"),
+@NamedQuery(name = "Stock.countAllPublicStocks", query = "select count(s) from Stock s where s.publicStock = TRUE")
+})
 @Table(name = "tstock")
 public class Stock {
     @Id

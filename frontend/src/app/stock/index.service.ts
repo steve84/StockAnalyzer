@@ -69,8 +69,10 @@ export class IndexService {
 
   getNormalizedScores(levermannFactor: number, magicFormulaFactor: number, piotroskiFactor, excludedCountries: number[], size: number = 10) {
     let url = "http://localhost:8080/normalizedscores/search/getNormalizedScoresOfIndices";
-    let params = new URLSearchParams();
+    if (this.userService.getRoles().toLowerCase().indexOf('gpu') > -1)
+      url += "GPU";
     
+    let params = new URLSearchParams();
     params.set("levermannFactor", levermannFactor.toString());
     params.set("magicFormulaFactor", magicFormulaFactor.toString());
     params.set("piotroskiFactor", piotroskiFactor.toString());
