@@ -48,7 +48,7 @@
           <app-figurestable [data]="stock.income" [fields]="incomeFields" [labels]="incomeLabels" (onRowSelect)="onRowSelect($event)"></app-figurestable>
         </div>
         <div *ngIf="incomeChart" class="ui-g-12">
-          <p-chart type="line" [data]="incomeChart"></p-chart>
+          <p-chart type="line" #incomeChart [data]="incomeChart"></p-chart>
         </div>
       </div>
     </p-tabPanel>

@@ -1,6 +1,8 @@
-import { Component, OnInit, OnChanges, SimpleChanges, EventEmitter, Input, Output } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
+
+import { UIChart } from "primeng/components/chart/chart";
 
 import { HelperService } from '../../helper.service';
 
@@ -22,6 +24,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
   @Input('display') display: boolean = false;
   @Input('stock') stock: Stock;
   @Output('close') close: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @ViewChild("chart") chart: UIChart;
   title: string;
   value: Values;
   signals: Signals[] = [];
@@ -214,7 +217,8 @@ export class FundamentalComponent implements OnInit, OnChanges {
     }
   }
   
-  onRowSelect(data: any) {
+  onRowSelect(event: any) {
+    let data = event.data;
     let xAxisLabels: string[] = [];
     let yData: number[] = [];
     for (let key of Object.keys(data)) {
@@ -225,6 +229,11 @@ export class FundamentalComponent implements OnInit, OnChanges {
       yData.push(data[label]);
     }
     this.incomeChart = this.helperService.createLineChartData(this.incomeLabels[data['title']], xAxisLabels, yData, this.incomeChart);
+  }
+  
+  onRowUnselect(event: any) {
+    let data = event.data;
+    this.incomeChart = this.helperService.removeLineChartData(this.incomeLabels[data['title']], this.incomeChart);
   }
 
   getValue() {

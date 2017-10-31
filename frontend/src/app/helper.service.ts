@@ -66,6 +66,22 @@ export class HelperService {
       return existingChart;
     }
   }
+
+  removeLineChartData(datasetName: string, existingChart: any) {
+    if (existingChart) {
+      if (Object.keys(existingChart).indexOf('datasets') > -1) {
+        let i = 0;
+        for (let dataset of existingChart['datasets']) {
+          if (dataset['label'] = datasetName) {
+            existingChart.splice(i, 1);
+            return existingChart;
+          }
+          i += 1;
+        }
+      }
+    }
+    return existingChart;
+  }
   
   getValueByString(data: any, key: string) {
     if (!key)

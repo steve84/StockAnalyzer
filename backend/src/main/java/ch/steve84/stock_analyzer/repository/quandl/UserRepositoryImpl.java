@@ -5,6 +5,7 @@ import java.util.Calendar;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.web.client.RestOperations;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -21,6 +22,7 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
 
     private RestOperations restOperations;
     @Autowired private UserRepository userRepository;
+    private Environment env;
 
     @Override
     public User register(String username, String password) {
