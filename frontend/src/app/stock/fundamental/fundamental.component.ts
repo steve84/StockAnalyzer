@@ -217,8 +217,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
     }
   }
   
-  onRowSelect(event: any) {
-    let data = event.data;
+  onRowSelect(data: any) {
     let xAxisLabels: string[] = [];
     let yData: number[] = [];
     for (let key of Object.keys(data)) {
@@ -231,8 +230,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
     this.incomeChart = this.helperService.createLineChartData(this.incomeLabels[data['title']], xAxisLabels, yData, this.incomeChart);
   }
   
-  onRowUnselect(event: any) {
-    let data = event.data;
+  onRowUnselect(data: any) {
     this.incomeChart = this.helperService.removeLineChartData(this.incomeLabels[data['title']], this.incomeChart);
   }
 

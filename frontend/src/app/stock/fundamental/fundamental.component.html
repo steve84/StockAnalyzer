@@ -1,4 +1,4 @@
-<p-dialog appDialogsize [header]="title" [(visible)]="display" (onHide)="closeDisplay()">
+<p-dialog [header]="title" [(visible)]="display" (onHide)="closeDisplay()" width="800">
   <p-tabView>
     <p-tabPanel i18n-header="@@stock.detail.tab.overview.header" header="Overview">
       <div *ngIf="stock">
@@ -45,10 +45,10 @@
     <p-tabPanel *ngIf="stock && stock.income" i18n-header="@@stock.detail.tab.income.header" header="Income">
       <div class = "ui-g">
         <div class="ui-g-12">
-          <app-figurestable [data]="stock.income" [fields]="incomeFields" [labels]="incomeLabels" (onRowSelect)="onRowSelect($event)"></app-figurestable>
+          <app-figurestable [data]="stock.income" [fields]="incomeFields" [labels]="incomeLabels" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"></app-figurestable>
         </div>
         <div *ngIf="incomeChart" class="ui-g-12">
-          <p-chart type="line" #incomeChart [data]="incomeChart"></p-chart>
+          <p-chart type="line" #chart [data]="incomeChart"></p-chart>
         </div>
       </div>
     </p-tabPanel>

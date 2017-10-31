@@ -11,6 +11,7 @@ export class FigurestableComponent implements OnInit, OnChanges {
   @Input('fields') fields: any[];
   @Input('labels') labels: any;
   @Output() onRowSelect: EventEmitter<any> = new EventEmitter<any>();
+  @Output() onRowUnselect: EventEmitter<any> = new EventEmitter<any>();
   constructor() { }
 
   ngOnInit() {
@@ -21,6 +22,10 @@ export class FigurestableComponent implements OnInit, OnChanges {
   
   selectRow(event: any) {
     this.onRowSelect.emit(event.data);
+  }
+
+  unselectRow(event: any) {
+    this.onRowUnselect.emit(event.data);
   }
   
   removeUnvisibleRows(data: any[]): any[] {

@@ -1,4 +1,4 @@
-<p-dataTable [value]="removeUnvisibleRows(createTableObject(transposeData(data)))" selectionMode="multiple" (onRowSelect)="selectRow($event)">
+<p-dataTable [value]="removeUnvisibleRows(createTableObject(transposeData(data)))" selectionMode="single" (onRowSelect)="selectRow($event)" (onRowUnselect)="unselectRow($event)">
     <p-column *ngFor="let col of getColsFromData(transposeData(data))" [field]="col.field" [header]="col.header">
       <ng-template let-col pTemplate="header">
         <span *ngIf="col.field != 'title'">{{col.field}}</span>

@@ -27,22 +27,20 @@ public class NormalizedScoreRepositoryImpl implements ReadOnlyRepository<Normali
 	
 	@Override
 	public NormalizedScore findOne(Integer id) {
+		NormalizedScore ns;
+    	Query q = em.createNamedQuery("NormalizedScore.findById");
+    	q.setParameter("id", id);
+    	try {
+    		ns = (NormalizedScore)q.getSingleResult();
+    	} catch (NoResultException e) {
+    		return null;
+    	}
         if (hasAccess()) {
-        	Query q = em.createNamedQuery("NormalizedScore.findById");
-        	q.setParameter("id", id);
-        	try {
-        		return (NormalizedScore)q.getSingleResult();
-        	} catch (NoResultException e) {
-        		return null;
-        	}
+        	return ns;
         } else {
-        	Query q = em.createNamedQuery("NormalizedScore.findByIdPublic");
-        	q.setParameter("id", id);
-        	try {
-        		return (NormalizedScore)q.getSingleResult();
-        	} catch (NoResultException e) {
-        		return null;
-        	}
+        	if ((ns.getStock() != null && ns.getStock().getPublicStock()) || (ns.getIndex() != null && ns.getIndex().getPublicIndex()))
+        		return ns;
+        	return null;
         }
 	}
 
