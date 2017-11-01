@@ -1,4 +1,4 @@
-package ch.steve84.stock_analyzer.repository.quandl;
+package ch.steve84.stock_analyzer.service.quandl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import ch.steve84.stock_analyzer.entity.quandl.NormalizedScore;
 import ch.steve84.stock_analyzer.entity.quandl.Stock;
 import ch.steve84.stock_analyzer.enums.Roles;
+import ch.steve84.stock_analyzer.repository.quandl.ReadOnlyRepository;
 
 public class NormalizedScoreRepositoryImpl implements ReadOnlyRepository<NormalizedScore, Integer> {
 

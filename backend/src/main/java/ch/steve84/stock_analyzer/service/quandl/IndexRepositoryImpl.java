@@ -1,4 +1,4 @@
-package ch.steve84.stock_analyzer.repository.quandl;
+package ch.steve84.stock_analyzer.service.quandl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +18,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 
 import ch.steve84.stock_analyzer.entity.quandl.Index;
 import ch.steve84.stock_analyzer.enums.Roles;
+import ch.steve84.stock_analyzer.repository.quandl.ReadOnlyRepository;
 
 public class IndexRepositoryImpl implements ReadOnlyRepository<Index, Integer> {
 

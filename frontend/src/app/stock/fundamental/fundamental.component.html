@@ -3,9 +3,6 @@
     <p-tabPanel i18n-header="@@stock.detail.tab.overview.header" header="Overview">
       <div *ngIf="stock">
         <div class = "ui-g">
-          <div class = "ui-g-12"><button type="button" pButton label="Vergleichen" (click)="addToCompare(symbol)" icon="fa-plus-circle"></button></div>
-        </div>
-        <div class = "ui-g">
           <div class = "ui-g-3" i18n="@@stock.detail.name">Name</div><div class = "ui-g-3">{{stock.name}}</div>
           <div class = "ui-g-3" i18n="@@stock.detail.isin">ISIN</div><div class = "ui-g-3">{{stock.isin}}</div>
         </div>

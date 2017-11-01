@@ -8,10 +8,15 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
+@NamedQueries({
+@NamedQuery(name = "User.findByUsername", query = "select u from User u where u.username = :username")
+})
 @Table(name = "tuser")
 public class User {
     @Id
@@ -21,12 +26,17 @@ public class User {
 	private Integer userId;
 	private String username;
 	private String password;
+	private String token;
+	@Column(name = "is_activated")
+	private Boolean isActivated;
 	@ManyToOne
 	@JoinColumn(name = "role_id")
 	private Role role;
     @Column(name = "created_at")
-    private Calendar createdAt;  
-	
+    private Calendar createdAt;
+    @Column(name = "activated_at")
+    private Calendar activatedAt;
+
 	public String getUsername() {
 		return username;
 	}
@@ -43,7 +53,23 @@ public class User {
 		this.password = password;
 	}
 
-	public Role getRole() {
+	public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public Boolean isActivated() {
+        return isActivated;
+    }
+
+    public void setIsActivated(Boolean isActivated) {
+        this.isActivated = isActivated;
+    }
+
+    public Role getRole() {
 		return role;
 	}
 
@@ -59,7 +85,15 @@ public class User {
         this.createdAt = createdAt;
     }
 
-	public Integer getUserId() {
+	public Calendar getActivatedAt() {
+        return activatedAt;
+    }
+
+    public void setActivatedAt(Calendar activatedAt) {
+        this.activatedAt = activatedAt;
+    }
+
+    public Integer getUserId() {
 		return userId;
 	}
 }

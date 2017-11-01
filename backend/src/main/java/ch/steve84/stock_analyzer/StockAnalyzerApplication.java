@@ -10,7 +10,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 		"ch.steve84.stock_analyzer.entity.quandl"
 })
 @EnableJpaRepositories(basePackages = {
-		"ch.steve84.stock_analyzer.repository.quandl"
+		"ch.steve84.stock_analyzer.repository.quandl",
+		"ch.steve84.stock_analyzer.service.quandl",
+		"ch.steve84.stock_analyzer.controller.quandl"
 })
 public class StockAnalyzerApplication {
 

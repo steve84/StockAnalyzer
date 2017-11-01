@@ -4,7 +4,9 @@ import ch.steve84.stock_analyzer.entity.quandl.User;
 
 public interface UserRegistrationRepository {
     
-    User register(String username, String password);
+    User findByUsername(String username);
+    User register(User user);
+    User confirm(Integer userId, String hash);
     boolean validateCaptcha(String token);
 
 }

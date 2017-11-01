@@ -50,7 +50,7 @@ Piotroski F-Score-Factor:
 Exclude countries:
 </div>
 <div class = "ui-g-9">
-<p-multiSelect [options]="countries" [(ngModel)]="excludedCountries" i18n-defaultLabel="@@search.choice.label" defaultLabel="Choose" i18n-selectedItemsLabel="@@search.choice.selected.label" selectedItemsLabel="{0} entries selected" maxSelectedLabels=2></p-multiSelect>
+<p-multiSelect [options]="countries" [(ngModel)]="excludedCountries" i18n-defaultLabel="@@search.choice.label" defaultLabel="Choose" i18n-selectedItemsLabel="@@search.choice.selected.label" selectedItemsLabel="{{0}} entries selected" maxSelectedLabels=2></p-multiSelect>
 </div>
 </div>
 <div *ngIf="stockOrIndex == 'stock'" class = "ui-g">
@@ -58,7 +58,7 @@ Exclude countries:
 Exclude branches:
 </div>
 <div class = "ui-g-9">
-<p-multiSelect [options]="branches" [(ngModel)]="excludedBranches" i18n-defaultLabel="@@search.choice.label" defaultLabel="Choose" i18n-selectedItemsLabel="@@search.choice.selected.label" selectedItemsLabel="{0} entries selected" maxSelectedLabels=2></p-multiSelect>
+<p-multiSelect [options]="branches" [(ngModel)]="excludedBranches" i18n-defaultLabel="@@search.choice.label" defaultLabel="Choose" i18n-selectedItemsLabel="@@search.choice.selected.label" selectedItemsLabel="{{0}} entries selected" maxSelectedLabels=2></p-multiSelect>
 </div>
 </div>
 <div *ngIf="stockOrIndex == 'stock'" class = "ui-g">
