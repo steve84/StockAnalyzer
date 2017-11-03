@@ -21,54 +21,58 @@
       </div>
     </p-tabPanel>
     <p-tabPanel *ngIf="stock && stock.balance" i18n-header="@@stock.detail.tab.balance.header" header="Balance">
-      <div class = "ui-g">
-        <div class="ui-g-12">
-          <app-figurestable [data]="stock.balance" [fields]="balanceFields" [labels]="balanceLabels"></app-figurestable>
-        </div>
-      </div>
-      <div class = "ui-g">
-        <div class="ui-g-12">
-          <app-balancesheet [balance]="stock.balance"></app-balancesheet>
-        </div>
-      </div>
-    </p-tabPanel>
-    <p-tabPanel *ngIf="stock && stock.cashflow" i18n-header="@@stock.detail.tab.cashflow.header" header="Cashflow">
-      <div class = "ui-g">
-        <div class="ui-g-12">
-          <app-figurestable [data]="stock.cashflow" [fields]="cashflowFields" [labels]="cashflowLabels"></app-figurestable>
-        </div>
-      </div>
-    </p-tabPanel>
-    <p-tabPanel *ngIf="stock && stock.income" i18n-header="@@stock.detail.tab.income.header" header="Income">
-      <div class = "ui-g">
-        <div class="ui-g-12">
-          <app-figurestable [data]="stock.income" [fields]="incomeFields" [labels]="incomeLabels" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"></app-figurestable>
-        </div>
-        <div *ngIf="incomeChart" class="ui-g-12">
-          <p-chart type="line" #chart [data]="incomeChart"></p-chart>
-        </div>
-      </div>
-    </p-tabPanel>
-    <p-tabPanel *ngIf="value" i18n-header="@@stock.detail.tab.values.header" header="Values">
-      <div class = "ui-g">
-        <div class="ui-g-12">
-          <app-figurestable [data]="value" [fields]="valueFields" [labels]="valueLabels"></app-figurestable>
-        </div>
-      </div>
-    </p-tabPanel>
-    <p-tabPanel *ngIf="signals" i18n-header="@@stock.detail.tab.signals.header" header="Signals">
-      <div class = "ui-g">
-        <div class="ui-g-12">
-          <app-figurestable [data]="signals" [fields]="signalFields" [labels]="signalLabels"></app-figurestable>
-        </div>
-      </div>
-    </p-tabPanel>
-    <p-tabPanel *ngIf="stock && stock.forecast" i18n-header="@@stock.detail.tab.forecast.header" header="Forecast">
-      <div class = "ui-g">
-        <div class="ui-g-12">
-          <app-figurestable [data]="stock.forecast" [fields]="forecastFields" [labels]="forecastLabels"></app-figurestable>
-        </div>
-      </div>
+      <p-tabView>
+        <p-tabPanel *ngIf="stock && stock.balance" i18n-header="@@stock.detail.tab.balance.header" header="Balance">
+          <div class = "ui-g">
+            <div class="ui-g-12">
+              <app-figurestable [data]="stock.balance" [fields]="balanceFields" [labels]="balanceLabels"></app-figurestable>
+            </div>
+          </div>
+          <div class = "ui-g">
+            <div class="ui-g-12">
+              <app-balancesheet [balance]="stock.balance"></app-balancesheet>
+            </div>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel *ngIf="stock && stock.cashflow" i18n-header="@@stock.detail.tab.cashflow.header" header="Cashflow">
+          <div class = "ui-g">
+            <div class="ui-g-12">
+              <app-figurestable [data]="stock.cashflow" [fields]="cashflowFields" [labels]="cashflowLabels"></app-figurestable>
+            </div>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel *ngIf="stock && stock.income" i18n-header="@@stock.detail.tab.income.header" header="Income">
+          <div class = "ui-g">
+            <div class="ui-g-12">
+              <app-figurestable [data]="stock.income" [fields]="incomeFields" [labels]="incomeLabels" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"></app-figurestable>
+            </div>
+            <div *ngIf="incomeChart" class="ui-g-12">
+              <p-chart type="line" #chart [data]="incomeChart"></p-chart>
+            </div>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel *ngIf="value" i18n-header="@@stock.detail.tab.values.header" header="Values">
+          <div class = "ui-g">
+            <div class="ui-g-12">
+              <app-figurestable [data]="value" [fields]="valueFields" [labels]="valueLabels"></app-figurestable>
+            </div>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel *ngIf="signals" i18n-header="@@stock.detail.tab.signals.header" header="Signals">
+          <div class = "ui-g">
+            <div class="ui-g-12">
+              <app-figurestable [data]="signals" [fields]="signalFields" [labels]="signalLabels"></app-figurestable>
+            </div>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel *ngIf="stock && stock.forecast" i18n-header="@@stock.detail.tab.forecast.header" header="Forecast">
+          <div class = "ui-g">
+            <div class="ui-g-12">
+              <app-figurestable [data]="stock.forecast" [fields]="forecastFields" [labels]="forecastLabels"></app-figurestable>
+            </div>
+          </div>
+        </p-tabPanel>
+      </p-tabView>
     </p-tabPanel>
     <p-tabPanel i18n-header="@@stock.detail.tab.scores.header" header="Scores">
       <p-tabView>

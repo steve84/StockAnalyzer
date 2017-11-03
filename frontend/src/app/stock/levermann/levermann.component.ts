@@ -14,6 +14,7 @@ export class LevermannComponent implements OnInit, OnChanges {
   @Input('stock') stock: Stock;
   levermannData: Levermann;
   levermannScore: number = 0;
+  calculatedAt: string;
   levermannAdvice: string = "nicht kaufen/verkaufen";
   constructor(private stockService: StockService) { }
 
@@ -23,8 +24,10 @@ export class LevermannComponent implements OnInit, OnChanges {
     if (changes.stock && changes.stock.currentValue) {
       this.levermannData = changes.stock.currentValue.levermann;
       for (let score of this.stock.scores) {
-        if (score.scoreType.name == 'Levermann')
+        if (score.scoreType.name == 'Levermann') {
           this.levermannScore = score.scoreValue;
+          this.calculatedAt = score.modifiedAt;
+        }
       }
     }
   }

@@ -191,6 +191,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
             this.stockService.getStockById(id)
               .subscribe((data:Stock) => {
                 this.stock = data;
+                this.title = this.stock.name;
                 this.getValue();
                 this.getSignals();
                 this.getIndexNames();
@@ -202,6 +203,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
     this.stockService.getStockEmitter()
       .subscribe((data:Stock) => {
         this.stock = data;
+        this.title = this.stock.name;
         this.getValue();
         this.getSignals();
         this.getIndexNames();

@@ -1,11 +1,11 @@
-<div *ngIf="piotroskiData" class="ui-g">
+<div *ngIf="piotroskiData && calculatedAt" class="ui-g">
   <div class="ui-g-12">
     <p-accordion [multiple]="true">
       <p-accordionTab [disabled]="true">
         <p-header>
           <div class="ui-g">
             <div class="ui-g-10">
-              Piotroski Score (Calculated at {{piotroskiData.modfiedAt}}
+              Piotroski Score (Calculated at {{calculatedAt | date}})
             </div>
             <div class="ui-g-2" style="text-align: right;">
               {{piotroskiScore}}
@@ -46,7 +46,7 @@
               Gesamtkapitalrendite
             </div>
             <div class="ui-g-2" style="text-align: right;">
-              {{getReturnOnAssetsScore(piotroskiData.actualReturnOnAssets, piotroskiData.lastReturnOnAssets)}}
+              {{getReturnOnAssetsDeltaScore(piotroskiData.actualReturnOnAssets, piotroskiData.lastReturnOnAssets)}}
             </div>
           </div>
         </p-header>

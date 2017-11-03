@@ -139,13 +139,14 @@ while page <= totalPages:
 
             if maxItems and totalProcessed >= maxItems:
                 break
+        conn.commit()
         if maxItems and totalProcessed >= maxItems:
             break
     
     else:
         break
 
-    conn.commit();
+    
 
 conn.close();
 

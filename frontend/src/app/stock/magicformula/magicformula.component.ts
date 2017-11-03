@@ -12,6 +12,7 @@ export class MagicformulaComponent implements OnInit {
   @Input('stock') stock: Stock;
   magicFormulaData: MagicFormula;
   magicFormulaScore: number = 0;
+  calculatedAt: string;
   constructor() { }
 
   ngOnInit() {}
@@ -20,8 +21,10 @@ export class MagicformulaComponent implements OnInit {
     if (changes.stock && changes.stock.currentValue) {
       this.magicFormulaData = changes.stock.currentValue.magicFormula;
       for (let score of this.stock.scores) {
-        if (score.scoreType.name == 'Magic Formula')
+        if (score.scoreType.name == 'Magic Formula') {
           this.magicFormulaScore = score.scoreValue;
+          this.calculatedAt = score.modifiedAt;
+        }
       }
     }
   }

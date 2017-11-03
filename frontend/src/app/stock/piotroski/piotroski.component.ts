@@ -8,10 +8,11 @@ import { Piotroski } from '../piotroski';
   templateUrl: './piotroski.component.html',
   styleUrls: ['./piotroski.component.css']
 })
-export class PiotroskiComponent implements OnInit {
+export class PiotroskiComponent implements OnInit, OnChanges {
   @Input('stock') stock: Stock;
   piotroskiData: Piotroski;
   piotroskiScore: number = 0;
+  calculatedAt: string;
   constructor() { }
 
   ngOnInit() {}
@@ -20,8 +21,10 @@ export class PiotroskiComponent implements OnInit {
     if (changes.stock && changes.stock.currentValue) {
       this.piotroskiData = changes.stock.currentValue.piotroski;
       for (let score of this.stock.scores) {
-        if (score.scoreType.name == 'Piotroski')
+        if (score.scoreType.name == 'Piotroski F-Score') {
           this.piotroskiScore = score.scoreValue;
+          this.calculatedAt = score.modifiedAt;
+        }
       }
     }
   }
@@ -40,7 +43,7 @@ export class PiotroskiComponent implements OnInit {
       return 0;
   }
 
-  getReturnOnAssetsScore(valueActual: number, valueLast: number) {
+  getReturnOnAssetsDeltaScore(valueActual: number, valueLast: number) {
     if (valueActual > valueLast)
       return 1;
     else
