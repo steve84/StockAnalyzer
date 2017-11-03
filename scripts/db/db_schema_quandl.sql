@@ -681,6 +681,16 @@ CREATE OR REPLACE VIEW public.vmarketcap AS
 ALTER TABLE public.vmarketcap
   OWNER TO postgres;
 
+  
+CREATE OR REPLACE VIEW public.vavgtotalassets AS 
+ SELECT b.stock_id,
+	AVG(b.total_assets) as avg_total_assets
+   FROM tbalance b
+   GROUP BY b.stock_id;
+
+ALTER TABLE public.vavgtotalassets
+  OWNER TO postgres;
+
 
 CREATE OR REPLACE VIEW public.vlevermann AS 
  SELECT s.stock_id,
@@ -765,12 +775,12 @@ ALTER TABLE public.vagg_market_cap
 CREATE OR REPLACE VIEW public.vpiotroski AS 
 	select
 	s.stock_id,
-	ai.net_income_inc as net_income,
-	c.cash_operations as cash_operations,
-	asi.roae as actual_return_on_assets,
-	lsi.roae as last_return_on_assets,
-	ab.long_term_debt / ab.total_assets as actual_long_term_ratio,
-	lb.long_term_debt / lb.total_assets as last_long_term_ratio,
+	case when ab.total_assets > 0 then ai.net_income_exc / ab.total_assets else null end as return_on_assets,
+	case when ab.total_assets > 0 then c.cash_operations / ab.total_assets else null end as cash_operations,
+	case when ab.total_assets > 0 then ai.net_income_exc / ab.total_assets else null end as actual_return_on_assets,
+	case when lb.total_assets > 0 then li.net_income_exc / lb.total_assets else null end as last_return_on_assets,
+	case when vt.avg_total_assets > 0 then ab.long_term_debt / vt.avg_total_assets else null end as actual_long_term_ratio,
+	case when vt.avg_total_assets > 0 then lb.long_term_debt / vt.avg_total_assets else null end as last_long_term_ratio,
 	asi.current_ratio as actual_current_ratio,
 	lsi.current_ratio as last_current_ratio,
 	ai.diluted_shares_os as actual_shares_outstanding,
@@ -786,7 +796,8 @@ CREATE OR REPLACE VIEW public.vpiotroski AS
 	left join (select si.* from (select stock_id, max(modified_at) max_date from tsignals group by stock_id) a left join tsignals si on si.stock_id = a.stock_id and si.modified_at = a.max_date - interval '1 year') lsi on lsi.stock_id = s.stock_id
 	left join (select b.* from (select stock_id, max(modified_at) max_date from tbalance group by stock_id) a left join tbalance b on b.stock_id = a.stock_id and b.modified_at = a.max_date) ab on ab.stock_id = s.stock_id
 	left join (select b.* from (select stock_id, max(modified_at) max_date from tbalance group by stock_id) a left join tbalance b on b.stock_id = a.stock_id and b.modified_at = a.max_date - interval '1 year') lb on lb.stock_id = s.stock_id
-	left join (select v.* from (select stock_id, max(modified_at) max_date from tvalues group by stock_id) a left join tvalues v on v.stock_id = a.stock_id and v.modified_at = a.max_date) v on v.stock_id = s.stock_id;
+	left join (select v.* from (select stock_id, max(modified_at) max_date from tvalues group by stock_id) a left join tvalues v on v.stock_id = a.stock_id and v.modified_at = a.max_date) v on v.stock_id = s.stock_id
+    left join vavgtotalassets vt on vt.stock_id = s.stock_id;
 
 ALTER TABLE public.vpiotroski
   OWNER TO postgres; 

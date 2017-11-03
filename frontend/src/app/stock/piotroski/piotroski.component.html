@@ -20,11 +20,11 @@
               Nettoertrag
             </div>
             <div class="ui-g-2" style="text-align: right;">
-              {{getNetIncomeScore(piotroskiData.netIncome)}}
+              {{getReturnOnAssetsScore(piotroskiData.returnOnAssets)}}
             </div>
           </div>
         </p-header>
-        {{piotroskiData.netIncome | number}}
+        {{piotroskiData.returnOnAssets | number}}%
       </p-accordionTab>
       <p-accordionTab>
         <p-header>
@@ -59,7 +59,7 @@
               Rückstellungsquote
             </div>
             <div class="ui-g-2" style="text-align: right;">
-              {{getAccrualsScore(piotroskiData.netIncome, piotroskiData.cashOperations)}}
+              {{getAccrualsScore(piotroskiData.returnOnAssets, piotroskiData.cashOperations)}}
             </div>
           </div>
         </p-header>

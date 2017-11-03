@@ -12,8 +12,8 @@ public class Piotroski {
     @Column(name = "stock_id")
     private Integer stockId;
 
-	@Column(name = "net_income")
-	private Double netIncome;
+	@Column(name = "return_on_assets")
+	private Double returnOnAssets;
 
 	@Column(name = "cash_operations")
 	private Double cashOperations;
@@ -51,15 +51,15 @@ public class Piotroski {
 	@Column(name = "market_capitalization")
 	private Double marketCapitalization;
 
-	public Double getNetIncome() {
-		return netIncome;
-	}
+	public Double getReturnOnAssets() {
+        return returnOnAssets;
+    }
 
-	public void setNetIncome(Double netIncome) {
-		this.netIncome = netIncome;
-	}
+    public void setReturnOnAssets(Double returnOnAssets) {
+        this.returnOnAssets = returnOnAssets;
+    }
 
-	public Double getCashOperations() {
+    public Double getCashOperations() {
 		return cashOperations;
 	}
 

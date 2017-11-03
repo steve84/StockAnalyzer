@@ -350,7 +350,7 @@ class Utils:
             return float((returnOnCapital + earningsYield) / 2)
     
     def calculatePiotroski(piotroskiData):
-        net_income = piotroskiData[1]
+        return_on_assets = piotroskiData[1]
         cash_operations = piotroskiData[2]
         actual_return_on_assets = piotroskiData[3]
         last_return_on_assets = piotroskiData[4]
@@ -366,7 +366,7 @@ class Utils:
         piotroskiScore = 0
         hasPiotroskiScore = False
 
-        if net_income is not None and not math.isnan(net_income) and net_income > 0:
+        if return_on_assets is not None and not math.isnan(return_on_assets) and return_on_assets > 0:
             hasPiotroskiScore = hasPiotroskiScore or True
             piotroskiScore += 1
 
@@ -378,7 +378,7 @@ class Utils:
             hasPiotroskiScore = hasPiotroskiScore or True
             piotroskiScore += 1
 
-        if cash_operations is not None and not math.isnan(cash_operations) and net_income is not None and not math.isnan(net_income) and cash_operations > net_income:
+        if cash_operations is not None and not math.isnan(cash_operations) and return_on_assets is not None and not math.isnan(return_on_assets) and cash_operations > return_on_assets:
             hasPiotroskiScore = hasPiotroskiScore or True
             piotroskiScore += 1
 

@@ -1,6 +1,6 @@
 export interface Piotroski {
   stockId?: number,
-  netIncome?: number,
+  returnOnAssets?: number,
   cashOperations?: number,
   actualReturnOnAssets?: number,
   lastReturnOnAssets?: number,

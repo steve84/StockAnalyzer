@@ -26,7 +26,7 @@ export class PiotroskiComponent implements OnInit {
     }
   }
   
-  getNetIncomeScore(value: number) {
+  getReturnOnAssetsScore(value: number) {
     if (value > 0)
       return 1;
     else
