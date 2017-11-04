@@ -183,6 +183,7 @@ export class ScorecombinerComponent implements OnInit {
     this.excludedCountries = null;
     this.excludedBranches = null;
     this.selectedScore = null;
+    this.companySize = 0;
     this.msgs = [];
     this.numRows = 10;
   }

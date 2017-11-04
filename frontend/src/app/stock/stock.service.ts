@@ -107,7 +107,7 @@ export class StockService {
 							 sortField?: string,
 							 sortOrder?: number) {
 	let url = "http://localhost:8080/stocks/search/searchStocks";
-	
+  
   if (this.userService.getRoles().toLowerCase().indexOf('gpu') > -1)
     url += "GPU";
   
@@ -131,10 +131,25 @@ export class StockService {
 	if (size)
 		params.set("size", size.toString());
   if (sortField && sortOrder) {
-    if (sortOrder == 1)
-      params.set("sort", sortField + ",asc");
-    else
-      params.set("sort", sortField + ",desc");
+    if (sortField == "scoreLevermann" || sortField == "scoreMagicFormula" || sortField == "scorePiotroski") {
+      url += "ScoreType";
+      if (sortField == "scoreLevermann")
+        params.set("scoretype", "Levermann");
+      else if (sortField == "scoreMagicFormula")
+        params.set("scoretype", "Magic Formula");
+      else if (sortField == "scorePiotroski")
+        params.set("scoretype", "Piotroski F-Score");
+
+      if(sortOrder == 1)
+        url += "Asc";
+      else
+        url += "Desc";
+    } else {
+      if (sortOrder == 1)
+        params.set("sort", sortField + ",asc");
+      else
+        params.set("sort", sortField + ",desc");
+    }
   }
 
 	return this.http.get(url, {search: params})

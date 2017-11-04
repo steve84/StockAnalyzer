@@ -25,6 +25,7 @@ import { UserRegistrationComponent } from './userregistration/userregistration.c
 import { ImpressumComponent } from './content/impressum/impressum.component';
 import { FrontpageComponent } from './content/frontpage/frontpage.component';
 import { ContactComponent } from './content/contact/contact.component';
+import { FooterbarComponent } from './footerbar/footerbar.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { ContactComponent } from './content/contact/contact.component';
     UserRegistrationComponent,
     ImpressumComponent,
     FrontpageComponent,
-    ContactComponent
+    ContactComponent,
+    FooterbarComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

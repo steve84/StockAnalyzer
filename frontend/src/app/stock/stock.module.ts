@@ -19,6 +19,7 @@ import { DataTableModule,
         MessagesModule,
         SelectButtonModule,
         SpinnerModule,
+        TooltipModule,
         ChartModule } from 'primeng/primeng';
 
 import { StockService } from './stock.service';
@@ -66,7 +67,8 @@ import { MagicformulaComponent } from './magicformula/magicformula.component';
     SelectButtonModule,
     SharedModule,
     ChartModule,
-    SpinnerModule
+    SpinnerModule,
+    TooltipModule
   ],
   exports: [
     StockTableComponent,

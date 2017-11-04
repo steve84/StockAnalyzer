@@ -229,11 +229,13 @@ export class FundamentalComponent implements OnInit, OnChanges {
     for (let label of xAxisLabels) {
       yData.push(data[label]);
     }
-    this.incomeChart = this.helperService.createLineChartData(this.incomeLabels[data['title']], xAxisLabels, yData, this.incomeChart);
+    this.incomeChart = this.helperService.createLineChartData(this.incomeLabels[data['title']], xAxisLabels, yData);
+    this.chart.reinit();
   }
   
   onRowUnselect(data: any) {
-    this.incomeChart = this.helperService.removeLineChartData(this.incomeLabels[data['title']], this.incomeChart);
+    //this.incomeChart = this.helperService.removeLineChartData(this.incomeLabels[data['title']], this.incomeChart);
+    //this.chart.reinit();
   }
 
   getValue() {

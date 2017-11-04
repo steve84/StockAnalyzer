@@ -72,8 +72,8 @@ export class HelperService {
       if (Object.keys(existingChart).indexOf('datasets') > -1) {
         let i = 0;
         for (let dataset of existingChart['datasets']) {
-          if (dataset['label'] = datasetName) {
-            existingChart.splice(i, 1);
+          if (dataset['label'] == datasetName) {
+            existingChart['datasets'].splice(i, 1);
             return existingChart;
           }
           i += 1;

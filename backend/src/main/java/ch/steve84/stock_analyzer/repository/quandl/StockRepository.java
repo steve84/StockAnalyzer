@@ -63,6 +63,56 @@ public interface StockRepository extends ReadOnlyRepository<Stock, Integer> {
 							 @Param("indexIds") List<Integer> indexIds,
 							 Pageable pageable);
 
+	@Query("select s from Stock s "
+			+ "left join s.scores sc "
+			+ "left join sc.scoreType t "
+			+ "where s.stockId in "
+			+ "(select distinct s.stockId from Stock s "
+			+ "left join s.indices i where "
+			+ "(upper(s.name) like %:name% or :name is null) and "
+			+ "(upper(s.isin) like %:isin% or :isin is null) and "
+			+ "(upper(s.nsin) like %:nsin% or :nsin is null) and "
+			+ "(upper(s.wkn) like %:wkn% or :wkn is null) and "
+			+ "(s.country.countryId in :countryIds or :countryIds is null) and "
+			+ "(s.branch.branchId in :branchIds or :branchIds is null) and "
+			+ "(i.indexId in :indexIds or :indexIds is null)) and "
+			+ "t.name = :scoretype "
+			+ "order by sc.scoreValue")
+	Page<Stock> searchStocksScoreTypeAsc(@Param("name") String name,
+							 		  @Param("isin") String isin,
+							 		  @Param("nsin") String nsin,
+							 		  @Param("wkn") String wkn,
+							 		  @Param("scoretype") String scoretype,
+							 		  @Param("countryIds") List<Integer> countryIds,
+							 		  @Param("branchIds") List<Integer> branchIds,
+							 		  @Param("indexIds") List<Integer> indexIds,
+							 		  Pageable pageable);
+
+	@Query("select s from Stock s "
+			+ "left join s.scores sc "
+			+ "left join sc.scoreType t "
+			+ "where s.stockId in "
+			+ "(select distinct s.stockId from Stock s "
+			+ "left join s.indices i where "
+			+ "(upper(s.name) like %:name% or :name is null) and "
+			+ "(upper(s.isin) like %:isin% or :isin is null) and "
+			+ "(upper(s.nsin) like %:nsin% or :nsin is null) and "
+			+ "(upper(s.wkn) like %:wkn% or :wkn is null) and "
+			+ "(s.country.countryId in :countryIds or :countryIds is null) and "
+			+ "(s.branch.branchId in :branchIds or :branchIds is null) and "
+			+ "(i.indexId in :indexIds or :indexIds is null)) and "
+			+ "t.name = :scoretype "
+			+ "order by sc.scoreValue desc")
+	Page<Stock> searchStocksScoreTypeDesc(@Param("name") String name,
+							 		  @Param("isin") String isin,
+							 		  @Param("nsin") String nsin,
+							 		  @Param("wkn") String wkn,
+							 		  @Param("scoretype") String scoretype,
+							 		  @Param("countryIds") List<Integer> countryIds,
+							 		  @Param("branchIds") List<Integer> branchIds,
+							 		  @Param("indexIds") List<Integer> indexIds,
+							 		  Pageable pageable);
+
 	@Query("select s from Stock s where s.stockId in "
 			+ "(select distinct s.stockId from Stock s "
 			+ "left join s.indices i where"
@@ -82,4 +132,56 @@ public interface StockRepository extends ReadOnlyRepository<Stock, Integer> {
 							 @Param("branchIds") List<Integer> branchIds,
 							 @Param("indexIds") List<Integer> indexIds,
 							 Pageable pageable);
+
+	@Query("select s from Stock s "
+			+ "left join s.scores sc "
+			+ "left join sc.scoreType t "
+			+ "where s.stockId in "
+			+ "(select distinct s.stockId from Stock s "
+			+ "left join s.indices i where "
+			+ "(upper(s.name) like %:name% or :name is null) and "
+			+ "(upper(s.isin) like %:isin% or :isin is null) and "
+			+ "(upper(s.nsin) like %:nsin% or :nsin is null) and "
+			+ "(upper(s.wkn) like %:wkn% or :wkn is null) and "
+			+ "(s.country.countryId in :countryIds or :countryIds is null) and "
+			+ "(s.branch.branchId in :branchIds or :branchIds is null) and "
+			+ "(i.indexId in :indexIds or :indexIds is null) and "
+			+ "s.publicStock = TRUE) and "
+			+ "t.name = :scoretype "
+			+ "order by sc.scoreValue")
+	Page<Stock> searchStocksGPUScoreTypeAsc(@Param("name") String name,
+							 				@Param("isin") String isin,
+						 					@Param("nsin") String nsin,
+						 					@Param("wkn") String wkn,
+						 					@Param("scoretype") String scoretype,
+						 					@Param("countryIds") List<Integer> countryIds,
+						 					@Param("branchIds") List<Integer> branchIds,
+						 					@Param("indexIds") List<Integer> indexIds,
+						 					Pageable pageable);
+
+	@Query("select s from Stock s "
+			+ "left join s.scores sc "
+			+ "left join sc.scoreType t "
+			+ "where s.stockId in "
+			+ "(select distinct s.stockId from Stock s "
+			+ "left join s.indices i where "
+			+ "(upper(s.name) like %:name% or :name is null) and "
+			+ "(upper(s.isin) like %:isin% or :isin is null) and "
+			+ "(upper(s.nsin) like %:nsin% or :nsin is null) and "
+			+ "(upper(s.wkn) like %:wkn% or :wkn is null) and "
+			+ "(s.country.countryId in :countryIds or :countryIds is null) and "
+			+ "(s.branch.branchId in :branchIds or :branchIds is null) and "
+			+ "(i.indexId in :indexIds or :indexIds is null) and "
+			+ "s.publicStock = TRUE) and "
+			+ "t.name = :scoretype "
+			+ "order by sc.scoreValue desc")
+	Page<Stock> searchStocksGPUScoreTypeDesc(@Param("name") String name,
+							 				 @Param("isin") String isin,
+							 				 @Param("nsin") String nsin,
+							 				 @Param("wkn") String wkn,
+											 @Param("scoretype") String scoretype,
+											 @Param("countryIds") List<Integer> countryIds,
+											 @Param("branchIds") List<Integer> branchIds,
+											 @Param("indexIds") List<Integer> indexIds,
+											 Pageable pageable);
 }
