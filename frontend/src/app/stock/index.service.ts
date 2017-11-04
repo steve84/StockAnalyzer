@@ -30,7 +30,12 @@ export class IndexService {
         else if (sortField == "scoreMagicFormula")
           params.set("name", "Magic Formula"); 
         else if (sortField == "scorePiotroski")
-          params.set("name", "Piotroski F-Score"); 
+          params.set("name", "Piotroski F-Score");
+
+        if(sortOrder == 1)
+          url += "Asc";
+        else
+          url += "Desc";
       } else {
         if(sortOrder == 1)
           params.set("sort", sortField + ",asc");

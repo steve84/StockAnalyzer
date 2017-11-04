@@ -109,6 +109,11 @@ Type of results:
       {{score[col.field] * 100 | number}}
     </ng-template>
   </p-column>
+  <p-column styleClass="col-button">
+    <ng-template let-score="rowData" pTemplate="body">
+      <button type="button" pButton (click)="showStock(score)" icon="fa-search"></button>
+    </ng-template>
+  </p-column>
 </p-dataTable>
 </div>
 </div>
@@ -127,6 +132,11 @@ Type of results:
   <p-column field="scoreValue" i18n-header="@@index.table.score.header" header="Score">
     <ng-template let-col let-score="rowData" pTemplate="body">
       {{score[col.field] * 100 | number}}
+    </ng-template>
+  </p-column>
+  <p-column styleClass="col-button">
+    <ng-template let-score="rowData" pTemplate="body">
+      <button type="button" pButton (click)="showIndex(score)" icon="fa-search"></button>
     </ng-template>
   </p-column>
 </p-dataTable>

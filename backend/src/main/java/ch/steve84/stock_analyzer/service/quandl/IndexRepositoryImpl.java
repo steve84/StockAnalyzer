@@ -1,12 +1,17 @@
 package ch.steve84.stock_analyzer.service.quandl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Order;
+import javax.persistence.criteria.Root;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -64,11 +69,34 @@ public class IndexRepositoryImpl implements ReadOnlyRepository<Index, Integer> {
 
     @Override
     public Page<Index> findAll(Pageable pageable) {
-        if (hasAccess()) {
+    	if (pageable.getSort() != null) {
         	Query q = em.createNamedQuery("Index.countAllIndices");
         	Long totalRecords = (Long)q.getSingleResult();
-        	
-        	q = em.createNamedQuery("Index.findAllIndices");
+    		CriteriaBuilder cb = em.getCriteriaBuilder();
+    		CriteriaQuery<Index> cq = cb.createQuery(Index.class);
+    		Root<Index> s = cq.from(Index.class);
+    		cq.select(s);
+    		Iterator<Sort.Order> iter = pageable.getSort().iterator();
+    		List<Order> orders = new ArrayList<Order>();
+    		while (iter.hasNext()) {
+    			Sort.Order o = iter.next();
+    			String[] parts = o.getProperty().split("\\.");
+    			if (parts.length >= 2) {
+    				if (o.isAscending())
+    					orders.add(cb.asc(s.join(parts[0]).get(parts[1])));
+    				else
+    					orders.add(cb.desc(s.join(parts[0]).get(parts[1])));
+    			} else {
+	    			if (o.isAscending())
+	    				orders.add(cb.asc(s.get(parts[0])));
+	    			else
+	    				orders.add(cb.desc(s.get(parts[0])));
+    			}
+    		}
+    		cq.orderBy(orders);
+    		if (!hasAccess())
+    			cq.where(cb.isTrue(s.get("publicIndex")));
+    		q = em.createQuery(cq);
         	q.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
         	q.setMaxResults(pageable.getPageSize());
         	try {
@@ -78,21 +106,37 @@ public class IndexRepositoryImpl implements ReadOnlyRepository<Index, Integer> {
         	} catch (NoResultException e) {
         		return null;
         	}
-        } else {
-        	Query q = em.createNamedQuery("Index.countAllPublicIndices");
-        	Long totalRecords = (Long)q.getSingleResult();
-        	
-        	q = em.createNamedQuery("Index.findAllPublicIndices");
-        	q.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
-        	q.setMaxResults(pageable.getPageSize());
-        	try {
-        		List<Index> res = q.getResultList();
-        		Page<Index> p = new PageImpl<Index>(res, pageable, totalRecords);
-        		return p;
-        	} catch (NoResultException e) {
-        		return null;
-        	}
-        }
+    	} else {
+	        if (hasAccess()) {
+	        	Query q = em.createNamedQuery("Index.countAllIndices");
+	        	Long totalRecords = (Long)q.getSingleResult();
+	        	
+	        	q = em.createNamedQuery("Index.findAllIndices");
+	        	q.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
+	        	q.setMaxResults(pageable.getPageSize());
+	        	try {
+	        		List<Index> res = q.getResultList();
+	        		Page<Index> p = new PageImpl<Index>(res, pageable, totalRecords);
+	        		return p;
+	        	} catch (NoResultException e) {
+	        		return null;
+	        	}
+	        } else {
+	        	Query q = em.createNamedQuery("Index.countAllPublicIndices");
+	        	Long totalRecords = (Long)q.getSingleResult();
+	        	
+	        	q = em.createNamedQuery("Index.findAllPublicIndices");
+	        	q.setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
+	        	q.setMaxResults(pageable.getPageSize());
+	        	try {
+	        		List<Index> res = q.getResultList();
+	        		Page<Index> p = new PageImpl<Index>(res, pageable, totalRecords);
+	        		return p;
+	        	} catch (NoResultException e) {
+	        		return null;
+	        	}
+	        }
+    	}
     }
     
     private boolean hasAccess() {

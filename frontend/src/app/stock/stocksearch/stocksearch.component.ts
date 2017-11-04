@@ -34,6 +34,8 @@ export class StocksearchComponent implements OnInit {
   totalRecords: number = 0;
   pageSize: number = 20;
   page: number = 0;
+  sortField: string;
+  sortOrder: number;
   countryTranslationPipe: CountryTranslationPipe = new CountryTranslationPipe();
 
   constructor(private stockService: StockService, private indexService: IndexService) {
@@ -71,11 +73,13 @@ export class StocksearchComponent implements OnInit {
   onLazyLoad(event: any) {
     this.pageSize = event.rows;
     this.page = (event.first / event.rows);
+    this.sortField = event.sortField;
+    this.sortOrder = event.sortOrder;
     this.searchStocks();
   }
 	
 	searchStocks() {
-	  this.stockService.searchStocks(this.name, this.isin, this.nsin, this.wkn, this.selectedCountries, this.selectedBranches, this.selectedIndices, this.page, this.pageSize)
+	  this.stockService.searchStocks(this.name, this.isin, this.nsin, this.wkn, this.selectedCountries, this.selectedBranches, this.selectedIndices, this.page, this.pageSize, this.sortField, this.sortOrder)
 		  .subscribe((data:any) => {
 			  if (data && data.page) 
 			    this.totalRecords = this.nbrStocksFound = data.page.totalElements;

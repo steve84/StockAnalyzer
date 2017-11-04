@@ -74,6 +74,16 @@ export class ScorecombinerComponent implements OnInit {
   ngOnInit() {
   }
   
+  showStock(score: Score) {
+    this.selectedScore = score;
+    this.stockService.getStockEmitter().emit(this.selectedScore.stock);
+  }
+  
+  showIndex(score: Score) {
+    this.selectedScore = score;
+    this.indexService.getIndexEmitter().emit(this.selectedScore.index);
+  }
+  
   getScoreValues() {
     let fromMarketCap: number = null;
     let toMarketCap: number = null;

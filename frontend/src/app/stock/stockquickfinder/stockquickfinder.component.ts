@@ -21,10 +21,12 @@ export class StockquickfinderComponent implements OnInit {
   }
 	
 	search(event) {
-	  this.stockService.findByIsinOrName(event.query)
-		  .subscribe((data:any) => {
-			  this.suggestedStocks = data._embedded.stock;
-			});
+    if (event.query && event.query != "") {
+      this.stockService.findByIsinOrName(event.query)
+        .subscribe((data:any) => {
+          this.suggestedStocks = data._embedded.stock;
+        });
+    }
 	}
 	
 	selectStock(stock: Stock) {

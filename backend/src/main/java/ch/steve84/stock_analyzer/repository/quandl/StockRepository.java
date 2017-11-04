@@ -16,12 +16,20 @@ import ch.steve84.stock_analyzer.entity.quandl.Stock;
 @RepositoryRestResource(collectionResourceRel = "stock", path = "stocks")
 public interface StockRepository extends ReadOnlyRepository<Stock, Integer> {
 	@PreAuthorize("hasAuthority('GPU')")
-	@Query("select s from Stock s left join s.scores sc left join sc.scoreType t where (sc is null or t.name = :name) and s.publicStock = TRUE")
-	Page<Stock> findByScoreTypeGPU(@Param("name") String name, Pageable pageable);
+	@Query("select s from Stock s left join s.scores sc left join sc.scoreType t where (sc is null or t.name = :name) and s.publicStock = TRUE order by sc.scoreValue nulls last")
+	Page<Stock> findByScoreTypeGPUAsc(@Param("name") String name, Pageable pageable);
+
+	@PreAuthorize("hasAuthority('GPU')")
+	@Query("select s from Stock s left join s.scores sc left join sc.scoreType t where (sc is null or t.name = :name) and s.publicStock = TRUE order by sc.scoreValue desc nulls last")
+	Page<Stock> findByScoreTypeGPUDesc(@Param("name") String name, Pageable pageable);
 
 	@PreAuthorize("hasAnyAuthority('Admin', 'Abo')")
-	@Query("select s from Stock s left join s.scores sc left join sc.scoreType t where sc is null or t.name = :name")
-	Page<Stock> findByScoreType(@Param("name") String name, Pageable pageable);
+	@Query("select s from Stock s left join s.scores sc left join sc.scoreType t where sc is null or t.name = :name order by sc.scoreValue nulls last")
+	Page<Stock> findByScoreTypeAsc(@Param("name") String name, Pageable pageable);
+
+	@PreAuthorize("hasAnyAuthority('Admin', 'Abo')")
+	@Query("select s from Stock s left join s.scores sc left join sc.scoreType t where sc is null or t.name = :name order by sc.scoreValue desc nulls last")
+	Page<Stock> findByScoreTypeDesc(@Param("name") String name, Pageable pageable);
 	
 	@PreAuthorize("hasAuthority('GPU')")
 	@Query("select s from Stock s where (upper(s.name) like concat('%', upper(:name), '%') or upper(s.isin) like concat('%', upper(:isin), '%')) and s.publicStock = TRUE")
@@ -36,15 +44,16 @@ public interface StockRepository extends ReadOnlyRepository<Stock, Integer> {
 	@Query("select distinct s.branch from Stock s")
 	List<Branch> getAllBranches();
 	
-	@Query("select distinct s from Stock s "
-			+ "left join s.indices i where"
+	@Query("select s from Stock s where s.stockId in "
+			+ "(select distinct s.stockId from Stock s "
+			+ "left join s.indices i where "
 			+ "(upper(s.name) like %:name% or :name is null) and "
 			+ "(upper(s.isin) like %:isin% or :isin is null) and "
 			+ "(upper(s.nsin) like %:nsin% or :nsin is null) and "
 			+ "(upper(s.wkn) like %:wkn% or :wkn is null) and "
 			+ "(s.country.countryId in :countryIds or :countryIds is null) and "
 			+ "(s.branch.branchId in :branchIds or :branchIds is null) and "
-			+ "(i.indexId in :indexIds or :indexIds is null)")
+			+ "(i.indexId in :indexIds or :indexIds is null))")
 	Page<Stock> searchStocks(@Param("name") String name,
 							 @Param("isin") String isin,
 							 @Param("nsin") String nsin,
@@ -54,7 +63,8 @@ public interface StockRepository extends ReadOnlyRepository<Stock, Integer> {
 							 @Param("indexIds") List<Integer> indexIds,
 							 Pageable pageable);
 
-	@Query("select distinct s from Stock s "
+	@Query("select s from Stock s where s.stockId in "
+			+ "(select distinct s.stockId from Stock s "
 			+ "left join s.indices i where"
 			+ "(upper(s.name) like %:name% or :name is null) and "
 			+ "(upper(s.isin) like %:isin% or :isin is null) and "
@@ -63,7 +73,7 @@ public interface StockRepository extends ReadOnlyRepository<Stock, Integer> {
 			+ "(s.country.countryId in :countryIds or :countryIds is null) and "
 			+ "(s.branch.branchId in :branchIds or :branchIds is null) and "
 			+ "(i.indexId in :indexIds or :indexIds is null) and "
-			+ "s.publicStock = TRUE")
+			+ "s.publicStock = TRUE)")
 	Page<Stock> searchStocksGPU(@Param("name") String name,
 							 @Param("isin") String isin,
 							 @Param("nsin") String nsin,

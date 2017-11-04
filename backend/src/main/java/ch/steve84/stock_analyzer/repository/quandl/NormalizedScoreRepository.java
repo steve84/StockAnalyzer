@@ -11,13 +11,14 @@ import ch.steve84.stock_analyzer.entity.quandl.NormalizedScore;
 
 @RepositoryRestResource(collectionResourceRel = "normalizedscore", path = "normalizedscores")
 public interface NormalizedScoreRepository extends ReadOnlyRepository<NormalizedScore, Integer> {
-    @Query("select new ch.steve84.stock_analyzer.entity.quandl.NormalizedScore(max(ns.scoreId), ns.stock, sum(case when ns.scoreType.scoreTypeId = 1 then (ns.scoreValue * :levermannFactor) when ns.scoreType.scoreTypeId = 2 then (ns.scoreValue * :magicFormulaFactor) else (ns.scoreValue * :piotroskiFactor) end)) "
+    @Query("select new ch.steve84.stock_analyzer.entity.quandl.NormalizedScore(max(ns.scoreId), ns.stock, sum(case when ns.scoreType.scoreTypeId = 1 then (ns.scoreValue * :levermannFactor) when ns.scoreType.scoreTypeId = 2 then (ns.scoreValue * :magicFormulaFactor) else (ns.scoreValue * :piotroskiFactor) end) as score) "
          + "from NormalizedScore ns, MarketCapitalization mc "
          + "where ns.stock.stockId = mc.stockId and "
          + "ns.stock.country.countryId not in :excludeCountryIds and "
          + "ns.stock.branch.branchId not in :excludeBranchIds and "
          + "(:fromMarketCap is null or (mc.marketCapitalization * 1000) >= :fromMarketCap) and (:toMarketCap is null or (mc.marketCapitalization * 1000) < :toMarketCap) "
-         + "group by ns.stock.stockId")
+         + "group by ns.stock.stockId "
+         + "order by score desc")
     List<NormalizedScore> getNormalizedScoresOfStocks(@Param("levermannFactor") Double levermannFactor,
                                                       @Param("magicFormulaFactor") Double magicFormulaFactor,
                                                       @Param("piotroskiFactor") Double piotroskiFactor,
@@ -27,14 +28,15 @@ public interface NormalizedScoreRepository extends ReadOnlyRepository<Normalized
                                                       @Param("toMarketCap") Double toMarketCap,
                                                       Pageable pageable);
 
-    @Query("select new ch.steve84.stock_analyzer.entity.quandl.NormalizedScore(max(ns.scoreId), ns.stock, sum(case when ns.scoreType.scoreTypeId = 1 then (ns.scoreValue * :levermannFactor) when ns.scoreType.scoreTypeId = 2 then (ns.scoreValue * :magicFormulaFactor) else (ns.scoreValue * :piotroskiFactor) end)) "
+    @Query("select new ch.steve84.stock_analyzer.entity.quandl.NormalizedScore(max(ns.scoreId), ns.stock, sum(case when ns.scoreType.scoreTypeId = 1 then (ns.scoreValue * :levermannFactor) when ns.scoreType.scoreTypeId = 2 then (ns.scoreValue * :magicFormulaFactor) else (ns.scoreValue * :piotroskiFactor) end) as score) "
             + "from NormalizedScore ns, MarketCapitalization mc "
             + "where ns.stock.stockId = mc.stockId and "
             + "ns.stock.country.countryId not in :excludeCountryIds and "
             + "ns.stock.branch.branchId not in :excludeBranchIds and "
             + "ns.stock.publicStock = TRUE and "
             + "(:fromMarketCap is null or (mc.marketCapitalization * 1000) >= :fromMarketCap) and (:toMarketCap is null or (mc.marketCapitalization * 1000) < :toMarketCap) "
-            + "group by ns.stock.stockId")
+            + "group by ns.stock.stockId "
+            + "order by score desc")
        List<NormalizedScore> getNormalizedScoresOfStocksGPU(@Param("levermannFactor") Double levermannFactor,
                                                          	@Param("magicFormulaFactor") Double magicFormulaFactor,
                                                          	@Param("piotroskiFactor") Double piotroskiFactor,
@@ -44,21 +46,23 @@ public interface NormalizedScoreRepository extends ReadOnlyRepository<Normalized
                                                          	@Param("toMarketCap") Double toMarketCap,
                                                          	Pageable pageable);
 
-    @Query("select new ch.steve84.stock_analyzer.entity.quandl.NormalizedScore(max(ns.scoreId), ns.index, sum(case when ns.scoreType.scoreTypeId = 1 then (ns.scoreValue * :levermannFactor) when ns.scoreType.scoreTypeId = 2 then (ns.scoreValue * :magicFormulaFactor) else (ns.scoreValue * :piotroskiFactor) end)) "
+    @Query("select new ch.steve84.stock_analyzer.entity.quandl.NormalizedScore(max(ns.scoreId), ns.index, sum(case when ns.scoreType.scoreTypeId = 1 then (ns.scoreValue * :levermannFactor) when ns.scoreType.scoreTypeId = 2 then (ns.scoreValue * :magicFormulaFactor) else (ns.scoreValue * :piotroskiFactor) end) as score) "
          + "from NormalizedScore ns "
          + "where ns.index.country.countryId not in :excludeCountryIds "
-         + "group by ns.index.indexId")
+         + "group by ns.index.indexId "
+         + "order by score desc")
     List<NormalizedScore> getNormalizedScoresOfIndices(@Param("levermannFactor") Double levermannFactor,
                                                        @Param("magicFormulaFactor") Double magicFormulaFactor,
                                                        @Param("piotroskiFactor") Double piotroskiFactor,
                                                        @Param("excludeCountryIds") List<Integer> countryIds,
                                                        Pageable pageable);
 
-    @Query("select new ch.steve84.stock_analyzer.entity.quandl.NormalizedScore(max(ns.scoreId), ns.index, sum(case when ns.scoreType.scoreTypeId = 1 then (ns.scoreValue * :levermannFactor) when ns.scoreType.scoreTypeId = 2 then (ns.scoreValue * :magicFormulaFactor) else (ns.scoreValue * :piotroskiFactor) end)) "
+    @Query("select new ch.steve84.stock_analyzer.entity.quandl.NormalizedScore(max(ns.scoreId), ns.index, sum(case when ns.scoreType.scoreTypeId = 1 then (ns.scoreValue * :levermannFactor) when ns.scoreType.scoreTypeId = 2 then (ns.scoreValue * :magicFormulaFactor) else (ns.scoreValue * :piotroskiFactor) end) as score) "
             + "from NormalizedScore ns "
             + "where ns.index.country.countryId not in :excludeCountryIds and "
             + "ns.index.publicIndex = TRUE "
-            + "group by ns.index.indexId")
+            + "group by ns.index.indexId "
+            + "order by score desc")
        List<NormalizedScore> getNormalizedScoresOfIndicesGPU(@Param("levermannFactor") Double levermannFactor,
                                                           	 @Param("magicFormulaFactor") Double magicFormulaFactor,
                                                           	 @Param("piotroskiFactor") Double piotroskiFactor,

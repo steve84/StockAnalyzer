@@ -1,4 +1,4 @@
-<p-dialog appDialogsize [header]="title" [(visible)]="display" (onHide)="closeDisplay()">
+<p-dialog appDialogsize [header]="title" [(visible)]="display" (onHide)="closeDisplay()" width="1200">
   <p-tabView>
     <p-tabPanel i18n-header="@@index.detail.tab.overview.header" header="Overview">
       <p-dataTable [value]="stocks" selectionMode="single">

@@ -16,10 +16,18 @@ import ch.steve84.stock_analyzer.enums.Roles;
 @RepositoryRestResource(collectionResourceRel = "index", path = "indices")
 public interface IndexRepository extends ReadOnlyRepository<Index, Integer> {
 	@PreAuthorize("hasAuthority('GPU')")
-	@Query("select i from Index i left join i.scores s left join s.scoreType t where (s is null or t.name = :name) and i.publicIndex = TRUE")
-	Page<Index> findByScoreTypeGPU(@Param("name") String name, Pageable pageable);
+	@Query("select i from Index i left join i.scores s left join s.scoreType t where (s is null or t.name = :name) and i.publicIndex = TRUE order by s.scoreValue nulls last")
+	Page<Index> findByScoreTypeGPUAsc(@Param("name") String name, Pageable pageable);
+
+	@PreAuthorize("hasAuthority('GPU')")
+	@Query("select i from Index i left join i.scores s left join s.scoreType t where (s is null or t.name = :name) and i.publicIndex = TRUE order by s.scoreValue desc nulls last")
+	Page<Index> findByScoreTypeGPUDesc(@Param("name") String name, Pageable pageable);
+	
+	@PreAuthorize("hasAnyAuthority('Admin', 'Abo')")
+	@Query("select i from Index i left join i.scores s left join s.scoreType t where s is null or t.name = :name order by s.scoreValue nulls last")
+	Page<Index> findByScoreTypeAsc(@Param("name") String name, Pageable pageable);
 
 	@PreAuthorize("hasAnyAuthority('Admin', 'Abo')")
-	@Query("select i from Index i left join i.scores s left join s.scoreType t where s is null or t.name = :name")
-	Page<Index> findByScoreType(@Param("name") String name, Pageable pageable);
+	@Query("select i from Index i left join i.scores s left join s.scoreType t where s is null or t.name = :name order by s.scoreValue desc nulls last")
+	Page<Index> findByScoreTypeDesc(@Param("name") String name, Pageable pageable);
 }
