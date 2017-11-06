@@ -21,7 +21,7 @@ Install git, docker and docker-compose
 1. git clone https://github.com/steve84/StockAnalyzer.git
 2. cd StockAnalyzer
 3. sudo docker run -it --rm --name my-maven-project -v "$PWD"/backend:/usr/src/mymaven -w /usr/src/mymaven maven:3.5-jdk-8-alpine mvn clean package
-4. sudo docker run -it --rm --name my-running-script -v "$PWD"/frontend:/usr/src/app -w /usr/src/app node:6-alpine sh -c 'npm install; npm run build; chmod +r -R dist'
+4. sudo docker run -it --rm --name my-running-script -v "$PWD"/frontend:/usr/src/app -w /usr/src/app node:6-alpine sh -c 'npm install; ng build --prod --aot --locale=de --i18-file=src/locale/messages.de.xlf --i18n-format=xlf; chmod +r -R dist'
 5. (sudo docker-compose rm)
 6. sudo docker-compose up --build
 7. sudo docker-compose exec db psql -h localhost -p 5432 -U postgres -d postgres -f /usr/src/scripts/db_schema_quandl.sql

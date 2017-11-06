@@ -9,13 +9,15 @@ import { Stock } from './stock';
 
 import { UserService } from '../user.service';
 
+import { environment } from '../../environments/environment';
+
 @Injectable()
 export class StockService {
   private stockEmitter: EventEmitter<Stock> = new EventEmitter<Stock>();
   constructor(private http: AuthHttp, private userService: UserService) { }
 
   getStocks(page: number, size: number, sortField?: string, sortOrder?: number) {
-    let url = "http://localhost:8080/stocks";
+    let url = "http://" + environment.apiUrl + "/stocks";
     let params = new URLSearchParams();
     params.set("page", page.toString());
     params.set("size", size.toString());
@@ -49,7 +51,7 @@ export class StockService {
   }
 
   getStockById(id: number) {
-    let url = "http://localhost:8080/stocks/" + id;
+    let url = "http://" + environment.apiUrl + "/stocks/" + id;
     return this.http.get(url)
       .map(this.extractData);
   }
@@ -60,7 +62,7 @@ export class StockService {
   }
   
   getStockFromNormalizedValue(normalizedScoreId: number) {
-    let url = "http://localhost:8080/normalizedscores/" + normalizedScoreId + "/stock";
+    let url = "http://" + environment.apiUrl + "/normalizedscores/" + normalizedScoreId + "/stock";
     
     return this.http.get(url)
       .map(this.extractData);
@@ -73,7 +75,7 @@ export class StockService {
 		params.set("size", size.toString());
 		params.set("page", "0");
     
-    let url = "http://localhost:8080/stocks/search/findByIsinOrName";
+    let url = "http://" + environment.apiUrl + "/stocks/search/findByIsinOrName";
     if (this.userService.getRoles().toLowerCase().indexOf('gpu') > -1)
       url += "GPU";
 		
@@ -82,14 +84,14 @@ export class StockService {
 	}
 	
 	getAllCountries() {
-	  let url = "http://localhost:8080/stocks/search/getAllCountries";
+	  let url = "http://" + environment.apiUrl + "/stocks/search/getAllCountries";
 
     return this.http.get(url)
       .map(this.extractData);
 	}
 	
 	getAllBranches() {
-	  let url = "http://localhost:8080/stocks/search/getAllBranches";
+	  let url = "http://" + environment.apiUrl + "/stocks/search/getAllBranches";
 
     return this.http.get(url)
       .map(this.extractData);
@@ -106,7 +108,7 @@ export class StockService {
 							 size?: number,
 							 sortField?: string,
 							 sortOrder?: number) {
-	let url = "http://localhost:8080/stocks/search/searchStocks";
+	let url = "http://" + environment.apiUrl + "/stocks/search/searchStocks";
   
   if (this.userService.getRoles().toLowerCase().indexOf('gpu') > -1)
     url += "GPU";
@@ -157,7 +159,7 @@ export class StockService {
 	}
   
   getNormalizedScores(levermannFactor: number, magicFormulaFactor: number, piotroskiFactor, excludedCountries: number[], excludedBranches: number[], fromMarketCap: number, toMarketCap: number, size: number = 10) {
-    let url = "http://localhost:8080/normalizedscores/search/getNormalizedScoresOfStocks";
+    let url = "http://" + environment.apiUrl + "/normalizedscores/search/getNormalizedScoresOfStocks";
     if (this.userService.getRoles().toLowerCase().indexOf('gpu') > -1)
       url += "GPU";
     

@@ -9,13 +9,15 @@ import { UserService } from '../user.service';
 
 import 'rxjs/add/operator/map';
 
+import { environment } from '../../environments/environment';
+
 @Injectable()
 export class IndexService {
   private indexEmitter: EventEmitter<IndexType> = new EventEmitter<IndexType>();
   constructor(private http: AuthHttp, private userService: UserService) { }
 
   getIndices(page: number, size: number, sortField?: string, sortOrder?: number) {
-    let url = "http://localhost:8080/indices";
+    let url = "http://" + environment.apiUrl + "/indices";
     let params = new URLSearchParams();
     params.set("page", page.toString());
     params.set("size", size.toString());
@@ -47,7 +49,7 @@ export class IndexService {
   }
 
   getIndexById(id: number) {
-    let url = "http://localhost:8080/indices/" + id;
+    let url = "http://" + environment.apiUrl + "/indices/" + id;
 
     return this.http.get(url)
       .map(this.extractData);
@@ -59,21 +61,21 @@ export class IndexService {
   }
 
   getIndexFromNormalizedValue(normalizedScoreId: number) {
-    let url = "http://localhost:8080/normalizedscores/" + normalizedScoreId + "/index";
+    let url = "http://" + environment.apiUrl + "/normalizedscores/" + normalizedScoreId + "/index";
     
     return this.http.get(url)
       .map(this.extractData);
   }
 	
 	getAllIndices() {
-	  let url = "http://localhost:8080/indices";
+	  let url = "http://" + environment.apiUrl + "/indices";
 
     return this.http.get(url)
       .map(this.extractData);
 	}
 
   getNormalizedScores(levermannFactor: number, magicFormulaFactor: number, piotroskiFactor, excludedCountries: number[], size: number = 10) {
-    let url = "http://localhost:8080/normalizedscores/search/getNormalizedScoresOfIndices";
+    let url = "http://" + environment.apiUrl + "/normalizedscores/search/getNormalizedScoresOfIndices";
     if (this.userService.getRoles().toLowerCase().indexOf('gpu') > -1)
       url += "GPU";
     

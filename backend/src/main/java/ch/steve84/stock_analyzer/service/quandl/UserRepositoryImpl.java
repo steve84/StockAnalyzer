@@ -1,7 +1,9 @@
 package ch.steve84.stock_analyzer.service.quandl;
 
 import java.net.URI;
+import java.nio.charset.Charset;
 import java.util.Calendar;
+import java.util.Random;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
@@ -31,12 +33,13 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
 
     private RestOperations restOperations;
     @Autowired private UserRepository userRepository;
+    @Autowired private MailService mailService;
 
     @Override
     public User register(User user) {
         user.setRole(Roles.GPU.getRole());
         user.setCreatedAt(Calendar.getInstance());
-        user.setToken("123456");
+        user.setToken(generateRandomString());
         user.setIsActivated(false);
         return this.userRepository.save(user);
     }
@@ -69,6 +72,12 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
             return this.userRepository.save(user);
         }
         return null;
+    }
+    
+    private static String generateRandomString() {
+        byte[] array = new byte[20];
+        new Random().nextBytes(array);
+        return new String(array, Charset.forName("UTF-8"));
     }
 
 }
