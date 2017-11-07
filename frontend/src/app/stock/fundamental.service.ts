@@ -5,7 +5,7 @@ import { AuthHttp } from 'angular2-jwt';
 
 import 'rxjs/add/operator/map';
 
-import { environment } from './../environments/environment';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class FundamentalService {

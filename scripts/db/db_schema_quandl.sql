@@ -440,6 +440,7 @@ CREATE TABLE tuser (
     user_id integer DEFAULT nextval('user_seq'::regclass) NOT NULL,
     username character varying NOT NULL,
     password character varying NOT NULL,
+    salt character varying,
     token character varying,
     is_activated boolean default false,
     role_id integer,

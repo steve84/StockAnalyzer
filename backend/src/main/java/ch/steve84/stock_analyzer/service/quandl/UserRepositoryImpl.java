@@ -1,15 +1,20 @@
 package ch.steve84.stock_analyzer.service.quandl;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.nio.charset.Charset;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Base64;
+import java.util.Base64.Encoder;
 import java.util.Calendar;
-import java.util.Random;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.apache.commons.text.CharacterPredicates;
+import org.apache.commons.text.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.client.RestOperations;
@@ -34,14 +39,23 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
     private RestOperations restOperations;
     @Autowired private UserRepository userRepository;
     @Autowired private MailService mailService;
+    @Autowired private SecurityService securityService;
 
     @Override
     public User register(User user) {
         user.setRole(Roles.GPU.getRole());
         user.setCreatedAt(Calendar.getInstance());
-        user.setToken(generateRandomString());
+        user.setToken(securityService.generateRandomString(20));
+        user.setSalt(securityService.generateRandomString(32));
         user.setIsActivated(false);
-        return this.userRepository.save(user);
+        String password = securityService.hashAndSalt(user.getPassword(), user.getSalt());
+		if (password == null)
+			return null;
+		else
+			user.setPassword(password);
+		User createdUser = this.userRepository.save(user);
+		//mailService.sendConfirmationMail(createdUser);
+        return createdUser;
     }
 
     @Override
@@ -73,13 +87,6 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
         }
         return null;
     }
-    
-    private static String generateRandomString() {
-        byte[] array = new byte[20];
-        new Random().nextBytes(array);
-        return new String(array, Charset.forName("UTF-8"));
-    }
-
 }
 
 @JsonInclude(JsonInclude.Include.NON_NULL)

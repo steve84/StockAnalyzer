@@ -23,7 +23,7 @@ public class UserController {
         return this.userRepository.register(user);
     }
 
-    @RequestMapping(value = "/confirm/{userId}/{userHash}", method = RequestMethod.POST)
+    @RequestMapping(value = "/confirm/{userId}/{userHash}", method = RequestMethod.GET)
     public User confirm(@PathVariable("userId") Integer userId, @PathVariable("userHash") String userHash) {
         return this.userRepository.confirm(userId, userHash);
     }

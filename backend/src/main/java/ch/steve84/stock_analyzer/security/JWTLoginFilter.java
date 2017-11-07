@@ -1,7 +1,6 @@
 package ch.steve84.stock_analyzer.security;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;

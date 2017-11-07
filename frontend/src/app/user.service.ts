@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, URLSearchParams } from '@angular/http';
 
-import {  JwtHelper } from 'angular2-jwt';
+import { JwtHelper } from 'angular2-jwt';
 
 import 'rxjs/add/operator/map';
 
@@ -21,18 +21,18 @@ export class UserService {
     let body = {'username': username, 'password': password};
     let headers = new Headers({'Content-Type': 'application/json'});
 
-    return this.http.post("http://" + environment.apiUrl + "/login", JSON.stringify(body), {headers: headers});
+    return this.http.post(environment.apiUrl + "/login", JSON.stringify(body), {headers: headers});
   }
   
   validateCaptcha(token: string) {
     let params = new URLSearchParams();
     params.set("token", token);
-    return this.http.get("http://" + environment.apiUrl + "/user/validateCaptcha", {search: params});  
+    return this.http.get(environment.apiUrl + "/user/validateCaptcha", {search: params});  
   }
   
   register(body: string) {
     let headers = new Headers({'Content-Type': 'application/json'});
-    return this.http.post("http://" + environment.apiUrl + "/user/register", JSON.stringify(body), {headers: headers});
+    return this.http.post(environment.apiUrl + "/user/register", JSON.stringify(body), {headers: headers});
   }
   
   logout() {

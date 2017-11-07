@@ -26,6 +26,7 @@ public class User {
 	private Integer userId;
 	private String username;
 	private String password;
+	private String salt;
 	private String token;
 	@Column(name = "is_activated")
 	private Boolean isActivated;
@@ -51,6 +52,14 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getSalt() {
+		return salt;
+	}
+
+	public void setSalt(String salt) {
+		this.salt = salt;
 	}
 
 	public String getToken() {

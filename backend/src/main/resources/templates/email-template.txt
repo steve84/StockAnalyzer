@@ -1,13 +1,11 @@
-    <html>
-     
-    <head></head>
-     
-    <body>
-        <p>Dear ${user.firstName} ${lastName},</p>
-        <p>Sending Email using Spring 4 with <b>FreeMarker template !!!</b></p>
-        <p>Thanks</p>
-        <p>${signature}</p>
-        <p>${location}</p>
-    </body>
-     
-    </html>
+<html>
+ 
+<head></head>
+ 
+<body>
+    <p>Dear ${user.username},</p>
+    <p>Please activate your account <a href="http://localhost:8080/user/confirm/${user.userId}/${user.token}">here</a></p>
+    <p>Thanks</p>
+</body>
+ 
+</html>
