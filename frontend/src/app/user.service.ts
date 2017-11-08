@@ -38,7 +38,7 @@ export class UserService {
   confirm(userId: number, token: string, password: string) {
       let body = {'password': password};
       let headers = new Headers({'Content-Type': 'application/json'});
-      return this.http.post(environment.apiUrl + "/user/confirm/" + userId.toString() + "/" + token, JSON.stringify(body), {headers: headers}););
+      return this.http.post(environment.apiUrl + "/user/confirm/" + userId.toString() + "/" + token, password);
   }
   
   logout() {

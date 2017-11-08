@@ -21,6 +21,7 @@ export class BalancesheetComponent implements OnInit, OnChanges {
   
   ngOnChanges(changes: SimpleChanges) {
     if (changes.balance && changes.balance.currentValue) {
+      this.years = [];
       for (let b of changes.balance.currentValue) {
         let year = b.modifiedAt.split('-')[0];
         this.years.push({label: year, value: year});

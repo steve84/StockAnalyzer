@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class HelperService {
-
   constructor() { }
 
   createPieChartData(data: any[], groupBy: string, value: string, percentage: boolean = true, count?: boolean) {
@@ -105,7 +104,7 @@ export class HelperService {
     }
     if (sumOfData > 0) {
       for (let data of dataArr) {
-        percentageArr.push((data / sumOfData) * 100);
+        percentageArr.push(Math.round((data / sumOfData) * 10000) / 100);
       }
     }
     return percentageArr;

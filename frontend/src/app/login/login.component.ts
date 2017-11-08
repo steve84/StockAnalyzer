@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { Message } from 'primeng/primeng';
+
 import { UserService } from '../user.service';
 
 @Component({
@@ -12,7 +14,7 @@ export class LoginComponent implements OnInit {
   title: string = 'Login';
   username: string;
   password: string;
-
+  msgs: Message[] = [];
   constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit() {
@@ -26,6 +28,6 @@ export class LoginComponent implements OnInit {
           this.userService.decodeToken();
           this.router.navigate(['/']);
         }
-      });
+      }, (err:any) => this.msgs = [{severity: 'error', summary: 'Error', detail: 'Username or password not correct'}]);
   }
 }

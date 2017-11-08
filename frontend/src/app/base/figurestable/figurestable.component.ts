@@ -10,6 +10,7 @@ export class FigurestableComponent implements OnInit, OnChanges {
   @Input('data') data: any[];
   @Input('fields') fields: any[];
   @Input('labels') labels: any;
+  @Input('currency') currency: string = 'USD';
   @Output() onRowSelect: EventEmitter<any> = new EventEmitter<any>();
   @Output() onRowUnselect: EventEmitter<any> = new EventEmitter<any>();
   constructor() { }

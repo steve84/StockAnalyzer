@@ -5,6 +5,7 @@ import { HelperService } from '../../helper.service';
 import { IndexService } from '../index.service';
 
 import { IndexType } from '../indextype';
+import { Stock } from '../stock';
 
 @Component({
   selector: 'app-indexdetail',
@@ -16,8 +17,11 @@ export class IndexdetailComponent implements OnInit, OnChanges {
   @Input('index') index: IndexType;
   @Output('close') close: EventEmitter<boolean> = new EventEmitter<boolean>();
   title: string;
-	totalMarketCap: number = 0;
-  stocks: any[] = [];
+  totalMarketCap: number = 0;
+  stocks: Stock[] = [];
+  allStocks: Stock[] = [];
+  totalRecords: number = 0;
+  pageSize: number = 10;
   chartData: any;
 
   constructor(private indexService: IndexService, private helperService: HelperService) {}
@@ -26,23 +30,44 @@ export class IndexdetailComponent implements OnInit, OnChanges {
     this.indexService.getIndexEmitter()
       .subscribe((data:IndexType) => {
         this.index = data;
-        this.stocks = data.realStocks;
+        this.allStocks = data.realStocks;
+        this.totalRecords = this.allStocks.length;
+        this.stocks = this.allStocks.slice(0, this.pageSize);
         this.title = data.name;
         this.setTotalMarketCap();
-        this.chartData = this.helperService.createPieChartData(this.stocks, 'country.name', null, true, true);
+        this.chartData = this.helperService.createPieChartData(this.allStocks, 'country.name', null, true, true);
         this.display = true;
       });
   }
 
   ngOnChanges(changes: SimpleChanges) {
   }
+  
+  loadData(event: any) {
+    if (event.sortField && event.sortOrder) {
+      this.allStocks.sort(function(a, b) {
+        let valueA = a;
+        let valueB = b;
+        let parts = event.sortField.split('.');
+        for (let i=0; i < parts.length; i++) {
+          valueA = valueA[parts[i]];
+          valueB = valueB[parts[i]];
+        }
+        if (valueA > valueB)
+          return 1 * event.sortOrder;
+        else
+          return -1 * event.sortOrder;
+      });
+    }
+    this.stocks = this.allStocks.slice(event.first, (event.first + event.rows));
+  }
 	
-	setTotalMarketCap() {
-		for(let stock of this.index.realStocks) {
-			if (stock.levermann && stock.levermann.marketCapitalization)
-			  this.totalMarketCap += stock.levermann.marketCapitalization;
-		}
-	}
+  setTotalMarketCap() {
+    for(let stock of this.index.realStocks) {
+	  if (stock.levermann && stock.levermann.marketCapitalization)
+        this.totalMarketCap += stock.levermann.marketCapitalization;
+    }
+  }
 
   getIndexName() {
     if (this.index)

@@ -19,14 +19,14 @@ export class ConfirmComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap
-      .switchMap((params: ParamMap) => {
-          this.userId = params.get('userId');
+      .subscribe((params: ParamMap) => {
+          this.userId = +params.get('userid');
           this.token = params.get('token');
       });
   }
   
   confirm() {
-    this.userService.confirm(this.userId, this.token)
+    this.userService.confirm(this.userId, this.token, this.password)
       .subscribe((data:any) => this.msgs = [{severity: 'info', summary: 'Success', detail: 'Account confirmed successfully'}],
       (err:any) => this.msgs = [{severity: 'error', summary: 'Error', detail: 'Cannot confirm account'}]);
   }

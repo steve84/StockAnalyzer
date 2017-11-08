@@ -1,11 +1,11 @@
 <p-dialog appDialogsize [header]="title" [(visible)]="display" (onHide)="closeDisplay()" width="1200">
   <p-tabView>
     <p-tabPanel i18n-header="@@index.detail.tab.overview.header" header="Overview">
-      <p-dataTable [value]="stocks" selectionMode="single">
-        <p-column field="isin" header="ISIN"></p-column>
-        <p-column field="name" header="Name"></p-column>
-        <p-column field="country.name" header="Land"></p-column>
-        <p-column field="branch.name" header="Branche"></p-column>
+      <p-dataTable [value]="stocks" selectionMode="single" lazy="true" [paginator]="true" [rows]="pageSize" [rowsPerPageOptions]="[10,20,30]" [totalRecords]="totalRecords" (onLazyLoad)="loadData($event)" resizableColumns="true">
+        <p-column field="isin" header="ISIN" [sortable]="true"></p-column>
+        <p-column field="name" header="Name" [sortable]="true"></p-column>
+        <p-column field="country.name" header="Land" [sortable]="true"></p-column>
+        <p-column field="branch.name" header="Branche" [sortable]="true"></p-column>
         <p-column field="levermann.marketCapitalization" header="Unternehmensgrösse">
           <ng-template let-col let-stock="rowData" pTemplate="body">
             {{stock['stockCategory']}}
