@@ -7,6 +7,7 @@ import { UserRegistrationComponent } from './userregistration/userregistration.c
 import { ImpressumComponent } from './content/impressum/impressum.component';
 import { FrontpageComponent } from './content/frontpage/frontpage.component';
 import { ContactComponent } from './content/contact/contact.component';
+import { ConfirmComponent } from './confirm/confirm.component';
 
 export const appRoutes: Routes = [
   { path: 'login', component: LoginComponent},
@@ -14,6 +15,7 @@ export const appRoutes: Routes = [
   { path: 'frontpage', component: FrontpageComponent},
   { path: 'impressum', component: ImpressumComponent},
   { path: 'contact', component: ContactComponent},
+  { path: 'confirm/:userid/:token', component: ConfirmComponent},
   { path: 'stocks', loadChildren: 'app/stock/stock.module#StockModule', canActivate: [AuthGuard] },
   { path: '', redirectTo: '/frontpage', pathMatch: 'full' }
 ];

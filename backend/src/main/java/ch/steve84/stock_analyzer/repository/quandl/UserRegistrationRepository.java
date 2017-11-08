@@ -6,7 +6,7 @@ public interface UserRegistrationRepository {
     
     User findByUsername(String username);
     User register(User user);
-    User confirm(Integer userId, String hash);
+    User confirm(Integer userId, String hash, String password);
     boolean validateCaptcha(String token);
 
 }

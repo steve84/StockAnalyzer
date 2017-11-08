@@ -10,6 +10,6 @@ import ch.steve84.stock_analyzer.entity.quandl.User;
 public interface UserRepository extends CrudRepository<User, Integer> {
 	User findByUsername(@Param("username") String username);
 	User register(User user);
-	User confirm(Integer userId, String hash);
+	User confirm(Integer userId, String hash, String password);
 	boolean validateCaptcha(String token);
 }

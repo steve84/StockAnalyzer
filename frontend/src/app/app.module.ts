@@ -26,6 +26,7 @@ import { ImpressumComponent } from './content/impressum/impressum.component';
 import { FrontpageComponent } from './content/frontpage/frontpage.component';
 import { ContactComponent } from './content/contact/contact.component';
 import { FooterbarComponent } from './footerbar/footerbar.component';
+import { ConfirmComponent } from './confirm/confirm.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { FooterbarComponent } from './footerbar/footerbar.component';
     ImpressumComponent,
     FrontpageComponent,
     ContactComponent,
-    FooterbarComponent
+    FooterbarComponent,
+    ConfirmComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

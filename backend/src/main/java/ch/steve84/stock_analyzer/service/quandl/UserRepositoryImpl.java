@@ -77,9 +77,9 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
     }
 
     @Override
-    public User confirm(Integer userId, String hash) {
+    public User confirm(Integer userId, String hash, String password) {
         User user = this.userRepository.findOne(userId);
-        if (user != null && user.getToken() != null && user.getToken().equals(hash)) {
+        if (user != null && user.getToken() != null && user.getToken().equals(hash) && user.getPassword().equals(securityService.hashAndSalt(password, user.getSalt()))) {
             user.setIsActivated(true);
             user.setActivatedAt(Calendar.getInstance());
             user.setToken(null);

@@ -23,9 +23,9 @@ public class UserController {
         return this.userRepository.register(user);
     }
 
-    @RequestMapping(value = "/confirm/{userId}/{userHash}", method = RequestMethod.GET)
-    public User confirm(@PathVariable("userId") Integer userId, @PathVariable("userHash") String userHash) {
-        return this.userRepository.confirm(userId, userHash);
+    @RequestMapping(value = "/confirm/{userId}/{userHash}", method = RequestMethod.POST)
+    public User confirm(@PathVariable("userId") Integer userId, @PathVariable("userHash") String userHash, @RequestBody String password) {
+        return this.userRepository.confirm(userId, userHash, password);
     }
     
     @RequestMapping(value = "/captcha", method = RequestMethod.POST)
