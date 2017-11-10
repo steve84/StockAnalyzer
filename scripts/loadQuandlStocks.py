@@ -26,7 +26,7 @@ db_name = parser.parse_args().db_name
 db_host = parser.parse_args().db_host
 quandl_key = parser.parse_args().quandl_key
 
-conn = psycopg2.connect("dbname=%s user=%s host=%s" % (db_name, db_user, db_host))
+conn = psycopg2.connect("dbname=%s user=%s host=%s password=%s" % (db_name, db_user, db_host, db_pwd))
 
 totalHits = -1
 page = 1

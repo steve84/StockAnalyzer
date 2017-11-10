@@ -35,7 +35,7 @@ LEVERMANN_SCORE_TYPE_ID = 1
 MAGIC_FORMULA_SCORE_TYPE_ID = 2
 PIOTROSKI_F_SCORE = 3
 
-conn = psycopg2.connect("dbname=%s user=%s host=%s" % (db_name, db_user, db_host))
+conn = psycopg2.connect("dbname=%s user=%s host=%s password=%s" % (db_name, db_user, db_host, db_pwd))
 
 if doStocks:
     if doLevermann:

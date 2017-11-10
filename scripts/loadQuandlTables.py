@@ -29,7 +29,7 @@ quandlTables = ['INCOME', 'CASHFLOW', 'BALANCE', 'SIGNALS', 'VALUES', 'FORECAST'
 tableMapping = {'INCOME': 'mappingIncome', 'CASHFLOW': 'mappingCashflow', 'BALANCE': 'mappingBalance', 'SIGNALS': 'mappingSignals', 'VALUES': 'mappingValues', 'FORECAST': 'mappingForecast'}
 maxDateMapping = {'INCOME': 8, 'CASHFLOW': 9, 'BALANCE': 10, 'SIGNALS': 11, 'VALUES': 12, 'FORECAST': 13}
 
-conn = psycopg2.connect("dbname=%s user=%s host=%s" % (db_name, db_user, db_host))
+conn = psycopg2.connect("dbname=%s user=%s host=%s password=%s" % (db_name, db_user, db_host, db_pwd))
 cur = conn.cursor()
 
 stockUpdated = 0
