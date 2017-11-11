@@ -23,7 +23,8 @@ export class LoginComponent implements OnInit {
   login() {
     this.userService.login(this.username, this.password)
       .subscribe((data:any) => {
-        if (data.status == 200) {
+        debugger
+        if (data.status == 200 && data.headers.get('Authorization')) {
           localStorage.setItem('token', data.headers.get('Authorization'));
           this.userService.decodeToken();
           this.router.navigate(['/']);
