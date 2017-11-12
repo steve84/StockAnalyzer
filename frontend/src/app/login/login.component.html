@@ -1,21 +1,23 @@
-<div class = "ui-g">
-    <div class = "ui-g-12"><p-messages [(value)]="msgs" [closable]="false"></p-messages></div>
-    <div class = "ui-g-12">
-      <div class="ui-inputgroup">
-        <span class="ui-inputgroup-addon" i18n="@@login.username.label">Username</span>
-        <input type="text" pInputText [(ngModel)]="username">      
+<form [formGroup]="loginform">
+  <div class = "ui-g">
+      <div class = "ui-g-12"><p-messages [(value)]="msgs" [closable]="false"></p-messages></div>
+      <div class = "ui-g-12">
+        <div class="ui-inputgroup">
+          <span class="ui-inputgroup-addon" i18n="@@login.username.label">Username</span>
+          <input type="text" pInputText [(ngModel)]="username" formControlName="username" email>      
+        </div>
       </div>
-    </div>
-    <div class = "ui-g-12">
-      <div class="ui-inputgroup">
-        <span class="ui-inputgroup-addon" i18n="@@login.password.label">Password</span>
-        <input type="password" pInputText [(ngModel)]="password">      
+      <div class = "ui-g-12">
+        <div class="ui-inputgroup">
+          <span class="ui-inputgroup-addon" i18n="@@login.password.label">Password</span>
+          <input type="password" pInputText [(ngModel)]="password" formControlName="password">      
+        </div>
       </div>
-    </div>
-    <div class = "ui-g-12">
-      <button type="button" pButton i18n-label="@@login.login.label" label="Login" (click)="login()"></button>
-    </div>
-    <div class = "ui-g-12">
-      <a routerLink="/register">Sign up</a>
-    </div>
-</div>
+      <div class = "ui-g-12">
+        <button type="button" pButton i18n-label="@@login.login.label" label="Login" (click)="login()" [disabled]="!loginform.valid"></button>
+      </div>
+      <div class = "ui-g-12">
+        <a routerLink="/register">Sign up</a>
+      </div>
+  </div>
+</form>

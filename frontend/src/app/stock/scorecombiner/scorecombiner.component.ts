@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, LOCALE_ID } from '@angular/core';
 
 import { SelectItem, Message } from 'primeng/primeng';
 
@@ -38,13 +38,13 @@ export class ScorecombinerComponent implements OnInit {
   companySize: number = 0;
   commonTranslationPipe: CommonTranslationPipe = new CommonTranslationPipe();
   countryTranslationPipe: CountryTranslationPipe = new CountryTranslationPipe();
-  constructor(private stockService: StockService, private indexService: IndexService) {
+  constructor(private stockService: StockService, private indexService: IndexService, @Inject(LOCALE_ID) private locale: String) {
     this.numRowValues.push({label: '10', value: 10});
     this.numRowValues.push({label: '20', value: 20});
     this.numRowValues.push({label: '30', value: 30});
 
-    this.stockOrIndexItem.push({label: this.commonTranslationPipe.transform('Stocks'), value: 'stock'});
-    this.stockOrIndexItem.push({label: this.commonTranslationPipe.transform('Indices'), value: 'index'});
+    this.stockOrIndexItem.push({label: this.commonTranslationPipe.transform('Stocks', this.locale), value: 'stock'});
+    this.stockOrIndexItem.push({label: this.commonTranslationPipe.transform('Indices', this.locale), value: 'index'});
     
     this.companySizeItems.push({label: 'Large, Mid and Small Caps', value: 0});
     this.companySizeItems.push({label: 'Large and Mid Caps', value: 1});

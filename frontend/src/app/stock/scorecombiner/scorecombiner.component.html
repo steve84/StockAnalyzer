@@ -94,7 +94,7 @@ Type of results:
 
 <div *ngIf="stockOrIndex == 'stock'" class = "ui-g">
 <div class = "ui-g-12">
-<p-dataTable #dt [value]="scores" selectionMode="single" [(selection)]="selectedScore" resizableColumns="true">
+<p-dataTable #dt [value]="scores" selectionMode="single" [(selection)]="selectedScore" resizableColumns="true" responsive="true">
   <p-header>
     <div class="ui-helper-clearfix">
       <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left"></button>
@@ -120,7 +120,7 @@ Type of results:
 
 <div *ngIf="stockOrIndex == 'index'" class = "ui-g">
 <div class = "ui-g-12">
-<p-dataTable #dt [value]="scores" selectionMode="single" [(selection)]="selectedScore" resizableColumns="true">
+<p-dataTable #dt [value]="scores" selectionMode="single" [(selection)]="selectedScore" resizableColumns="true" responsive="true">
   <p-header>
     <div class="ui-helper-clearfix">
       <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left"></button>

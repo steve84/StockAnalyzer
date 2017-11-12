@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import ch.steve84.stock_analyzer.entity.quandl.User;
+import ch.steve84.stock_analyzer.entity.quandl.json.PasswordChange;
 import ch.steve84.stock_analyzer.repository.quandl.UserRepository;
 
 @RestController
@@ -27,7 +28,17 @@ public class UserController {
     public User confirm(@PathVariable("userId") Integer userId, @PathVariable("userHash") String userHash, @RequestBody String password) {
         return this.userRepository.confirm(userId, userHash, password);
     }
-    
+
+    @RequestMapping(value = "/password/change/{userId}", method = RequestMethod.POST)
+    public boolean changePassword(@PathVariable("userId") Integer userId, @RequestBody PasswordChange passwords) {
+        return this.userRepository.changePassword(userId, passwords.getOldPassword(), passwords.getNewPassword());
+    }
+
+    @RequestMapping(value = "/password/reset}", method = RequestMethod.POST)
+    public boolean resetPassword(@RequestBody String username) {
+        return this.userRepository.resetPassword(username);
+    }
+
     @RequestMapping(value = "/captcha", method = RequestMethod.POST)
     public boolean captcha(@RequestBody String token) {
         return this.userRepository.validateCaptcha(token);

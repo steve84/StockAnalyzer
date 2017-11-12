@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, LOCALE_ID } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { MenuItem } from 'primeng/primeng';
@@ -15,16 +15,16 @@ import { CommonTranslationPipe } from '../stock/common_translation.pipe'
 export class MenubarComponent implements OnInit {
   items: MenuItem[] = [];
   commonTranslationPipe: CommonTranslationPipe = new CommonTranslationPipe();
-  constructor(private userService: UserService, private router: Router) { }
+  constructor(private userService: UserService, private router: Router, @Inject(LOCALE_ID) private locale: String) { }
 
   ngOnInit() {
    this.items = [
-     {label: this.commonTranslationPipe.transform('Lists'), icon: 'fa-table', items: [
-       {label: this.commonTranslationPipe.transform('Stocks'), routerLink: ['/stocks']},
-       {label: this.commonTranslationPipe.transform('Indices'), routerLink: ['/indices']}
+     {label: this.commonTranslationPipe.transform('Lists', this.locale), icon: 'fa-table', items: [
+       {label: this.commonTranslationPipe.transform('Stocks', this.locale), routerLink: ['/stocks']},
+       {label: this.commonTranslationPipe.transform('Indices', this.locale), routerLink: ['/indices']}
      ]},
-     {label: this.commonTranslationPipe.transform('Stock screener'), icon: 'fa-search', routerLink: ['/stocks/search']},
-     {label: this.commonTranslationPipe.transform('Advisor'), icon: ' fa-lightbulb-o', routerLink: ['/combiner']}
+     {label: this.commonTranslationPipe.transform('Stock screener', this.locale), icon: 'fa-search', routerLink: ['/stocks/search']},
+     {label: this.commonTranslationPipe.transform('Advisor', this.locale), icon: ' fa-lightbulb-o', routerLink: ['/combiner']}
    ];
   }
   

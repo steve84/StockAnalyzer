@@ -13,6 +13,5 @@ export const stockRoutes: Routes = [
   { path: 'stocks/:id', component: FundamentalComponent, canActivate: [AuthGuard] },
   { path: 'stocks', component: StockTableComponent, canActivate: [AuthGuard] },
   { path: 'combiner', component: ScorecombinerComponent, canActivate: [AuthGuard] },
-  { path: 'indices', component: IndexComponent, canActivate: [AuthGuard] },
-  { path: '', redirectTo: '/stocks', pathMatch: 'full', canActivate: [AuthGuard] }
+  { path: 'indices', component: IndexComponent, canActivate: [AuthGuard] }
 ];

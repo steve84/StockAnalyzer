@@ -33,6 +33,8 @@ export class CommonTranslationPipe implements PipeTransform {
         return 'Summe der Faktoren muss 100 betragen (aktuell: ';
       case 'Information':
         return 'Hinweis';
+      case 'Contacts':
+        return 'Kontakt';
       default:
         return value;
     }

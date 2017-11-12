@@ -29,6 +29,10 @@ import ch.steve84.stock_analyzer.repository.quandl.UserRegistrationRepository;
 import ch.steve84.stock_analyzer.repository.quandl.UserRepository;
 
 public class UserRepositoryImpl implements UserRegistrationRepository {
+	
+	private final int SALT_LENGTH = 32;
+	private final int TOKEN_LENGTH = 20;
+	private final int PASSWORD_LENGTH = 10;
     
     @PersistenceContext
     private EntityManager em;
@@ -45,8 +49,8 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
     public User register(User user) {
         user.setRole(Roles.GPU.getRole());
         user.setCreatedAt(Calendar.getInstance());
-        user.setToken(securityService.generateRandomString(20));
-        user.setSalt(securityService.generateRandomString(32));
+        user.setToken(securityService.generateRandomString(TOKEN_LENGTH));
+        user.setSalt(securityService.generateRandomString(SALT_LENGTH));
         user.setIsActivated(false);
         String password = securityService.hashAndSalt(user.getPassword(), user.getSalt());
 		if (password == null)
@@ -54,6 +58,7 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
 		else
 			user.setPassword(password);
 		User createdUser = this.userRepository.save(user);
+		// TODO send mail
 		//mailService.sendConfirmationMail(createdUser);
         return createdUser;
     }
@@ -87,6 +92,36 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
         }
         return null;
     }
+
+	@Override
+	public boolean resetPassword(String username) {
+		User user = this.userRepository.findByUsername(username);
+		if (user != null) {
+			String newPassword = securityService.generateRandomString(PASSWORD_LENGTH);
+			user.setSalt(securityService.generateRandomString(SALT_LENGTH));
+			user.setPassword(securityService.hashAndSalt(newPassword, user.getSalt()));
+			User updatedUser = this.userRepository.save(user);
+			// TODO Send mail
+			//mailService.sendConfirmationMail(updatedUser, password);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean changePassword(Integer userId, String oldPassword, String newPassword) {
+		User user = this.userRepository.findOne(userId);
+		if (user != null) {
+			if (user.getPassword().equals(securityService.hashAndSalt(oldPassword, user.getSalt()))) {
+				user.setSalt(securityService.generateRandomString(SALT_LENGTH));
+				user.setPassword(securityService.hashAndSalt(newPassword, user.getSalt()));
+				User updatedUser = this.userRepository.save(user);
+				if (updatedUser != null)
+					return true;				
+			}
+		}
+		return false;
+	}
 }
 
 @JsonInclude(JsonInclude.Include.NON_NULL)

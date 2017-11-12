@@ -41,6 +41,18 @@ export class UserService {
       return this.http.post(environment.apiUrl + "/user/confirm/" + userId.toString() + "/" + token, password);
   }
   
+  resetPassword(username: string) {
+      let body = {'username': username};
+      let headers = new Headers({'Content-Type': 'application/json'});
+      return this.http.post(environment.apiUrl + "/user/password/reset", JSON.stringify(body), {headers: headers});
+  }
+  
+  changePassword(userId: number, oldPassword: string, newPassword: string) {
+      let body = {'oldPassword': oldPassword, 'newPassword': newPassword};
+      let headers = new Headers({'Content-Type': 'application/json'});
+      return this.http.post(environment.apiUrl + "/user/password/change" + userId.toString() + "/", JSON.stringify(body), {headers: headers});
+  }
+  
   logout() {
     this.removeToken();
     this.setUsername('');

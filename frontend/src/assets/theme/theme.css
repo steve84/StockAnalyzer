@@ -458,3 +458,10 @@ a.ui-button:active,
 
 .ui-datatable tbody > tr.ui-widget-content.ui-datatable-odd:not(.ui-state-highlight) {
   background-color: #fffb8d; }
+  
+.ui-state-disabled,
+.ui-widget:disabled {
+  opacity: 0.35;
+  filter: Alpha(Opacity=35);
+  background-image: none;
+  cursor: default !important; }

@@ -1,7 +1,7 @@
 <p-dialog appDialogsize [header]="title" [(visible)]="display" (onHide)="closeDisplay()" width="1200">
   <p-tabView>
     <p-tabPanel i18n-header="@@index.detail.tab.overview.header" header="Overview">
-      <p-dataTable [value]="stocks" selectionMode="single" lazy="true" [paginator]="true" [rows]="pageSize" [rowsPerPageOptions]="[10,20,30]" [totalRecords]="totalRecords" (onLazyLoad)="loadData($event)" resizableColumns="true">
+      <p-dataTable [value]="stocks" selectionMode="single" lazy="true" responsive="true" [paginator]="true" [rows]="pageSize" [rowsPerPageOptions]="[10,20,30]" [totalRecords]="totalRecords" (onLazyLoad)="loadData($event)" resizableColumns="true">
         <p-column field="isin" header="ISIN" [sortable]="true"></p-column>
         <p-column field="name" header="Name" [sortable]="true"></p-column>
         <p-column field="country.name" header="Land" [sortable]="true"></p-column>

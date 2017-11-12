@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Validators, FormControl, FormGroup, FormBuilder} from '@angular/forms';
 
 import { Message } from 'primeng/primeng';
 
@@ -15,9 +16,14 @@ export class LoginComponent implements OnInit {
   username: string;
   password: string;
   msgs: Message[] = [];
-  constructor(private userService: UserService, private router: Router) { }
+  loginform: FormGroup;
+  constructor(private userService: UserService, private router: Router, private fb: FormBuilder) { }
 
   ngOnInit() {
+    this.loginform = this.fb.group({
+      'username': new FormControl('', Validators.required),
+      'password': new FormControl('', Validators.required)
+    });
   }
 
   login() {
