@@ -4,7 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
-import { MenubarModule, DialogModule, ButtonModule, InputTextModule, CaptchaModule, MessagesModule } from 'primeng/primeng';
+import { MenubarModule, DialogModule, ButtonModule, InputTextModule, CaptchaModule, MessagesModule, SplitButtonModule } from 'primeng/primeng';
 
 import { StockModule } from './stock/stock.module';
 import { AuthModule } from './auth/auth.module';
@@ -57,6 +57,7 @@ import { FaqComponent } from './content/faq/faq.component';
     InputTextModule,
     CaptchaModule,
     MessagesModule,
+    SplitButtonModule,
     StockModule,
     AuthModule
   ],

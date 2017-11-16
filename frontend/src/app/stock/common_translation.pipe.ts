@@ -35,6 +35,10 @@ export class CommonTranslationPipe implements PipeTransform {
         return 'Hinweis';
       case 'Contacts':
         return 'Kontakt';
+      case 'Profile settings':
+        return 'Profil-Einstellungen';
+      case 'Change Password':
+        return 'Passwort wechseln';
       default:
         return value;
     }

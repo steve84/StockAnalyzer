@@ -12,6 +12,7 @@ import { Country } from '../country';
 import { Branch } from '../branch';
 
 import { CountryTranslationPipe } from '../country_translation.pipe';
+import { BranchTranslationPipe } from '../branch_translation.pipe';
 import { CommonTranslationPipe } from '../common_translation.pipe';
 
 @Component({
@@ -38,6 +39,7 @@ export class ScorecombinerComponent implements OnInit {
   companySize: number = 0;
   commonTranslationPipe: CommonTranslationPipe = new CommonTranslationPipe();
   countryTranslationPipe: CountryTranslationPipe = new CountryTranslationPipe();
+  branchTranslationPipe: BranchTranslationPipe = new BranchTranslationPipe();
   constructor(private stockService: StockService, private indexService: IndexService, @Inject(LOCALE_ID) private locale: String) {
     this.numRowValues.push({label: '10', value: 10});
     this.numRowValues.push({label: '20', value: 20});
@@ -57,7 +59,7 @@ export class ScorecombinerComponent implements OnInit {
               this.countries = [];
                 if (data && Object.keys(data).indexOf("_embedded") > -1 && Object.keys(data._embedded).indexOf("countries") > -1)
                     for (let country of data._embedded.countries) {
-                      this.countries.push({label: this.countryTranslationPipe.transform(country.name), value: country.countryId});
+                      this.countries.push({label: this.countryTranslationPipe.transform(country.name, this.locale), value: country.countryId});
                     }
             });
 
@@ -66,7 +68,7 @@ export class ScorecombinerComponent implements OnInit {
               this.branches = [];
                 if (data && Object.keys(data).indexOf("_embedded") > -1 && Object.keys(data._embedded).indexOf("branches") > -1)
                     for (let branch of data._embedded.branches) {
-                      this.branches.push({label: branch.name, value: branch.branchId});
+                      this.branches.push({label: this.branchTranslationPipe.transform(branch.name, this.locale), value: branch.branchId});
                     }
             });
   }

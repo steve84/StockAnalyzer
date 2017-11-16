@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Inject, LOCALE_ID } from '@angular/core';
 
 import { SelectItem } from 'primeng/primeng';
 
@@ -11,6 +11,7 @@ import { Branch } from '../branch';
 import { IndexType } from '../indextype';
 
 import { CountryTranslationPipe } from '../country_translation.pipe';
+import { BranchTranslationPipe } from '../branch_translation.pipe';
 
 @Component({
   selector: 'app-stocksearch',
@@ -37,14 +38,15 @@ export class StocksearchComponent implements OnInit {
   sortField: string;
   sortOrder: number;
   countryTranslationPipe: CountryTranslationPipe = new CountryTranslationPipe();
+  branchTranslationPipe: BranchTranslationPipe = new BranchTranslationPipe();
 
-  constructor(private stockService: StockService, private indexService: IndexService) {
+  constructor(private stockService: StockService, private indexService: IndexService, @Inject(LOCALE_ID) private locale: String) {
 	  this.stockService.getAllCountries()
 		  .subscribe((data:any) => {
 			  this.countries = [];
 				if (data && Object.keys(data).indexOf("_embedded") > -1 && Object.keys(data._embedded).indexOf("countries") > -1)
 					for (let country of data._embedded.countries) {
-					  this.countries.push({label: this.countryTranslationPipe.transform(country.name), value: country.countryId});
+					  this.countries.push({label: this.countryTranslationPipe.transform(country.name, this.locale), value: country.countryId});
 					}
 			});
 
@@ -53,7 +55,7 @@ export class StocksearchComponent implements OnInit {
 			  this.branches = [];
 				if (data && Object.keys(data).indexOf("_embedded") > -1 && Object.keys(data._embedded).indexOf("branches") > -1)
 					for (let branch of data._embedded.branches) {
-					  this.branches.push({label: branch.name, value: branch.branchId});
+					  this.branches.push({label: this.branchTranslationPipe.transform(branch.name, this.locale), value: branch.branchId});
 					}
 			});
 

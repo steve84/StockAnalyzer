@@ -29,7 +29,6 @@ export class LoginComponent implements OnInit {
   login() {
     this.userService.login(this.username, this.password)
       .subscribe((data:any) => {
-        debugger
         if (data.status == 200 && data.headers.get('Authorization')) {
           localStorage.setItem('token', data.headers.get('Authorization'));
           this.userService.decodeToken();

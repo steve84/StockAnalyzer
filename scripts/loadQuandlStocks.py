@@ -3,6 +3,7 @@ import urllib.parse
 import json
 import argparse
 from datetime import datetime
+from time import sleep
 
 from bs4 import BeautifulSoup
 import quandl
@@ -157,7 +158,11 @@ while page <= totalPages:
         if maxItems and totalProcessed >= maxItems:
             break
     else:
-        print('Status code %s' % response.status_code)
+        if response.status_code == 429:
+            print('Wait 5 minutes (Not many requests)')
+            sleep(300)
+        else:
+            print('Status code %s' % response.status_code)
     page += 1
 
 

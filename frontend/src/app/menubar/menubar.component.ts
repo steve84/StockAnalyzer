@@ -14,6 +14,7 @@ import { CommonTranslationPipe } from '../stock/common_translation.pipe'
 })
 export class MenubarComponent implements OnInit {
   items: MenuItem[] = [];
+  userItems: MenuItem[] = [];
   commonTranslationPipe: CommonTranslationPipe = new CommonTranslationPipe();
   constructor(private userService: UserService, private router: Router, @Inject(LOCALE_ID) private locale: String) { }
 
@@ -25,6 +26,12 @@ export class MenubarComponent implements OnInit {
      ]},
      {label: this.commonTranslationPipe.transform('Stock screener', this.locale), icon: 'fa-search', routerLink: ['/stocks/search']},
      {label: this.commonTranslationPipe.transform('Advisor', this.locale), icon: ' fa-lightbulb-o', routerLink: ['/combiner']}
+   ];
+
+   this.userItems = [
+     {label: this.commonTranslationPipe.transform('Profile settings', this.locale), icon: 'fa-address-card-o', routerLink: ['/profile']},
+     {label: this.commonTranslationPipe.transform('Change Password', this.locale), icon: 'fa-exchange', routerLink: ['/password/change']},
+     {label: this.commonTranslationPipe.transform('Logout', this.locale), icon: 'fa-sign-out', command: () => { this.logout(); }}
    ];
   }
   
