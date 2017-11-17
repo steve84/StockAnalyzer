@@ -439,12 +439,13 @@ ALTER TABLE tforecast OWNER TO postgres;
 CREATE TABLE tuser (
     user_id integer DEFAULT nextval('user_seq'::regclass) NOT NULL,
     username character varying NOT NULL,
+    email character varying NOT NULL,
     password character varying NOT NULL,
-    salt character varying,
+    salt character varying NOT NULL,
     token character varying,
     is_activated boolean default false,
-    role_id integer,
-    created_at date,
+    role_id integer NOT NULL,
+    created_at date NOT NULL,
     activated_at date
 );
 

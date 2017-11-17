@@ -11,11 +11,12 @@ import { UserService } from '../user.service';
   styleUrls: ['./userregistration.component.css']
 })
 export class UserRegistrationComponent implements OnInit {
-
+  email: string;
   username: string;
   password: string;
   passwordR: string;
   validCaptcha: boolean = false;
+  existingUsername: boolean = false;
   msgs: Message[] = [];
   
   registerform: FormGroup;
@@ -23,6 +24,7 @@ export class UserRegistrationComponent implements OnInit {
 
   ngOnInit() {
     this.registerform = this.fb.group({
+      'email': new FormControl('', Validators.required),
       'username': new FormControl('', Validators.required),
       'password': new FormControl('', Validators.compose([Validators.required, Validators.minLength(6)])),
       'passwordR': new FormControl('', Validators.compose([Validators.required, Validators.minLength(6)]))
@@ -46,6 +48,17 @@ export class UserRegistrationComponent implements OnInit {
         this.msgs = [{severity: 'info', summary: 'Registration', detail: 'User registered successfully'}];
       }, (err: any) => {
         this.msgs = [{severity: 'error', summary: 'Registration', detail: 'Error during user registration'}];
+      });
+  }
+  
+  checkUsername() {
+    this.existingUsername = false;
+    this.userService.checkUsername(this.username)
+      .subscribe((data:any) => {
+        if (data) {
+          this.existingUsername = true;
+          this.msgs = [{severity: 'error', summary: 'Registration', detail: 'Username already in use'}];
+        }
       });
   }
 }

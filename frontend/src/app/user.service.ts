@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, URLSearchParams } from '@angular/http';
 
-import { JwtHelper } from 'angular2-jwt';
+import { JwtHelper, AuthHttp } from 'angular2-jwt';
 
 import 'rxjs/add/operator/map';
 
@@ -13,7 +13,7 @@ export class UserService {
   username: string;
   roles: string;
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private authHttp: AuthHttp) {
     this.decodeToken();
   }
   
@@ -50,7 +50,13 @@ export class UserService {
   changePassword(userId: number, oldPassword: string, newPassword: string) {
       let body = {'oldPassword': oldPassword, 'newPassword': newPassword};
       let headers = new Headers({'Content-Type': 'application/json'});
-      return this.http.post(environment.apiUrl + "/user/password/change" + userId.toString() + "/", JSON.stringify(body), {headers: headers});
+      return this.authHttp.post(environment.apiUrl + "/user/password/change" + userId.toString() + "/", JSON.stringify(body), {headers: headers});
+  }
+
+  checkUsername(username: string) {
+    let params = new URLSearchParams();
+    params.set("username", username);
+    return this.http.get(environment.apiUrl + "/user/search/existsByUsername", {search: params});  
   }
   
   logout() {
