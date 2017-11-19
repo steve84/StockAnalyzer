@@ -13,14 +13,14 @@ export class FundamentalService {
   constructor(private http: AuthHttp) { }
 
   getValuesByStockId(stockId: number) {
-    let url = "http://" + environment.apiUrl + "/stocks/" + stockId + "/values";
+    let url = environment.apiUrl + "/stocks/" + stockId + "/values";
 
     return this.http.get(url)
       .map(this.extractDataValues);
   }
   
   getNewestValueByStockId(stockId: number) {
-    let url = "http://" + environment.apiUrl + "/values/search/findFirst1ByStockIdOrderByModifiedAtDesc";
+    let url = environment.apiUrl + "/values/search/findFirst1ByStockIdOrderByModifiedAtDesc";
 
     let params = new URLSearchParams();
     params.set("stockId", stockId.toString());
@@ -30,7 +30,7 @@ export class FundamentalService {
   }
 
   getSignalsByStockId(stockId: number) {
-    let url = "http://" + environment.apiUrl + "/stocks/" + stockId + "/signals";
+    let url = environment.apiUrl + "/stocks/" + stockId + "/signals";
 
     return this.http.get(url)
       .map(this.extractDataSignals);

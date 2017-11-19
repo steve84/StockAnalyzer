@@ -129,6 +129,7 @@ export class ScorecombinerComponent implements OnInit {
   }
   
   handleChange(event: any) {
+    debugger
     let sumFactors = this.levermannFactor + this.magicFormulaFactor + this.piotroskiFactor;
     if (sumFactors != 100)
       this.msgs = [{severity: 'info', summary: this.commonTranslationPipe.transform('Information'), detail: this.commonTranslationPipe.transform('The sum of the factors has to be 100 (actual: ') + sumFactors + ")"}];

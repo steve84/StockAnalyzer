@@ -51,7 +51,7 @@ for stock in cur:
                       curStock.execute(Utils.createSqlString(data[rowDate], 't' + tableName.lower()), data[rowDate])
                       stockUpdate = True
             except QuandlError as qe:
-              print("Quandl error during dataset %s_%s" % (quandlId, tableName))
+              print("Quandl error during dataset %s_%s (%s)" % (quandlId, tableName, stock[1]))
               print("Exception: %s" % qe)
               continue
         conn.commit()

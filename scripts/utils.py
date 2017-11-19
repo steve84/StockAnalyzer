@@ -3,9 +3,11 @@ import json
 import requests
 import urllib.parse
 import quandl
+from quandl.errors.quandl_error import QuandlError
 import math
 from bs4 import BeautifulSoup
 from datetime import datetime, date
+from time import sleep
 
 class Utils:
 
@@ -71,17 +73,26 @@ class Utils:
         data = dict()
         years = list()
         mappings = Utils.getMappingDict(mappingFileName)
-        res = quandl.get(tableName)
-        for index, row in res.iterrows():
-            for key in res.keys():
-                for mapping in mappings.keys():
-                    if key.find(mapping) > -1:
-                        if index.date() not in data.keys():
-                            data[index.date()] = dict()
-                        if row[key] is not None and not math.isnan(row[key]):
-                            data[index.date()][mappings[mapping]] = row[key]
-                        break
-        return data
+        max_retries = 3
+        attempt_nbr = 0 
+        while attempt_nbr < max_retries:     
+            try:
+                res = quandl.get(tableName)
+                for index, row in res.iterrows():
+                    for key in res.keys():
+                        for mapping in mappings.keys():
+                            if key.find(mapping) > -1:
+                                if index.date() not in data.keys():
+                                    data[index.date()] = dict()
+                                if row[key] is not None and not math.isnan(row[key]):
+                                    data[index.date()][mappings[mapping]] = row[key]
+                                break
+                return data
+            except QuandlError as qe:
+                if qe.http_status != 429:
+                    raise
+            attempt_nbr += 1
+
                 
         
     def getTechnicalFigures(link, mappingFileName):
@@ -205,28 +216,40 @@ class Utils:
         query_params['api_key'] = quandl_key
         
         link = baseUrl + '?' +  urllib.parse.urlencode(query_params)
-        response = requests.get(link)
-        if response.status_code == 200:
-            json_response = response.json()
-            if 'datasets' in json_response.keys() and len(json_response['datasets']) > 0 and 'description' in json_response['datasets'][0].keys() and json_response['datasets'][0]['description'].find(isin) > -1:
-                return databaseCode + '/' + json_response['datasets'][0]['dataset_code']
+        max_retries = 3
+        attempt_nbr = 0
+        while attempt_nbr < max_retries:
+            response = requests.get(link)
+            if response.status_code == 200:
+                json_response = response.json()
+                if 'datasets' in json_response.keys() and len(json_response['datasets']) > 0 and 'description' in json_response['datasets'][0].keys() and json_response['datasets'][0]['description'].find(isin) > -1:
+                    return databaseCode + '/' + json_response['datasets'][0]['dataset_code']
+            elif response.status_code == 429:
+                sleep(300)
+            attempt_nbr += 1
 
     def getQuandlStockPrice(code, quandl_key):
+        if code is None or len(code) == 0:
+            return list()
         quandl.ApiConfig.api_key = quandl_key
-        
-        try:
-            data = quandl.get(code, collapse='monthly')
-        
-            if len(data.index) >= 13:
-                actual_value =  data['Last'][-1]
-                six_month_date = data.index[-7].date()
-                six_month_value =  data['Last'][-7]
-                one_year_date = data.index[-13].date()
-                one_year_value =  data['Last'][-13]
-                return [actual_value, six_month_value, one_year_value]
-            return list()
-        except:
-            return list()
+        max_retries = 3
+        attempt_nbr = 0 
+        while attempt_nbr < max_retries:       
+            try:
+                data = quandl.get(code, collapse='monthly')
+
+                if len(data.index) >= 13:
+                    actual_value =  data['Last'][-1]
+                    six_month_date = data.index[-7].date()
+                    six_month_value =  data['Last'][-7]
+                    one_year_date = data.index[-13].date()
+                    one_year_value =  data['Last'][-13]
+                    return [actual_value, six_month_value, one_year_value]
+                return list()
+            except QuandlError as qe:
+                if qe.http_status != 429:
+                    raise
+            attempt_nbr += 1
 
     def avgYearValue(factDict, targetKey, maxYear):
         i = 0

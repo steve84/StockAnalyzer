@@ -11,6 +11,7 @@ export class FigurestableComponent implements OnInit, OnChanges {
   @Input('fields') fields: any[];
   @Input('labels') labels: any;
   @Input('currency') currency: string = 'USD';
+  @Input('showFuture') showFuture: boolean = false;
   @Output() onRowSelect: EventEmitter<any> = new EventEmitter<any>();
   @Output() onRowUnselect: EventEmitter<any> = new EventEmitter<any>();
   constructor() { }
@@ -63,7 +64,8 @@ export class FigurestableComponent implements OnInit, OnChanges {
     for (let key of Object.keys(obj)) {
       let entry: any = {title: key};
       for (let subkey of Object.keys(obj[key])) {
-        entry[subkey.split('-')[0]] = obj[key][subkey];
+        if (!this.showFuture || Date.parse(subkey) > Date.now())
+          entry[subkey.split('-')[0]] = obj[key][subkey];
       }
       res.push(entry);
     }
@@ -75,9 +77,13 @@ export class FigurestableComponent implements OnInit, OnChanges {
     cols.push({field: 'title', header: 'title'});
     for (let key of Object.keys(arr)) {
       for (let subkey of Object.keys(arr[key])) {
-        cols.push({field: subkey.split('-')[0], header: subkey.split('-')[0]});
+        if (!this.showFuture || Date.parse(subkey) > Date.now())
+          cols.push({field: subkey.split('-')[0], header: subkey.split('-')[0]});
       }
-      return cols;
+      if (cols && cols.length > 1)
+        return cols;
+      else
+        return [];
     }
   }
 

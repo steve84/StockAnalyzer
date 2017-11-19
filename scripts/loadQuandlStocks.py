@@ -60,7 +60,6 @@ while page <= totalPages:
     query_params = dict()
     query_params['database_code'] = databaseCode
     query_params['per_page'] = pageSize
-    query_params['query'] = 'values'
     query_params['page'] = page
     query_params['frequency'] = 'daily'
     query_params['api_key'] = quandl_key
@@ -103,7 +102,6 @@ while page <= totalPages:
                             stock['currency'] = part.text.replace('Reference Currency:', '').strip()
 
                 stock['quandl_rb1_id'] = int(stock['dataset_code'].split('_')[0])
-                stock['quandl_price_dataset'] = Utils.getQuandlStockPriceDataset(priceDatabaseCode, stock['isin'], quandl_key)
                 stock['country_id'] = None
                 stock['branch_id'] = None
                 stock['created_at'] = Utils.getActualDate()
@@ -144,6 +142,7 @@ while page <= totalPages:
                     # select
                     cur.execute("""SELECT * FROM tstock WHERE isin = %(isin)s;""", stock)
                     if cur.rowcount == 0:
+                        stock['quandl_price_dataset'] = Utils.getQuandlStockPriceDataset(priceDatabaseCode, stock['isin'], quandl_key)
                         # insert
                         cur.execute("""INSERT INTO tstock (name, isin, branch_id, country_id, currency, quandl_rb1_id, quandl_price_dataset, created_at) VALUES (%(name)s, %(isin)s, %(branch_id)s, %(country_id)s, %(currency)s, %(quandl_rb1_id)s, %(quandl_price_dataset)s, %(created_at)s);""", stock)
                         totalInserted['stocks'] += 1

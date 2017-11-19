@@ -29,6 +29,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
   value: Values;
   signals: Signals[] = [];
   incomeChart: any;
+  incomeChartOptions: any;
   indexNames: string[] = [];
   
   balanceFields: string[] = [];
@@ -51,6 +52,10 @@ export class FundamentalComponent implements OnInit, OnChanges {
               private route: ActivatedRoute,
               private location: Location) {
     this.title = "Fundamental data";
+    
+    this.incomeChartOptions = {
+      'maintainAspectRatio': 'false'
+    }
     
     this.balanceFields.push('currentAssets');
     this.balanceFields.push('goodwill');
@@ -241,7 +246,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
   getValue() {
     if (this.stock) {
       this.fundamentalService.getNewestValueByStockId(this.stock.stockId)
-        .subscribe((data:Values[]) => this.value = data[0]);
+        .subscribe((data:Values[]) => this.value = data);
     }
   }
 
