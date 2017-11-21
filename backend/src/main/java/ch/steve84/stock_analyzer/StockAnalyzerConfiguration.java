@@ -12,6 +12,7 @@ import ch.steve84.stock_analyzer.entity.quandl.MarketCapitalization;
 import ch.steve84.stock_analyzer.entity.quandl.NormalizedScore;
 import ch.steve84.stock_analyzer.entity.quandl.Performance;
 import ch.steve84.stock_analyzer.entity.quandl.Stock;
+import ch.steve84.stock_analyzer.entity.quandl.Analysts;
 import ch.steve84.stock_analyzer.entity.quandl.Balance;
 import ch.steve84.stock_analyzer.entity.quandl.Cashflow;
 import ch.steve84.stock_analyzer.entity.quandl.Forecast;
@@ -34,6 +35,7 @@ public class StockAnalyzerConfiguration extends RepositoryRestConfigurerAdapter 
         config.exposeIdsFor(Signals.class);
         config.exposeIdsFor(Values.class);
         config.exposeIdsFor(Performance.class);
+        config.exposeIdsFor(Analysts.class);
         config.exposeIdsFor(Levermann.class);
         config.exposeIdsFor(Index.class);
         config.exposeIdsFor(NormalizedScore.class);

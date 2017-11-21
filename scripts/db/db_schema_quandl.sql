@@ -220,6 +220,17 @@ CREATE SEQUENCE performance_seq
 ALTER TABLE performance_seq OWNER TO postgres;
 
 
+CREATE SEQUENCE analysts_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE analysts_seq OWNER TO postgres;
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -470,6 +481,18 @@ CREATE TABLE tperformance (
 ALTER TABLE tperformance OWNER TO postgres;
 
 
+CREATE TABLE tanalysts (
+    analysts_id integer DEFAULT nextval('analysts_seq'::regclass) NOT NULL,
+    stock_id integer,
+    buy numeric,
+    sell numeric,
+    hold numeric,
+    modified_at date
+);
+
+ALTER TABLE tanalysts OWNER TO postgres;
+
+
 --
 -- TOC entry 2001 (class 2606 OID 16500)
 -- Name: pbranch; Type: CONSTRAINT; Schema: public; Owner: postgres
@@ -531,6 +554,9 @@ ALTER TABLE ONLY trole
     
 ALTER TABLE ONLY tperformance
     ADD CONSTRAINT pperformance PRIMARY KEY (performance_id);
+
+ALTER TABLE ONLY tanalysts
+    ADD CONSTRAINT panalysts PRIMARY KEY (analysts_id);
 --
 -- TOC entry 2004 (class 1259 OID 16505)
 -- Name: fki_fbranch; Type: INDEX; Schema: public; Owner: postgres
@@ -564,6 +590,7 @@ CREATE INDEX fki_fvaluesstock ON tvalues USING btree (stock_id);
 CREATE INDEX fki_fforecaststock ON tforecast USING btree (stock_id);
 
 CREATE INDEX fki_fperformancestock ON tperformance USING btree (stock_id);
+CREATE INDEX fki_fanalystsstock ON tanalysts USING btree (stock_id);
 
 --
 -- TOC entry 2008 (class 2606 OID 16507)
@@ -623,6 +650,9 @@ ALTER TABLE ONLY tuser
 
 ALTER TABLE ONLY tperformance
   ADD CONSTRAINT fperformance FOREIGN KEY (stock_id) REFERENCES tstock(stock_id);
+
+ALTER TABLE ONLY tanalysts
+  ADD CONSTRAINT fanalysts FOREIGN KEY (stock_id) REFERENCES tstock(stock_id);
 
 ALTER TABLE tbranch ADD CONSTRAINT ubranchname UNIQUE (name);
 
@@ -703,8 +733,8 @@ CREATE OR REPLACE VIEW public.vlevermann AS
    v.price_earnings_ratio,
    va.price_earnings_ratio_5y_avg,
    case when i.eps_exc > 0 then (100 * f.eps_exc / i.eps_exc) - 100 else null end as earnings_per_share_growth_expected,
-   NULL as analyst_sell_ratio,
-   NULL as analyst_buy_ratio,
+   case when (anal.buy + anal.hold + anal.sell) > 0 then (anal.sell / ((anal.buy + anal.hold + anal.sell))) else null end as analyst_sell_ratio,
+   case when (anal.buy + anal.hold + anal.sell) > 0 then (anal.buy / ((anal.buy + anal.hold + anal.sell))) else null end as analyst_buy_ratio,
    p.performance_6m,
    p.performance_1y,
    s.isin
@@ -715,7 +745,8 @@ CREATE OR REPLACE VIEW public.vlevermann AS
    LEFT JOIN (select stock_id, avg(price_earnings_ratio) as price_earnings_ratio_5y_avg from (select stock_id, price_earnings_ratio from tvalues where modified_at >= current_date - interval '5 years') v group by stock_id) va on va.stock_id = s.stock_id
    LEFT JOIN tforecast f on f.stock_id = s.stock_id and f.modified_at = (b.modified_at + interval '1 year')
    LEFT JOIN tincome i on i.stock_id = s.stock_id and i.modified_at = b.modified_at
-   LEFT JOIN tperformance p ON p.stock_id = s.stock_id;;
+   LEFT JOIN tperformance p ON p.stock_id = s.stock_id
+   LEFT JOIN tanalysts anal ON anal.stock_id = s.stock_id;
 
 ALTER TABLE public.vlevermann
   OWNER TO postgres;

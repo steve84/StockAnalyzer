@@ -16,19 +16,19 @@ import ch.steve84.stock_analyzer.entity.quandl.Stock;
 @RepositoryRestResource(collectionResourceRel = "stock", path = "stocks")
 public interface StockRepository extends ReadOnlyRepository<Stock, Integer> {
 	@PreAuthorize("hasAuthority('GPU')")
-	@Query("select s from Stock s left join s.scores sc left join sc.scoreType t where (sc is null or t.name = :name) and s.publicStock = TRUE order by sc.scoreValue nulls last")
+	@Query("select s from Stock s left join s.scores sc left join sc.scoreType t where (sc.scoreId is null or t.name = :name) and s.publicStock = TRUE order by sc.scoreValue nulls last")
 	Page<Stock> findByScoreTypeGPUAsc(@Param("name") String name, Pageable pageable);
 
 	@PreAuthorize("hasAuthority('GPU')")
-	@Query("select s from Stock s left join s.scores sc left join sc.scoreType t where (sc is null or t.name = :name) and s.publicStock = TRUE order by sc.scoreValue desc nulls last")
+	@Query("select s from Stock s left join s.scores sc left join sc.scoreType t where (sc.scoreId is null or t.name = :name) and s.publicStock = TRUE order by sc.scoreValue desc nulls last")
 	Page<Stock> findByScoreTypeGPUDesc(@Param("name") String name, Pageable pageable);
 
 	@PreAuthorize("hasAnyAuthority('Admin', 'Abo')")
-	@Query("select s from Stock s left join s.scores sc left join sc.scoreType t where sc is null or t.name = :name order by sc.scoreValue nulls last")
+	@Query("select s from Stock s left join s.scores sc left join sc.scoreType t where sc.scoreId is null or t.name = :name order by sc.scoreValue nulls last")
 	Page<Stock> findByScoreTypeAsc(@Param("name") String name, Pageable pageable);
 
 	@PreAuthorize("hasAnyAuthority('Admin', 'Abo')")
-	@Query("select s from Stock s left join s.scores sc left join sc.scoreType t where sc is null or t.name = :name order by sc.scoreValue desc nulls last")
+	@Query("select s from Stock s left join s.scores sc left join sc.scoreType t where sc.scoreId is null or t.name = :name order by sc.scoreValue desc nulls last")
 	Page<Stock> findByScoreTypeDesc(@Param("name") String name, Pageable pageable);
 	
 	@PreAuthorize("hasAuthority('GPU')")

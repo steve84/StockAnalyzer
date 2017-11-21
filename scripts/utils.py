@@ -281,7 +281,7 @@ class Utils:
         analyst_ratings = Utils.getAnalystRatings(levermannData[12], 'quandl/mappingAnalystRatings.json')
         analystSellRatio = None
         analystBuyRatio = None
-        if 'sell' in analyst_ratings.keys() and 'buy' in analyst_ratings.keys():
+        if 'sell' in analyst_ratings.keys() and 'buy' in analyst_ratings.keys() and 'hold' in analyst_ratings.keys():
             analystSellRatio = analyst_ratings['sell']
             analystBuyRatio = analyst_ratings['buy']
         performance6m = levermannData[10]
@@ -320,18 +320,18 @@ class Utils:
             elif priceEarningsRatio5yAvg > 16:
                 levermannScore -= 1
 
-        if analystBuyRatio is not None and not math.isnan(analystBuyRatio) and marketCapitalization is not None and not math.isnan(marketCapitalization):
+        if analystBuyRatio is not None and not math.isnan(analystBuyRatio) and analystSellRatio is not None and not math.isnan(analystSellRatio) and marketCapitalization is not None and not math.isnan(marketCapitalization):
             hasLevermannScore = hasLevermannScore or True
             if marketCapitalization >= 10000:
-                if analystBuyRatio >= 60:
+                if analystBuyRatio > analystSellRatio:
                     levermannScore -= 1
                 else:
                     levermannScore += 1
             else:
-                if analystBuyRatio >= 60:
-                    levermannScore += 1
-                else:
+                if analystSellRatio > analystBuyRatio:
                     levermannScore -= 1
+                else:
+                    levermannScore += 1
 
         if performance6m is not None and not math.isnan(performance6m):
             hasLevermannScore = hasLevermannScore or True
@@ -362,7 +362,7 @@ class Utils:
                 levermannScore -= 1
 
         if hasLevermannScore:
-            return levermannScore
+            return [levermannScore, analyst_ratings]
         else:
             return None
 

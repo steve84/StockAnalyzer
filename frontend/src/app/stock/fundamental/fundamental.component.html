@@ -5,7 +5,6 @@
         <div class = "ui-g">
           <div class = "ui-g-3" i18n="@@stock.detail.name">Name</div><div class = "ui-g-3">{{stock.name}}</div>
           <div class = "ui-g-3" i18n="@@stock.detail.isin">ISIN</div><div class = "ui-g-3">{{stock.isin}}</div>
-          <div class = "ui-g-3" i18n="@@stock.detail.currency">Currency</div><div class = "ui-g-3">{{stock.currency}}</div>
         </div>
         <div *ngIf="stock.balance && stock.balance.length > 0" class = "ui-g">
           <div class = "ui-g-3" i18n="@@stock.detail.businessyearend">End of business year</div><div class = "ui-g-3">{{stock.balance[0].modifiedAt | date:'dd.MM.'}}</div>

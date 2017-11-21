@@ -81,6 +81,22 @@ export class LevermannComponent implements OnInit, OnChanges {
     return 0;
   }
   
+  getAnalystsScore(marketCap, buyRatio, sellRatio) {
+    if (buyRatio == null || sellRatio == null || (buyRatio == 0 && sellRatio == 0))
+      return 0;
+    if (marketCap >= 10000) {
+      if (buyRatio > sellRatio)
+        return -1;
+      else
+        return 1;
+    } else {
+      if (sellRatio > buyRatio)
+        return -1;
+      else
+        return 1;
+    }
+  }
+  
   getMomentumScore(value6m: number, value1y: number) {
     if (value6m > 0 && value1y < 0)
       return 1;

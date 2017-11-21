@@ -246,7 +246,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
   getValue() {
     if (this.stock) {
       this.fundamentalService.getNewestValueByStockId(this.stock.stockId)
-        .subscribe((data:Values[]) => this.value = data);
+        .subscribe((data:Values[]) => this.value = data[0]);
     }
   }
 

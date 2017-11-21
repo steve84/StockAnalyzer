@@ -71,6 +71,8 @@ public class Stock {
     private List<Cashflow> cashflow;
     @OneToOne(mappedBy = "stock")
     private Performance performance;
+    @OneToOne(mappedBy = "stock")
+    private Analysts analysts;
     @OneToMany
     @JoinColumn(name = "stock_id")
     private List<Score> scores;
@@ -270,7 +272,15 @@ public class Stock {
         this.performance = performance;
     }
 
-    public List<Score> getScores() {
+    public Analysts getAnalysts() {
+		return analysts;
+	}
+
+	public void setAnalysts(Analysts analysts) {
+		this.analysts = analysts;
+	}
+
+	public List<Score> getScores() {
 		return scores;
 	}
 

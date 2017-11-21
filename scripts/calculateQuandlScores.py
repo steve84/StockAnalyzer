@@ -66,7 +66,7 @@ if doStocks:
             levermannScore = Utils.calculateLevermann(curLevermann.fetchone())
             if levermannScore:
                 levermannDict = dict()
-                levermannDict['score_value'] = levermannScore
+                levermannDict['score_value'] = levermannScore[0]
                 levermannDict['modified_at'] = Utils.getActualDate()
                 curLevermann.execute("""SELECT * FROM tscore s WHERE s.score_type_id = %d and s.stock_id = %d""" % (LEVERMANN_SCORE_TYPE_ID, stock[0]))
                 levermannScoreDb = curLevermann.fetchone()
@@ -78,6 +78,22 @@ if doStocks:
                     levermannDict['score_type_id'] = LEVERMANN_SCORE_TYPE_ID
                     curLevermann.execute(Utils.createSqlString({'score_type_id', 'stock_id', 'score_value', 'modified_at'}, 'tscore'), levermannDict)
                     totalUpdated += 1
+
+                if 'sell' in levermannScore[1].keys() and 'buy' in levermannScore[1].keys() and 'hold' in levermannScore[1].keys():
+                    # Analyst table
+                    analystsDict = dict()
+                    analystsDict['modified_at'] = Utils.getActualDate()
+                    analystsDict['buy'] = levermannScore[1]['buy']
+                    analystsDict['sell'] = levermannScore[1]['sell']
+                    analystsDict['hold'] = levermannScore[1]['hold']
+                    curLevermann.execute("""SELECT * FROM tanalysts anal WHERE anal.stock_id = %d""" % stock[0])
+                    analystsDb = curLevermann.fetchone()
+                    if analystsDb is not None:
+                        curLevermann.execute(Utils.createSqlString({'buy', 'sell', 'hold', 'modified_at'}, 'tanalysts', 'stock_id = %d' % stock[0], False), analystsDict)
+                    else:
+                        analystsDict['stock_id'] = stock[0]
+                        curLevermann.execute(Utils.createSqlString({'stock_id', 'buy', 'sell', 'hold', 'modified_at'}, 'tanalysts'), analystsDict)
+
             if totalUpdated == maxItems:
                 break
 
@@ -171,7 +187,7 @@ if doIndices:
                 marketCap = levermannRow[4]
                 levermannStockVal = Utils.calculateLevermann(levermannRow)
                 if levermannStockVal is not None and marketCap is not None:
-                    totalLevermannScore += Utils.calculateLevermann(levermannRow) * marketCap
+                    totalLevermannScore += levermannStockVal[0] * marketCap
                     totalMarketCap += marketCap
             if totalLevermannScore != 0 and totalMarketCap != 0:
                 levermannDict = dict()

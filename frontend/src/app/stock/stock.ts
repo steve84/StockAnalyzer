@@ -14,6 +14,7 @@ import { Forecast } from './forecast';
 import { Income } from './income';
 
 import { Performance } from './performance';
+import { Analysts } from './analysts';
 
 
 export interface Stock {
@@ -41,6 +42,7 @@ export interface Stock {
   forecast?: Forecast[],
   income?: Income[],
   performance?: Performance,
+  analysts?: Analysts,
   currency?: string,
   createdAt?: string
 }

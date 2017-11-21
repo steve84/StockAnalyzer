@@ -8,12 +8,12 @@
               Magic Formula Score (Calculated at {{calculatedAt | date}})
             </div>
             <div class="ui-g-2" style="text-align: right;">
-              {{magicFormulaScore}}
+              {{magicFormulaScore | number}}
             </div>
           </div>
         </p-header>
       </p-accordionTab>
-      <p-accordionTab>
+      <p-accordionTab [selected]="true">
         <p-header>
           <div class="ui-g">
             <div class="ui-g-10">
@@ -25,7 +25,7 @@
           </div>
         </p-header>
       </p-accordionTab>
-      <p-accordionTab>
+      <p-accordionTab [selected]="true">
         <p-header>
           <div class="ui-g">
             <div class="ui-g-10">
