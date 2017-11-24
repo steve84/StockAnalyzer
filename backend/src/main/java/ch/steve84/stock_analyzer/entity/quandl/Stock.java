@@ -39,7 +39,10 @@ public class Stock {
     @JoinColumn(name = "branch_id")
     private Branch branch;
     private String name;
-    private String currency;
+    @Column(name = "reference_currency")
+    private String referenceCurrency;
+    @Column(name = "share_currency")
+    private String shareCurrency;
 	@OneToMany(mappedBy = "stock")
     private List<StockIndex> indices;
     @OneToOne
@@ -170,15 +173,23 @@ public class Stock {
         this.name = name;
     }
 
-	public String getCurrency() {
-		return currency;
+	public String getReferenceCurrency() {
+		return referenceCurrency;
 	}
 
-	public void setCurrency(String currency) {
-		this.currency = currency;
+	public void setReferenceCurrency(String referenceCurrency) {
+		this.referenceCurrency = referenceCurrency;
 	}
 
-	public List<StockIndex> getIndices() {
+	public String getShareCurrency() {
+        return shareCurrency;
+    }
+
+    public void setShareCurrency(String shareCurrency) {
+        this.shareCurrency = shareCurrency;
+    }
+
+    public List<StockIndex> getIndices() {
 		for (StockIndex si : indices)
 			indexParticipation.put(si.getIndex().getName(), si.getPercentage());
 		return indices;

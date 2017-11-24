@@ -28,11 +28,11 @@ quandl_key = parser.parse_args().quandl_key
 
 conn = psycopg2.connect("dbname=%s user=%s host=%s password=%s" % (db_name, db_user, db_host, db_pwd))
 
-priceDatabaseCode = 'SSE'
+priceDatabaseCode = ['SSE', 'SIX']
 
 stockFile = 'https://s3.amazonaws.com/static.quandl.com/robur/RoburShortMeta_meta.xlsx'
 
-mandatoryKeys = {'name', 'country', 'branch', 'branch_group', 'isin', 'currency'}
+mandatoryKeys = {'name', 'country', 'branch', 'branch_group', 'isin', 'reference_currency'}
 headers = ['Full Name', 'Country', 'ISIN', 'YF Ticker', 'Sector Group', 'Sector', 'Reference Currency', 'Dataset']
 header_pos = dict()
 
@@ -67,7 +67,7 @@ for row in reader:
     stock['symbol'] = row[header_pos['YF Ticker']]
     stock['branch'] = row[header_pos['Sector']]
     stock['branch_group'] = row[header_pos['Sector Group']]
-    stock['currency'] = row[header_pos['Reference Currency']]
+    stock['reference_currency'] = row[header_pos['Reference Currency']]
     stock['quandl_rb1_id'] = int(row[header_pos['Dataset']].split('RB1/')[1])
     stock['country_id'] = None
     stock['branch_id'] = None
@@ -108,9 +108,14 @@ for row in reader:
     # select
     cur.execute("""SELECT * FROM tstock WHERE isin = %(isin)s;""", stock)
     if cur.rowcount == 0:
-      stock['quandl_price_dataset'] = Utils.getQuandlStockPriceDataset(priceDatabaseCode, stock['isin'], quandl_key)
+      stock['quandl_price_dataset'] = None
+      stock['share_currency'] = None
+      priceDataset = Utils.getQuandlStockPriceDataset(priceDatabaseCode, stock['name'], stock['isin'], quandl_key)
+      if priceDataset is not None and len(priceDataset) == 2:
+          stock['quandl_price_dataset'] = priceDataset[0]
+          stock['share_currency'] = priceDataset[1]
       # insert
-      cur.execute("""INSERT INTO tstock (name, isin, branch_id, country_id, currency, quandl_rb1_id, quandl_price_dataset, created_at) VALUES (%(name)s, %(isin)s, %(branch_id)s, %(country_id)s, %(currency)s, %(quandl_rb1_id)s, %(quandl_price_dataset)s, %(created_at)s);""", stock)
+      cur.execute("""INSERT INTO tstock (name, isin, branch_id, country_id, reference_currency, share_currency, quandl_rb1_id, quandl_price_dataset, created_at) VALUES (%(name)s, %(isin)s, %(branch_id)s, %(country_id)s, %(reference_currency)s, %(share_currency)s, %(quandl_rb1_id)s, %(quandl_price_dataset)s, %(created_at)s);""", stock)
       totalInserted['stocks'] += 1
       totalProcessed += 1
   if row_number % 100 == 0:

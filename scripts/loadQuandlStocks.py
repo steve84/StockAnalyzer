@@ -43,9 +43,9 @@ pageSize = 100
 
 baseUrl = 'https://www.quandl.com/api/v3/datasets.json'
 databaseCode = 'RB1'
-priceDatabaseCode = 'SSE'
+priceDatabaseCode = ['SSE', 'SIX']
 
-mandatoryKeys = {'name', 'country', 'branch', 'branch_group', 'isin', 'currency'}
+mandatoryKeys = {'name', 'country', 'branch', 'branch_group', 'isin', 'reference_currency'}
 
 # Program logic
 noneStr = lambda s: '' if s is None else str(s)
@@ -99,7 +99,7 @@ while page <= totalPages:
                         if part.find('b').text.find('Sector Group:') > -1:
                             stock['branch_group'] = part.text.replace('Sector Group:', '').strip()
                         if part.find('b').text.find('Reference Currency') > -1:
-                            stock['currency'] = part.text.replace('Reference Currency:', '').strip()
+                            stock['reference_currency'] = part.text.replace('Reference Currency:', '').strip()
 
                 stock['quandl_rb1_id'] = int(stock['dataset_code'].split('_')[0])
                 stock['country_id'] = None
@@ -142,9 +142,14 @@ while page <= totalPages:
                     # select
                     cur.execute("""SELECT * FROM tstock WHERE isin = %(isin)s;""", stock)
                     if cur.rowcount == 0:
-                        stock['quandl_price_dataset'] = Utils.getQuandlStockPriceDataset(priceDatabaseCode, stock['isin'], quandl_key)
+                        stock['quandl_price_dataset'] = None
+                        stock['share_currency'] = None
+                        priceDataset = Utils.getQuandlStockPriceDataset(priceDatabaseCode, stock['name'], stock['isin'], quandl_key)
+                        if priceDataset is not None and len(priceDataset) == 2:
+                            stock['quandl_price_dataset'] = priceDataset[0]
+                            stock['share_currency'] = priceDataset[1]
                         # insert
-                        cur.execute("""INSERT INTO tstock (name, isin, branch_id, country_id, currency, quandl_rb1_id, quandl_price_dataset, created_at) VALUES (%(name)s, %(isin)s, %(branch_id)s, %(country_id)s, %(currency)s, %(quandl_rb1_id)s, %(quandl_price_dataset)s, %(created_at)s);""", stock)
+                        cur.execute("""INSERT INTO tstock (name, isin, branch_id, country_id, reference_currency, share_currency, quandl_rb1_id, quandl_price_dataset, created_at) VALUES (%(name)s, %(isin)s, %(branch_id)s, %(country_id)s, %(reference_currency)s, %(share_currency)s, %(quandl_rb1_id)s, %(quandl_price_dataset)s, %(created_at)s);""", stock)
                         totalInserted['stocks'] += 1
                         totalProcessed += 1
                 else:

@@ -42,7 +42,7 @@ export interface Stock {
   forecast?: Forecast[],
   income?: Income[],
   performance?: Performance,
-  analysts?: Analysts,
-  currency?: string,
+  referenceCurrency?: string,
+  shareCurrency?: string,
   createdAt?: string
 }

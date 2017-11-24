@@ -209,17 +209,6 @@ CREATE SEQUENCE role_seq
 ALTER TABLE role_seq OWNER TO postgres;
 
 
-CREATE SEQUENCE performance_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
-ALTER TABLE performance_seq OWNER TO postgres;
-
-
 CREATE SEQUENCE analysts_seq
     START WITH 1
     INCREMENT BY 1
@@ -230,6 +219,15 @@ CREATE SEQUENCE analysts_seq
 
 ALTER TABLE analysts_seq OWNER TO postgres;
 
+
+CREATE SEQUENCE price_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+ALTER TABLE price_seq OWNER TO postgres;
 
 SET default_tablespace = '';
 
@@ -281,11 +279,12 @@ CREATE TABLE tstock (
 	business_year_end character varying,
     country_id integer NOT NULL,
     branch_id integer NOT NULL,
-    currency character varying,
+    reference_currency character varying,
     quandl_rb1_id integer NOT NULL,
     quandl_price_dataset character varying,
     public_stock boolean default false,
-    created_at date NOT NULL
+    created_at date NOT NULL,
+    share_currency character varying
 );
 
 
@@ -470,16 +469,6 @@ CREATE TABLE trole (
 
 ALTER TABLE trole OWNER TO postgres;
 
-CREATE TABLE tperformance (
-    performance_id integer DEFAULT nextval('performance_seq'::regclass) NOT NULL,
-    stock_id integer,
-    performance_6m numeric,
-    performance_1y numeric,
-    modified_at date
-);
-
-ALTER TABLE tperformance OWNER TO postgres;
-
 
 CREATE TABLE tanalysts (
     analysts_id integer DEFAULT nextval('analysts_seq'::regclass) NOT NULL,
@@ -491,6 +480,20 @@ CREATE TABLE tanalysts (
 );
 
 ALTER TABLE tanalysts OWNER TO postgres;
+
+
+
+CREATE TABLE tprice (
+    price_id integer DEFAULT nextval('price_seq'::regclass) NOT NULL,
+    stock_id integer,
+    index_id integer,
+    price numeric,
+    currency character varying,
+    quandl_code character varying,
+    created_at date
+);
+
+ALTER TABLE tprice OWNER TO postgres;
 
 
 --
@@ -551,12 +554,13 @@ ALTER TABLE ONLY tforecast
 
 ALTER TABLE ONLY trole
     ADD CONSTRAINT prole PRIMARY KEY (role_id);
-    
-ALTER TABLE ONLY tperformance
-    ADD CONSTRAINT pperformance PRIMARY KEY (performance_id);
 
 ALTER TABLE ONLY tanalysts
     ADD CONSTRAINT panalysts PRIMARY KEY (analysts_id);
+    
+ALTER TABLE ONLY tprice
+    ADD CONSTRAINT pprice PRIMARY KEY (price_id);
+
 --
 -- TOC entry 2004 (class 1259 OID 16505)
 -- Name: fki_fbranch; Type: INDEX; Schema: public; Owner: postgres
@@ -589,8 +593,9 @@ CREATE INDEX fki_fsignalsstock ON tsignals USING btree (stock_id);
 CREATE INDEX fki_fvaluesstock ON tvalues USING btree (stock_id);
 CREATE INDEX fki_fforecaststock ON tforecast USING btree (stock_id);
 
-CREATE INDEX fki_fperformancestock ON tperformance USING btree (stock_id);
 CREATE INDEX fki_fanalystsstock ON tanalysts USING btree (stock_id);
+CREATE INDEX fki_fpricestock ON tprice USING btree (stock_id);
+CREATE INDEX fki_fpriceindex ON tprice USING btree (index_id);
 
 --
 -- TOC entry 2008 (class 2606 OID 16507)
@@ -648,11 +653,14 @@ ALTER TABLE ONLY tforecast
 ALTER TABLE ONLY tuser
   ADD CONSTRAINT fuser FOREIGN KEY (role_id) REFERENCES trole(role_id);
 
-ALTER TABLE ONLY tperformance
-  ADD CONSTRAINT fperformance FOREIGN KEY (stock_id) REFERENCES tstock(stock_id);
-
 ALTER TABLE ONLY tanalysts
   ADD CONSTRAINT fanalysts FOREIGN KEY (stock_id) REFERENCES tstock(stock_id);
+
+ALTER TABLE ONLY tprice
+  ADD CONSTRAINT fpricestock FOREIGN KEY (stock_id) REFERENCES tstock(stock_id);
+  
+ALTER TABLE ONLY tprice
+  ADD CONSTRAINT fpriceindex FOREIGN KEY (index_id) REFERENCES tindex(index_id);
 
 ALTER TABLE tbranch ADD CONSTRAINT ubranchname UNIQUE (name);
 
@@ -670,9 +678,17 @@ ALTER TABLE tscoretype ADD CONSTRAINT uscoretype UNIQUE (name);
 
 ALTER TABLE tscore ADD CONSTRAINT uscorestock UNIQUE (score_type_id, stock_id);
 
+ALTER TABLE tscore ADD CONSTRAINT uscoreindex UNIQUE (score_type_id, index_id);
+
 ALTER TABLE tuser ADD CONSTRAINT uuser UNIQUE (username);
 
+ALTER TABLE tprice ADD CONSTRAINT upricestock UNIQUE (created_at, stock_id);
+
+ALTER TABLE tprice ADD CONSTRAINT upriceindex UNIQUE (created_at, index_id);
+
 ALTER TABLE tscore ADD CONSTRAINT cscore CHECK ((stock_id is NULL) <> (index_id is NULL));
+
+ALTER TABLE tprice ADD CONSTRAINT cprice CHECK ((stock_id is NULL) <> (index_id is NULL));
 
 
 CREATE OR REPLACE VIEW public.vstock AS 
@@ -680,7 +696,7 @@ CREATE OR REPLACE VIEW public.vstock AS
 	s.name AS stock_name,
 	s.isin,
 	s.business_year_end,
-    s.currency,
+    s.reference_currency,
     s.quandl_rb1_id,
 	c.name AS country_name,
 	b.name AS branch_name,
@@ -724,6 +740,22 @@ ALTER TABLE public.vavgtotalassets
   OWNER TO postgres;
 
 
+CREATE OR REPLACE VIEW public.vperformance AS 
+  select stock_dates.stock_id,
+    case when six_month_price.price > 0 then (1 - (actual_price.price / six_month_price.price)) * 100 else null end AS performance_6m,
+    case when one_year_price.price > 0 then (1 - (actual_price.price / one_year_price.price)) * 100 else null end AS performance_1y
+  from (select actual_price.stock_id, actual_price.target_date as actual_price_date, six_month_price.target_date as six_month_price_date, one_year_price.target_date as one_year_price_date from (select stock_id, max(created_at) as target_date from (select stock_id, created_at from tprice where created_at::timestamp in (select * from generate_series(current_date - interval '3 days', current_date, '1 day'))) dates group by stock_id) actual_price
+        left join (select stock_id, max(created_at) as target_date from (select stock_id, created_at from tprice where created_at::timestamp in (select * from generate_series(current_date - interval '6 months' - interval '3 days', current_date - interval '6 months' + interval '3 days', '1 day'))) dates group by stock_id) six_month_price on six_month_price.stock_id = actual_price.stock_id
+        left join (select stock_id, max(created_at) as target_date from (select stock_id, created_at from tprice where created_at::timestamp in (select * from generate_series(current_date - interval '1 year' - interval '3 days', current_date - interval '1 year' + interval '3 days', '1 day'))) dates group by stock_id) one_year_price on one_year_price.stock_id = actual_price.stock_id
+        where six_month_price.target_date is not null and one_year_price.target_date is not null and actual_price.target_date is not null) stock_dates
+  left join tprice actual_price on stock_dates.stock_id = actual_price.stock_id and stock_dates.actual_price_date = actual_price.created_at
+  left join tprice six_month_price on stock_dates.stock_id = six_month_price.stock_id and stock_dates.six_month_price_date = six_month_price.created_at
+  left join tprice one_year_price on stock_dates.stock_id = one_year_price.stock_id and stock_dates.one_year_price_date = one_year_price.created_at;
+
+ALTER TABLE public.vperformance
+  OWNER TO postgres;
+
+
 CREATE OR REPLACE VIEW public.vlevermann AS 
  SELECT s.stock_id,
    si.roe * 100 as roi_equity,
@@ -745,7 +777,7 @@ CREATE OR REPLACE VIEW public.vlevermann AS
    LEFT JOIN (select stock_id, avg(price_earnings_ratio) as price_earnings_ratio_5y_avg from (select stock_id, price_earnings_ratio from tvalues where modified_at >= current_date - interval '5 years') v group by stock_id) va on va.stock_id = s.stock_id
    LEFT JOIN tforecast f on f.stock_id = s.stock_id and f.modified_at = (b.modified_at + interval '1 year')
    LEFT JOIN tincome i on i.stock_id = s.stock_id and i.modified_at = b.modified_at
-   LEFT JOIN tperformance p ON p.stock_id = s.stock_id
+   LEFT JOIN vperformance p ON p.stock_id = s.stock_id
    LEFT JOIN tanalysts anal ON anal.stock_id = s.stock_id;
 
 ALTER TABLE public.vlevermann

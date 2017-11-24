@@ -206,49 +206,66 @@ class Utils:
         else:
             return actualYear - 2
     
-    def getQuandlStockPriceDataset(databaseCode, isin, quandl_key):
+    def getQuandlStockPriceDataset(databaseCodes, name, isin, quandl_key):
+        if not isinstance(databaseCodes, list):
+            return None
         baseUrl = 'https://www.quandl.com/api/v3/datasets.json'
-        query_params = dict()
-        query_params['database_code'] = databaseCode
-        query_params['per_page'] = 1
-        query_params['page'] = 1
-        query_params['query'] = str(isin)
-        query_params['api_key'] = quandl_key
         
-        link = baseUrl + '?' +  urllib.parse.urlencode(query_params)
-        max_retries = 3
-        attempt_nbr = 0
-        while attempt_nbr < max_retries:
-            response = requests.get(link)
-            if response.status_code == 200:
-                json_response = response.json()
-                if 'datasets' in json_response.keys() and len(json_response['datasets']) > 0 and 'description' in json_response['datasets'][0].keys() and json_response['datasets'][0]['description'].find(isin) > -1:
-                    return databaseCode + '/' + json_response['datasets'][0]['dataset_code']
-            elif response.status_code == 429:
-                sleep(300)
-            attempt_nbr += 1
+        for code in databaseCodes:
+            query_params = dict()
+            query_params['database_code'] = code
+            query_params['per_page'] = 5
+            query_params['page'] = 1
+            query_params['query'] = name
+            query_params['frequency'] = 'daily'
+            query_params['api_key'] = quandl_key
+        
+            link = baseUrl + '?' +  urllib.parse.urlencode(query_params)
+            max_retries = 3
+            attempt_nbr = 0
+            while attempt_nbr < max_retries:
+                response = requests.get(link)
+                if response.status_code == 200:
+                    json_response = response.json()
+                    if 'datasets' in json_response.keys() and len(json_response['datasets']) > 0:
+                        for dataset in json_response['datasets']:
+                            # check if isin is in description field
+                            if {'description', 'newest_available_date', 'oldest_available_date'}.issubset(set(dataset.keys())) and dataset['description'].lower().find(isin.lower()) > -1 and dataset['description'].lower().find('currency') > -1:
+                                newest_date = datetime.strptime(dataset['newest_available_date'], '%Y-%m-%d').date()
+                                oldest_date = datetime.strptime(dataset['oldest_available_date'], '%Y-%m-%d').date()
+                                # do only take actual values and with long (1 year) history
+                                if (Utils.getActualDate() - newest_date).days <= 3 and (newest_date - oldest_date).days >= 365:
+                                    # get currency value
+                                    try:
+                                        currency = (re.search('currency:[\s]?((\w*){3})', dataset['description'].lower())).group(1).upper()
+                                        return [dataset['database_code'] + '/' + dataset['dataset_code'], currency]
+                                    except:
+                                        continue
+                elif response.status_code == 429:
+                    sleep(300)
+                attempt_nbr += 1
+        return None
 
     def getQuandlStockPrice(code, quandl_key):
-        if code is None or len(code) == 0:
+        if code is None:
             return list()
         quandl.ApiConfig.api_key = quandl_key
+        quandl_database = code.split('/')[0]
+        quandl_mapping = dict()
+        quandl_mapping['SSE'] = 'Last'
+        quandl_mapping['SIX'] = 'Price'
         max_retries = 3
         attempt_nbr = 0 
         while attempt_nbr < max_retries:       
             try:
-                data = quandl.get(code, collapse='monthly')
-
-                if len(data.index) >= 13:
-                    actual_value =  data['Last'][-1]
-                    six_month_date = data.index[-7].date()
-                    six_month_value =  data['Last'][-7]
-                    one_year_date = data.index[-13].date()
-                    one_year_value =  data['Last'][-13]
-                    return [actual_value, six_month_value, one_year_value]
-                return list()
+                data = quandl.get(code)
+                data = data.sort_index(ascending=False)
+                return data[quandl_mapping[quandl_database]]
             except QuandlError as qe:
                 if qe.http_status != 429:
                     raise
+                else:
+                    sleep(300)
             attempt_nbr += 1
 
     def avgYearValue(factDict, targetKey, maxYear):
