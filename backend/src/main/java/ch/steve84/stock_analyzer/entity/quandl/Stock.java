@@ -54,6 +54,9 @@ public class Stock {
     @OneToOne
     @JoinColumn(name = "stock_id")
     private Piotroski piotroski;  
+    @OneToOne
+    @JoinColumn(name = "stock_id")
+    private MarketCapitalization marketCapitalization;
     @OneToMany
     @JoinColumn(name = "stock_id")
     private List<Income> income;
@@ -72,7 +75,8 @@ public class Stock {
     @OneToMany
     @JoinColumn(name = "stock_id")
     private List<Cashflow> cashflow;
-    @OneToOne(mappedBy = "stock")
+    @OneToOne
+    @JoinColumn(name = "stock_id")
     private Performance performance;
     @OneToOne(mappedBy = "stock")
     private Analysts analysts;
@@ -225,6 +229,14 @@ public class Stock {
 
 	public void setPiotroski(Piotroski piotroski) {
 		this.piotroski = piotroski;
+	}
+
+	public MarketCapitalization getMarketCapitalization() {
+		return marketCapitalization;
+	}
+
+	public void setMarketCapitalization(MarketCapitalization marketCapitalization) {
+		this.marketCapitalization = marketCapitalization;
 	}
 
 	public List<Income> getIncome() {

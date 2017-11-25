@@ -68,6 +68,23 @@ export class StockTableComponent implements OnInit, OnChanges {
       }
     }
   }
+  
+  getCssLevermann(stock: Stock, value: number) {
+    if (stock.marketCapitalization.marketCapitalization >= 10) {
+      if (value >= 4)
+        return {'background': 'green', 'color': 'white', 'padding': '3px'};
+    } else {
+      if (value >= 7)
+        return {'background': 'green', 'color': 'white', 'padding': '3px'};
+    }
+  }
+
+  getCssPiotroski(value: number) {
+    if (value >= 8)
+      return {'background': 'green', 'color': 'white', 'padding': '3px'};
+    else
+      return {};
+  }
 
   showFundamental(stock: Stock) {
     this.selectedStock = stock;

@@ -10,7 +10,7 @@
     <p-column field="scoreLevermann" i18n-header="@@stock.table.levermann.header" header="Levermann-Score" [sortable]="true">
       <ng-template let-col let-stock="rowData" pTemplate="body">
         <span *ngFor="let score of stock['scores']">
-          <span *ngIf="score['scoreType']['name'] == 'Levermann'">{{score['scoreValue']}}</span>
+          <span *ngIf="score['scoreType']['name'] == 'Levermann'" [ngStyle]="getCssLevermann(stock, score['scoreValue'])">{{score['scoreValue']}}</span>
         </span>
       </ng-template>
     </p-column>
@@ -24,7 +24,7 @@
     <p-column field="scorePiotroski" i18n-header="@@stock.table.piotroski.header" header="Piotroski F-Score-Score" [sortable]="true">
       <ng-template let-col let-stock="rowData" pTemplate="body">
         <span *ngFor="let score of stock['scores']">
-          <span *ngIf="score['scoreType']['name'] == 'Piotroski F-Score'">{{score['scoreValue']}}</span>
+          <span *ngIf="score['scoreType']['name'] == 'Piotroski F-Score'" [ngStyle]="getCssPiotroski(score['scoreValue'])">{{score['scoreValue']}}</span>
         </span>
       </ng-template>
     </p-column>

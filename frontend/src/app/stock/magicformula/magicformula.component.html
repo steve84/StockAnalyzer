@@ -13,26 +13,36 @@
           </div>
         </p-header>
       </p-accordionTab>
-      <p-accordionTab [selected]="true">
+      <p-accordionTab [selected]="magicFormulaData && magicFormulaData.returnOnCapital" [disabled]="!magicFormulaData || !magicFormulaData.returnOnCapital">
         <p-header>
           <div class="ui-g">
             <div class="ui-g-10">
               Gesamtkapitalrendite
             </div>
             <div class="ui-g-2" style="text-align: right;">
-              {{magicFormulaData.returnOnCapital | number}}%
+              <span *ngIf="magicFormulaData && magicFormulaData.returnOnCapital">
+                {{magicFormulaData.returnOnCapital | number}}% <i class="fa fa-info-circle" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
+              </span>
+              <span *ngIf="!magicFormulaData || !magicFormulaData.returnOnCapital">
+                n.a.
+              </span>
             </div>
           </div>
         </p-header>
       </p-accordionTab>
-      <p-accordionTab [selected]="true">
+      <p-accordionTab [selected]="magicFormulaData && magicFormulaData.earningsYield" [disabled]="!magicFormulaData || !magicFormulaData.earningsYield">
         <p-header>
           <div class="ui-g">
             <div class="ui-g-10">
               Gewinnrendite
             </div>
             <div class="ui-g-2" style="text-align: right;">
-              {{magicFormulaData.earningsYield | number}}%
+              <span *ngIf="magicFormulaData && magicFormulaData.earningsYield">
+                {{magicFormulaData.earningsYield | number}}% <i class="fa fa-info-circle" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
+              </span>
+              <span *ngIf="!magicFormulaData || !magicFormulaData.earningsYield">
+                n.a.
+              </span>
             </div>
           </div>
         </p-header>

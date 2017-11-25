@@ -3,5 +3,6 @@ export interface Price {
   stockId?: number,
   price?: number,
   currency?: string,
+  quandlCode?: string,
   createdAt?: string
 }

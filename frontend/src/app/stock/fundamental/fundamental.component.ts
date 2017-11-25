@@ -8,10 +8,12 @@ import { HelperService } from '../../helper.service';
 
 import { StockService } from '../stock.service';
 import { FundamentalService } from '../fundamental.service';
+import { PriceService } from '../price.service';
 
 import { Stock } from '../stock';
 import { Signals } from '../signals';
 import { Values } from '../values';
+import { Price } from '../price';
 
 import 'rxjs/add/operator/switchMap';
 
@@ -28,8 +30,10 @@ export class FundamentalComponent implements OnInit, OnChanges {
   title: string;
   value: Values;
   signals: Signals[] = [];
+  prices: Price[] = [];
   incomeChart: any;
   incomeChartOptions: any;
+  priceChart: any;
   indexNames: string[] = [];
   
   balanceFields: string[] = [];
@@ -48,6 +52,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
 
   constructor(private stockService: StockService,
               private fundamentalService: FundamentalService,
+              private priceService: PriceService,
               private helperService: HelperService,
               private route: ActivatedRoute,
               private location: Location) {
@@ -199,6 +204,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
                 this.title = this.stock.name;
                 this.getValue();
                 this.getSignals();
+                this.getPrices();
                 this.getIndexNames();
                 this.display = true;
               });
@@ -211,6 +217,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
         this.title = this.stock.name;
         this.getValue();
         this.getSignals();
+        this.getPrices();
         this.getIndexNames();
         this.display = true;
       });
@@ -257,12 +264,43 @@ export class FundamentalComponent implements OnInit, OnChanges {
     }
   }
   
+  getPrices() {
+    if (this.stock) {
+      this.priceService.getAllPricesByStockId(this.stock.stockId)
+        .subscribe((data:Price[]) => {
+        this.prices = data;
+        let chart_data = this.prices.map(p => p.price).filter(function(p,i) {
+          return i % 5 == 0;
+        });
+        let chart_labels = this.prices.map(p => p.createdAt.split('T')[0]).filter(function(p,i) {
+          return i % 5 == 0;
+        });
+        this.priceChart = this.helperService.createLineChartData(this.stock.name, chart_labels, chart_data);
+        });
+    }
+  }
+  
 
   getIndexNames() {
     this.indexNames = [];
     if (this.stock && Object.keys(this.stock.indexParticipation).length > 0) {
       this.indexNames = Object.keys(this.stock.indexParticipation);
     }
+  }
+  
+  getStockExchange(price: Price) {
+    if (price && price.quandlCode && price.quandlCode.length > 0) {
+      let quandlBase = price.quandlCode.split('/')[0];
+      switch (quandlBase) {
+        case 'SSE':
+          return 'Börse Stuttgart';
+        case 'SIX':
+          return 'Swiss Stock Exchange (SIX)';
+        default:
+          return 'n.a.';
+      }
+    }
+    return 'n.a.';
   }
 
   closeDisplay() {

@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { Http, Response, URLSearchParams } from '@angular/http';
+import { Response, URLSearchParams } from '@angular/http';
 
 import { AuthHttp } from 'angular2-jwt';
 

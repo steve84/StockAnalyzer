@@ -25,6 +25,7 @@ import { DataTableModule,
 import { StockService } from './stock.service';
 import { IndexService } from './index.service';
 import { FundamentalService } from './fundamental.service';
+import { PriceService } from './price.service';
 
 import { stockRoutes } from './stock.routes';
 
@@ -79,7 +80,8 @@ import { MagicformulaComponent } from './magicformula/magicformula.component';
   providers: [
     StockService,
     FundamentalService,
-    IndexService
+    IndexService,
+    PriceService
   ],
   declarations: [StockTableComponent, FundamentalComponent, LevermannComponent, IndexComponent, IndexdetailComponent, StockcategoryPipe, StockquickfinderComponent, StocksearchComponent, ScorecombinerComponent, CountryTranslationPipe, BranchTranslationPipe, CommonTranslationPipe, BalancetableComponent, BalancesheetComponent, FigurestableComponent, PiotroskiComponent, MagicformulaComponent]
 })

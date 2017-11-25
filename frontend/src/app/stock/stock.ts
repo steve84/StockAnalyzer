@@ -44,5 +44,6 @@ export interface Stock {
   performance?: Performance,
   referenceCurrency?: string,
   shareCurrency?: string,
+  marketCapitalization: any,
   createdAt?: string
 }

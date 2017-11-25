@@ -8,7 +8,11 @@
         </div>
         <div *ngIf="stock.balance && stock.balance.length > 0" class = "ui-g">
           <div class = "ui-g-3" i18n="@@stock.detail.businessyearend">End of business year</div><div class = "ui-g-3">{{stock.balance[0].modifiedAt | date:'dd.MM.'}}</div>
-          <div class = "ui-g-3" i18n="@@stock.detail.currency">Currency</div><div class = "ui-g-3">{{stock.currency}}</div>
+          <div class = "ui-g-3" i18n="@@stock.detail.currency">Currency</div><div class = "ui-g-3">{{stock.referenceCurrency}}</div>
+        </div>
+        <div *ngIf="prices && prices.length > 0" class = "ui-g">
+          <div class = "ui-g-3" i18n="@@stock.detail.actualprice">Actual Price</div><div class = "ui-g-3">{{prices[prices.length-1].price | number}} {{prices[prices.length-1].currency}} ({{prices[prices.length-1].createdAt | date}})</div>
+          <div class = "ui-g-3" i18n="@@stock.detail.actualprice.stockexchange">Stock Exchange</div><div class = "ui-g-3">{{getStockExchange(prices[prices.length-1])}}</div>
         </div>
         <div *ngIf="value" class = "ui-g">
           <div class = "ui-g-3" i18n="@@stock.detail.marketcap">Market capitalization</div><div class = "ui-g-3">{{value.marketCapitalization}}</div>
@@ -25,7 +29,7 @@
         <p-tabPanel *ngIf="stock && stock.balance" i18n-header="@@stock.detail.tab.balance.header" header="Balance">
           <div class = "ui-g">
             <div class="ui-g-12">
-              <app-figurestable [data]="stock.balance" [fields]="balanceFields" [labels]="balanceLabels" [currency]="stock.currency"></app-figurestable>
+              <app-figurestable [data]="stock.balance" [fields]="balanceFields" [labels]="balanceLabels" [currency]="stock.referenceCurrency"></app-figurestable>
             </div>
           </div>
           <div class = "ui-g">
@@ -37,14 +41,14 @@
         <p-tabPanel *ngIf="stock && stock.cashflow" i18n-header="@@stock.detail.tab.cashflow.header" header="Cashflow">
           <div class = "ui-g">
             <div class="ui-g-12">
-              <app-figurestable [data]="stock.cashflow" [fields]="cashflowFields" [labels]="cashflowLabels" [currency]="stock.currency"></app-figurestable>
+              <app-figurestable [data]="stock.cashflow" [fields]="cashflowFields" [labels]="cashflowLabels" [currency]="stock.referenceCurrency"></app-figurestable>
             </div>
           </div>
         </p-tabPanel>
         <p-tabPanel *ngIf="stock && stock.income" i18n-header="@@stock.detail.tab.income.header" header="Income">
           <div class = "ui-g">
             <div class="ui-g-12">
-              <app-figurestable [data]="stock.income" [fields]="incomeFields" [labels]="incomeLabels" [currency]="stock.currency" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"></app-figurestable>
+              <app-figurestable [data]="stock.income" [fields]="incomeFields" [labels]="incomeLabels" [currency]="stock.referenceCurrency" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"></app-figurestable>
             </div>
             <div *ngIf="incomeChart" class="ui-g-12">
               <p-chart type="line" #chart [data]="incomeChart" [options]="incomeChartOptions"></p-chart>
@@ -54,21 +58,21 @@
         <p-tabPanel *ngIf="value" i18n-header="@@stock.detail.tab.values.header" header="Values">
           <div class = "ui-g">
             <div class="ui-g-12">
-              <app-figurestable [data]="value" [fields]="valueFields" [labels]="valueLabels" [currency]="stock.currency"></app-figurestable>
+              <app-figurestable [data]="value" [fields]="valueFields" [labels]="valueLabels" [currency]="stock.referenceCurrency"></app-figurestable>
             </div>
           </div>
         </p-tabPanel>
         <p-tabPanel *ngIf="signals" i18n-header="@@stock.detail.tab.signals.header" header="Signals">
           <div class = "ui-g">
             <div class="ui-g-12">
-              <app-figurestable [data]="signals" [fields]="signalFields" [labels]="signalLabels" [currency]="stock.currency"></app-figurestable>
+              <app-figurestable [data]="signals" [fields]="signalFields" [labels]="signalLabels" [currency]="stock.referenceCurrency"></app-figurestable>
             </div>
           </div>
         </p-tabPanel>
         <p-tabPanel *ngIf="stock && stock.forecast" i18n-header="@@stock.detail.tab.forecast.header" header="Forecast">
           <div class = "ui-g">
             <div class="ui-g-12">
-              <app-figurestable [data]="stock.forecast" [fields]="forecastFields" [labels]="forecastLabels" [currency]="stock.currency" [showFuture]="true" ></app-figurestable>
+              <app-figurestable [data]="stock.forecast" [fields]="forecastFields" [labels]="forecastLabels" [currency]="stock.referenceCurrency" [showFuture]="true" ></app-figurestable>
             </div>
           </div>
         </p-tabPanel>
@@ -84,6 +88,19 @@
         </p-tabPanel>
         <p-tabPanel i18n-header="@@stock.detail.tab.piotroski.header" header="Piotroski">
           <app-piotroski [stock]="stock"></app-piotroski>
+        </p-tabPanel>
+      </p-tabView>
+    </p-tabPanel>
+    <p-tabPanel *ngIf="prices" i18n-header="@@stock.detail.tab.performance.header" header="Performance">
+      <p-tabView>
+        <p-tabPanel i18n-header="@@stock.detail.tab.performance.figures.header" header="Figures">
+          <div *ngIf="stock && stock.performance" class = "ui-g">
+            <div class = "ui-g-3" i18n="@@stock.detail.performance.oneyear">Performance 1 Year</div><div class = "ui-g-3">{{stock.performance.performance1y | number}}%</div>
+            <div class = "ui-g-3" i18n="@@stock.detail.performance.sixmonths">Performance 6 Months</div><div class = "ui-g-3">{{stock.performance.performance6m | number}}%</div>
+          </div>
+        </p-tabPanel>
+        <p-tabPanel i18n-header="@@stock.detail.tab.performance.chart.header" header="Chart">
+          <p-chart type="line" #price_chart [data]="priceChart"></p-chart>
         </p-tabPanel>
       </p-tabView>
     </p-tabPanel>
