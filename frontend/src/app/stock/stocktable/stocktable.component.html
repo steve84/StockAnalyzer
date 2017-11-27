@@ -1,4 +1,4 @@
-<p-dataTable [value]="stocks" selectionMode="single" responsive="true" [(selection)]="selectedStock" [paginator]="true" [lazy]="lazy" [rows]="pageSize" [rowsPerPageOptions]="[10,20,30]" (onLazyLoad)="loadData($event)" [totalRecords]="totalRecords" sortField="scoreLevermann" sortOrder="-1" resizableColumns="true">
+<p-dataTable [value]="stocks" selectionMode="single" responsive="true" [(selection)]="selectedStock" [paginator]="true" [lazy]="lazy" [rows]="pageSize" [rowsPerPageOptions]="[10,20,30]" (onLazyLoad)="loadData($event)" [totalRecords]="totalRecords" sortField="name" sortOrder="1" resizableColumns="true">
     <p-column field="isin" header="ISIN" [sortable]="true"></p-column>
     <p-column field="name" i18n-header="@@stock.table.name.header" header="Name" [sortable]="true"></p-column>
     <p-column field="country.name" i18n-header="@@stock.table.country.header" header="Country" [sortable]="true">
@@ -33,8 +33,12 @@
         {{stock['stockCategory']}}
       </ng-template>
     </p-column>
-    <p-column field="indexNames" i18n-header="@@stock.table.indices.header" header="Indices"></p-column>
-    <p-column styleClass="col-button">
+    <p-column field="latestPrice" i18n-header="@@stock.table.price.header" header="Price">
+      <ng-template let-col let-stock="rowData" pTemplate="body">
+        <span *ngIf="stock['latestPrice']">{{stock['latestPrice']['price']}} {{stock['shareCurrency']}}</span>
+      </ng-template>
+    </p-column>
+    <p-column i18n-header="@@stock.table.details.header" header="Details" styleClass="col-button">
       <ng-template let-stock="rowData" pTemplate="body">
         <button type="button" pButton (click)="showFundamental(stock)" icon="fa-search"></button>
       </ng-template>

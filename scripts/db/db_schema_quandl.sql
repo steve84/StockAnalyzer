@@ -756,6 +756,16 @@ ALTER TABLE public.vperformance
   OWNER TO postgres;
 
 
+CREATE OR REPLACE VIEW public.vlatestprice AS 
+  select 
+    p.stock_id,
+    p.price
+  from (select stock_id, max(created_at) as latest_date from tprice group by stock_id) latest_price
+  left join tprice p on latest_price.stock_id = p.stock_id and latest_price.latest_date = p.created_at;
+
+ALTER TABLE public.vlatestprice
+  OWNER TO postgres;
+
 CREATE OR REPLACE VIEW public.vlevermann AS 
  SELECT s.stock_id,
    si.roe * 100 as roi_equity,

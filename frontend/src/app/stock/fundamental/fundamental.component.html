@@ -15,12 +15,8 @@
           <div class = "ui-g-3" i18n="@@stock.detail.actualprice.stockexchange">Stock Exchange</div><div class = "ui-g-3">{{getStockExchange(prices[prices.length-1])}}</div>
         </div>
         <div *ngIf="value" class = "ui-g">
-          <div class = "ui-g-3" i18n="@@stock.detail.marketcap">Market capitalization</div><div class = "ui-g-3">{{value.marketCapitalization}}</div>
+          <div class = "ui-g-3" i18n="@@stock.detail.marketcap">Market capitalization</div><div class = "ui-g-3">{{value.marketCapitalization * 1000 | number}} Mio. USD</div>
           <div class = "ui-g-3" i18n="@@stock.detail.companysize">Company size</div><div class = "ui-g-3">{{value.marketCapitalization * 1000 | stockcategory}}</div>
-        </div>
-        <div *ngFor="let index of indexNames" class = "ui-g">
-          <div class = "ui-g-3">{{index}}</div><div class = "ui-g-3">{{stock.indexParticipation[index]*100 | number}}%</div>
-          <div class = "ui-g-3"></div><div class = "ui-g-3"></div>
         </div>
       </div>
     </p-tabPanel>
@@ -56,11 +52,18 @@
           </div>
         </p-tabPanel>
         <p-tabPanel *ngIf="value" i18n-header="@@stock.detail.tab.values.header" header="Values">
-          <div class = "ui-g">
-            <div class="ui-g-12">
-              <app-figurestable [data]="value" [fields]="valueFields" [labels]="valueLabels" [currency]="stock.referenceCurrency"></app-figurestable>
+            <div class = "ui-g">
+              <div class = "ui-g-3" i18n="@@stock.value.per">Price Earnings Ratio</div><div class = "ui-g-3">{{value.priceEarningsRatio}}</div>
+              <div class = "ui-g-3" i18n="@@stock.value.pcr">Price Cashflow Ratio</div><div class = "ui-g-3">{{value.priceCashflowRatio}}</div>
             </div>
-          </div>
+            <div class = "ui-g">
+              <div class = "ui-g-3" i18n="@@stock.value.pbr">Price Book Ratio</div><div class = "ui-g-3">{{value.priceBookRatio}}</div>
+              <div class = "ui-g-3" i18n="@@stock.value.pegratio">PEG Ratio</div><div class = "ui-g-3">{{value.pegRatio}}</div>
+            </div>
+            <div class = "ui-g">
+              <div class = "ui-g-3" i18n="@@stock.value.currentyield">Current Yield</div><div class = "ui-g-3">{{value.currentYield}}</div>
+              <div class = "ui-g-3" i18n="@@stock.value.enterpriceratio">Enterprise Ratio</div><div class = "ui-g-3">{{value.enterpriseRatio}}</div>
+            </div>
         </p-tabPanel>
         <p-tabPanel *ngIf="signals" i18n-header="@@stock.detail.tab.signals.header" header="Signals">
           <div class = "ui-g">

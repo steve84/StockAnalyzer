@@ -80,6 +80,9 @@ public class Stock {
     private Performance performance;
     @OneToOne(mappedBy = "stock")
     private Analysts analysts;
+    @OneToOne
+    @JoinColumn(name = "stock_id")
+    private LatestPrice latestPrice;
     @OneToMany
     @JoinColumn(name = "stock_id")
     private List<Score> scores;
@@ -301,6 +304,14 @@ public class Stock {
 
 	public void setAnalysts(Analysts analysts) {
 		this.analysts = analysts;
+	}
+
+	public LatestPrice getLatestPrice() {
+		return latestPrice;
+	}
+
+	public void setLatestPrice(LatestPrice latestPrice) {
+		this.latestPrice = latestPrice;
 	}
 
 	public List<Score> getScores() {
