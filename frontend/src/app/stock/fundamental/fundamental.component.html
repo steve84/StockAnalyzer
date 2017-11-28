@@ -1,5 +1,5 @@
-<p-dialog [header]="title" [(visible)]="display" (onHide)="closeDisplay()" width="800">
-  <p-tabView>
+<p-dialog [header]="title" modal="true" [(visible)]="display" (onHide)="closeDisplay()" width="800">
+  <p-tabView styleClass="scroll">
     <p-tabPanel i18n-header="@@stock.detail.tab.overview.header" header="Overview">
       <div *ngIf="stock">
         <div class = "ui-g">
