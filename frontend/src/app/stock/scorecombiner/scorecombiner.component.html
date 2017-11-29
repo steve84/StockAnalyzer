@@ -4,143 +4,127 @@
 </div>
 </div>
 <div class = "ui-g">
-<div class = "ui-g-3" i18n="@@score.combiner.levermann_factor.label">
-Levermann-Factor:
-</div>
-<div class = "ui-g-3">
-<input type="number" pInputText [(ngModel)]="levermannFactor" (change)="handleChange($event)" style="width:190px"/>
-</div>
-<div class = "ui-g-6">
-<p-slider [(ngModel)]="levermannFactor" [min]="0" [max]="100" (onChange)="handleChange($event)"></p-slider>
-</div>
+  <div class = "ui-g-3" i18n="@@score.combiner.levermann_factor">Levermann-Factor</div>
+  <div class = "ui-g-3">
+    <input type="number" pInputText [(ngModel)]="levermannFactor" (change)="handleChange($event)" style="width:190px"/>
+  </div>
+  <div class = "ui-g-6">
+    <p-slider [(ngModel)]="levermannFactor" [min]="0" [max]="100" (onChange)="handleChange($event)"></p-slider>
+  </div>
 </div>
 <div class = "ui-g">
-<div class = "ui-g-3" i18n="@@score.combiner.magic_formula_factor.label">
-Magic Formula-Factor:
-</div>
-<div class = "ui-g-3">
-<input type="number" pInputText [(ngModel)]="magicFormulaFactor" (change)="handleChange($event)" style="width:190px"/>
-</div>
-<div class = "ui-g-6">
-<p-slider [(ngModel)]="magicFormulaFactor" [min]="0" [max]="100" (onChange)="handleChange($event)"></p-slider>
-</div>
+  <div class = "ui-g-3" i18n="@@score.combiner.magic_formula_factor">Magic Formula-Factor</div>
+  <div class = "ui-g-3">
+    <input type="number" pInputText [(ngModel)]="magicFormulaFactor" (change)="handleChange($event)" style="width:190px"/>
+  </div>
+  <div class = "ui-g-6">
+    <p-slider [(ngModel)]="magicFormulaFactor" [min]="0" [max]="100" (onChange)="handleChange($event)"></p-slider>
+  </div>
 </div>
 <div class = "ui-g">
-<div class = "ui-g-3" i18n="@@score.combiner.piotroski_factor.label">
-Piotroski F-Score-Factor:
-</div>
-<div class = "ui-g-3">
-<input type="number" pInputText [(ngModel)]="piotroskiFactor" (change)="handleChange($event)" style="width:190px"/>
-</div>
-<div class = "ui-g-6">
-<p-slider [(ngModel)]="piotroskiFactor" [min]="0" [max]="100" (onChange)="handleChange($event)"></p-slider>
-</div>
+  <div class = "ui-g-3" i18n="@@score.combiner.piotroski_factor">Piotroski F-Score-Factor</div>
+  <div class = "ui-g-3">
+    <input type="number" pInputText [(ngModel)]="piotroskiFactor" (change)="handleChange($event)" style="width:190px"/>
+  </div>
+  <div class = "ui-g-6">
+    <p-slider [(ngModel)]="piotroskiFactor" [min]="0" [max]="100" (onChange)="handleChange($event)"></p-slider>
+  </div>
 </div>
 <div class = "ui-g">
-<div class = "ui-g-3">
-</div>
-<div class = "ui-g-9">
-<button type="button" pButton i18n-label="score.combiner.levermann.label" label="Levermann" (click)="setPureLevermann()" [disabled]="isPureLevermann()"></button>
-<button type="button" pButton i18n-label="score.combiner.piotroski.label" label="Piotroski" (click)="setPurePiotroski()" [disabled]="isPurePiotroski()"></button>
-<button type="button" pButton i18n-label="score.combiner.magicformula.label" label="Magic Formula" (click)="setPureMagicFormula()" [disabled]="isPureMagicFormula()"></button>
-</div>
+  <div class = "ui-g-3">
+  </div>
+  <div class = "ui-g-9">
+    <button type="button" pButton i18n-label="score.combiner.levermann.label" label="Levermann" (click)="setPureLevermann()" [disabled]="isPureLevermann()"></button>
+    <button type="button" pButton i18n-label="score.combiner.piotroski.label" label="Piotroski" (click)="setPurePiotroski()" [disabled]="isPurePiotroski()"></button>
+    <button type="button" pButton i18n-label="score.combiner.magicformula.label" label="Magic Formula" (click)="setPureMagicFormula()" [disabled]="isPureMagicFormula()"></button>
+  </div>
 </div>
 <div class = "ui-g">
-<div class = "ui-g-3" i18n="@@score.combiner.exclude_countries.label">
-Exclude countries:
-</div>
-<div class = "ui-g-9">
-<p-multiSelect [options]="countries" [(ngModel)]="excludedCountries" i18n-defaultLabel="@@search.choice.label" defaultLabel="Choose" i18n-selectedItemsLabel="@@search.choice.selected.label" selectedItemsLabel="{{0}} entries selected" maxSelectedLabels=2></p-multiSelect>
-</div>
+  <div class = "ui-g-3" i18n="@@score.combiner.exclude_countries">Exclude countries</div>
+  <div class = "ui-g-9">
+    <p-multiSelect [options]="countries" [(ngModel)]="excludedCountries" i18n-defaultLabel="@@search.choice.label" defaultLabel="Choose" i18n-selectedItemsLabel="@@search.choice.selected.label" selectedItemsLabel="{{0}} entries selected" maxSelectedLabels=2></p-multiSelect>
+  </div>
 </div>
 <div *ngIf="stockOrIndex == 'stock'" class = "ui-g">
-<div class = "ui-g-3" i18n="@@score.combiner.exclude_countries.label">
-Exclude branches:
-</div>
-<div class = "ui-g-9">
-<p-multiSelect [options]="branches" [(ngModel)]="excludedBranches" i18n-defaultLabel="@@search.choice.label" defaultLabel="Choose" i18n-selectedItemsLabel="@@search.choice.selected.label" selectedItemsLabel="{{0}} entries selected" maxSelectedLabels=2></p-multiSelect>
-</div>
+  <div class = "ui-g-3" i18n="@@score.combiner.exclude_countries">Exclude branches</div>
+  <div class = "ui-g-9">
+    <p-multiSelect [options]="branches" [(ngModel)]="excludedBranches" i18n-defaultLabel="@@search.choice.label" defaultLabel="Choose" i18n-selectedItemsLabel="@@search.choice.selected.label" selectedItemsLabel="{{0}} entries selected" maxSelectedLabels=2></p-multiSelect>
+  </div>
 </div>
 <div *ngIf="stockOrIndex == 'stock'" class = "ui-g">
-<div class = "ui-g-3" i18n="@@score.combiner.companysize.label">
-Company size:
-</div>
-<div class = "ui-g-9">
-<p-selectButton [options]="companySizeItems" [(ngModel)]="companySize"></p-selectButton>
-</div>
+  <div class = "ui-g-3" i18n="@@score.combiner.companysize">Company size</div>
+  <div class = "ui-g-9">
+    <p-selectButton [options]="companySizeItems" [(ngModel)]="companySize"></p-selectButton>
+  </div>
 </div>
 <div class = "ui-g">
-<div class = "ui-g-3" i18n="@@score.combiner.number_of_results.label">
-Number of results:
-</div>
-<div class = "ui-g-9">
-<p-spinner [(ngModel)]="numRows" [min]="1" [max]="50"></p-spinner>
-</div>
+  <div class = "ui-g-3" i18n="@@score.combiner.number_of_results">Number of results</div>
+  <div class = "ui-g-9">
+    <p-spinner [(ngModel)]="numRows" [min]="1"></p-spinner>
+  </div>
 </div>
 <div class = "ui-g">
-<div class = "ui-g-3" i18n="@@score.combiner.type_of_results.label">
-Type of results:
-</div>
-<div class = "ui-g-9">
-<p-selectButton [options]="stockOrIndexItem" [(ngModel)]="stockOrIndex" (onChange)="handleSelectChange($event)"></p-selectButton>
-</div>
+  <div class = "ui-g-3" i18n="@@score.combiner.type_of_results">Type of results</div>
+  <div class = "ui-g-9">
+    <p-selectButton [options]="stockOrIndexItem" [(ngModel)]="stockOrIndex" (onChange)="handleSelectChange($event)"></p-selectButton>
+  </div>
 </div>
 <div class = "ui-g">
-<div class = "ui-g-12">
-<button type="button" pButton i18n-label="score.combiner.search.label" label="Search" (click)="getScoreValues()" [disabled]="!isValid()" icon="fa-search"></button>
-<button type="button" pButton i18n-label="@@search.reset.label" label="Reset filters" (click)="reset()" icon="fa-remove"></button>
-</div>
+  <div class = "ui-g-12">
+    <button type="button" pButton i18n-label="@@score.combiner.search" label="Search" (click)="getScoreValues()" [disabled]="!isValid()" icon="fa-search"></button>
+    <button type="button" pButton i18n-label="@@score.combiner.reset" label="Reset filters" (click)="reset()" icon="fa-remove"></button>
+  </div>
 </div>
 
 <div *ngIf="stockOrIndex == 'stock'" class = "ui-g">
-<div class = "ui-g-12">
-<p-dataTable #dt [value]="scores" selectionMode="single" [(selection)]="selectedScore" resizableColumns="true" responsive="true">
-  <p-header>
-    <div class="ui-helper-clearfix">
-      <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left"></button>
-    </div>
-  </p-header>
-  <p-column field="stock.isin" header="ISIN"></p-column>
-  <p-column field="stock.name" i18n-header="@@stock.table.name.header" header="Name"></p-column>
-  <p-column field="stock.branch.name" i18n-header="@@stock.table.branch.header" header="Branch"></p-column>
-  <p-column field="stock.country.name" i18n-header="@@stock.table.country.header" header="Country"></p-column>
-  <p-column field="stock.latestPrice.price" i18n-header="@@stock.table.price.header" header="Price"></p-column>
-  <p-column field="stock.shareCurrency" i18n-header="@@stock.table.sharecurrency.header" header="Share Currency"></p-column>
-  <p-column field="scoreValue" i18n-header="@@stock.table.score.header" header="Score">
-    <ng-template let-col let-score="rowData" pTemplate="body">
-      {{score[col.field] * 100 | number}}
-    </ng-template>
-  </p-column>
-  <p-column i18n-header="@@stock.table.details.header" header="Details" styleClass="col-button">
-    <ng-template let-score="rowData" pTemplate="body">
-      <button type="button" pButton (click)="showStock(score)" icon="fa-search"></button>
-    </ng-template>
-  </p-column>
-</p-dataTable>
-</div>
+  <div class = "ui-g-12">
+    <p-dataTable #dt [value]="scores" selectionMode="single" [(selection)]="selectedScore" resizableColumns="true" responsive="true">
+      <p-header>
+        <div class="ui-helper-clearfix">
+          <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left"></button>
+        </div>
+      </p-header>
+      <p-column field="stock.isin" i18n-header="@@stock.isin" header="ISIN"></p-column>
+      <p-column field="stock.name" i18n-header="@@stock.name" header="Name"></p-column>
+      <p-column field="stock.branch.name" i18n-header="@@stock.branch" header="Branch"></p-column>
+      <p-column field="stock.country.name" i18n-header="@@stock.country" header="Country"></p-column>
+      <p-column field="stock.latestPrice.price" i18n-header="@@stock.price" header="Price"></p-column>
+      <p-column field="stock.shareCurrency" i18n-header="@@stock.sharecurrency" header="Share Currency"></p-column>
+      <p-column field="scoreValue" i18n-header="@@stock.score" header="Score">
+        <ng-template let-col let-score="rowData" pTemplate="body">
+          {{score[col.field] * 100 | number}}
+        </ng-template>
+      </p-column>
+      <p-column i18n-header="@@stock.details" header="Details" styleClass="col-button">
+        <ng-template let-score="rowData" pTemplate="body">
+          <button type="button" pButton (click)="showStock(score)" icon="fa-search"></button>
+        </ng-template>
+      </p-column>
+    </p-dataTable>
+  </div>
 </div>
 
 <div *ngIf="stockOrIndex == 'index'" class = "ui-g">
-<div class = "ui-g-12">
-<p-dataTable #dt [value]="scores" selectionMode="single" [(selection)]="selectedScore" resizableColumns="true" responsive="true">
-  <p-header>
-    <div class="ui-helper-clearfix">
-      <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left"></button>
-    </div>
-  </p-header>
-  <p-column field="index.name" i18n-header="@@index.table.name.header" header="Name"></p-column>
-  <p-column field="index.country.name" i18n-header="@@index.table.country.header" header="Country"></p-column>
-  <p-column field="index.realStocks.length" i18n-header="@@index.table.nbrofstocks.header" header="Number of Stocks"></p-column>
-  <p-column field="scoreValue" i18n-header="@@index.table.score.header" header="Score">
-    <ng-template let-col let-score="rowData" pTemplate="body">
-      {{score[col.field] * 100 | number}}
-    </ng-template>
-  </p-column>
-  <p-column  i18n-header="@@index.table.details.header" header="Details" styleClass="col-button">
-    <ng-template let-score="rowData" pTemplate="body">
-      <button type="button" pButton (click)="showIndex(score)" icon="fa-search"></button>
-    </ng-template>
-  </p-column>
-</p-dataTable>
-</div>
+  <div class = "ui-g-12">
+    <p-dataTable #dt [value]="scores" selectionMode="single" [(selection)]="selectedScore" resizableColumns="true" responsive="true">
+      <p-header>
+        <div class="ui-helper-clearfix">
+          <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left"></button>
+        </div>
+      </p-header>
+      <p-column field="index.name" i18n-header="@@index.name" header="Name"></p-column>
+      <p-column field="index.country.name" i18n-header="@@index.country" header="Country"></p-column>
+      <p-column field="index.realStocks.length" i18n-header="@@index.nbrofstocks" header="Number of Stocks"></p-column>
+      <p-column field="scoreValue" i18n-header="@@index.score" header="Score">
+        <ng-template let-col let-score="rowData" pTemplate="body">
+          {{score[col.field] * 100 | number}}
+        </ng-template>
+      </p-column>
+      <p-column  i18n-header="@@index.details" header="Details" styleClass="col-button">
+        <ng-template let-score="rowData" pTemplate="body">
+          <button type="button" pButton (click)="showIndex(score)" icon="fa-search"></button>
+        </ng-template>
+      </p-column>
+    </p-dataTable>
+  </div>
 </div>

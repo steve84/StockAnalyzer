@@ -34,18 +34,20 @@ import { FundamentalComponent } from './fundamental/fundamental.component';
 import { LevermannComponent } from './levermann/levermann.component';
 import { IndexComponent } from './index/index.component';
 import { IndexdetailComponent } from './indexdetail/indexdetail.component';
-import { StockcategoryPipe } from './stockcategory.pipe';
 import { StockquickfinderComponent } from './stockquickfinder/stockquickfinder.component';
 import { StocksearchComponent } from './stocksearch/stocksearch.component';
 import { ScorecombinerComponent } from './scorecombiner/scorecombiner.component';
-import { CountryTranslationPipe } from './country_translation.pipe';
-import { BranchTranslationPipe } from './branch_translation.pipe';
-import { CommonTranslationPipe } from './common_translation.pipe';
 import { BalancetableComponent } from './balance/balancetable/balancetable.component';
 import { BalancesheetComponent } from './balance/balancesheet/balancesheet.component';
 import { FigurestableComponent } from '../base/figurestable/figurestable.component';
 import { PiotroskiComponent } from './piotroski/piotroski.component';
 import { MagicformulaComponent } from './magicformula/magicformula.component';
+
+import { StockcategoryPipe } from './stockcategory.pipe';
+import { CountryTranslationPipe } from './country_translation.pipe';
+import { BranchTranslationPipe } from './branch_translation.pipe';
+import { CommonTranslationPipe } from './common_translation.pipe';
+import { FigureTranslationPipe } from './figure_translation.pipe';
 
 @NgModule({
   imports: [
@@ -83,6 +85,25 @@ import { MagicformulaComponent } from './magicformula/magicformula.component';
     IndexService,
     PriceService
   ],
-  declarations: [StockTableComponent, FundamentalComponent, LevermannComponent, IndexComponent, IndexdetailComponent, StockcategoryPipe, StockquickfinderComponent, StocksearchComponent, ScorecombinerComponent, CountryTranslationPipe, BranchTranslationPipe, CommonTranslationPipe, BalancetableComponent, BalancesheetComponent, FigurestableComponent, PiotroskiComponent, MagicformulaComponent]
+  declarations: [
+    StockcategoryPipe,
+    CountryTranslationPipe,
+    BranchTranslationPipe,
+    CommonTranslationPipe,
+    FigureTranslationPipe,
+    StockTableComponent,
+    FundamentalComponent,
+    LevermannComponent,
+    IndexComponent,
+    IndexdetailComponent,
+    StockquickfinderComponent,
+    StocksearchComponent,
+    ScorecombinerComponent,
+    BalancetableComponent,
+    BalancesheetComponent,
+    FigurestableComponent,
+    PiotroskiComponent,
+    MagicformulaComponent
+  ]
 })
 export class StockModule { }

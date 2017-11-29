@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, LOCALE_ID } from '@angular/core';
 import { Validators, FormControl, FormGroup, FormBuilder} from '@angular/forms';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 
 import { Message } from 'primeng/primeng';
 
 import { UserService } from '../user.service';
+
+import { MessageTranslationPipe } from '../stock/message_translation.pipe';
 
 @Component({
   selector: 'app-password',
@@ -21,7 +23,8 @@ export class PasswordComponent implements OnInit {
   passwordform: FormGroup;
   resetform: FormGroup;
   action: string;
-  constructor(private userService: UserService, private route: ActivatedRoute, private fb: FormBuilder) { }
+  messagePipe: MessageTranslationPipe = new MessageTranslationPipe('en-US');
+  constructor(@Inject(LOCALE_ID) private locale: string, private userService: UserService, private route: ActivatedRoute, private fb: FormBuilder) { }
 
   ngOnInit() {
     this.route.paramMap
@@ -41,14 +44,14 @@ export class PasswordComponent implements OnInit {
   
   resetPwd() {
     this.userService.resetPassword(this.username)
-      .subscribe((data:any) => this.msgs = [{severity: 'info', summary: 'Reset', detail: 'Passwort reset successfully'}],
-      (err:any) => this.msgs = [{severity: 'error', summary: 'Reset', detail: 'Cannot reset password'}]);
+      .subscribe((data:any) => this.msgs = [{severity: 'success', summary: '', detail: this.messagePipe.transform(9, this.locale)}],
+      (err:any) => this.msgs = [{severity: 'error', summary: '', detail: this.messagePipe.transform(10, this.locale)}]);
   }
   
   changePwd() {
     this.userService.changePassword(this.userId, this.password, this.passwordNew)
-      .subscribe((data:any) => this.msgs = [{severity: 'info', summary: 'Change', detail: 'Passwort changed successfully'}],
-      (err:any) => this.msgs = [{severity: 'error', summary: 'Change', detail: 'Cannot change password'}]);
+      .subscribe((data:any) => this.msgs = [{severity: 'success', summary: '', detail: this.messagePipe.transform(11, this.locale)}],
+      (err:any) => this.msgs = [{severity: 'error', summary: '', detail: this.messagePipe.transform(12, this.locale)}]);
   }
 
 }

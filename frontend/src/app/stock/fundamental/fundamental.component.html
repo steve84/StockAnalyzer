@@ -3,26 +3,26 @@
     <p-tabPanel i18n-header="@@stock.detail.tab.overview.header" header="Overview">
       <div *ngIf="stock">
         <div class = "ui-g">
-          <div class = "ui-g-3" i18n="@@stock.detail.name">Name</div><div class = "ui-g-3">{{stock.name}}</div>
-          <div class = "ui-g-3" i18n="@@stock.detail.isin">ISIN</div><div class = "ui-g-3">{{stock.isin}}</div>
+          <div class = "ui-g-3" i18n="@@stock.name">Name</div><div class = "ui-g-3">{{stock.name}}</div>
+          <div class = "ui-g-3" i18n="@@stock.isin">ISIN</div><div class = "ui-g-3">{{stock.isin}}</div>
         </div>
         <div *ngIf="stock.balance && stock.balance.length > 0" class = "ui-g">
-          <div class = "ui-g-3" i18n="@@stock.detail.businessyearend">End of business year</div><div class = "ui-g-3">{{stock.balance[0].modifiedAt | date:'dd.MM.'}}</div>
-          <div class = "ui-g-3" i18n="@@stock.detail.currency">Currency</div><div class = "ui-g-3">{{stock.referenceCurrency}}</div>
+          <div class = "ui-g-3" i18n="@@stock.businessyearend">End of business year</div><div class = "ui-g-3">{{stock.balance[0].modifiedAt | date:'dd.MM.'}}</div>
+          <div class = "ui-g-3" i18n="@@stock.referencecurrency">Currency</div><div class = "ui-g-3">{{stock.referenceCurrency}}</div>
         </div>
         <div *ngIf="prices && prices.length > 0" class = "ui-g">
-          <div class = "ui-g-3" i18n="@@stock.detail.actualprice">Actual Price</div><div class = "ui-g-3">{{prices[prices.length-1].price | number}} {{prices[prices.length-1].currency}} ({{prices[prices.length-1].createdAt | date}})</div>
-          <div class = "ui-g-3" i18n="@@stock.detail.actualprice.stockexchange">Stock Exchange</div><div class = "ui-g-3">{{getStockExchange(prices[prices.length-1])}}</div>
+          <div class = "ui-g-3" i18n="@@stock.actualprice">Actual Price</div><div class = "ui-g-3">{{prices[prices.length-1].price | number}} {{prices[prices.length-1].currency}} ({{prices[prices.length-1].createdAt | date}})</div>
+          <div class = "ui-g-3" i18n="@@stock.actualprice.stockexchange">Stock Exchange</div><div class = "ui-g-3">{{getStockExchange(prices[prices.length-1])}}</div>
         </div>
         <div *ngIf="value" class = "ui-g">
-          <div class = "ui-g-3" i18n="@@stock.detail.marketcap">Market capitalization</div><div class = "ui-g-3">{{value.marketCapitalization * 1000 | number}} Mio. USD</div>
-          <div class = "ui-g-3" i18n="@@stock.detail.companysize">Company size</div><div class = "ui-g-3">{{value.marketCapitalization * 1000 | stockcategory}}</div>
+          <div class = "ui-g-3" i18n="@@stock.marketcap">Market capitalization</div><div class = "ui-g-3">{{value.marketCapitalization * 1000 | number}} Mio. USD</div>
+          <div class = "ui-g-3" i18n="@@stock.company_size">Company size</div><div class = "ui-g-3">{{value.marketCapitalization * 1000 | stockcategory}}</div>
         </div>
       </div>
     </p-tabPanel>
-    <p-tabPanel *ngIf="stock && stock.balance" i18n-header="@@stock.detail.tab.ficures.header" header="Figures">
+    <p-tabPanel *ngIf="stock && stock.balance" i18n-header="@@stock.figures" header="Figures">
       <p-tabView>
-        <p-tabPanel *ngIf="stock && stock.balance" i18n-header="@@stock.detail.tab.balance.header" header="Balance">
+        <p-tabPanel *ngIf="stock && stock.balance" i18n-header="@@stock.balance" header="Balance">
           <div class = "ui-g">
             <div class="ui-g-12">
               <app-figurestable [data]="stock.balance" [fields]="balanceFields" [labels]="balanceLabels" [currency]="stock.referenceCurrency"></app-figurestable>
@@ -34,14 +34,14 @@
             </div>
           </div>
         </p-tabPanel>
-        <p-tabPanel *ngIf="stock && stock.cashflow" i18n-header="@@stock.detail.tab.cashflow.header" header="Cashflow">
+        <p-tabPanel *ngIf="stock && stock.cashflow" i18n-header="@@stock.cashflow" header="Cashflow">
           <div class = "ui-g">
             <div class="ui-g-12">
               <app-figurestable [data]="stock.cashflow" [fields]="cashflowFields" [labels]="cashflowLabels" [currency]="stock.referenceCurrency"></app-figurestable>
             </div>
           </div>
         </p-tabPanel>
-        <p-tabPanel *ngIf="stock && stock.income" i18n-header="@@stock.detail.tab.income.header" header="Income">
+        <p-tabPanel *ngIf="stock && stock.income" i18n-header="@@stock.income" header="Income">
           <div class = "ui-g">
             <div class="ui-g-12">
               <app-figurestable [data]="stock.income" [fields]="incomeFields" [labels]="incomeLabels" [currency]="stock.referenceCurrency" (onRowSelect)="onRowSelect($event)" (onRowUnselect)="onRowUnselect($event)"></app-figurestable>
@@ -51,7 +51,7 @@
             </div>
           </div>
         </p-tabPanel>
-        <p-tabPanel *ngIf="value" i18n-header="@@stock.detail.tab.values.header" header="Values">
+        <p-tabPanel *ngIf="value" i18n-header="@@stock.values" header="Values">
             <div class = "ui-g">
               <div class = "ui-g-3" i18n="@@stock.value.per">Price Earnings Ratio</div><div class = "ui-g-3">{{value.priceEarningsRatio}}</div>
               <div class = "ui-g-3" i18n="@@stock.value.pcr">Price Cashflow Ratio</div><div class = "ui-g-3">{{value.priceCashflowRatio}}</div>
@@ -65,14 +65,14 @@
               <div class = "ui-g-3" i18n="@@stock.value.enterpriceratio">Enterprise Ratio</div><div class = "ui-g-3">{{value.enterpriseRatio}}</div>
             </div>
         </p-tabPanel>
-        <p-tabPanel *ngIf="signals" i18n-header="@@stock.detail.tab.signals.header" header="Signals">
+        <p-tabPanel *ngIf="signals" i18n-header="@@stock.signals" header="Signals">
           <div class = "ui-g">
             <div class="ui-g-12">
               <app-figurestable [data]="signals" [fields]="signalFields" [labels]="signalLabels" [currency]="stock.referenceCurrency"></app-figurestable>
             </div>
           </div>
         </p-tabPanel>
-        <p-tabPanel *ngIf="stock && stock.forecast" i18n-header="@@stock.detail.tab.forecast.header" header="Forecast">
+        <p-tabPanel *ngIf="stock && stock.forecast" i18n-header="@@stock.forecast" header="Forecast">
           <div class = "ui-g">
             <div class="ui-g-12">
               <app-figurestable [data]="stock.forecast" [fields]="forecastFields" [labels]="forecastLabels" [currency]="stock.referenceCurrency" [showFuture]="true" ></app-figurestable>
@@ -81,28 +81,28 @@
         </p-tabPanel>
       </p-tabView>
     </p-tabPanel>
-    <p-tabPanel i18n-header="@@stock.detail.tab.scores.header" header="Scores">
+    <p-tabPanel i18n-header="@@stock.scores" header="Scores">
       <p-tabView>
-        <p-tabPanel i18n-header="@@stock.detail.tab.levermann.header" header="Levermann">
+        <p-tabPanel i18n-header="@@stock.levermann" header="Levermann">
           <app-levermann [stock]="stock"></app-levermann>
         </p-tabPanel>
-        <p-tabPanel i18n-header="@@stock.detail.tab.magicformula.header" header="Magic Formula">
+        <p-tabPanel i18n-header="@@stock.magicformula" header="Magic Formula">
           <app-magicformula [stock]="stock"></app-magicformula>
         </p-tabPanel>
-        <p-tabPanel i18n-header="@@stock.detail.tab.piotroski.header" header="Piotroski">
+        <p-tabPanel i18n-header="@@stock.piotroski" header="Piotroski">
           <app-piotroski [stock]="stock"></app-piotroski>
         </p-tabPanel>
       </p-tabView>
     </p-tabPanel>
-    <p-tabPanel *ngIf="prices" i18n-header="@@stock.detail.tab.performance.header" header="Performance">
+    <p-tabPanel *ngIf="prices" i18n-header="@@stock.performance" header="Performance">
       <p-tabView>
-        <p-tabPanel i18n-header="@@stock.detail.tab.performance.figures.header" header="Figures">
+        <p-tabPanel i18n-header="@@stock.performance.figures" header="Figures">
           <div *ngIf="stock && stock.performance" class = "ui-g">
-            <div class = "ui-g-3" i18n="@@stock.detail.performance.oneyear">Performance 1 Year</div><div class = "ui-g-3">{{stock.performance.performance1y | number}}%</div>
-            <div class = "ui-g-3" i18n="@@stock.detail.performance.sixmonths">Performance 6 Months</div><div class = "ui-g-3">{{stock.performance.performance6m | number}}%</div>
+            <div class = "ui-g-3" i18n="@@stock.performance.figure.oneyear">Performance 1 Year</div><div class = "ui-g-3">{{stock.performance.performance1y | number}}%</div>
+            <div class = "ui-g-3" i18n="@@stock.performance.figure.sixmonths">Performance 6 Months</div><div class = "ui-g-3">{{stock.performance.performance6m | number}}%</div>
           </div>
         </p-tabPanel>
-        <p-tabPanel i18n-header="@@stock.detail.tab.performance.chart.header" header="Chart">
+        <p-tabPanel i18n-header="@@stock.performance.chart" header="Chart">
           <p-chart type="line" #price_chart [data]="priceChart"></p-chart>
         </p-tabPanel>
       </p-tabView>

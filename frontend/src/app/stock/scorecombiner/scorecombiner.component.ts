@@ -14,6 +14,7 @@ import { Branch } from '../branch';
 import { CountryTranslationPipe } from '../country_translation.pipe';
 import { BranchTranslationPipe } from '../branch_translation.pipe';
 import { CommonTranslationPipe } from '../common_translation.pipe';
+import { MessageTranslationPipe } from '../message_translation.pipe';
 
 @Component({
   selector: 'app-scorecombiner',
@@ -40,7 +41,8 @@ export class ScorecombinerComponent implements OnInit {
   commonTranslationPipe: CommonTranslationPipe = new CommonTranslationPipe();
   countryTranslationPipe: CountryTranslationPipe = new CountryTranslationPipe();
   branchTranslationPipe: BranchTranslationPipe = new BranchTranslationPipe();
-  constructor(private stockService: StockService, private indexService: IndexService, @Inject(LOCALE_ID) private locale: String) {
+  messagePipe: MessageTranslationPipe = new MessageTranslationPipe('en-US');
+  constructor(private stockService: StockService, private indexService: IndexService, @Inject(LOCALE_ID) private locale: string) {
     this.numRowValues.push({label: '10', value: 10});
     this.numRowValues.push({label: '20', value: 20});
     this.numRowValues.push({label: '30', value: 30});
@@ -132,7 +134,7 @@ export class ScorecombinerComponent implements OnInit {
     debugger
     let sumFactors = this.levermannFactor + this.magicFormulaFactor + this.piotroskiFactor;
     if (sumFactors != 100)
-      this.msgs = [{severity: 'info', summary: this.commonTranslationPipe.transform('Information'), detail: this.commonTranslationPipe.transform('The sum of the factors has to be 100 (actual: ') + sumFactors + ")"}];
+      this.msgs = [{severity: 'info', summary: '', detail: this.messagePipe.transform(18, this.locale) + sumFactors + ")"}];
     else
       this.msgs = [];
   }

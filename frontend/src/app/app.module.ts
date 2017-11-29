@@ -20,7 +20,6 @@ import { LoginComponent } from './login/login.component';
 import { UserService } from './user.service';
 import { HelperService } from './helper.service';
 import { AuthGuard } from './auth/authguard.service';
-import { DialogSizeDirective } from './dialogsize.directive';
 import { UserRegistrationComponent } from './userregistration/userregistration.component';
 import { ImpressumComponent } from './content/impressum/impressum.component';
 import { FrontpageComponent } from './content/frontpage/frontpage.component';
@@ -30,12 +29,13 @@ import { ConfirmComponent } from './confirm/confirm.component';
 import { PasswordComponent } from './password/password.component';
 import { FaqComponent } from './content/faq/faq.component';
 
+import { MessageTranslationPipe } from './stock/message_translation.pipe';
+
 @NgModule({
   declarations: [
     AppComponent,
     MenubarComponent,
     LoginComponent,
-    DialogSizeDirective,
     UserRegistrationComponent,
     ImpressumComponent,
     FrontpageComponent,
@@ -43,7 +43,8 @@ import { FaqComponent } from './content/faq/faq.component';
     FooterbarComponent,
     ConfirmComponent,
     PasswordComponent,
-    FaqComponent
+    FaqComponent,
+    MessageTranslationPipe
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

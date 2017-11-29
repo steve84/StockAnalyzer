@@ -1,29 +1,29 @@
 <p-dataTable [value]="indices" responsive="true" selectionMode="single" [(selection)]="selectedIndex" [paginator]="true" [lazy]="true" [rows]="pageSize" (onLazyLoad)="loadData($event)" [totalRecords]="totalRecords" resizableColumns="true">
-    <p-column field="name" i18n-header="@@index.table.name.header" header="Name" [sortable]="true"></p-column>
-    <p-column field="country.name" i18n-header="@@index.table.country.header" header="Country" [sortable]="true"></p-column>
-    <p-column field="realStocks.length" i18n-header="@@index.table.nbrofstocks.header" header="Number of Stocks" [sortable]="false"></p-column>
-    <p-column field="scoreLevermann" i18n-header="@@index.table.levermann_score.header" header="Levermann-Score" [sortable]="true">
+    <p-column field="name" i18n-header="@@index.name" header="Name" [sortable]="true"></p-column>
+    <p-column field="country.name" i18n-header="@@index.country" header="Country" [sortable]="true"></p-column>
+    <p-column field="realStocks.length" i18n-header="@@index.nbrofstocks" header="Number of Stocks" [sortable]="false"></p-column>
+    <p-column field="scoreLevermann" i18n-header="@@index.levermann.score" header="Levermann-Score" [sortable]="true">
       <ng-template let-col let-index="rowData" pTemplate="body">
         <span *ngFor="let score of index['scores']">
           <span *ngIf="score['scoreType']['name'] == 'Levermann'">{{score['scoreValue'] | number}}</span>
         </span>
       </ng-template>
     </p-column>
-    <p-column field="scoreMagicFormula" i18n-header="@@index.table.magic_formula_score.header" header="Magic Formula-Score" [sortable]="true">
+    <p-column field="scoreMagicFormula" i18n-header="@@index.magicformula.score" header="Magic Formula-Score" [sortable]="true">
       <ng-template let-col let-index="rowData" pTemplate="body">
         <span *ngFor="let score of index['scores']">
           <span *ngIf="score['scoreType']['name'] == 'Magic Formula'">{{score['scoreValue'] | number}}</span>
         </span>
       </ng-template>
     </p-column>
-    <p-column field="scorePiotroski" i18n-header="@@index.table.piotroski_score.header" header="Piotroski F-Score-Score" [sortable]="true">
+    <p-column field="scorePiotroski" i18n-header="@@index.piotroski.score" header="Piotroski F-Score" [sortable]="true">
       <ng-template let-col let-index="rowData" pTemplate="body">
         <span *ngFor="let score of index['scores']">
           <span *ngIf="score['scoreType']['name'] == 'Piotroski F-Score'">{{score['scoreValue'] | number}}</span>
         </span>
       </ng-template>
     </p-column>
-    <p-column styleClass="col-button">
+    <p-column i18n-header="@@index.details" header="Details" styleClass="col-button">
       <ng-template let-index="rowData" pTemplate="body">
         <button type="button" pButton (click)="showIndexDetail(index)" icon="fa-search"></button>
       </ng-template>

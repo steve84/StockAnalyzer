@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, LOCALE_ID } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 
 import { Message } from 'primeng/primeng';
 
 import { UserService } from '../user.service';
+
+import { MessageTranslationPipe } from '../stock/message_translation.pipe';
 
 @Component({
   selector: 'app-confirm',
@@ -15,7 +17,8 @@ export class ConfirmComponent implements OnInit {
   userId: number;
   token: string;
   msgs: Message[] = [];
-  constructor(private route: ActivatedRoute, private userService: UserService) { }
+  messagePipe: MessageTranslationPipe = new MessageTranslationPipe('en-US');
+  constructor(@Inject(LOCALE_ID) private locale: string, private route: ActivatedRoute, private userService: UserService) { }
 
   ngOnInit() {
     this.route.paramMap
@@ -27,8 +30,8 @@ export class ConfirmComponent implements OnInit {
   
   confirm() {
     this.userService.confirm(this.userId, this.token, this.password)
-      .subscribe((data:any) => this.msgs = [{severity: 'info', summary: 'Success', detail: 'Account confirmed successfully'}],
-      (err:any) => this.msgs = [{severity: 'error', summary: 'Error', detail: 'Cannot confirm account'}]);
+      .subscribe((data:any) => this.msgs = [{severity: 'success', summary: '', detail: this.messagePipe.transform(6, this.locale)}],
+      (err:any) => this.msgs = [{severity: 'error', summary: '', detail: this.messagePipe.transform(7, this.locale)}]);
   }
 
 }

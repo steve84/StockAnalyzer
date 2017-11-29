@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, LOCALE_ID } from '@angular/core';
 import { Router } from '@angular/router';
 import { Validators, FormControl, FormGroup, FormBuilder} from '@angular/forms';
 
 import { Message } from 'primeng/primeng';
 
 import { UserService } from '../user.service';
+
+import { MessageTranslationPipe } from '../stock/message_translation.pipe';
 
 @Component({
   selector: 'app-login',
@@ -17,7 +19,8 @@ export class LoginComponent implements OnInit {
   password: string;
   msgs: Message[] = [];
   loginform: FormGroup;
-  constructor(private userService: UserService, private router: Router, private fb: FormBuilder) { }
+  messagePipe: MessageTranslationPipe = new MessageTranslationPipe('en-US');
+  constructor(@Inject(LOCALE_ID) private locale: string, private userService: UserService, private router: Router, private fb: FormBuilder) { }
 
   ngOnInit() {
     this.loginform = this.fb.group({
@@ -34,6 +37,6 @@ export class LoginComponent implements OnInit {
           this.userService.decodeToken();
           this.router.navigate(['/']);
         }
-      }, (err:any) => this.msgs = [{severity: 'error', summary: 'Error', detail: 'Username or password not correct'}]);
+      }, (err:any) => this.msgs = [{severity: 'error', summary: '', detail: this.messagePipe.transform(8, this.locale)}]);
   }
 }

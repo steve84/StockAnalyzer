@@ -4,9 +4,7 @@
       <p-accordionTab [disabled]="true">
         <p-header>
           <div class="ui-g">
-            <div class="ui-g-10">
-              Piotroski Score (Calculated at {{calculatedAt | date}})
-            </div>
+            <div class="ui-g-10" i18n="@@piotroski.title">Piotroski F-Score (Calculated at {{calculatedAt | date}})</div>
             <div class="ui-g-2" style="text-align: right;">
               {{piotroskiScore}}
             </div>
@@ -16,12 +14,10 @@
       <p-accordionTab [selected]="piotroskiData && piotroskiData.returnOnAssets" [disabled]="!piotroskiData || !piotroskiData.returnOnAssets">
         <p-header>
           <div class="ui-g">
-            <div class="ui-g-10">
-              Nettorendite
-            </div>
+            <div class="ui-g-10" i18n="@@piotroski.returnonassets">Return on Assets</div>
             <div class="ui-g-2" style="text-align: right;">
               <span *ngIf="piotroskiData && piotroskiData.returnOnAssets">
-                {{getReturnOnAssetsScore(piotroskiData.returnOnAssets)}} <i class="fa fa-info-circle" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
+                {{getReturnOnAssetsScore(piotroskiData.returnOnAssets)}} <i class="fa fa-info-circle" i18n-pTooltip="@@piotroski.returnonassets.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
               </span>
               <span *ngIf="!piotroskiData || !piotroskiData.returnOnAssets">
                 n.a.
@@ -34,12 +30,10 @@
       <p-accordionTab [selected]="piotroskiData && piotroskiData.cashOperations" [disabled]="!piotroskiData || !piotroskiData.cashOperations">
         <p-header>
           <div class="ui-g">
-            <div class="ui-g-10">
-              Cashflow-Rendite
-            </div>
+            <div class="ui-g-10" i18n="@@piotroski.operatingcashflow">Operating Cashflow</div>
             <div class="ui-g-2" style="text-align: right;">
               <span *ngIf="piotroskiData && piotroskiData.cashOperations">
-                {{getCashOperationScore(piotroskiData.cashOperations)}} <i class="fa fa-info-circle" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
+                {{getCashOperationScore(piotroskiData.cashOperations)}} <i class="fa fa-info-circle" i18n-pTooltip="@@piotroski.operatingcashflow.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
               </span>
               <span *ngIf="!piotroskiData || !piotroskiData.cashOperations">
                 n.a.
@@ -52,12 +46,10 @@
       <p-accordionTab [selected]="piotroskiData && piotroskiData.actualReturnOnAssets" [disabled]="!piotroskiData || !piotroskiData.actualReturnOnAssets">
         <p-header>
           <div class="ui-g">
-            <div class="ui-g-10">
-              Nettorendite (Veränderung)
-            </div>
+            <div class="ui-g-10" i18n="@@piotroski.changereturnonassets">Change in Return of Assets</div>
             <div class="ui-g-2" style="text-align: right;">
               <span *ngIf="piotroskiData && piotroskiData.actualReturnOnAssets">
-                {{getReturnOnAssetsDeltaScore(piotroskiData.actualReturnOnAssets, piotroskiData.lastReturnOnAssets)}} <i class="fa fa-info-circle" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
+                {{getReturnOnAssetsDeltaScore(piotroskiData.actualReturnOnAssets, piotroskiData.lastReturnOnAssets)}} <i class="fa fa-info-circle" i18n-pTooltip="@@piotroski.changereturnonassets.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
               </span>
               <span *ngIf="!piotroskiData || !piotroskiData.actualReturnOnAssets">
                 n.a.
@@ -70,12 +62,10 @@
       <p-accordionTab [selected]="piotroskiData && piotroskiData.cashOperations" [disabled]="!piotroskiData || !piotroskiData.cashOperations">
         <p-header>
           <div class="ui-g">
-            <div class="ui-g-10">
-              Rückstellungsquote
-            </div>
+            <div class="ui-g-10" i18n="@@piotroski.accruals">Accruals</div>
             <div class="ui-g-2" style="text-align: right;">
               <span *ngIf="piotroskiData && piotroskiData.cashOperations">
-                {{getAccrualsScore(piotroskiData.returnOnAssets, piotroskiData.cashOperations)}} <i class="fa fa-info-circle" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
+                {{getAccrualsScore(piotroskiData.returnOnAssets, piotroskiData.cashOperations)}} <i class="fa fa-info-circle" i18n-pTooltip="@@piotroski.accruals.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
               </span>
               <span *ngIf="!piotroskiData || !piotroskiData.cashOperations">
                 n.a.
@@ -88,12 +78,10 @@
       <p-accordionTab [selected]="piotroskiData && piotroskiData.actualLongTermRatio" [disabled]="!piotroskiData || !piotroskiData.actualLongTermRatio">
         <p-header>
           <div class="ui-g">
-            <div class="ui-g-10">
-              Fremdkapitalanteil
-            </div>
+            <div class="ui-g-10" i18n="@@piotroski.leverage">Leverage (long-term) Ratio</div>
             <div class="ui-g-2" style="text-align: right;">
               <span *ngIf="piotroskiData && piotroskiData.actualLongTermRatio">
-                {{getLongTermRatioScore(piotroskiData.actualLongTermRatio, piotroskiData.lastLongTermRatio)}} <i class="fa fa-info-circle" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
+                {{getLongTermRatioScore(piotroskiData.actualLongTermRatio, piotroskiData.lastLongTermRatio)}} <i class="fa fa-info-circle" i18n-pTooltip="@@piotroski.leverage.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
               </span>
               <span *ngIf="!piotroskiData || !piotroskiData.actualLongTermRatio">
                 n.a.
@@ -106,12 +94,10 @@
       <p-accordionTab [selected]="piotroskiData && piotroskiData.actualCurrentRatio" [disabled]="!piotroskiData || !piotroskiData.actualCurrentRatio">
         <p-header>
           <div class="ui-g">
-            <div class="ui-g-10">
-              Liquidität 3. Grades
-            </div>
+            <div class="ui-g-10" i18n="@@piotroski.currentratio">Current Ratio</div>
             <div class="ui-g-2" style="text-align: right;">
               <span *ngIf="piotroskiData && piotroskiData.actualCurrentRatio">
-                {{getCurrentRatioScore(piotroskiData.actualCurrentRatio, piotroskiData.lastCurrentRatio)}} <i class="fa fa-info-circle" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
+                {{getCurrentRatioScore(piotroskiData.actualCurrentRatio, piotroskiData.lastCurrentRatio)}} <i class="fa fa-info-circle" i18n-pTooltip="@@piotroski.currentratio.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
               </span>
               <span *ngIf="!piotroskiData || !piotroskiData.actualCurrentRatio">
                 n.a.
@@ -124,12 +110,10 @@
       <p-accordionTab [selected]="piotroskiData && piotroskiData.actualSharesOutstanding" [disabled]="!piotroskiData || !piotroskiData.actualSharesOutstanding">
         <p-header>
           <div class="ui-g">
-            <div class="ui-g-10">
-              Ausstehende Aktien
-            </div>
+            <div class="ui-g-10" i18n="@@piotroski.numberofshares">Shares Outstanding</div>
             <div class="ui-g-2" style="text-align: right;">
               <span *ngIf="piotroskiData && piotroskiData.actualSharesOutstanding">
-                {{getSharesOutstandingScore(piotroskiData.actualSharesOutstanding, piotroskiData.lastSharesOutstanding)}} <i class="fa fa-info-circle" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
+                {{getSharesOutstandingScore(piotroskiData.actualSharesOutstanding, piotroskiData.lastSharesOutstanding)}} <i class="fa fa-info-circle" i18n-pTooltip="@@piotroski.numberofshares.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
               </span>
               <span *ngIf="!piotroskiData || !piotroskiData.actualSharesOutstanding">
                 n.a.
@@ -142,11 +126,9 @@
       <p-accordionTab [selected]="false" [disabled]="true">
         <p-header>
           <div class="ui-g">
-            <div class="ui-g-10">
-              Brutto-Marge
-            </div>
+            <div class="ui-g-10" i18n="@@piotroski.grossmargin">Gross Margin</div>
             <div class="ui-g-2" style="text-align: right;">
-              n.a. <i class="fa fa-info-circle" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
+              n.a. <i class="fa fa-info-circle" i18n-pTooltip="@@piotroski.grossmargin.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
             </div>
           </div>
         </p-header>
@@ -154,12 +136,10 @@
       <p-accordionTab [selected]="piotroskiData && piotroskiData.actualAssetTurnover" [disabled]="!piotroskiData || !piotroskiData.actualAssetTurnover">
         <p-header>
           <div class="ui-g">
-            <div class="ui-g-10">
-              Kapitalumschlag
-            </div>
+            <div class="ui-g-10" i18n="@@piotroski.assertturnover">Asset Turnover Ratio</div>
             <div class="ui-g-2" style="text-align: right;">
               <span *ngIf="piotroskiData && piotroskiData.actualAssetTurnover">
-                {{getAssetTurnoverScore(piotroskiData.actualAssetTurnover, piotroskiData.lastAssetTurnover)}} <i class="fa fa-info-circle" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
+                {{getAssetTurnoverScore(piotroskiData.actualAssetTurnover, piotroskiData.lastAssetTurnover)}} <i class="fa fa-info-circle" i18n-pTooltip="@@piotroski.assertturnover.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
               </span>
               <span *ngIf="!piotroskiData || !piotroskiData.actualAssetTurnover">
                 n.a.

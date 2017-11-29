@@ -1,30 +1,30 @@
 <form [formGroup]="registerform" (ngSubmit)="onSubmit(registerform.value)">
     <div class = "ui-g">
         <div class = "ui-g-12"><p-messages [(value)]="msgs" [closable]="false"></p-messages></div>
-        <div class = "ui-g-3" i18n="@@registerform.username.label">Username</div>
+        <div class = "ui-g-3" i18n="@@registerform.username">Username</div>
         <div class = "ui-g-3"><input type="text" pInputText formControlName="username" [(ngModel)]="username" (blur)="checkUsername()"/></div>
         <div class = "ui-g-6">
-            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!registerform.controls['username'].valid&&registerform.controls['username'].touched">Username is missing</div>
+            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!registerform.controls['username'].valid&&registerform.controls['username'].touched">{{1 | translateMessage}}</div>
         </div>
-        <div class = "ui-g-3" i18n="@@registerform.email.label">E-Mail-Address</div>
+        <div class = "ui-g-3" i18n="@@registerform.email">E-Mail-Address</div>
         <div class = "ui-g-3"><input type="text" pInputText formControlName="email" [(ngModel)]="email" email/></div>
         <div class = "ui-g-6">
-            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!registerform.controls['email'].valid&&registerform.controls['email'].touched">Mail-Address is missing</div>
+            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!registerform.controls['email'].valid&&registerform.controls['email'].touched">{{2 | translateMessage}}</div>
         </div>
-        <div class = "ui-g-3" i18n="@@registerform.password.label">Password</div>
+        <div class = "ui-g-3" i18n="@@registerform.password">Password</div>
         <div class = "ui-g-3"><input type="password" pInputText formControlName="password" [(ngModel)]="password"/></div>
         <div class = "ui-g-6">
-            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!registerform.controls['password'].valid&&registerform.controls['password'].touched">Password missing or to short</div>
+            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!registerform.controls['password'].valid&&registerform.controls['password'].touched">{{3 | translateMessage}}</div>
         </div>
-        <div class = "ui-g-3" i18n="@@registerform.passwordr.label">Password (Repeat)</div>
+        <div class = "ui-g-3" i18n="@@registerform.passwordr">Password (Repeat)</div>
         <div class = "ui-g-3"><input type="password" pInputText formControlName="passwordR" [(ngModel)]="passwordR"/></div>
         <div class = "ui-g-6">
-            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!registerform.controls['passwordR'].valid&&registerform.controls['passwordR'].dirty">Repeat password</div>
-            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="registerform.controls['password'] != registerform.controls['passwordR']">Passwords not equal</div>
+            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!registerform.controls['passwordR'].valid&&registerform.controls['passwordR'].dirty">{{4 | translateMessage}}Repeat password</div>
+            <div class="ui-message ui-messages-error ui-corner-all" *ngIf="registerform.controls['password'] != registerform.controls['passwordR']">{{5 | translateMessage}}</div>
         </div>
         <!--<div class = "ui-g-3"></div>
         <div class = "ui-g-3><p-captcha siteKey="6Ldx0DYUAAAAAGNPGfZaqZ0b8bC8BV-FyO00K5_N" size="compact" (onResponse)="showResponse($event)"></p-captcha></div>
         <div class = "ui-g-6"></div>-->
-        <div class = "ui-g-12"><button pButton type="submit" label="Register" [disabled]="!registerform.valid||!existingUsername" i18n-label="@@registerform.button.label"></button></div>
+        <div class = "ui-g-12"><button pButton type="submit" label="Register" [disabled]="!registerform.valid||!existingUsername" i18n-label="@@registerform.submit.label"></button></div>
     </div>
 </form>

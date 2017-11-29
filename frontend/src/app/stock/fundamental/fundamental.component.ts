@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, SimpleChanges, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, EventEmitter, Input, Output, ViewChild, Inject, LOCALE_ID } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
 
@@ -14,6 +14,8 @@ import { Stock } from '../stock';
 import { Signals } from '../signals';
 import { Values } from '../values';
 import { Price } from '../price';
+
+import { FigureTranslationPipe } from '../figure_translation.pipe';
 
 import 'rxjs/add/operator/switchMap';
 
@@ -36,6 +38,8 @@ export class FundamentalComponent implements OnInit, OnChanges {
   priceChart: any;
   indexNames: string[] = [];
   
+  figureTranslationPipe: FigureTranslationPipe = new FigureTranslationPipe('en_US');
+  
   balanceFields: string[] = [];
   cashflowFields: string[] = [];
   incomeFields: string[] = [];
@@ -53,6 +57,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
   constructor(private stockService: StockService,
               private fundamentalService: FundamentalService,
               private priceService: PriceService,
+              @Inject(LOCALE_ID) private locale: string,
               private helperService: HelperService,
               private route: ActivatedRoute,
               private location: Location) {
@@ -72,14 +77,14 @@ export class FundamentalComponent implements OnInit, OnChanges {
     this.balanceFields.push('shareholderEquity');
     
     this.balanceLabels = {
-      'currentAssets': 'Current Assets',
-      'totalAssets': 'Total Assets',
-      'goodwill': 'Goodwill',
-      'intangibles': 'Intangibles',
-      'currentLiabilities': 'Current Liabilities',
-      'totalLiabilities': 'Total Liabilities',
-      'longTermDebt': 'Long-term Debt',
-      'shareholderEquity': 'Shareholder Equity'
+      'currentAssets': this.figureTranslationPipe.transform('Current Assets', this.locale),
+      'totalAssets': this.figureTranslationPipe.transform('Total Assets', this.locale),
+      'goodwill': this.figureTranslationPipe.transform('Goodwill', this.locale),
+      'intangibles': this.figureTranslationPipe.transform('Intangibles', this.locale),
+      'currentLiabilities': this.figureTranslationPipe.transform('Current Liabilities', this.locale),
+      'totalLiabilities': this.figureTranslationPipe.transform('Total Liabilities', this.locale),
+      'longTermDebt': this.figureTranslationPipe.transform('Long-term Debt', this.locale),
+      'shareholderEquity': this.figureTranslationPipe.transform('Shareholder Equity', this.locale)
     };
 
     this.cashflowFields.push('cashOperations');
@@ -93,15 +98,15 @@ export class FundamentalComponent implements OnInit, OnChanges {
     this.cashflowFields.push('endCash');
     
     this.cashflowLabels = {
-      'cashOperations': 'Operating Cashflow',
-      'depreciation': 'Depreciation',
-      'capex': 'CAPEX',
-      'cashInvesting': 'Investing Cashflow',
-      'issuanceOfStock': 'Issuance of Stock',
-      'issuanceOfDdebt': 'Issuance of Debt',
-      'cashFinancing': 'Financing Cashflow',
-      'startCash': 'Start Cash',
-      'endCash': 'End Cash'
+      'cashOperations': this.figureTranslationPipe.transform('Operating Cashflow', this.locale),
+      'depreciation': this.figureTranslationPipe.transform('Depreciation', this.locale),
+      'capex': this.figureTranslationPipe.transform('CAPEX', this.locale),
+      'cashInvesting': this.figureTranslationPipe.transform('Investing Cashflow', this.locale),
+      'issuanceOfStock': this.figureTranslationPipe.transform('Issuance of Stock', this.locale),
+      'issuanceOfDdebt': this.figureTranslationPipe.transform('Issuance of Debt', this.locale),
+      'cashFinancing': this.figureTranslationPipe.transform('Financing Cashflow', this.locale),
+      'startCash': this.figureTranslationPipe.transform('Start Cash', this.locale),
+      'endCash': this.figureTranslationPipe.transform('End Cash', this.locale)
     };
     
     this.incomeFields.push('revenue');
@@ -114,14 +119,14 @@ export class FundamentalComponent implements OnInit, OnChanges {
     this.incomeFields.push('sharePriceEop');
     
     this.incomeLabels = {
-      'revenue': 'Revenue',
-      'operatingRevenue': 'Operating Revenue',
-      'netIncomeExc': 'Net Income',
-      'epsExc': 'EPS',
-      'dividend': 'Dividend',
-      'dilutedSharesOs': 'Diluted Shares OS',
-      'historicYield': 'Historic Yield',
-      'sharePriceEop': 'Share Price EoP'
+      'revenue': this.figureTranslationPipe.transform('Revenue', this.locale),
+      'operatingRevenue': this.figureTranslationPipe.transform('Operating Revenue', this.locale),
+      'netIncomeExc': this.figureTranslationPipe.transform('Net Income', this.locale),
+      'epsExc': this.figureTranslationPipe.transform('Earnings per Share', this.locale),
+      'dividend': this.figureTranslationPipe.transform('Dividend', this.locale),
+      'dilutedSharesOs': this.figureTranslationPipe.transform('Outstanding Shares (Diluted)', this.locale),
+      'historicYield': this.figureTranslationPipe.transform('Historic Yield', this.locale),
+      'sharePriceEop': this.figureTranslationPipe.transform('Share Price (End of period)', this.locale)
     };
     
     this.valueFields.push('priceEarningsRatio');
@@ -133,13 +138,13 @@ export class FundamentalComponent implements OnInit, OnChanges {
     this.valueFields.push('currentYield');
     
     this.valueLabels = {
-      'priceEarningsRatio': 'PER',
-      'priceCashflowRatio': 'PCR',
-      'priceBookRatio': 'PBR',
-      'pegRatio': 'PEG',
-      'enterpriseRatio': 'Enterprise Ratio',
-      'price52Wk': 'Price 52W',
-      'currentYield': 'Current Yield'
+      'priceEarningsRatio': this.figureTranslationPipe.transform('Price-Earnings Ratio', this.locale),
+      'priceCashflowRatio': this.figureTranslationPipe.transform('Price-Cashflow Ratio', this.locale),
+      'priceBookRatio': this.figureTranslationPipe.transform('Price-Book Ratio', this.locale),
+      'pegRatio': this.figureTranslationPipe.transform('Price/Earnings to Growth', this.locale),
+      'enterpriseRatio': this.figureTranslationPipe.transform('Enterprise Ratio', this.locale),
+      'price52Wk': this.figureTranslationPipe.transform('Price 52W', this.locale),
+      'currentYield': this.figureTranslationPipe.transform('Current Yield', this.locale)
     };
     
     this.signalFields.push('currentRatio');
@@ -154,16 +159,16 @@ export class FundamentalComponent implements OnInit, OnChanges {
     this.signalFields.push('ltDebtOpIncome');
     
     this.signalLabels = {
-      'currentRatio': 'Current Ratio',
-      'buybacks': 'Buybacks',
-      'solvency': 'Solvency',
-      'dividendPayout': 'Dividend Payout',
-      'operatingMargin': 'Operating Margin',
-      'netIncMargin': 'Net Margin',
-      'roe': 'ROE',
-      'roae': 'ROAE',
-      'rotc': 'ROTC',
-      'ltDebtOpIncome': 'Long-term Dept to Operating Income'
+      'currentRatio': this.figureTranslationPipe.transform('Current Ratio', this.locale),
+      'buybacks': this.figureTranslationPipe.transform('Buybacks', this.locale),
+      'solvency': this.figureTranslationPipe.transform('Solvency', this.locale),
+      'dividendPayout': this.figureTranslationPipe.transform('Dividend Payout', this.locale),
+      'operatingMargin': this.figureTranslationPipe.transform('Operating Margin', this.locale),
+      'netIncMargin': this.figureTranslationPipe.transform('Net Margin', this.locale),
+      'roe': this.figureTranslationPipe.transform('Return on Equity', this.locale),
+      'roae': this.figureTranslationPipe.transform('Return on Assets Employed', this.locale),
+      'rotc': this.figureTranslationPipe.transform('Return on Total Capital Employed', this.locale),
+      'ltDebtOpIncome': this.figureTranslationPipe.transform('Long-term Dept/Operating Income Ratio', this.locale)
     };
 
     this.forecastFields.push('revenue');
@@ -178,16 +183,16 @@ export class FundamentalComponent implements OnInit, OnChanges {
     this.forecastFields.push('dividend');
     
     this.forecastLabels = {
-      'revenue': 'Revenue',
-      'operatingIncome': 'Operating Income',
-      'netIncomeExc': 'Net Income',
-      'cashOperations': 'Operating Cashflow',
-      'depreciation': 'Depreciation',
-      'capex': 'CAPEX',
-      'startCash': 'Start Cash',
-      'endCash': 'End Cash',
-      'epsExc': 'EPS',
-      'dividend': 'Dividend'
+      'revenue': this.figureTranslationPipe.transform('Revenue', this.locale),
+      'operatingIncome': this.figureTranslationPipe.transform('Operating Income', this.locale),
+      'netIncomeExc': this.figureTranslationPipe.transform('Net Income', this.locale),
+      'cashOperations': this.figureTranslationPipe.transform('Operating Cashflow', this.locale),
+      'depreciation': this.figureTranslationPipe.transform('Depreciation', this.locale),
+      'capex': this.figureTranslationPipe.transform('CAPEX', this.locale),
+      'startCash': this.figureTranslationPipe.transform('Start Cash', this.locale),
+      'endCash': this.figureTranslationPipe.transform('End Cash', this.locale),
+      'epsExc': this.figureTranslationPipe.transform('Earnings per Share', this.locale),
+      'dividend': this.figureTranslationPipe.transform('Dividend', this.locale)
     };
 
   }

@@ -1,44 +1,44 @@
 <p-dataTable [value]="stocks" selectionMode="single" responsive="true" [(selection)]="selectedStock" [paginator]="true" [lazy]="lazy" [rows]="pageSize" [rowsPerPageOptions]="[10,20,30]" (onLazyLoad)="loadData($event)" [totalRecords]="totalRecords" sortField="name" sortOrder="1" resizableColumns="true">
-    <p-column field="isin" header="ISIN" [sortable]="true"></p-column>
-    <p-column field="name" i18n-header="@@stock.table.name.header" header="Name" [sortable]="true"></p-column>
-    <p-column field="country.name" i18n-header="@@stock.table.country.header" header="Country" [sortable]="true">
+    <p-column field="isin" i18n-header="@@stock.isin" header="ISIN" [sortable]="true"></p-column>
+    <p-column field="name" i18n-header="@@stock.name" header="Name" [sortable]="true"></p-column>
+    <p-column field="country.name" i18n-header="@@stock.country" header="Country" [sortable]="true">
       <ng-template let-col let-stock="rowData" pTemplate="body">
         <span>{{stock['country']['name'] | translateCountry}}</span>
       </ng-template>
     </p-column>
-    <p-column field="branch.name" i18n-header="@@stock.table.branch.header" header="Branch" [sortable]="true"></p-column>
-    <p-column field="scoreLevermann" i18n-header="@@stock.table.levermann.header" header="Levermann-Score" [sortable]="true">
+    <p-column field="branch.name" i18n-header="@@stock.branch" header="Branch" [sortable]="true"></p-column>
+    <p-column field="scoreLevermann" i18n-header="@@stock.levermann.score" header="Levermann-Score" [sortable]="true">
       <ng-template let-col let-stock="rowData" pTemplate="body">
         <span *ngFor="let score of stock['scores']">
           <span *ngIf="score['scoreType']['name'] == 'Levermann'" [ngStyle]="getCssLevermann(stock, score['scoreValue'])">{{score['scoreValue']}}</span>
         </span>
       </ng-template>
     </p-column>
-    <p-column field="scoreMagicFormula" i18n-header="@@stock.table.magicformula.header" header="Magic Formula-Score" [sortable]="true">
+    <p-column field="scoreMagicFormula" i18n-header="@@stock.magicformula.score" header="Magic Formula-Score" [sortable]="true">
       <ng-template let-col let-stock="rowData" pTemplate="body">
         <span *ngFor="let score of stock['scores']">
           <span *ngIf="score['scoreType']['name'] == 'Magic Formula'">{{score['scoreValue'] | number}}</span>
         </span>
       </ng-template>
     </p-column>
-    <p-column field="scorePiotroski" i18n-header="@@stock.table.piotroski.header" header="Piotroski F-Score-Score" [sortable]="true">
+    <p-column field="scorePiotroski" i18n-header="@@stock.piotroski.score" header="Piotroski F-Score" [sortable]="true">
       <ng-template let-col let-stock="rowData" pTemplate="body">
         <span *ngFor="let score of stock['scores']">
           <span *ngIf="score['scoreType']['name'] == 'Piotroski F-Score'" [ngStyle]="getCssPiotroski(score['scoreValue'])">{{score['scoreValue']}}</span>
         </span>
       </ng-template>
     </p-column>
-    <p-column field="levermann.marketCapitalization" i18n-header="@@stock.table.company_size.header" header="Company size" [sortable]="true">
+    <p-column field="levermann.marketCapitalization" i18n-header="@@stock.company_size" header="Company size" [sortable]="true">
       <ng-template let-col let-stock="rowData" pTemplate="body">
         {{stock['stockCategory']}}
       </ng-template>
     </p-column>
-    <p-column field="latestPrice" i18n-header="@@stock.table.price.header" header="Price">
+    <p-column field="latestPrice" i18n-header="@@stock.price" header="Price">
       <ng-template let-col let-stock="rowData" pTemplate="body">
         <span *ngIf="stock['latestPrice']">{{stock['latestPrice']['price']}} {{stock['shareCurrency']}}</span>
       </ng-template>
     </p-column>
-    <p-column i18n-header="@@stock.table.details.header" header="Details" styleClass="col-button">
+    <p-column i18n-header="@@stock.details" header="Details" styleClass="col-button">
       <ng-template let-stock="rowData" pTemplate="body">
         <button type="button" pButton (click)="showFundamental(stock)" icon="fa-search"></button>
       </ng-template>

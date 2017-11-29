@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject, LOCALE_ID } from '@angular/core';
 import { Validators, FormControl, FormGroup, FormBuilder} from '@angular/forms';
 
 import { Message } from 'primeng/primeng';
 
 import { UserService } from '../user.service';
+
+import { MessageTranslationPipe } from '../stock/message_translation.pipe';
 
 @Component({
   selector: 'app-userregistration',
@@ -18,9 +20,10 @@ export class UserRegistrationComponent implements OnInit {
   validCaptcha: boolean = false;
   existingUsername: boolean = false;
   msgs: Message[] = [];
+  messagePipe: MessageTranslationPipe = new MessageTranslationPipe('en-US');
   
   registerform: FormGroup;
-  constructor(private userService: UserService, private fb: FormBuilder) { }
+  constructor(@Inject(LOCALE_ID) private locale: string, private userService: UserService, private fb: FormBuilder) { }
 
   ngOnInit() {
     this.registerform = this.fb.group({
@@ -37,7 +40,7 @@ export class UserRegistrationComponent implements OnInit {
         this.validCaptcha = true; 
       }, (err: any) => {
         this.validCaptcha = false;
-        this.msgs = [{severity: 'error', summary: 'Captcha', detail: 'Captcha not valid'}];
+        this.msgs = [{severity: 'error', summary: '', detail: this.messagePipe.transform(13, this.locale)}];
       });
     
   }
@@ -45,9 +48,9 @@ export class UserRegistrationComponent implements OnInit {
   onSubmit(value: string) {
     this.userService.register(value)
       .subscribe((data:any) => {
-        this.msgs = [{severity: 'info', summary: 'Registration', detail: 'User registered successfully'}];
+        this.msgs = [{severity: 'success', summary: '', detail: this.messagePipe.transform(14, this.locale)}];
       }, (err: any) => {
-        this.msgs = [{severity: 'error', summary: 'Registration', detail: 'Error during user registration'}];
+        this.msgs = [{severity: 'error', summary: '', detail: this.messagePipe.transform(15, this.locale)}];
       });
   }
   
@@ -57,7 +60,7 @@ export class UserRegistrationComponent implements OnInit {
       .subscribe((data:any) => {
         if (data) {
           this.existingUsername = true;
-          this.msgs = [{severity: 'error', summary: 'Registration', detail: 'Username already in use'}];
+          this.msgs = [{severity: 'error', summary: '', detail: this.messagePipe.transform(16, this.locale)}];
         }
       });
   }

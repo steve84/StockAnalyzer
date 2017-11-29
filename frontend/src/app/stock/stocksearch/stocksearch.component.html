@@ -1,19 +1,19 @@
 <div class = "ui-g">
-<div class = "ui-g-3" i18n="@@search.name.label">Name</div><div class = "ui-g-3"><input type="text" pInputText [(ngModel)]="name"/></div>
-<div class = "ui-g-3">ISIN</div><div class = "ui-g-3"><input type="text" pInputText [(ngModel)]="isin"/></div>
+<div class = "ui-g-3" i18n="@@stock.name">Name</div><div class = "ui-g-3"><input type="text" pInputText [(ngModel)]="name"/></div>
+<div class = "ui-g-3" i18n="@@stock.isin">ISIN</div><div class = "ui-g-3"><input type="text" pInputText [(ngModel)]="isin"/></div>
 </div>
 <div class = "ui-g">
-<div class = "ui-g-3" i18n="@@search.country.label">Country</div><div class = "ui-g-3"><p-multiSelect [options]="countries" [(ngModel)]="selectedCountries" i18n-defaultLabel="@@search.choice.label" defaultLabel="Choose" i18n-selectedItemsLabel="@@search.choice.selected.label" selectedItemsLabel="{{0}} entries selected}" maxSelectedLabels=2></p-multiSelect></div>
-<div class = "ui-g-3" i18n="@@search.branch.label">Branch</div><div class = "ui-g-3"><p-multiSelect [options]="branches" [(ngModel)]="selectedBranches" i18n-defaultLabel="@@search.choice.label" defaultLabel="Choose" i18n-selectedItemsLabel="@@search.choice.selected.label" selectedItemsLabel="{{0}} entries selected" maxSelectedLabels=1></p-multiSelect></div>
+<div class = "ui-g-3" i18n="@@stock.country">Country</div><div class = "ui-g-3"><p-multiSelect [options]="countries" [(ngModel)]="selectedCountries" i18n-defaultLabel="@@search.choice.label" defaultLabel="Choose" i18n-selectedItemsLabel="@@search.choice.selected.label" selectedItemsLabel="{{0}} entries selected}" maxSelectedLabels=2></p-multiSelect></div>
+<div class = "ui-g-3" i18n="@@stock.branch">Branch</div><div class = "ui-g-3"><p-multiSelect [options]="branches" [(ngModel)]="selectedBranches" i18n-defaultLabel="@@search.choice.label" defaultLabel="Choose" i18n-selectedItemsLabel="@@search.choice.selected.label" selectedItemsLabel="{{0}} entries selected" maxSelectedLabels=1></p-multiSelect></div>
 </div>
 <div class = "ui-g">
-<div class = "ui-g-3" i18n="@@search.index.label">Index</div><div class = "ui-g-3"><p-multiSelect [options]="indices" [(ngModel)]="selectedIndices" i18n-defaultLabel="@@search.choice.label" defaultLabel="Choose" i18n-selectedItemsLabel="@@search.choice.selected.label" selectedItemsLabel="{{0}} entries selected"></p-multiSelect></div>
-<div class = "ui-g-3" i18n="@@search.nbrofstocks.label">Number of stocks:</div><div class = "ui-g-3">{{nbrStocksFound}}</div>
+<div class = "ui-g-3" i18n="@@search.index">Index</div><div class = "ui-g-3"><p-multiSelect [options]="indices" [(ngModel)]="selectedIndices" i18n-defaultLabel="@@search.choice.label" defaultLabel="Choose" i18n-selectedItemsLabel="@@search.choice.selected.label" selectedItemsLabel="{{0}} entries selected"></p-multiSelect></div>
+<div class = "ui-g-3" i18n="@@search.nbrofstocks">Number of stocks</div><div class = "ui-g-3">{{nbrStocksFound}}</div>
 </div>
 <div class = "ui-g">
 <div class = "ui-g-12">
-<button type="button" pButton i18n-label="@@search.search.label" label="Search" (click)="searchStocks()" icon="fa-search"></button>
-<button type="button" pButton i18n-label="@@search.reset.label" label="Reset filters" (click)="reset()" icon="fa-remove"></button>
+<button type="button" pButton i18n-label="@@search.search" label="Search" (click)="searchStocks()" icon="fa-search"></button>
+<button type="button" pButton i18n-label="@@search.reset" label="Reset filters" (click)="reset()" icon="fa-remove"></button>
 </div>
 </div>
 <div class = "ui-g">

@@ -24,7 +24,7 @@ export class CountryTranslationPipe implements PipeTransform {
       case 'Australia':
         return 'Australien';
       case 'Austria':
-        return 'Österrecih';
+        return 'Österreich';
       case 'Bangladesh':
         return 'Bangladesh';
       case 'Belgium':
