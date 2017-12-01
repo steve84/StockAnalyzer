@@ -4,68 +4,68 @@
 </div>
 </div>
 <div class = "ui-g">
-  <div class = "ui-g-3" i18n="@@score.combiner.levermann_factor">Levermann-Factor</div>
-  <div class = "ui-g-3">
+  <div class = "ui-g-12 ui-md-3 ui-lg-3" i18n="@@score.combiner.levermann_factor">Levermann-Factor</div>
+  <div class = "ui-g-3 ui-md-3 ui-lg-3">
     <input type="number" pInputText [(ngModel)]="levermannFactor" (change)="handleChange($event)" style="width:190px"/>
   </div>
-  <div class = "ui-g-6">
+  <div class = "ui-g-9 ui-md-6 ui-lg-6">
     <p-slider [(ngModel)]="levermannFactor" [min]="0" [max]="100" (onChange)="handleChange($event)"></p-slider>
   </div>
 </div>
 <div class = "ui-g">
-  <div class = "ui-g-3" i18n="@@score.combiner.magic_formula_factor">Magic Formula-Factor</div>
-  <div class = "ui-g-3">
+  <div class = "ui-g-12 ui-md-3 ui-lg-3" i18n="@@score.combiner.magic_formula_factor">Magic Formula-Factor</div>
+  <div class = "ui-g-3 ui-md-3 ui-lg-3">
     <input type="number" pInputText [(ngModel)]="magicFormulaFactor" (change)="handleChange($event)" style="width:190px"/>
   </div>
-  <div class = "ui-g-6">
+  <div class = "ui-g-9 ui-md-6 ui-lg-6">
     <p-slider [(ngModel)]="magicFormulaFactor" [min]="0" [max]="100" (onChange)="handleChange($event)"></p-slider>
   </div>
 </div>
 <div class = "ui-g">
-  <div class = "ui-g-3" i18n="@@score.combiner.piotroski_factor">Piotroski F-Score-Factor</div>
-  <div class = "ui-g-3">
+  <div class = "ui-g-12 ui-md-3 ui-lg-3" i18n="@@score.combiner.piotroski_factor">Piotroski F-Score-Factor</div>
+  <div class = "ui-g-3 ui-md-3 ui-lg-3">
     <input type="number" pInputText [(ngModel)]="piotroskiFactor" (change)="handleChange($event)" style="width:190px"/>
   </div>
-  <div class = "ui-g-6">
+  <div class = "ui-g-9 ui-md-6 ui-lg-6">
     <p-slider [(ngModel)]="piotroskiFactor" [min]="0" [max]="100" (onChange)="handleChange($event)"></p-slider>
   </div>
 </div>
 <div class = "ui-g">
-  <div class = "ui-g-3">
+  <div class = "ui-g-12 ui-md-3 ui-lg-3">
   </div>
-  <div class = "ui-g-9">
+  <div class = "ui-g-12 ui-md-9 ui-lg-9">
     <button type="button" pButton i18n-label="score.combiner.levermann.label" label="Levermann" (click)="setPureLevermann()" [disabled]="isPureLevermann()"></button>
     <button type="button" pButton i18n-label="score.combiner.piotroski.label" label="Piotroski" (click)="setPurePiotroski()" [disabled]="isPurePiotroski()"></button>
     <button type="button" pButton i18n-label="score.combiner.magicformula.label" label="Magic Formula" (click)="setPureMagicFormula()" [disabled]="isPureMagicFormula()"></button>
   </div>
 </div>
 <div class = "ui-g">
-  <div class = "ui-g-3" i18n="@@score.combiner.exclude_countries">Exclude countries</div>
-  <div class = "ui-g-9">
+  <div class = "ui-g-12 ui-md-3 ui-lg-3" i18n="@@score.combiner.exclude_countries">Exclude countries</div>
+  <div class = "ui-g-12 ui-md-9 ui-lg-9">
     <p-multiSelect [options]="countries" [(ngModel)]="excludedCountries" i18n-defaultLabel="@@search.choice.label" defaultLabel="Choose" i18n-selectedItemsLabel="@@search.choice.selected.label" selectedItemsLabel="{{0}} entries selected" maxSelectedLabels=2></p-multiSelect>
   </div>
 </div>
 <div *ngIf="stockOrIndex == 'stock'" class = "ui-g">
-  <div class = "ui-g-3" i18n="@@score.combiner.exclude_countries">Exclude branches</div>
-  <div class = "ui-g-9">
+  <div class = "ui-g-12 ui-md-3 ui-lg-3" i18n="@@score.combiner.exclude_countries">Exclude branches</div>
+  <div class = "ui-g-12 ui-md-9 ui-lg-9">
     <p-multiSelect [options]="branches" [(ngModel)]="excludedBranches" i18n-defaultLabel="@@search.choice.label" defaultLabel="Choose" i18n-selectedItemsLabel="@@search.choice.selected.label" selectedItemsLabel="{{0}} entries selected" maxSelectedLabels=2></p-multiSelect>
   </div>
 </div>
 <div *ngIf="stockOrIndex == 'stock'" class = "ui-g">
-  <div class = "ui-g-3" i18n="@@score.combiner.companysize">Company size</div>
-  <div class = "ui-g-9">
+  <div class = "ui-g-12 ui-md-3 ui-lg-3" i18n="@@score.combiner.companysize">Company size</div>
+  <div class = "ui-g-12 ui-md-9 ui-lg-9">
     <p-selectButton [options]="companySizeItems" [(ngModel)]="companySize"></p-selectButton>
   </div>
 </div>
 <div class = "ui-g">
-  <div class = "ui-g-3" i18n="@@score.combiner.number_of_results">Number of results</div>
-  <div class = "ui-g-9">
+  <div class = "ui-g-12 ui-md-3 ui-lg-3" i18n="@@score.combiner.number_of_results">Number of results</div>
+  <div class = "ui-g-12 ui-md-9 ui-lg-9">
     <p-spinner [(ngModel)]="numRows" [min]="1"></p-spinner>
   </div>
 </div>
 <div class = "ui-g">
-  <div class = "ui-g-3" i18n="@@score.combiner.type_of_results">Type of results</div>
-  <div class = "ui-g-9">
+  <div class = "ui-g-12 ui-md-3 ui-lg-3" i18n="@@score.combiner.type_of_results">Type of results</div>
+  <div class = "ui-g-12 ui-md-9 ui-lg-9">
     <p-selectButton [options]="stockOrIndexItem" [(ngModel)]="stockOrIndex" (onChange)="handleSelectChange($event)"></p-selectButton>
   </div>
 </div>

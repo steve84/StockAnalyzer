@@ -1,13 +1,13 @@
 <div class = "ui-g">
     <div class = "ui-g-12"><p-messages [(value)]="msgs" [closable]="false"></p-messages></div>
     <div class = "ui-g-12" i18n="@@confirm.text">Please enter your password and activate your account by clicking the confirm button.</div>
-    <div class = "ui-g-12">
+    <div class = "ui-g-6 ui-md-6 ui-lg-12">
       <div class="ui-inputgroup">
         <span class="ui-inputgroup-addon" i18n="@@confirm.password.label">Password</span>
         <input type="password" pInputText [(ngModel)]="password">      
       </div>
     </div>
-    <div class = "ui-g-12">
+    <div class = "ui-g-6 ui-md-6 ui-lg-12">
       <button type="button" pButton i18n-label="@@confirm.label" label="Confirm" (click)="confirm()"></button>
     </div>
 </div>

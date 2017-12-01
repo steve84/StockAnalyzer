@@ -1,22 +1,22 @@
 <form [formGroup]="loginform">
   <div class = "ui-g">
       <div class = "ui-g-12"><p-messages [(value)]="msgs" [closable]="false"></p-messages></div>
-      <div class = "ui-g-12">
+      <div class = "ui-g-6 ui-md-6 ui-lg-3">
         <div class="ui-inputgroup">
           <span class="ui-inputgroup-addon" i18n="@@login.username.label">Username</span>
           <input type="text" pInputText [(ngModel)]="username" formControlName="username">      
         </div>
       </div>
-      <div class = "ui-g-12">
+      <div class = "ui-g-6 ui-md-6 ui-lg-3">
         <div class="ui-inputgroup">
           <span class="ui-inputgroup-addon" i18n="@@login.password.label">Password</span>
           <input type="password" pInputText [(ngModel)]="password" formControlName="password">      
         </div>
       </div>
-      <div class = "ui-g-12">
+      <div class = "ui-g-6 ui-md-6 ui-lg-3">
         <button type="button" pButton i18n-label="@@login.login.label" label="Login" (click)="login()" [disabled]="!loginform.valid"></button>
       </div>
-      <div class = "ui-g-12">
+      <div class = "ui-g-6 ui-md-6 ui-lg-3">
         <a routerLink="/register" i18n="@@login.signup">Sign up</a>
       </div>
   </div>
