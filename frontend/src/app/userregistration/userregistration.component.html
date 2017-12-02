@@ -1,24 +1,24 @@
 <form [formGroup]="registerform" (ngSubmit)="onSubmit(registerform.value)">
     <div class = "ui-g">
         <div class = "ui-g-12"><p-messages [(value)]="msgs" [closable]="false"></p-messages></div>
-        <div class = "ui-g-12 ui-md-6 ui-lg-3" i18n="@@registerform.username">Username</div>
-        <div class = "ui-g-12 ui-md-6 ui-lg-3"><input type="text" pInputText formControlName="username" [(ngModel)]="username" (blur)="checkUsername()"/></div>
+        <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@registerform.username">Username</div>
+        <div class = "ui-g-12 ui-md-6 ui-lg-3 value"><input type="text" pInputText formControlName="username" [(ngModel)]="username" (blur)="checkUsername()"/></div>
         <div class = "ui-g-12 ui-md-12 ui-lg-6">
             <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!registerform.controls['username'].valid&&registerform.controls['username'].touched">{{1 | translateMessage}}</div>
         </div>
-        <div class = "ui-g-3 ui-md-6 ui-lg-3" i18n="@@registerform.email">E-Mail-Address</div>
-        <div class = "ui-g-3 ui-md-6 ui-lg-3"><input type="text" pInputText formControlName="email" [(ngModel)]="email" email/></div>
-        <div class = "ui-g-6 ui-md-12 ui-lg-6">
+        <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@registerform.email">E-Mail-Address</div>
+        <div class = "ui-g-12 ui-md-6 ui-lg-3 value"><input type="text" pInputText formControlName="email" [(ngModel)]="email" email/></div>
+        <div class = "ui-g-12 ui-md-12 ui-lg-6">
             <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!registerform.controls['email'].valid&&registerform.controls['email'].touched">{{2 | translateMessage}}</div>
         </div>
-        <div class = "ui-g-3 ui-md-6 ui-lg-3" i18n="@@registerform.password">Password</div>
-        <div class = "ui-g-3 ui-md-6 ui-lg-3"><input type="password" pInputText formControlName="password" [(ngModel)]="password"/></div>
-        <div class = "ui-g-6 ui-md-12 ui-lg-6">
+        <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@registerform.password">Password</div>
+        <div class = "ui-g-12 ui-md-6 ui-lg-3 value"><input type="password" pInputText formControlName="password" [(ngModel)]="password"/></div>
+        <div class = "ui-g-12 ui-md-12 ui-lg-6">
             <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!registerform.controls['password'].valid&&registerform.controls['password'].touched">{{3 | translateMessage}}</div>
         </div>
-        <div class = "ui-g-3 ui-md-6 ui-lg-3" i18n="@@registerform.passwordr">Password (Repeat)</div>
-        <div class = "ui-g-3 ui-md-6 ui-lg-3"><input type="password" pInputText formControlName="passwordR" [(ngModel)]="passwordR"/></div>
-        <div class = "ui-g-6 ui-md-12 ui-lg-6">
+        <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@registerform.passwordr">Password (Repeat)</div>
+        <div class = "ui-g-12 ui-md-6 ui-lg-3 value"><input type="password" pInputText formControlName="passwordR" [(ngModel)]="passwordR"/></div>
+        <div class = "ui-g-12 ui-md-12 ui-lg-6">
             <div class="ui-message ui-messages-error ui-corner-all" *ngIf="!registerform.controls['passwordR'].valid&&registerform.controls['passwordR'].dirty">{{4 | translateMessage}}Repeat password</div>
             <div class="ui-message ui-messages-error ui-corner-all" *ngIf="registerform.controls['password'] != registerform.controls['passwordR']">{{5 | translateMessage}}</div>
         </div>

@@ -465,3 +465,67 @@ a.ui-button:active,
   filter: Alpha(Opacity=35);
   background-image: none;
   cursor: default !important; }
+
+p-dialog .ui-dialog  {
+  width: 75%;
+  height: 75%;
+  overflow: hidden;
+}
+
+.ui-dialog .ui-dialog-content {
+  overflow-x: scroll;
+  max-height: 90%;
+}
+
+div .value {
+  background: white;
+  font-size: 0.95em;
+  padding: 2px;
+  margin: 2px 0 2px 0;
+  vertical-align: middle;
+}
+
+div .description {
+  background: #ededed;
+  font-weight: bold;
+  font-size: 0.95em;
+  padding: 2px;
+  margin: 2px 0 2px 0;
+  vertical-align: middle;
+}
+
+div .score_value {
+  background: #ededed;
+  font-weight: bold;
+  font-size: 1em;
+  padding: 15px 15px 15px 0;
+  text-align: right;
+}
+
+div .score_description {
+  background: #ededed;
+  font-weight: bold;
+  font-size: 1em;
+  padding: 15px 0 15px 15px;
+  vertical-align: middle;
+}
+
+div .score_value.buy {
+  background: green;
+  color: white;
+}
+
+div .score_description.buy {
+  background: green;
+  color: white;
+}
+
+div .score_value.sell {
+  background: red;
+  color: white;
+}
+
+div .score_description.sell {
+  background: red;
+  color: white;
+}

@@ -1,176 +1,170 @@
 <div *ngIf="levermannData && calculatedAt" class="ui-g">
   <div class="ui-g-12">
-    <p-accordion [multiple]="true">
-      <p-accordionTab [disabled]="true">
-        <p-header>
-          <div class="ui-g">
-            <div class="ui-g-10" i18n="@@levermann.title">Levermann Score (Calculated at {{calculatedAt | date}})</div>
-            <div class="ui-g-2" style="text-align: right;">
-              {{levermannScore}}
+    <div [class]="getScoreCSSClass(true)" i18n="@@levermann.title">Levermann Score (Calculated at {{calculatedAt | date}})</div>
+    <div [class]="getScoreCSSClass()">{{levermannScore}}</div>
+    <div class="ui-g-12">
+      <p-accordion [multiple]="true">
+        <p-accordionTab [selected]="levermannData && levermannData.roiEquity" [disabled]="!levermannData || !levermannData.roiEquity">
+          <p-header>
+            <div class="ui-g">
+              <div class="ui-g-10" i18n="@@levermann.roiequity">Return On Equity</div>
+              <div class="ui-g-2" style="text-align: right;">
+                <span *ngIf="levermannData && levermannData.roiEquity">
+                  {{getRoiEquityScore(levermannData.roiEquity)}} <i class="fa fa-info-circle" i18n-pTooltip="@@levermann.roiequity.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
+                </span>
+                <span *ngIf="!levermannData || !levermannData.roiEquity">
+                  n.a.
+                </span>
+              </div>
             </div>
-          </div>
-        </p-header>
-      </p-accordionTab>
-      <p-accordionTab [selected]="levermannData && levermannData.roiEquity" [disabled]="!levermannData || !levermannData.roiEquity">
-        <p-header>
-          <div class="ui-g">
-            <div class="ui-g-10" i18n="@@levermann.roiequity">Return On Equity</div>
-            <div class="ui-g-2" style="text-align: right;">
-              <span *ngIf="levermannData && levermannData.roiEquity">
-                {{getRoiEquityScore(levermannData.roiEquity)}} <i class="fa fa-info-circle" i18n-pTooltip="@@levermann.roiequity.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
-              </span>
-              <span *ngIf="!levermannData || !levermannData.roiEquity">
-                n.a.
-              </span>
+          </p-header>
+          {{levermannData.roiEquity | number}}%
+        </p-accordionTab>
+        <p-accordionTab [selected]="levermannData && levermannData.roiEbitMarge" [disabled]="!levermannData || !levermannData.roiEbitMarge">
+          <p-header>
+            <div class="ui-g">
+              <div class="ui-g-10" i18n="@@levermann.ebitmarge">EBIT-Margin</div>
+              <div class="ui-g-2" style="text-align: right;">
+                <span *ngIf="levermannData && levermannData.roiEquity">
+                  {{getRoiEbitMargeScore(levermannData.roiEbitMarge)}} <i class="fa fa-info-circle" i18n-pTooltip="@@levermann.ebitmarge.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
+                </span>
+                <span *ngIf="!levermannData || !levermannData.roiEbitMarge">
+                  n.a.
+                </span>
+              </div>
             </div>
-          </div>
-        </p-header>
-        {{levermannData.roiEquity | number}}%
-      </p-accordionTab>
-      <p-accordionTab [selected]="levermannData && levermannData.roiEbitMarge" [disabled]="!levermannData || !levermannData.roiEbitMarge">
-        <p-header>
-          <div class="ui-g">
-            <div class="ui-g-10" i18n="@@levermann.ebitmarge">EBIT-Margin</div>
-            <div class="ui-g-2" style="text-align: right;">
-              <span *ngIf="levermannData && levermannData.roiEquity">
-                {{getRoiEbitMargeScore(levermannData.roiEbitMarge)}} <i class="fa fa-info-circle" i18n-pTooltip="@@levermann.ebitmarge.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
-              </span>
-              <span *ngIf="!levermannData || !levermannData.roiEbitMarge">
-                n.a.
-              </span>
+          </p-header>
+          {{levermannData.roiEbitMarge | number}}%
+        </p-accordionTab>
+        <p-accordionTab [selected]="levermannData && levermannData.balanceSheetEquityRatio" [disabled]="!levermannData || !levermannData.balanceSheetEquityRatio">
+          <p-header>
+            <div class="ui-g">
+              <div class="ui-g-10" i18n="@@levermann.equityratio">Equity Ratio</div>
+              <div class="ui-g-2" style="text-align: right;">
+                <span *ngIf="levermannData && levermannData.balanceSheetEquityRatio">
+                  {{getBalanceSheetEquityRatioScore(levermannData.balanceSheetEquityRatio)}} <i class="fa fa-info-circle" i18n-pTooltip="@@levermann.equityratio.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
+                </span>
+                <span *ngIf="!levermannData || !levermannData.balanceSheetEquityRatio">
+                  n.a.
+                </span>
+              </div>
             </div>
-          </div>
-        </p-header>
-        {{levermannData.roiEbitMarge | number}}%
-      </p-accordionTab>
-      <p-accordionTab [selected]="levermannData && levermannData.balanceSheetEquityRatio" [disabled]="!levermannData || !levermannData.balanceSheetEquityRatio">
-        <p-header>
-          <div class="ui-g">
-            <div class="ui-g-10" i18n="@@levermann.equityratio">Equity Ratio</div>
-            <div class="ui-g-2" style="text-align: right;">
-              <span *ngIf="levermannData && levermannData.balanceSheetEquityRatio">
-                {{getBalanceSheetEquityRatioScore(levermannData.balanceSheetEquityRatio)}} <i class="fa fa-info-circle" i18n-pTooltip="@@levermann.equityratio.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
-              </span>
-              <span *ngIf="!levermannData || !levermannData.balanceSheetEquityRatio">
-                n.a.
-              </span>
+          </p-header>
+          {{levermannData.balanceSheetEquityRatio | number}}%
+        </p-accordionTab>
+        <p-accordionTab [selected]="levermannData && levermannData.priceEarningsRatio5YearAverage" [disabled]="!levermannData || !levermannData.priceEarningsRatio5YearAverage">
+          <p-header>
+            <div class="ui-g">
+              <div class="ui-g-10" i18n="@@levermann.averageper">Average Price-Earnings-Ratio</div>
+              <div class="ui-g-2" style="text-align: right;">
+                <span *ngIf="levermannData && levermannData.priceEarningsRatio5YearAverage">
+                  {{getPriceEarningsRatio5yAvgScore(levermannData.priceEarningsRatio5YearAverage)}} <i class="fa fa-info-circle" i18n-pTooltip="@@levermann.averageper.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
+                </span>
+                <span *ngIf="!levermannData || !levermannData.priceEarningsRatio5YearAverage">
+                  n.a.
+                </span>
+              </div>
             </div>
-          </div>
-        </p-header>
-        {{levermannData.balanceSheetEquityRatio | number}}%
-      </p-accordionTab>
-      <p-accordionTab [selected]="levermannData && levermannData.priceEarningsRatio5YearAverage" [disabled]="!levermannData || !levermannData.priceEarningsRatio5YearAverage">
-        <p-header>
-          <div class="ui-g">
-            <div class="ui-g-10" i18n="@@levermann.averageper">Average Price-Earnings-Ratio</div>
-            <div class="ui-g-2" style="text-align: right;">
-              <span *ngIf="levermannData && levermannData.priceEarningsRatio5YearAverage">
-                {{getPriceEarningsRatio5yAvgScore(levermannData.priceEarningsRatio5YearAverage)}} <i class="fa fa-info-circle" i18n-pTooltip="@@levermann.averageper.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
-              </span>
-              <span *ngIf="!levermannData || !levermannData.priceEarningsRatio5YearAverage">
-                n.a.
-              </span>
+          </p-header>
+          {{levermannData.priceEarningsRatio5YearAverage | number}}
+        </p-accordionTab>
+        <p-accordionTab [selected]="levermannData && levermannData.priceEarningsRatio" [disabled]="!levermannData || !levermannData.priceEarningsRatio">
+          <p-header>
+            <div class="ui-g">
+              <div class="ui-g-10" i18n="@@levermann.per">Actual Price-Earnings-Ratio</div>
+              <div class="ui-g-2" style="text-align: right;">
+                <span *ngIf="levermannData && levermannData.priceEarningsRatio">
+                  {{getPriceEarningsRatioScore(levermannData.priceEarningsRatio)}} <i class="fa fa-info-circle" i18n-pTooltip="@@levermann.per.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
+                </span>
+                <span *ngIf="!levermannData || !levermannData.priceEarningsRatio">
+                  n.a.
+                </span>
+              </div>
             </div>
-          </div>
-        </p-header>
-        {{levermannData.priceEarningsRatio5YearAverage | number}}
-      </p-accordionTab>
-      <p-accordionTab [selected]="levermannData && levermannData.priceEarningsRatio" [disabled]="!levermannData || !levermannData.priceEarningsRatio">
-        <p-header>
-          <div class="ui-g">
-            <div class="ui-g-10" i18n="@@levermann.per">Actual Price-Earnings-Ratio</div>
-            <div class="ui-g-2" style="text-align: right;">
-              <span *ngIf="levermannData && levermannData.priceEarningsRatio">
-                {{getPriceEarningsRatioScore(levermannData.priceEarningsRatio)}} <i class="fa fa-info-circle" i18n-pTooltip="@@levermann.per.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
-              </span>
-              <span *ngIf="!levermannData || !levermannData.priceEarningsRatio">
-                n.a.
-              </span>
+          </p-header>
+          {{levermannData.priceEarningsRatio | number}}
+        </p-accordionTab>
+        <p-accordionTab [selected]="levermannData && levermannData.analystBuyRatio" [disabled]="!levermannData || !levermannData.analystBuyRatio">
+          <p-header>
+            <div class="ui-g">
+              <div class="ui-g-10" i18n="@@levermann.analysts">Analyst Recommendations</div>
+              <div class="ui-g-2" style="text-align: right;">
+                <span *ngIf="levermannData && levermannData.analystBuyRatio">
+                  {{getAnalystsScore(levermannData.marketCapitalization, levermannData.analystBuyRatio, levermannData.analystSellRatio)}} <i class="fa fa-info-circle" i18n-pTooltip="@@levermann.analysts.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
+                </span>
+                <span *ngIf="!levermannData || !levermannData.analystBuyRatio">
+                  n.a.
+                </span>
+              </div>
             </div>
-          </div>
-        </p-header>
-        {{levermannData.priceEarningsRatio | number}}
-      </p-accordionTab>
-      <p-accordionTab [selected]="levermannData && levermannData.analystBuyRatio" [disabled]="!levermannData || !levermannData.analystBuyRatio">
-        <p-header>
-          <div class="ui-g">
-            <div class="ui-g-10" i18n="@@levermann.analysts">Analyst Recommendations</div>
-            <div class="ui-g-2" style="text-align: right;">
-              <span *ngIf="levermannData && levermannData.analystBuyRatio">
-                {{getAnalystsScore(levermannData.marketCapitalization, levermannData.analystBuyRatio, levermannData.analystSellRatio)}} <i class="fa fa-info-circle" i18n-pTooltip="@@levermann.analysts.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
-              </span>
-              <span *ngIf="!levermannData || !levermannData.analystBuyRatio">
-                n.a.
-              </span>
+          </p-header>
+          Kaufen: {{levermannData.analystBuyRatio * 100 | number}}%, Verkaufen: {{levermannData.analystSellRatio * 100 | number}}%, Halten: {{100 - ((levermannData.analystSellRatio + levermannData.analystBuyRatio) * 100) | number}}%
+        </p-accordionTab>
+        <p-accordionTab [selected]="levermannData && levermannData.performance6m" [disabled]="!levermannData || !levermannData.performance6m">
+          <p-header>
+            <div class="ui-g">
+              <div class="ui-g-10" i18n="@@levermann.performance6m">Performance (6 Months)</div>
+              <div class="ui-g-2" style="text-align: right;">
+                <span *ngIf="levermannData && levermannData.performance6m">
+                  {{getPerformanceScore(levermannData.performance6m)}} <i class="fa fa-info-circle" i18n-pTooltip="@@levermann.performance6m.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
+                </span>
+                <span *ngIf="!levermannData || !levermannData.performance6m">
+                  n.a.
+                </span>
+              </div>
             </div>
-          </div>
-        </p-header>
-        Kaufen: {{levermannData.analystBuyRatio * 100 | number}}%, Verkaufen: {{levermannData.analystSellRatio * 100 | number}}%, Halten: {{100 - ((levermannData.analystSellRatio + levermannData.analystBuyRatio) * 100) | number}}%
-      </p-accordionTab>
-      <p-accordionTab [selected]="levermannData && levermannData.performance6m" [disabled]="!levermannData || !levermannData.performance6m">
-        <p-header>
-          <div class="ui-g">
-            <div class="ui-g-10" i18n="@@levermann.performance6m">Performance (6 Months)</div>
-            <div class="ui-g-2" style="text-align: right;">
-              <span *ngIf="levermannData && levermannData.performance6m">
-                {{getPerformanceScore(levermannData.performance6m)}} <i class="fa fa-info-circle" i18n-pTooltip="@@levermann.performance6m.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
-              </span>
-              <span *ngIf="!levermannData || !levermannData.performance6m">
-                n.a.
-              </span>
+          </p-header>
+          {{levermannData.performance6m | number}}%
+        </p-accordionTab>
+        <p-accordionTab [selected]="levermannData && levermannData.performance1y" [disabled]="!levermannData || !levermannData.performance1y">
+          <p-header>
+            <div class="ui-g">
+              <div class="ui-g-10" i18n="@@levermann.performance1y">Performance (12 Months)</div>
+              <div class="ui-g-2" style="text-align: right;">
+                <span *ngIf="levermannData && levermannData.performance1y">
+                  {{getPerformanceScore(levermannData.performance1y)}} <i class="fa fa-info-circle" i18n-pTooltip="@@levermann.performance1y.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
+                </span>
+                <span *ngIf="!levermannData || !levermannData.performance1y">
+                  n.a.
+                </span>
+              </div>
             </div>
-          </div>
-        </p-header>
-        {{levermannData.performance6m | number}}%
-      </p-accordionTab>
-      <p-accordionTab [selected]="levermannData && levermannData.performance1y" [disabled]="!levermannData || !levermannData.performance1y">
-        <p-header>
-          <div class="ui-g">
-            <div class="ui-g-10" i18n="@@levermann.performance1y">Performance (12 Months)</div>
-            <div class="ui-g-2" style="text-align: right;">
-              <span *ngIf="levermannData && levermannData.performance1y">
-                {{getPerformanceScore(levermannData.performance1y)}} <i class="fa fa-info-circle" i18n-pTooltip="@@levermann.performance1y.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
-              </span>
-              <span *ngIf="!levermannData || !levermannData.performance1y">
-                n.a.
-              </span>
+          </p-header>
+          {{levermannData.performance1y | number}}%
+        </p-accordionTab>
+        <p-accordionTab [selected]="levermannData && levermannData.performance1y" [disabled]="!levermannData || !levermannData.performance1y">
+          <p-header>
+            <div class="ui-g">
+              <div class="ui-g-10" i18n="@@levermann.momentum">Momentum</div>
+              <div class="ui-g-2" style="text-align: right;">
+                <span *ngIf="levermannData && levermannData.performance1y">
+                  {{getMomentumScore(levermannData.performance6m, levermannData.performance1y)}} <i class="fa fa-info-circle" i18n-pTooltip="@@levermann.momentum.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
+                </span>
+                <span *ngIf="!levermannData || !levermannData.performance1y">
+                  n.a.
+                </span>
+              </div>
             </div>
-          </div>
-        </p-header>
-        {{levermannData.performance1y | number}}%
-      </p-accordionTab>
-      <p-accordionTab [selected]="levermannData && levermannData.performance1y" [disabled]="!levermannData || !levermannData.performance1y">
-        <p-header>
-          <div class="ui-g">
-            <div class="ui-g-10" i18n="@@levermann.momentum">Momentum</div>
-            <div class="ui-g-2" style="text-align: right;">
-              <span *ngIf="levermannData && levermannData.performance1y">
-                {{getMomentumScore(levermannData.performance6m, levermannData.performance1y)}} <i class="fa fa-info-circle" i18n-pTooltip="@@levermann.momentum.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
-              </span>
-              <span *ngIf="!levermannData || !levermannData.performance1y">
-                n.a.
-              </span>
+          </p-header>
+          {{levermannData.performance1y | number}}% (12 Monate) nach {{levermannData.performance6m | number}}% (6 Monate)
+        </p-accordionTab>
+        <p-accordionTab [selected]="levermannData && levermannData.getEPSGrowthScore" [disabled]="!levermannData || !levermannData.getEPSGrowthScore">
+          <p-header>
+            <div class="ui-g">
+              <div class="ui-g-10" i18n="@@levermann.expectedearnings">Expected Earnings Per Share (Growth)</div>
+              <div class="ui-g-2" style="text-align: right;">
+                <span *ngIf="levermannData && levermannData.getEPSGrowthScore">
+                  {{getEPSGrowthScore(levermannData.getEPSGrowthScore)}} <i class="fa fa-info-circle" i18n-pTooltip="@@levermann.expectedearnings.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
+                </span>
+                <span *ngIf="!levermannData || !levermannData.getEPSGrowthScore">
+                  n.a.
+                </span>
+              </div>
             </div>
-          </div>
-        </p-header>
-        {{levermannData.performance1y | number}}% (12 Monate) nach {{levermannData.performance6m | number}}% (6 Monate)
-      </p-accordionTab>
-      <p-accordionTab [selected]="levermannData && levermannData.getEPSGrowthScore" [disabled]="!levermannData || !levermannData.getEPSGrowthScore">
-        <p-header>
-          <div class="ui-g">
-            <div class="ui-g-10" i18n="@@levermann.expectedearnings">Expected Earnings Per Share (Growth)</div>
-            <div class="ui-g-2" style="text-align: right;">
-              <span *ngIf="levermannData && levermannData.getEPSGrowthScore">
-                {{getEPSGrowthScore(levermannData.getEPSGrowthScore)}} <i class="fa fa-info-circle" i18n-pTooltip="@@levermann.expectedearnings.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
-              </span>
-              <span *ngIf="!levermannData || !levermannData.getEPSGrowthScore">
-                n.a.
-              </span>
-            </div>
-          </div>
-        </p-header>
-        {{levermannData.earningsPerShareGrowthExpected | number}}%
-      </p-accordionTab>
-    </p-accordion>
+          </p-header>
+          {{levermannData.earningsPerShareGrowthExpected | number}}%
+        </p-accordionTab>
+      </p-accordion>
+    </div>
   </div>
 </div>

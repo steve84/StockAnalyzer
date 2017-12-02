@@ -1,46 +1,40 @@
 <div *ngIf="magicFormulaData && calculatedAt" class="ui-g">
   <div class="ui-g-12">
-    <p-accordion [multiple]="true">
-      <p-accordionTab [disabled]="true">
-        <p-header>
-          <div class="ui-g">
-            <div class="ui-g-10" i18n="@@magicformula.title">Magic Formula Score (Calculated at {{calculatedAt | date}})</div>
-            <div class="ui-g-2" style="text-align: right;">
-              {{magicFormulaScore | number}}
+    <div class="ui-g-10 score_description" i18n="@@magicformula.title">Magic Formula Score (Calculated at {{calculatedAt | date}})</div>
+    <div class="ui-g-2 score_value">{{magicFormulaScore | number}}</div>
+    <div class="ui-g-12">
+      <p-accordion [multiple]="true">
+        <p-accordionTab [selected]="magicFormulaData && magicFormulaData.returnOnCapital" [disabled]="!magicFormulaData || !magicFormulaData.returnOnCapital">
+          <p-header>
+            <div class="ui-g">
+              <div class="ui-g-10" i18n="@@magicformula.returnoncapital">Return On Capital</div>
+              <div class="ui-g-2" style="text-align: right;">
+                <span *ngIf="magicFormulaData && magicFormulaData.returnOnCapital">
+                  {{magicFormulaData.returnOnCapital | number}}% <i class="fa fa-info-circle" i18n-pTooltip="@@magicformula.returnoncapital.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
+                </span>
+                <span *ngIf="!magicFormulaData || !magicFormulaData.returnOnCapital">
+                  n.a.
+                </span>
+              </div>
             </div>
-          </div>
-        </p-header>
-      </p-accordionTab>
-      <p-accordionTab [selected]="magicFormulaData && magicFormulaData.returnOnCapital" [disabled]="!magicFormulaData || !magicFormulaData.returnOnCapital">
-        <p-header>
-          <div class="ui-g">
-            <div class="ui-g-10" i18n="@@magicformula.returnoncapital">Return On Capital</div>
-            <div class="ui-g-2" style="text-align: right;">
-              <span *ngIf="magicFormulaData && magicFormulaData.returnOnCapital">
-                {{magicFormulaData.returnOnCapital | number}}% <i class="fa fa-info-circle" i18n-pTooltip="@@magicformula.returnoncapital.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
-              </span>
-              <span *ngIf="!magicFormulaData || !magicFormulaData.returnOnCapital">
-                n.a.
-              </span>
+          </p-header>
+        </p-accordionTab>
+        <p-accordionTab [selected]="magicFormulaData && magicFormulaData.earningsYield" [disabled]="!magicFormulaData || !magicFormulaData.earningsYield">
+          <p-header>
+            <div class="ui-g">
+              <div class="ui-g-10" i18n="@@magicformula.earningsyield">Earnings Yield</div>
+              <div class="ui-g-2" style="text-align: right;">
+                <span *ngIf="magicFormulaData && magicFormulaData.earningsYield">
+                  {{magicFormulaData.earningsYield | number}}% <i class="fa fa-info-circle" i18n-pTooltip="@@magicformula.earningsyield.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
+                </span>
+                <span *ngIf="!magicFormulaData || !magicFormulaData.earningsYield">
+                  n.a.
+                </span>
+              </div>
             </div>
-          </div>
-        </p-header>
-      </p-accordionTab>
-      <p-accordionTab [selected]="magicFormulaData && magicFormulaData.earningsYield" [disabled]="!magicFormulaData || !magicFormulaData.earningsYield">
-        <p-header>
-          <div class="ui-g">
-            <div class="ui-g-10" i18n="@@magicformula.earningsyield">Earnings Yield</div>
-            <div class="ui-g-2" style="text-align: right;">
-              <span *ngIf="magicFormulaData && magicFormulaData.earningsYield">
-                {{magicFormulaData.earningsYield | number}}% <i class="fa fa-info-circle" i18n-pTooltip="@@magicformula.earningsyield.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
-              </span>
-              <span *ngIf="!magicFormulaData || !magicFormulaData.earningsYield">
-                n.a.
-              </span>
-            </div>
-          </div>
-        </p-header>
-      </p-accordionTab>
-    </p-accordion>
+          </p-header>
+        </p-accordionTab>
+      </p-accordion>
+    </div>
   </div>
 </div>

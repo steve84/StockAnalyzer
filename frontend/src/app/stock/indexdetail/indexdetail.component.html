@@ -1,4 +1,4 @@
-<p-dialog appDialogsize [header]="title" width="800" modal="true" [(visible)]="display" (onHide)="closeDisplay()">
+<p-dialog appDialogsize [header]="title" [blockScroll]="true" modal="true" [(visible)]="display" (onHide)="closeDisplay()">
   <p-tabView>
     <p-tabPanel i18n-header="@@index.overview" header="Overview">
       <p-dataTable [value]="stocks" selectionMode="single" lazy="true" responsive="true" [paginator]="true" [rows]="pageSize" [rowsPerPageOptions]="[10,20,30]" [totalRecords]="totalRecords" (onLazyLoad)="loadData($event)" resizableColumns="true">

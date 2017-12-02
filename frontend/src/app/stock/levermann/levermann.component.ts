@@ -111,4 +111,32 @@ export class LevermannComponent implements OnInit, OnChanges {
       return -1
     return 0;
   }
+  
+  isBuyAdvice(): boolean {
+    if (this.levermannScore != null && this.levermannData && this.levermannData.marketCapitalization) {
+      return ((this.levermannData.marketCapitalization >= 10000 && this.levermannScore >= 4) || (this.levermannData.marketCapitalization < 10000 && this.levermannScore >= 7));
+    }
+    return false;
+  }
+  
+  getScoreCSSClass(description: boolean = false): string {
+    let cssClass = 'ui-g-';
+    let buyAdvice = this.isBuyAdvice();
+    if (description) {
+      cssClass += '10 score_description ';
+      if (buyAdvice) {
+        cssClass += 'buy';
+      } else {
+        cssClass += 'sell';
+      }
+    } else {
+      cssClass += '2 score_value '
+      if (buyAdvice) {
+        cssClass += 'buy';
+      } else {
+        cssClass += 'sell';
+      }
+    }
+  return cssClass;
+  }
 }

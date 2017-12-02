@@ -1,22 +1,22 @@
-<p-dialog [header]="title" modal="true" [(visible)]="display" (onHide)="closeDisplay()" width="800">
+<p-dialog [header]="title" modal="true" [blockScroll]="true" [(visible)]="display" (onHide)="closeDisplay()">
   <p-tabView styleClass="scroll">
     <p-tabPanel i18n-header="@@stock.detail.tab.overview.header" header="Overview">
       <div *ngIf="stock">
         <div class = "ui-g">
-          <div class = "ui-g-12 ui-md-6 ui-lg-3" i18n="@@stock.name">Name</div><div class = "ui-g-12 ui-md-6 ui-lg-3">{{stock.name}}</div>
-          <div class = "ui-g-12 ui-md-6 ui-lg-3" i18n="@@stock.isin">ISIN</div><div class = "ui-g-12 ui-md-6 ui-lg-3">{{stock.isin}}</div>
+          <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.name">Name</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{stock.name}}</div>
+          <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.isin">ISIN</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{stock.isin}}</div>
         </div>
         <div *ngIf="stock.balance && stock.balance.length > 0" class = "ui-g">
-          <div class = "ui-g-12 ui-md-6 ui-lg-3" i18n="@@stock.businessyearend">End of business year</div><div class = "ui-g-12 ui-md-6 ui-lg-3">{{stock.balance[0].modifiedAt | date:'dd.MM.'}}</div>
-          <div class = "ui-g-12 ui-md-6 ui-lg-3" i18n="@@stock.referencecurrency">Currency</div><div class = "ui-g-12 ui-md-6 ui-lg-3">{{stock.referenceCurrency}}</div>
+          <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.businessyearend">End of business year</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{stock.balance[0].modifiedAt | date:'dd.MM.'}}</div>
+          <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.referencecurrency">Currency</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{stock.referenceCurrency}}</div>
         </div>
         <div *ngIf="prices && prices.length > 0" class = "ui-g">
-          <div class = "ui-g-12 ui-md-6 ui-lg-3" i18n="@@stock.actualprice">Actual Price</div><div class = "ui-g-12 ui-md-6 ui-lg-3">{{prices[prices.length-1].price | number}} {{prices[prices.length-1].currency}} ({{prices[prices.length-1].createdAt | date}})</div>
-          <div class = "ui-g-12 ui-md-6 ui-lg-3" i18n="@@stock.actualprice.stockexchange">Stock Exchange</div><div class = "ui-g-12 ui-md-6 ui-lg-3">{{getStockExchange(prices[prices.length-1])}}</div>
+          <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.actualprice">Actual Price</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{prices[prices.length-1].price | number}} {{prices[prices.length-1].currency}} ({{prices[prices.length-1].createdAt | date}})</div>
+          <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.actualprice.stockexchange">Stock Exchange</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{getStockExchange(prices[prices.length-1])}}</div>
         </div>
         <div *ngIf="value" class = "ui-g">
-          <div class = "ui-g-12 ui-md-6 ui-lg-3" i18n="@@stock.marketcap">Market capitalization</div><div class = "ui-g-12 ui-md-6 ui-lg-3">{{value.marketCapitalization * 1000 | number}} Mio. USD</div>
-          <div class = "ui-g-12 ui-md-6 ui-lg-3" i18n="@@stock.company_size">Company size</div><div class = "ui-g-12 ui-md-6 ui-lg-3">{{value.marketCapitalization * 1000 | stockcategory}}</div>
+          <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.marketcap">Market capitalization</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{value.marketCapitalization * 1000 | number}} Mio. USD</div>
+          <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.company_size">Company size</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{value.marketCapitalization * 1000 | stockcategory}}</div>
         </div>
       </div>
     </p-tabPanel>
@@ -53,16 +53,16 @@
         </p-tabPanel>
         <p-tabPanel *ngIf="value" i18n-header="@@stock.values" header="Values">
             <div class = "ui-g">
-              <div class = "ui-g-12 ui-md-6 ui-lg-3" i18n="@@stock.value.per">Price Earnings Ratio</div><div class = "ui-g-12 ui-md-6 ui-lg-3">{{value.priceEarningsRatio}}</div>
-              <div class = "ui-g-12 ui-md-6 ui-lg-3" i18n="@@stock.value.pcr">Price Cashflow Ratio</div><div class = "ui-g-12 ui-md-6 ui-lg-3">{{value.priceCashflowRatio}}</div>
+              <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.value.per">Price Earnings Ratio</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{value.priceEarningsRatio}}</div>
+              <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.value.pcr">Price Cashflow Ratio</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{value.priceCashflowRatio}}</div>
             </div>
             <div class = "ui-g">
-              <div class = "ui-g-12 ui-md-6 ui-lg-3" i18n="@@stock.value.pbr">Price Book Ratio</div><div class = "ui-g-12 ui-md-6 ui-lg-3">{{value.priceBookRatio}}</div>
-              <div class = "ui-g-12 ui-md-6 ui-lg-3" i18n="@@stock.value.pegratio">PEG Ratio</div><div class = "ui-g-12 ui-md-6 ui-lg-3">{{value.pegRatio}}</div>
+              <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.value.pbr">Price Book Ratio</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{value.priceBookRatio}}</div>
+              <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.value.pegratio">PEG Ratio</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{value.pegRatio}}</div>
             </div>
             <div class = "ui-g">
-              <div class = "ui-g-12 ui-md-6 ui-lg-3" i18n="@@stock.value.currentyield">Current Yield</div><div class = "ui-g-12 ui-md-6 ui-lg-3">{{value.currentYield}}</div>
-              <div class = "ui-g-12 ui-md-6 ui-lg-3" i18n="@@stock.value.enterpriceratio">Enterprise Ratio</div><div class = "ui-g-12 ui-md-6 ui-lg-3">{{value.enterpriseRatio}}</div>
+              <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.value.currentyield">Current Yield</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{value.currentYield}}</div>
+              <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.value.enterpriceratio">Enterprise Ratio</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{value.enterpriseRatio}}</div>
             </div>
         </p-tabPanel>
         <p-tabPanel *ngIf="signals" i18n-header="@@stock.signals" header="Signals">
@@ -98,8 +98,8 @@
       <p-tabView>
         <p-tabPanel i18n-header="@@stock.performance.figures" header="Figures">
           <div *ngIf="stock && stock.performance" class = "ui-g">
-            <div class = "ui-g-12 ui-md-6 ui-lg-3" i18n="@@stock.performance.figure.oneyear">Performance 1 Year</div><div class = "ui-g-12 ui-md-6 ui-lg-3">{{stock.performance.performance1y | number}}%</div>
-            <div class = "ui-g-12 ui-md-6 ui-lg-3" i18n="@@stock.performance.figure.sixmonths">Performance 6 Months</div><div class = "ui-g-12 ui-md-6 ui-lg-3">{{stock.performance.performance6m | number}}%</div>
+            <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.performance.figure.oneyear">Performance 1 Year</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{stock.performance.performance1y | number}}%</div>
+            <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.performance.figure.sixmonths">Performance 6 Months</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{stock.performance.performance6m | number}}%</div>
           </div>
         </p-tabPanel>
         <p-tabPanel i18n-header="@@stock.performance.chart" header="Chart">

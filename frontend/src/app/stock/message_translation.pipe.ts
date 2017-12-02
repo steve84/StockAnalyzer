@@ -53,7 +53,7 @@ export class MessageTranslationPipe implements PipeTransform {
       case 16:
         return 'Benutzername wird bereits verwendet';
       case 17:
-        return '';
+        return 'Bitte geben Sie Ihr Passwort ein und bestätigen Sie Ihr Benutzerkonto';
       case 18:
         return 'Die Summe der Faktoren muss 100 betragen (aktuell: ';
       case 19:
@@ -98,7 +98,7 @@ export class MessageTranslationPipe implements PipeTransform {
       case 16:
         return 'Username already in use';
       case 17:
-        return '';
+        return 'Please enter your password and activate your account by clicking the confirm button';
       case 18:
         return 'The sum of the factors has to be 100 (actual: ';
       case 19:

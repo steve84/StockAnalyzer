@@ -84,4 +84,32 @@ export class PiotroskiComponent implements OnInit, OnChanges {
     else
       return 0;
   }
+
+  isBuyAdvice(): boolean {
+    if (this.piotroskiScore != null) {
+      return this.piotroskiScore >= 8;
+    }
+    return false;
+  }
+  
+  getScoreCSSClass(description: boolean = false): string {
+    let cssClass = 'ui-g-';
+    let buyAdvice = this.isBuyAdvice();
+    if (description) {
+      cssClass += '10 score_description ';
+      if (buyAdvice) {
+        cssClass += 'buy';
+      } else {
+        cssClass += 'sell';
+      }
+    } else {
+      cssClass += '2 score_value '
+      if (buyAdvice) {
+        cssClass += 'buy';
+      } else {
+        cssClass += 'sell';
+      }
+    }
+  return cssClass;
+  }
 }

@@ -26,6 +26,7 @@ export class ConfirmComponent implements OnInit {
           this.userId = +params.get('userid');
           this.token = params.get('token');
       });
+      this.msgs = [{severity: 'info', summary: '', detail: this.messagePipe.transform(17, this.locale)}];
   }
   
   confirm() {
