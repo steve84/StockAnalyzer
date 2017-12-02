@@ -1,60 +1,4 @@
 --
--- PostgreSQL database dump
---
-
--- Dumped from database version 9.5.7
--- Dumped by pg_dump version 9.5.7
-
--- Started on 2017-06-03 18:35:23 CEST
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SET check_function_bodies = false;
-SET client_min_messages = warning;
-SET row_security = off;
-
---
--- TOC entry 2128 (class 1262 OID 16477)
--- Name: stock_db; Type: DATABASE; Schema: -; Owner: postgres
---
-
-CREATE DATABASE stock_db WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'en_US.utf8' LC_CTYPE = 'en_US.utf8';
-
-
-ALTER DATABASE stock_db OWNER TO postgres;
-
-\connect stock_db
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SET check_function_bodies = false;
-SET client_min_messages = warning;
-SET row_security = off;
-
---
--- TOC entry 1 (class 3079 OID 12358)
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
---
-
-CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
-
-
---
--- TOC entry 2131 (class 0 OID 0)
--- Dependencies: 1
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
---
-
-COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
-
-
-SET search_path = public, pg_catalog;
-
---
 -- TOC entry 185 (class 1259 OID 16519)
 -- Name: branch_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
@@ -67,7 +11,6 @@ CREATE SEQUENCE branch_seq
     CACHE 1;
 
 
-ALTER TABLE branch_seq OWNER TO postgres;
 
 --
 -- TOC entry 184 (class 1259 OID 16517)
@@ -82,7 +25,6 @@ CREATE SEQUENCE country_seq
     CACHE 1;
 
 
-ALTER TABLE country_seq OWNER TO postgres;
 
 --
 -- TOC entry 186 (class 1259 OID 16521)
@@ -97,7 +39,6 @@ CREATE SEQUENCE stock_seq
     CACHE 1;
 
 
-ALTER TABLE stock_seq OWNER TO postgres;
 
 
 CREATE SEQUENCE index_seq
@@ -108,7 +49,6 @@ CREATE SEQUENCE index_seq
     CACHE 1;
 
 
-ALTER TABLE index_seq OWNER TO postgres;
 
 
 CREATE SEQUENCE score_seq
@@ -119,7 +59,6 @@ CREATE SEQUENCE score_seq
     CACHE 1;
 
 
-ALTER TABLE score_seq OWNER TO postgres;
 
 
 CREATE SEQUENCE income_seq
@@ -130,7 +69,6 @@ CREATE SEQUENCE income_seq
     CACHE 1;
 
 
-ALTER TABLE income_seq OWNER TO postgres;
 
 
 CREATE SEQUENCE cashflow_seq
@@ -141,7 +79,6 @@ CREATE SEQUENCE cashflow_seq
     CACHE 1;
 
 
-ALTER TABLE cashflow_seq OWNER TO postgres;
 
 
 CREATE SEQUENCE balance_seq
@@ -152,7 +89,6 @@ CREATE SEQUENCE balance_seq
     CACHE 1;
 
 
-ALTER TABLE balance_seq OWNER TO postgres;
 
 
 CREATE SEQUENCE signals_seq
@@ -163,7 +99,6 @@ CREATE SEQUENCE signals_seq
     CACHE 1;
 
 
-ALTER TABLE signals_seq OWNER TO postgres;
 
 
 CREATE SEQUENCE values_seq
@@ -174,7 +109,6 @@ CREATE SEQUENCE values_seq
     CACHE 1;
 
 
-ALTER TABLE values_seq OWNER TO postgres;
 
 
 CREATE SEQUENCE forecast_seq
@@ -185,7 +119,6 @@ CREATE SEQUENCE forecast_seq
     CACHE 1;
 
 
-ALTER TABLE forecast_seq OWNER TO postgres;
 
 CREATE SEQUENCE user_seq
     START WITH 1
@@ -195,7 +128,6 @@ CREATE SEQUENCE user_seq
     CACHE 1;
 
 
-ALTER TABLE user_seq OWNER TO postgres;
 
 
 CREATE SEQUENCE role_seq
@@ -206,7 +138,6 @@ CREATE SEQUENCE role_seq
     CACHE 1;
 
 
-ALTER TABLE role_seq OWNER TO postgres;
 
 
 CREATE SEQUENCE analysts_seq
@@ -217,7 +148,6 @@ CREATE SEQUENCE analysts_seq
     CACHE 1;
 
 
-ALTER TABLE analysts_seq OWNER TO postgres;
 
 
 CREATE SEQUENCE price_seq
@@ -227,7 +157,6 @@ CREATE SEQUENCE price_seq
     NO MAXVALUE
     CACHE 1;
 
-ALTER TABLE price_seq OWNER TO postgres;
 
 SET default_tablespace = '';
 
@@ -246,7 +175,6 @@ CREATE TABLE tbranch (
 );
 
 
-ALTER TABLE tbranch OWNER TO postgres;
 
 --
 -- TOC entry 182 (class 1259 OID 16487)
@@ -261,7 +189,6 @@ CREATE TABLE tcountry (
 );
 
 
-ALTER TABLE tcountry OWNER TO postgres;
 
 --
 -- TOC entry 183 (class 1259 OID 16493)
@@ -288,7 +215,6 @@ CREATE TABLE tstock (
 );
 
 
-ALTER TABLE tstock OWNER TO postgres;
 
 
 
@@ -302,7 +228,6 @@ CREATE TABLE tindex (
     total_stocks integer
 );
 
-ALTER TABLE tindex OWNER TO postgres;
 
 
 CREATE TABLE tstockindex (
@@ -312,7 +237,6 @@ CREATE TABLE tstockindex (
     modified_at date
 );
 
-ALTER TABLE tstockindex OWNER TO postgres;
 
 
 CREATE TABLE tscore (
@@ -324,7 +248,6 @@ CREATE TABLE tscore (
     modified_at date
 );
 
-ALTER TABLE tscore OWNER TO postgres;
 
 
 CREATE TABLE tscoretype (
@@ -332,7 +255,6 @@ CREATE TABLE tscoretype (
     name character varying
 );
 
-ALTER TABLE tscoretype OWNER TO postgres;
 
 
 CREATE TABLE tincome (
@@ -352,7 +274,6 @@ CREATE TABLE tincome (
     modified_at date
 );
 
-ALTER TABLE tincome OWNER TO postgres;
 
 
 CREATE TABLE tcashflow (
@@ -370,7 +291,6 @@ CREATE TABLE tcashflow (
     modified_at date
 );
 
-ALTER TABLE tcashflow OWNER TO postgres;
 
 
 CREATE TABLE tbalance (
@@ -387,7 +307,6 @@ CREATE TABLE tbalance (
     modified_at date
 );
 
-ALTER TABLE tbalance OWNER TO postgres;
 
 
 CREATE TABLE tsignals (
@@ -406,7 +325,6 @@ CREATE TABLE tsignals (
     modified_at date
 );
 
-ALTER TABLE tsignals OWNER TO postgres;
 
 
 
@@ -426,7 +344,6 @@ CREATE TABLE tvalues (
     modified_at date
 );
 
-ALTER TABLE tvalues OWNER TO postgres;
 
 
 CREATE TABLE tforecast (
@@ -445,7 +362,6 @@ CREATE TABLE tforecast (
     modified_at date
 );
 
-ALTER TABLE tforecast OWNER TO postgres;
 
 CREATE TABLE tuser (
     user_id integer DEFAULT nextval('user_seq'::regclass) NOT NULL,
@@ -463,14 +379,12 @@ CREATE TABLE tuser (
 );
 
 
-ALTER TABLE tuser OWNER TO postgres;
 
 CREATE TABLE trole (
     role_id integer DEFAULT nextval('role_seq'::regclass) NOT NULL,
     role_name character varying
 );
 
-ALTER TABLE trole OWNER TO postgres;
 
 
 CREATE TABLE tanalysts (
@@ -482,7 +396,6 @@ CREATE TABLE tanalysts (
     modified_at date
 );
 
-ALTER TABLE tanalysts OWNER TO postgres;
 
 
 
@@ -496,7 +409,6 @@ CREATE TABLE tprice (
     created_at date
 );
 
-ALTER TABLE tprice OWNER TO postgres;
 
 
 --
@@ -729,8 +641,6 @@ CREATE OR REPLACE VIEW public.vstock AS
    LEFT JOIN (select stock_id, max(modified_at) as last_date_values from tvalues group by stock_id) v ON s.stock_id = v.stock_id
    LEFT JOIN (select stock_id, max(modified_at) as last_date_forecast from tforecast group by stock_id) f ON s.stock_id = f.stock_id;
 
-ALTER TABLE public.vstock
-  OWNER TO postgres;
 
   
 CREATE OR REPLACE VIEW public.vmarketcap AS 
@@ -739,8 +649,6 @@ CREATE OR REPLACE VIEW public.vmarketcap AS
    FROM tvalues v
    WHERE v.modified_at = (select max(v2.modified_at) from tvalues v2 where v.stock_id = v2.stock_id);
 
-ALTER TABLE public.vmarketcap
-  OWNER TO postgres;
 
   
 CREATE OR REPLACE VIEW public.vavgtotalassets AS 
@@ -749,8 +657,6 @@ CREATE OR REPLACE VIEW public.vavgtotalassets AS
    FROM tbalance b
    GROUP BY b.stock_id;
 
-ALTER TABLE public.vavgtotalassets
-  OWNER TO postgres;
 
 
 CREATE OR REPLACE VIEW public.vperformance AS 
@@ -765,8 +671,6 @@ CREATE OR REPLACE VIEW public.vperformance AS
   left join tprice six_month_price on stock_dates.stock_id = six_month_price.stock_id and stock_dates.six_month_price_date = six_month_price.created_at
   left join tprice one_year_price on stock_dates.stock_id = one_year_price.stock_id and stock_dates.one_year_price_date = one_year_price.created_at;
 
-ALTER TABLE public.vperformance
-  OWNER TO postgres;
 
   
 CREATE OR REPLACE VIEW public.vmomentum AS 
@@ -787,9 +691,6 @@ CREATE OR REPLACE VIEW public.vmomentum AS
   left join tprice six_month_price on stock_dates.stock_id = six_month_price.stock_id and stock_dates.six_month_price_date = six_month_price.created_at
   left join tprice one_year_price on stock_dates.stock_id = one_year_price.stock_id and stock_dates.one_year_price_date = one_year_price.created_at;
 
-ALTER TABLE public.vmomentum
-  OWNER TO postgres;
-
 
 CREATE OR REPLACE VIEW public.vvolatility AS 
   select 
@@ -803,9 +704,6 @@ CREATE OR REPLACE VIEW public.vvolatility AS
   left join (select stock_id, stddev(price) as std_dev from tprice where created_at > (current_date - interval '4 months') group by stock_id) stddev_three_month on s.stock_id = stddev_three_month.stock_id
   left join (select stock_id, stddev(price) as std_dev from tprice where created_at > (current_date - interval '7 months') group by stock_id) stddev_six_month on s.stock_id = stddev_six_month.stock_id
   left join (select stock_id, stddev(price) as std_dev from tprice where created_at > (current_date - interval '13 months') group by stock_id) stddev_one_year on s.stock_id = stddev_one_year.stock_id;
-
-ALTER TABLE public.vmomentum
-  OWNER TO postgres;
 
 
 CREATE OR REPLACE VIEW public.vrsl AS 
@@ -823,9 +721,6 @@ left join (select stock_id, avg(price) as avg_price from tprice where created_at
 left join (select stock_id, avg(price) as avg_price from tprice where created_at <= current_date and created_at <= (current_date - interval '26 weeks') and extract(dow from created_at) = 5 group by stock_id) six_month_price on s.stock_id = six_month_price.stock_id
 left join (select stock_id, avg(price) as avg_price from tprice where created_at <= current_date and created_at <= (current_date - interval '52 weeks') and extract(dow from created_at) = 5 group by stock_id) one_year_price on s.stock_id = one_year_price.stock_id;
 
-ALTER TABLE public.vrsl
-  OWNER TO postgres;
-
 
 CREATE OR REPLACE VIEW public.vrsi AS   
 select
@@ -840,9 +735,6 @@ left join (select stock_id, created_at, lag(price) over client_window as previou
 left join (select stock_id, created_at, lag(price) over client_window as previous_day_price from tprice where created_at > (current_date - interval '6 months') window client_window as (partition by stock_id order by created_at asc)) previous_day_six_month on p.stock_id = previous_day_six_month.stock_id and p.created_at = previous_day_six_month.created_at
 left join (select stock_id, created_at, lag(price) over client_window as previous_day_price from tprice where created_at > (current_date - interval '1 year') window client_window as (partition by stock_id order by created_at asc)) previous_day_one_year on p.stock_id = previous_day_one_year.stock_id and p.created_at = previous_day_one_year.created_at) prices
 group by prices.stock_id;
-
-ALTER TABLE public.vrsi
-  OWNER TO postgres;
 
 
 CREATE OR REPLACE VIEW public.vtechnical AS 
@@ -872,8 +764,6 @@ CREATE OR REPLACE VIEW public.vtechnical AS
   left join vrsl r on p.stock_id = r.stock_id
   left join vrsi i on p.stock_id = i.stock_id;
 
-ALTER TABLE public.vtechnical
-  OWNER TO postgres;
 
 CREATE OR REPLACE VIEW public.vlatestprice AS 
   select 
@@ -885,8 +775,6 @@ CREATE OR REPLACE VIEW public.vlatestprice AS
   union
   select stock_id, null as price, null as created_at from tstock where stock_id not in (select distinct stock_id from tprice);
 
-ALTER TABLE public.vlatestprice
-  OWNER TO postgres;
 
 CREATE OR REPLACE VIEW public.vlevermann AS 
  SELECT s.stock_id,
@@ -912,8 +800,6 @@ CREATE OR REPLACE VIEW public.vlevermann AS
    LEFT JOIN vperformance p ON p.stock_id = s.stock_id
    LEFT JOIN tanalysts anal ON anal.stock_id = s.stock_id;
 
-ALTER TABLE public.vlevermann
-  OWNER TO postgres;
 
 
 CREATE OR REPLACE VIEW public.vmagicformula AS 
@@ -925,8 +811,6 @@ CREATE OR REPLACE VIEW public.vmagicformula AS
    LEFT JOIN (select si.* from (select stock_id, max(modified_at) max_date from tsignals group by stock_id) a left join tsignals si on si.stock_id = a.stock_id and si.modified_at = a.max_date) si on si.stock_id = s.stock_id
    LEFT JOIN (select v.* from (select stock_id, max(modified_at) max_date from tvalues group by stock_id) a left join tvalues v on v.stock_id = a.stock_id and v.modified_at = a.max_date) v on v.stock_id = s.stock_id;
 
-ALTER TABLE public.vmagicformula
-  OWNER TO postgres;
 
 
 -- View: public.vagg_market_cap
@@ -962,8 +846,6 @@ CREATE OR REPLACE VIEW public.vagg_market_cap AS
   GROUP BY tmc1.stock_id, tmc1.country_id
   ORDER BY tmc1.country_id, (sum(tmc2.cap_ratio) * 100::numeric);
 
-ALTER TABLE public.vagg_market_cap
-  OWNER TO postgres; 
 
 -- View: public.vpiotroski
 
@@ -996,8 +878,6 @@ CREATE OR REPLACE VIEW public.vpiotroski AS
 	left join (select v.* from (select stock_id, max(modified_at) max_date from tvalues group by stock_id) a left join tvalues v on v.stock_id = a.stock_id and v.modified_at = a.max_date) v on v.stock_id = s.stock_id
     left join vavgtotalassets vt on vt.stock_id = s.stock_id;
 
-ALTER TABLE public.vpiotroski
-  OWNER TO postgres; 
 
 -- View: public.vscore_normalized
 
@@ -1039,9 +919,6 @@ CREATE OR REPLACE VIEW public.vscore_normalized AS
                   WHERE tscore.index_id IS NOT NULL) t
           GROUP BY t.score_type_id) nsi ON nsi.score_type_id = s.score_type_id AND s.index_id IS NOT NULL;
 
-ALTER TABLE public.vscore_normalized
-  OWNER TO postgres;
-
 
 CREATE OR REPLACE VIEW public.vfullscore AS 
 select
@@ -1067,9 +944,6 @@ from
     select * from tscore
     where index_id is not null;
 
-ALTER TABLE public.vfullscore
-  OWNER TO postgres;
-
 CREATE OR REPLACE VIEW public.vindexcountrystat AS 
  SELECT si.index_id,
     c.country_id,
@@ -1081,8 +955,6 @@ CREATE OR REPLACE VIEW public.vindexcountrystat AS
      LEFT JOIN vmarketcap m ON s.stock_id = m.stock_id
   GROUP BY si.index_id, c.country_id;
 
-ALTER TABLE public.vindexcountrystat
-  OWNER TO postgres;
 
 CREATE OR REPLACE VIEW public.vindexbranchstat AS 
  SELECT si.index_id,
@@ -1095,8 +967,7 @@ CREATE OR REPLACE VIEW public.vindexbranchstat AS
      LEFT JOIN vmarketcap m ON s.stock_id = m.stock_id
   GROUP BY si.index_id, b.branch_id;
 
-ALTER TABLE public.vindexbranchstat
-  OWNER TO postgres;
+
 --
 -- TOC entry 2130 (class 0 OID 0)
 -- Dependencies: 7
