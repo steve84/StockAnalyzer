@@ -11,8 +11,8 @@ import { CommonTranslationPipe } from '../stock/common_translation.pipe';
 })
 export class FooterbarComponent implements OnInit {
   items: MenuItem[] = [];
-  commonTranslationPipe: CommonTranslationPipe = new CommonTranslationPipe();
-  constructor(@Inject(LOCALE_ID) private locale: String) { }
+  commonTranslationPipe: CommonTranslationPipe = new CommonTranslationPipe('en-US');
+  constructor(@Inject(LOCALE_ID) private locale: string) { }
 
   ngOnInit() {
     this.items = [

@@ -6,7 +6,11 @@
         <span>{{stock['country']['name'] | translateCountry}}</span>
       </ng-template>
     </p-column>
-    <p-column field="branch.name" i18n-header="@@stock.branch" header="Branch" [sortable]="true"></p-column>
+    <p-column field="branch.name" i18n-header="@@stock.branch" header="Branch" [sortable]="true">
+      <ng-template let-col let-stock="rowData" pTemplate="body">
+        <span>{{stock['branch']['name'] | translateBranch}}</span>
+      </ng-template>
+    </p-column>
     <p-column field="scoreLevermann" i18n-header="@@stock.levermann.score" header="Levermann-Score" [sortable]="true">
       <ng-template let-col let-stock="rowData" pTemplate="body">
         <span *ngFor="let score of stock['scores']">

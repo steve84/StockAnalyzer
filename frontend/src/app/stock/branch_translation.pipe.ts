@@ -1,13 +1,15 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Inject, LOCALE_ID, Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'translateBanch'
+  name: 'translateBranch'
 })
 export class BranchTranslationPipe implements PipeTransform {
 
-  transform(value: string, args?: any): any {
-    if (value && args) {
-      switch (args) {
+  constructor(@Inject(LOCALE_ID) private locale: string) {}
+
+  transform(value: string, locale?: string): any {
+    if (value && (locale || this.locale)) {
+      switch (locale || this.locale) {
         case 'de':
           return this.getTranslationDE(value);
         default:

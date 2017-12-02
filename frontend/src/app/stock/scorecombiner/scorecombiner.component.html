@@ -46,7 +46,7 @@
   </div>
 </div>
 <div *ngIf="stockOrIndex == 'stock'" class = "ui-g">
-  <div class = "ui-g-12 ui-md-3 ui-lg-3 description" i18n="@@score.combiner.exclude_countries">Exclude branches</div>
+  <div class = "ui-g-12 ui-md-3 ui-lg-3 description" i18n="@@score.combiner.exclude_branches">Exclude branches</div>
   <div class = "ui-g-12 ui-md-9 ui-lg-9 value">
     <p-multiSelect [options]="branches" [(ngModel)]="excludedBranches" i18n-defaultLabel="@@search.choice.label" defaultLabel="Choose" i18n-selectedItemsLabel="@@search.choice.selected.label" selectedItemsLabel="{{0}} entries selected" maxSelectedLabels=2></p-multiSelect>
   </div>
@@ -86,8 +86,16 @@
       </p-header>
       <p-column field="stock.isin" i18n-header="@@stock.isin" header="ISIN"></p-column>
       <p-column field="stock.name" i18n-header="@@stock.name" header="Name"></p-column>
-      <p-column field="stock.branch.name" i18n-header="@@stock.branch" header="Branch"></p-column>
-      <p-column field="stock.country.name" i18n-header="@@stock.country" header="Country"></p-column>
+      <p-column field="stock.branch.name" i18n-header="@@stock.branch" header="Branch">
+        <ng-template let-score="rowData" pTemplate="body">
+          <span *ngIf="score['stock']">{{score['stock']['branch']['name'] | translateBranch}}</span>
+        </ng-template>
+      </p-column>
+      <p-column field="stock.country.name" i18n-header="@@stock.country" header="Country">
+        <ng-template let-score="rowData" pTemplate="body">
+          <span *ngIf="score['stock']">{{score['stock']['country']['name'] | translateCountry}}</span>
+        </ng-template>
+      </p-column>
       <p-column field="stock.latestPrice.price" i18n-header="@@stock.price" header="Price"></p-column>
       <p-column field="stock.shareCurrency" i18n-header="@@stock.sharecurrency" header="Share Currency"></p-column>
       <p-column field="scoreValue" i18n-header="@@stock.score" header="Score">
@@ -113,7 +121,11 @@
         </div>
       </p-header>
       <p-column field="index.name" i18n-header="@@index.name" header="Name"></p-column>
-      <p-column field="index.country.name" i18n-header="@@index.country" header="Country"></p-column>
+      <p-column field="index.country.name" i18n-header="@@index.country" header="Country">
+        <ng-template let-score="rowData" pTemplate="body">
+          <span *ngIf="score['index']">{{score['index']['country']['name'] | translateCountry}}</span>
+        </ng-template>
+      </p-column>
       <p-column field="index.realStocks.length" i18n-header="@@index.nbrofstocks" header="Number of Stocks"></p-column>
       <p-column field="scoreValue" i18n-header="@@index.score" header="Score">
         <ng-template let-col let-score="rowData" pTemplate="body">

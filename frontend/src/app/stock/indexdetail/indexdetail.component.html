@@ -4,8 +4,16 @@
       <p-dataTable [value]="stocks" selectionMode="single" lazy="true" responsive="true" [paginator]="true" [rows]="pageSize" [rowsPerPageOptions]="[10,20,30]" [totalRecords]="totalRecords" (onLazyLoad)="loadData($event)" resizableColumns="true">
         <p-column field="isin" i18n-header="@@stock.isin" header="ISIN" [sortable]="true"></p-column>
         <p-column field="name" i18n-header="@@stock.name" header="Name" [sortable]="true"></p-column>
-        <p-column field="country.name" i18n-header="@@stock.country" header="Country" [sortable]="true"></p-column>
-        <p-column field="branch.name" i18n-header="@@stock.branch" header="Branch" [sortable]="true"></p-column>
+        <p-column field="country.name" i18n-header="@@stock.country" header="Country" [sortable]="true">
+          <ng-template let-col let-stock="rowData" pTemplate="body">
+            <span>{{stock['country']['name'] | translateCountry}}</span>
+          </ng-template>
+        </p-column>
+        <p-column field="branch.name" i18n-header="@@stock.branch" header="Branch" [sortable]="true">
+          <ng-template let-col let-stock="rowData" pTemplate="body">
+            <span>{{stock['branch']['name'] | translateBranch}}</span>
+          </ng-template>
+        </p-column>
         <p-column field="levermann.marketCapitalization" i18n-header="@@stock.company_size" header="Company Size">
           <ng-template let-col let-stock="rowData" pTemplate="body">
             {{stock['stockCategory']}}

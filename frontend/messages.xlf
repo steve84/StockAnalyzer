@@ -281,6 +281,9 @@
           <context context-type="sourcefile">src\app\stock\scorecombiner\scorecombiner.component.ts</context>
           <context context-type="linenumber">43</context>
         </context-group>
+      </trans-unit>
+      <trans-unit id="score.combiner.exclude_branches" datatype="html">
+        <source>Exclude branches</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src\app\stock\scorecombiner\scorecombiner.component.ts</context>
           <context context-type="linenumber">49</context>

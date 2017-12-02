@@ -37,10 +37,10 @@ export class StocksearchComponent implements OnInit {
   page: number = 0;
   sortField: string;
   sortOrder: number;
-  countryTranslationPipe: CountryTranslationPipe = new CountryTranslationPipe();
-  branchTranslationPipe: BranchTranslationPipe = new BranchTranslationPipe();
+  countryTranslationPipe: CountryTranslationPipe = new CountryTranslationPipe('en-US');
+  branchTranslationPipe: BranchTranslationPipe = new BranchTranslationPipe('en-US');
 
-  constructor(private stockService: StockService, private indexService: IndexService, @Inject(LOCALE_ID) private locale: String) {
+  constructor(private stockService: StockService, private indexService: IndexService, @Inject(LOCALE_ID) private locale: string) {
 	  this.stockService.getAllCountries()
 		  .subscribe((data:any) => {
 			  this.countries = [];

@@ -38,9 +38,9 @@ export class ScorecombinerComponent implements OnInit {
   companySizeItems: SelectItem[] = [];
   stockOrIndex: string = 'stock';
   companySize: number = 0;
-  commonTranslationPipe: CommonTranslationPipe = new CommonTranslationPipe();
-  countryTranslationPipe: CountryTranslationPipe = new CountryTranslationPipe();
-  branchTranslationPipe: BranchTranslationPipe = new BranchTranslationPipe();
+  commonTranslationPipe: CommonTranslationPipe = new CommonTranslationPipe('en-US');
+  countryTranslationPipe: CountryTranslationPipe = new CountryTranslationPipe('en-US');
+  branchTranslationPipe: BranchTranslationPipe = new BranchTranslationPipe('en-US');
   messagePipe: MessageTranslationPipe = new MessageTranslationPipe('en-US');
   constructor(private stockService: StockService, private indexService: IndexService, @Inject(LOCALE_ID) private locale: string) {
     this.numRowValues.push({label: '10', value: 10});
