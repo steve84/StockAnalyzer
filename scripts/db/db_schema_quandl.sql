@@ -450,6 +450,7 @@ CREATE TABLE tuser (
     user_id integer DEFAULT nextval('user_seq'::regclass) NOT NULL,
     username character varying NOT NULL,
     email character varying NOT NULL,
+    correspondence_language character(2) default 'DE',
     password character varying NOT NULL,
     salt character varying NOT NULL,
     token character varying,
@@ -685,6 +686,8 @@ ALTER TABLE tuser ADD CONSTRAINT uuser UNIQUE (username);
 ALTER TABLE tprice ADD CONSTRAINT upricestock UNIQUE (created_at, stock_id);
 
 ALTER TABLE tprice ADD CONSTRAINT upriceindex UNIQUE (created_at, index_id);
+
+ALTER TABLE tuser ADD CONSTRAINT cuser CHECK (correspondence_language IN ('DE', 'EN'));
 
 ALTER TABLE tscore ADD CONSTRAINT cscore CHECK ((stock_id is NULL) <> (index_id is NULL));
 

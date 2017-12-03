@@ -12,6 +12,7 @@ export class UserService {
 
   username: string;
   roles: string;
+  userId: number;
 
   constructor(private http: Http, private authHttp: AuthHttp) {
     this.decodeToken();
@@ -50,7 +51,7 @@ export class UserService {
   changePassword(userId: number, oldPassword: string, newPassword: string) {
       let body = {'oldPassword': oldPassword, 'newPassword': newPassword};
       let headers = new Headers({'Content-Type': 'application/json'});
-      return this.authHttp.post(environment.apiUrl + "/user/password/change" + userId.toString() + "/", JSON.stringify(body), {headers: headers});
+      return this.authHttp.post(environment.apiUrl + "/user/password/change/" + userId.toString() + "/", JSON.stringify(body), {headers: headers});
   }
 
   checkUsername(username: string) {
@@ -63,6 +64,7 @@ export class UserService {
     this.removeToken();
     this.setUsername(null);
     this.setRoles(null);
+    this.setUserId(null);
   }
   
   getUsername(): string {
@@ -81,6 +83,14 @@ export class UserService {
     this.roles = roles;
   }
   
+  getUserId(): number {
+    return this.userId;
+  }
+  
+  setUserId(id: number) {
+    this.userId = id;
+  }
+  
   decodeToken() {
     let token = localStorage.getItem('token');
     let jwtHelper = new JwtHelper();
@@ -88,6 +98,7 @@ export class UserService {
       let decodedToken = jwtHelper.decodeToken(token);
       this.setUsername(decodedToken.sub);
       this.setRoles(decodedToken.roles);
+      this.setUserId(decodedToken.id);
     }
   }
   

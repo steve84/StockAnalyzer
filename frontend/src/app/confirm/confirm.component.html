@@ -4,6 +4,6 @@
     <div class = "ui-g-12 ui-md-6 ui-lg-6 description" i18n="@@confirm.password.label">Password</div>
     <div class = "ui-g-12 ui-md-6 ui-lg-6 value"><input type="password" pInputText [(ngModel)]="password"></div>
     <div class = "ui-g-6 ui-md-6 ui-lg-12">
-      <button type="button" pButton i18n-label="@@confirm.label" label="Confirm" (click)="confirm()"></button>
+      <button type="button" pButton i18n-label="@@confirm.label" label="Confirm" (click)="confirm()" [disabled]="!password || password.length == 0"></button>
     </div>
 </div>

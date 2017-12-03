@@ -55,13 +55,13 @@ export class UserRegistrationComponent implements OnInit {
   }
   
   checkUsername() {
-    this.existingUsername = false;
+    this.existingUsername = true;
     this.userService.checkUsername(this.username)
       .subscribe((data:any) => {
         if (data && data.json()) {
-          this.existingUsername = true;
           this.msgs = [{severity: 'error', summary: '', detail: this.messagePipe.transform(16, this.locale)}];
         } else {
+          this.existingUsername = false;
           this.msgs.pop();
         }
       });

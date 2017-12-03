@@ -1,0 +1,33 @@
+<html>
+ 
+<head>
+  <link href="resources/static/css/style.css" rel="stylesheet" />
+</head>
+ 
+ <body>
+    <div class="header">
+    </div>
+    <div class="body">
+        <p>Hallo <b>${user.username}</b>,</p>
+        <p>Herzlich Willkommen beim ${projectName}. Bitte aktiviere Dein erstelltes Konto <a href="${url}/user/confirm/${user.userId}/${user.token}">hier</a>.</p>
+        <p>
+          Besten Dank<br />
+          Dein ${projectName} Team
+        </p>
+    </div>
+    <div class="footer">
+      <hr/>
+      <div class="left">
+        <b>${addressLine1}</b><br/>
+        ${addressLine2}<br/>
+        ${addressLine3}<br/>
+        ${mailInfo}
+      </div>
+      <div class="right">
+        twitter: <a href="${twitterUrl}">${twitterLabel}</a><br/>
+        facebook: <a href="${facebookUrl}">${facebookLabel}</a><br/>
+      </div>
+    </div>
+</body>
+ 
+</html>

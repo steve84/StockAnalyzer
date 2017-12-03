@@ -22,11 +22,13 @@ import java.util.ArrayList;
 
 public class TokenAuthenticationService {
     static final String ROLES = "roles";
+    static final String ID = "id";
 
-    static void addAuthentication(HttpServletResponse res, String username, String roles, long expirationTime, String secret, String prefix, String header) {
+    static void addAuthentication(HttpServletResponse res, String username, String roles, Integer userId, long expirationTime, String secret, String prefix, String header) {
         String JWT = Jwts.builder()
                 .setSubject(username)
                 .claim(ROLES, roles)
+                .claim(ID, userId)
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();

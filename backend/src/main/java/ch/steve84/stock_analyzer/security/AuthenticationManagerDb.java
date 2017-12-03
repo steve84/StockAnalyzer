@@ -53,6 +53,10 @@ public class AuthenticationManagerDb implements AuthenticationManager {
 		return securityService;
 	}
 
+	public UserRepository getUserRepository() {
+		return userRepository;
+	}
+
 	private List<GrantedAuthority> getAuthoritiesOfUser(User user) {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         authorities.add(new UserGroupAuthority(user.getRole()));

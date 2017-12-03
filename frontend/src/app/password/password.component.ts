@@ -40,6 +40,8 @@ export class PasswordComponent implements OnInit {
     this.resetform = this.fb.group({
       'username': new FormControl('', Validators.required)
     });
+    
+    this.userId = this.userService.getUserId();
   }
   
   resetPwd() {

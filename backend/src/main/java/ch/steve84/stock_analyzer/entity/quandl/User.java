@@ -26,6 +26,8 @@ public class User {
 	private Integer userId;
 	private String username;
 	private String email;
+	@Column(name = "correspondence_language")
+	private String language;
 	private String password;
 	private String salt;
 	private String token;
@@ -53,6 +55,14 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
     public String getPassword() {

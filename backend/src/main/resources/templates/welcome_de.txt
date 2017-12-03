@@ -1,0 +1,40 @@
+<html>
+ 
+<head>
+  <link href="resources/static/css/style.css" rel="stylesheet" />
+</head>
+ 
+<body>
+    <div class="header">
+    </div>
+    <div class="body">
+        <p>Hallo <b>${user.username}</b>,</p>
+        <p>Du kannst dich nun mit Deinem Konto anmelden. Dir stehen einige Aktien und Indizes zur Verfügung.</p>
+        <p>Für den vollen Zugriff auf alle Funktionen wird ein kostenpflichtiges Abonnement benötigt. Dieses kannst Du in deinen Profil-Einstellungen hinzufügen.</p>
+        <p>Bei Fragen oder Anregungen kannst Du uns jederzeit über folgende Kanäle kontaktieren:
+            <ul>
+                <li>info@stockanalyzer.com</li>
+                <li><a href="${url}/contacts">Kontakt</a>-Sektion auf der Website</li>
+            </ul>
+        </p>
+        <p>
+          Beste Grüsse<br />
+          Dein ${projectName} Team
+        </p>
+    </div>
+    <div class="footer">
+      <hr/>
+      <div class="left">
+        <b>${addressLine1}</b><br/>
+        ${addressLine2}<br/>
+        ${addressLine3}<br/>
+        ${mailInfo}
+      </div>
+      <div class="right">
+        twitter: <a href="${twitterUrl}">${twitterLabel}</a><br/>
+        facebook: <a href="${facebookUrl}">${facebookLabel}</a><br/>
+      </div>
+    </div>
+</body>
+ 
+</html>

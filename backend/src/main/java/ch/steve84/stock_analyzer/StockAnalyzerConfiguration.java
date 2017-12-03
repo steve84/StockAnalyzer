@@ -4,6 +4,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 import org.springframework.data.rest.webmvc.config.RepositoryRestConfigurerAdapter;
 
+import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
+
 import ch.steve84.stock_analyzer.entity.quandl.Branch;
 import ch.steve84.stock_analyzer.entity.quandl.Country;
 import ch.steve84.stock_analyzer.entity.quandl.Index;
@@ -22,6 +24,7 @@ import ch.steve84.stock_analyzer.entity.quandl.Signals;
 import ch.steve84.stock_analyzer.entity.quandl.Values;
 
 @Configuration
+@EnableEncryptableProperties
 public class StockAnalyzerConfiguration extends RepositoryRestConfigurerAdapter {
  
 	@Override

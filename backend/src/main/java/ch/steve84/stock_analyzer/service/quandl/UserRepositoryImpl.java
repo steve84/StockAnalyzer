@@ -58,8 +58,7 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
 		else
 			user.setPassword(password);
 		User createdUser = this.userRepository.save(user);
-		// TODO send mail
-		//mailService.sendConfirmationMail(createdUser);
+		mailService.sendRegistrationMail(createdUser);
         return createdUser;
     }
 
@@ -88,6 +87,7 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
             user.setIsActivated(true);
             user.setActivatedAt(Calendar.getInstance());
             user.setToken(null);
+            mailService.sendWelcomeMail(user);
             return this.userRepository.save(user);
         }
         return null;
@@ -101,8 +101,7 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
 			user.setSalt(securityService.generateRandomString(SALT_LENGTH));
 			user.setPassword(securityService.hashAndSalt(newPassword, user.getSalt()));
 			User updatedUser = this.userRepository.save(user);
-			// TODO Send mail
-			//mailService.sendConfirmationMail(updatedUser, password);
+			mailService.sendPasswordResetMail(updatedUser, newPassword);
 			return true;
 		}
 		return false;

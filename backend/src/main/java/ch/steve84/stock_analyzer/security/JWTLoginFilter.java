@@ -20,6 +20,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import ch.steve84.stock_analyzer.entity.quandl.User;
+import ch.steve84.stock_analyzer.repository.quandl.UserRepository;
 import ch.steve84.stock_analyzer.service.quandl.SecurityService;
 
 public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
@@ -47,10 +49,13 @@ public class JWTLoginFilter extends AbstractAuthenticationProcessingFilter {
             Authentication auth) throws IOException, ServletException {
     	AuthenticationManagerDb authManager = (AuthenticationManagerDb)getAuthenticationManager();
     	SecurityService securityService = authManager.getSecurityService();
+    	UserRepository userRepository = authManager.getUserRepository();
+    	User user = userRepository.findByUsername(auth.getName());
         List<String> roles = auth.getAuthorities().stream().map((GrantedAuthority g) -> g.getAuthority()).collect(Collectors.toList());
         TokenAuthenticationService.addAuthentication(res,
         		auth.getName(),
         		String.join(",", roles),
+        		user.getUserId(),
         		securityService.getExpirationTime(),
         		securityService.getSecret(),
         		securityService.getPrefix(),
