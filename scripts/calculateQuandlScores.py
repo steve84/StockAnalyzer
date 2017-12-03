@@ -46,21 +46,6 @@ if doStocks:
         else:
             cur.execute("""SELECT * FROM tstock s LEFT JOIN tscore sc ON sc.stock_id = s.stock_id AND sc.score_type_id = %d WHERE sc.stock_id IS NULL""" % LEVERMANN_SCORE_TYPE_ID)
         for stock in cur:
-            prices = Utils.getQuandlStockPrice(stock[12], quandl_key)
-            if len(prices) == 3:
-                pricesDict = dict()
-                pricesDict['stock_id'] = stock[0]
-                pricesDict['performance_6m'] = Utils.calcGrowth(prices[1], prices[0])
-                pricesDict['performance_1y'] = Utils.calcGrowth(prices[2], prices[0])
-                pricesDict['modified_at'] = Utils.getActualDate()
-                curPrices = conn.cursor()
-                curPrices.execute("""SELECT * FROM tperformance p WHERE stock_id = %d """ % stock[0])
-                pricesDb = curPrices.fetchone()
-                if pricesDb is not None:
-                    curPrices.execute(Utils.createSqlString({'performance_6m', 'performance_1y', 'modified_at'}, 'tperformance', 'stock_id = %d' % stock[0], False), pricesDict)
-                else:
-                    curPrices.execute(Utils.createSqlString(pricesDict.keys(), 'tperformance'), pricesDict)
-
             curLevermann = conn.cursor()
             curLevermann.execute("""SELECT * FROM vlevermann WHERE stock_id = %d""" % stock[0])
             levermannScore = Utils.calculateLevermann(curLevermann.fetchone())
@@ -166,22 +151,7 @@ if doIndices:
             totalMarketCap = 0
             totalLevermannScore = 0
             for stock in curStocks:
-                prices = Utils.getQuandlStockPrice(stock[1], quandl_key)
-                if len(prices) == 3:
-                    pricesDict = dict()
-                    pricesDict['stock_id'] = stock[0]
-                    pricesDict['performance_6m'] = Utils.calcGrowth(prices[1], prices[0])
-                    pricesDict['performance_1y'] = Utils.calcGrowth(prices[2], prices[0])
-                    pricesDict['modified_at'] = Utils.getActualDate()
-                    curPrices = conn.cursor()
-                    curPrices.execute("""SELECT * FROM tperformance p WHERE stock_id = %d """ % stock[0])
-                    pricesDb = curPrices.fetchone()
-                    if pricesDb is not None:
-                        curPrices.execute(Utils.createSqlString({'performance_6m', 'performance_1y', 'modified_at'}, 'tperformance', 'stock_id = %d' % stock[0], False), pricesDict)
-                    else:
-                        curPrices.execute(Utils.createSqlString(pricesDict.keys(), 'tperformance'), pricesDict)
-
-                        curLevermann = conn.cursor()
+                curLevermann = conn.cursor()
                 curLevermann.execute("""SELECT * FROM vlevermann WHERE stock_id = %d""" % stock[0])
                 levermannRow = curLevermann.fetchone()
                 marketCap = levermannRow[4]

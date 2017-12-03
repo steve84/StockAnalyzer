@@ -148,15 +148,15 @@
           </p-header>
           {{levermannData.performance1y | number}}% (12 Monate) nach {{levermannData.performance6m | number}}% (6 Monate)
         </p-accordionTab>
-        <p-accordionTab [selected]="levermannData && levermannData.getEPSGrowthScore" [disabled]="!levermannData || !levermannData.getEPSGrowthScore">
+        <p-accordionTab [selected]="levermannData && levermannData.earningsPerShareGrowthExpected" [disabled]="!levermannData || !levermannData.earningsPerShareGrowthExpected">
           <p-header>
             <div class="ui-g">
               <div class="ui-g-10" i18n="@@levermann.expectedearnings">Expected Earnings Per Share (Growth)</div>
               <div class="ui-g-2" style="text-align: right;">
-                <span *ngIf="levermannData && levermannData.getEPSGrowthScore">
-                  {{getEPSGrowthScore(levermannData.getEPSGrowthScore)}} <i class="fa fa-info-circle" i18n-pTooltip="@@levermann.expectedearnings.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
+                <span *ngIf="levermannData && levermannData.earningsPerShareGrowthExpected">
+                  {{getEPSGrowthScore(levermannData.earningsPerShareGrowthExpected)}} <i class="fa fa-info-circle" i18n-pTooltip="@@levermann.expectedearnings.tooltip" pTooltip="Lorem ipsum dolor sit amet, consetetur sadipscing elitr." tooltipPosition="left"></i>
                 </span>
-                <span *ngIf="!levermannData || !levermannData.getEPSGrowthScore">
+                <span *ngIf="!levermannData || !levermannData.earningsPerShareGrowthExpected">
                   n.a.
                 </span>
               </div>

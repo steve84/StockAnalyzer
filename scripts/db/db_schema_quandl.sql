@@ -742,8 +742,8 @@ ALTER TABLE public.vavgtotalassets
 
 CREATE OR REPLACE VIEW public.vperformance AS 
   select stock_dates.stock_id,
-    case when six_month_price.price > 0 then (1 - (actual_price.price / six_month_price.price)) * 100 else null end AS performance_6m,
-    case when one_year_price.price > 0 then (1 - (actual_price.price / one_year_price.price)) * 100 else null end AS performance_1y
+    case when six_month_price.price > 0 then ((actual_price.price / six_month_price.price) - 1) * 100 else null end AS performance_6m,
+    case when one_year_price.price > 0 then ((actual_price.price / one_year_price.price) - 1) * 100 else null end AS performance_1y
   from (select actual_price.stock_id, actual_price.target_date as actual_price_date, six_month_price.target_date as six_month_price_date, one_year_price.target_date as one_year_price_date from (select stock_id, max(created_at) as target_date from (select stock_id, created_at from tprice where created_at::timestamp in (select * from generate_series(current_date - interval '3 days', current_date, '1 day'))) dates group by stock_id) actual_price
         left join (select stock_id, max(created_at) as target_date from (select stock_id, created_at from tprice where created_at::timestamp in (select * from generate_series(current_date - interval '6 months' - interval '3 days', current_date - interval '6 months' + interval '3 days', '1 day'))) dates group by stock_id) six_month_price on six_month_price.stock_id = actual_price.stock_id
         left join (select stock_id, max(created_at) as target_date from (select stock_id, created_at from tprice where created_at::timestamp in (select * from generate_series(current_date - interval '1 year' - interval '3 days', current_date - interval '1 year' + interval '3 days', '1 day'))) dates group by stock_id) one_year_price on one_year_price.stock_id = actual_price.stock_id
