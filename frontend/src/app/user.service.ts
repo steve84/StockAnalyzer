@@ -61,8 +61,8 @@ export class UserService {
   
   logout() {
     this.removeToken();
-    this.setUsername('');
-    this.setRoles('');
+    this.setUsername(null);
+    this.setRoles(null);
   }
   
   getUsername(): string {

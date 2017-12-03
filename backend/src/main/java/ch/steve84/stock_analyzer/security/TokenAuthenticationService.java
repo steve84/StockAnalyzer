@@ -21,27 +21,23 @@ import static java.util.Collections.emptyList;
 import java.util.ArrayList;
 
 public class TokenAuthenticationService {
-	static final long EXPIRATIONTIME = 864_000_000; // 10 days
-	static final String SECRET = "ThisIsASecret";
-	static final String TOKEN_PREFIX = "Bearer";
-	static final String HEADER_STRING = "Authorization";
     static final String ROLES = "roles";
 
-    static void addAuthentication(HttpServletResponse res, String username, String roles) {
+    static void addAuthentication(HttpServletResponse res, String username, String roles, long expirationTime, String secret, String prefix, String header) {
         String JWT = Jwts.builder()
                 .setSubject(username)
                 .claim(ROLES, roles)
-                .setExpiration(new Date(System.currentTimeMillis() + EXPIRATIONTIME))
-                .signWith(SignatureAlgorithm.HS512, SECRET)
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
+                .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
-        res.addHeader(HEADER_STRING, TOKEN_PREFIX + " " + JWT);
+        res.addHeader(header, prefix + " " + JWT);
     }
 
-    static Authentication getAuthentication(HttpServletRequest request) {
-        String token = request.getHeader(HEADER_STRING);
+    static Authentication getAuthentication(HttpServletRequest request, String secret, String prefix, String header) {
+        String token = request.getHeader(header);
         if (token != null) {
             // parse the token.
-            Claims claims = Jwts.parser().setSigningKey(SECRET).parseClaimsJws(token.replace(TOKEN_PREFIX, "")).getBody();
+            Claims claims = Jwts.parser().setSigningKey(secret).parseClaimsJws(token.replace(prefix, "")).getBody();
             String user = claims.getSubject();
 
             List<GrantedAuthority> authorities = getAuthoritiesOfUser((String)claims.get(ROLES));

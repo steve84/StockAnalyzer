@@ -48,8 +48,12 @@ public class AuthenticationManagerDb implements AuthenticationManager {
         else
             return new UsernamePasswordAuthenticationToken(userName, password);
     }
+    
+    public SecurityService getSecurityService() {
+		return securityService;
+	}
 
-    private List<GrantedAuthority> getAuthoritiesOfUser(User user) {
+	private List<GrantedAuthority> getAuthoritiesOfUser(User user) {
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
         authorities.add(new UserGroupAuthority(user.getRole()));
         return authorities;

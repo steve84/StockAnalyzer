@@ -8,10 +8,22 @@ import java.util.Base64.Encoder;
 
 import org.apache.commons.text.CharacterPredicates;
 import org.apache.commons.text.RandomStringGenerator;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class SecurityService {
+	
+	@Value("${jwt.expirationtime}")
+	private long expirationTime;
+	@Value("${jwt.secret}")
+	private String secret;
+	@Value("${jwt.token.prefix}")
+	private String prefix;
+	@Value("${jwt.header}")
+	private String header;
+	@Value("${google.captcha.secret}")
+	private String captchaSecret;
 
     public String hashAndSalt(String password, String salt) {
     	if (password != null && salt != null) {
@@ -36,4 +48,24 @@ public class SecurityService {
     	                .build();
         return randomStringGenerator.generate(length);
     }
+
+	public long getExpirationTime() {
+		return expirationTime;
+	}
+
+	public String getSecret() {
+		return secret;
+	}
+
+	public String getPrefix() {
+		return prefix;
+	}
+
+	public String getHeader() {
+		return header;
+	}
+
+	public String getCaptchaSecret() {
+		return captchaSecret;
+	}
 }
