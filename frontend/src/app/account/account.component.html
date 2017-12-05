@@ -9,6 +9,7 @@
     <div class = "ui-g-12 ui-md-6 ui-lg-3 value"><p-dropdown [options]="languages" formControlName="language" [(ngModel)]="user.language"></p-dropdown></div>
     <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.role">Role</div>
     <div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{user.role.roleName}}</div>
+    <div class = "ui-g-12"><button pButton type="submit" label="Save" [disabled]="!accountform.valid" i18n-label="@@accountform.submit.label"></button></div>
   </div>
-  <div class = "ui-g-12"><button pButton type="submit" label="Save" [disabled]="!accountform.valid" i18n-label="@@accountform.submit.label"></button></div>
 </form>
+<app-stripe></app-stripe>

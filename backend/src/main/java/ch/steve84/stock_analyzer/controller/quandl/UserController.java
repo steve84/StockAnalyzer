@@ -54,4 +54,13 @@ public class UserController {
         return this.userRepository.getUser(userId);
     }
 
+    @RequestMapping(value = "/remove/{userId}", method = RequestMethod.DELETE)
+    public boolean confirm(@PathVariable("userId") Integer userId, @RequestBody String password) {
+        return this.userRepository.remove(userId, password);
+    }
+
+    @RequestMapping(value = "/addcard/{userId}", method = RequestMethod.POST)
+    public boolean addCard(@PathVariable("userId") Integer userId, @RequestBody String token) {
+        return this.userRepository.addCard(userId, token);
+    }
 }

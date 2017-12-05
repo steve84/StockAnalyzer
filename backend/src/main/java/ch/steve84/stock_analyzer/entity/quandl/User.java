@@ -28,6 +28,8 @@ public class User {
 	private String email;
 	@Column(name = "correspondence_language")
 	private String language;
+	@Column(name = "stripe_customer")
+    private String stripeCustomer;
 	private String password;
 	private String salt;
 	private String token;
@@ -65,6 +67,14 @@ public class User {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public String getStripeCustomer() {
+        return stripeCustomer;
+    }
+
+    public void setStripeCustomer(String stripeCustomer) {
+        this.stripeCustomer = stripeCustomer;
     }
 
     public String getPassword() {
@@ -125,5 +135,9 @@ public class User {
 
     public Integer getUserId() {
 		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 }

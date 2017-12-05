@@ -452,6 +452,7 @@ CREATE TABLE tuser (
     username character varying NOT NULL,
     email character varying NOT NULL,
     correspondence_language character(2) default 'DE',
+    stripe_customer character varying,
     password character varying NOT NULL,
     salt character varying NOT NULL,
     token character varying,

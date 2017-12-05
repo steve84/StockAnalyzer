@@ -43,6 +43,7 @@ import { FaqComponent } from './content/faq/faq.component';
 import { MessageTranslationPipe } from './stock/message_translation.pipe';
 import { AccountComponent } from './account/account.component';
 import { LanguageComponent } from './language/language.component';
+import { StripeComponent } from './stripe/stripe.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +61,8 @@ import { LanguageComponent } from './language/language.component';
     AccountComponent,
     LanguageComponent,
     PasswordChangeComponent,
-    PasswordResetComponent
+    PasswordResetComponent,
+    StripeComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

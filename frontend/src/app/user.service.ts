@@ -69,6 +69,10 @@ export class UserService {
     return this.authHttp.post(environment.apiUrl + "/user/save", JSON.stringify(user), {headers: headers});
   }
   
+  addCard(userId: number, token: string) {
+    return this.authHttp.post(environment.apiUrl + "/user/addcard/" + userId.toString(), token);
+  }
+  
   logout() {
     this.removeToken();
     this.setUsername(null);

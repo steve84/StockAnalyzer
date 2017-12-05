@@ -9,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.transaction.Transactional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.client.RestOperations;
@@ -27,6 +28,8 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
 	private final int SALT_LENGTH = 32;
 	private final int TOKEN_LENGTH = 20;
 	private final int PASSWORD_LENGTH = 10;
+	
+	private final String [] IGNORE_FIELDS = {"password", "salt", "token", "stripeCustomer"};
     
     @PersistenceContext
     private EntityManager em;
@@ -38,6 +41,7 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
     @Autowired private UserRepository userRepository;
     @Autowired private MailService mailService;
     @Autowired private SecurityService securityService;
+    @Autowired private StripeService stripeService;
 
     @Override
     @Transactional(rollbackOn=Exception.class)
@@ -51,8 +55,8 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
         String password = securityService.hashAndSalt(user.getPassword(), user.getSalt());
 		if (password == null)
 			return null;
-		else
-			user.setPassword(password);
+
+		user.setPassword(password);
 		User createdUser = this.userRepository.save(user);
 		mailService.sendRegistrationMail(createdUser);
         return createdUser;
@@ -85,6 +89,8 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
             user.setActivatedAt(Calendar.getInstance());
             user.setToken(null);
             mailService.sendWelcomeMail(user);
+            user = stripeService.createCustomer(user);
+            stripeService.createSubscription(user.getStripeCustomer(), true, true);
             return this.userRepository.save(user);
         }
         return null;
@@ -126,24 +132,35 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
 	public User updateUser(User user) {
 		User existingUser = this.userRepository.findOne(user.getUserId());
 		existingUser.setLanguage(user.getLanguage());
-		User updatedUser = this.userRepository.save(existingUser);
-		return hideValues(updatedUser);
+		User updatedUser = new User();
+		BeanUtils.copyProperties(this.userRepository.save(existingUser), updatedUser, IGNORE_FIELDS);
+		return updatedUser;
 	}
 
 	@Override
 	public User getUser(Integer userId) {
-		User user = this.userRepository.findOne(userId);
-		return hideValues(user);
-	}
-	
-	private User hideValues(User user) {
-		user.setActivatedAt(null);
-		user.setIsActivated(null);
-		user.setPassword(null);
-		user.setSalt(null);
-		user.setToken(null);
+		User user = new User();
+		BeanUtils.copyProperties(this.userRepository.findOne(userId), user, IGNORE_FIELDS);
 		return user;
 	}
+	
+	@Override
+    public boolean remove(Integer userId, String password) {
+        User user = this.userRepository.findOne(userId);
+        if (user.getPassword().equals(securityService.hashAndSalt(password, user.getSalt()))) {
+            this.stripeService.removeCustomer(user.getStripeCustomer());
+            this.userRepository.delete(userId);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean addCard(Integer userId, String token) {
+        // TODO Auto-generated method stub
+        User user = this.userRepository.findOne(userId);
+        return this.stripeService.addCardToCustomer(user.getStripeCustomer(), token);
+    }
 }
 
 @JsonInclude(JsonInclude.Include.NON_NULL)

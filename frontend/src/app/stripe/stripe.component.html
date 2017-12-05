@@ -1,0 +1,7 @@
+<form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)">
+  <div class = "ui-g">
+    <div class = "ui-g-12"><p-messages [(value)]="msgs" [closable]="false"></p-messages></div>
+    <div class = "ui-g-12" #cardInfo></div>
+    <div class = "ui-g-12"><button pButton type="submit" label="Pay" i18n-label="@@stripeform.submit.label"></button></div>
+  </div>
+</form>

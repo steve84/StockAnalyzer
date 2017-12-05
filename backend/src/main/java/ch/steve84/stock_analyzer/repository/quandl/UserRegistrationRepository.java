@@ -12,5 +12,6 @@ public interface UserRegistrationRepository {
     boolean validateCaptcha(String token);
     User updateUser(User user);
     User getUser(Integer userId);
-
+    boolean remove(Integer userId, String password);
+    boolean addCard(Integer userId, String token);
 }
