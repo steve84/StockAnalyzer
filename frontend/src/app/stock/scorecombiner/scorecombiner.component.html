@@ -78,7 +78,7 @@
 
 <div *ngIf="stockOrIndex == 'stock'" class = "ui-g">
   <div class = "ui-g-12">
-    <p-dataTable #dt [value]="scores" selectionMode="single" [(selection)]="selectedScore" resizableColumns="true" responsive="true">
+    <p-dataTable #dt [value]="scores" [loading]="loading" selectionMode="single" [(selection)]="selectedScore" resizableColumns="true" responsive="true">
       <p-header>
         <div class="ui-helper-clearfix">
           <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left"></button>
@@ -114,7 +114,7 @@
 
 <div *ngIf="stockOrIndex == 'index'" class = "ui-g">
   <div class = "ui-g-12">
-    <p-dataTable #dt [value]="scores" selectionMode="single" [(selection)]="selectedScore" resizableColumns="true" responsive="true">
+    <p-dataTable #dt [value]="scores" [loading]="loading" selectionMode="single" [(selection)]="selectedScore" resizableColumns="true" responsive="true">
       <p-header>
         <div class="ui-helper-clearfix">
           <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left"></button>
@@ -126,7 +126,11 @@
           <span *ngIf="score['index']">{{score['index']['country']['name'] | translateCountry}}</span>
         </ng-template>
       </p-column>
-      <p-column field="index.realStocks.length" i18n-header="@@index.nbrofstocks" header="Number of Stocks"></p-column>
+      <p-column field="index.realStocks.length" i18n-header="@@index.nbrofstocks" header="Number of Stocks">
+          <ng-template let-col let-score="rowData" pTemplate="body">
+              <span *ngIf="score && score['index'] && score['index']['realStocks']">{{score['index']['realStocks'].length}}<span *ngIf="score['index']['totalStocks'] != null">/{{score['index']['totalStocks']}} ({{(score['index']['realStocks'].length / score['index']['totalStocks']) * 100 | number:'.0-1'}}%)</span></span>
+          </ng-template>
+      </p-column>
       <p-column field="scoreValue" i18n-header="@@index.score" header="Score">
         <ng-template let-col let-score="rowData" pTemplate="body">
           {{score[col.field] * 100 | number}}

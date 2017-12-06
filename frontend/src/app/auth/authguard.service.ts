@@ -12,7 +12,6 @@ export class AuthGuard implements CanActivate {
   constructor(private userService: UserService, private router: Router) { }
   
   canActivate() {
-    debugger
     if (this.userService.getUsername() && this.userService.getUsername().length > 0 && tokenNotExpired()) {
       return true;
     }

@@ -458,7 +458,22 @@ a.ui-button:active,
 
 .ui-datatable tbody > tr.ui-widget-content.ui-datatable-odd:not(.ui-state-highlight) {
   background-color: #fffb8d; }
-  
+
+@media (max-width: 35em) {
+  .ui-datatable-reflow .ui-datatable-data td .ui-cell-data {
+    float: right;
+  }
+}
+
+span.ui-column-title {
+  white-space: normal;
+}
+
+.ui-datatable-data td {
+  white-space: nowrap;
+  text-overflow: ellipsis;  
+}
+
 .ui-state-disabled,
 .ui-widget:disabled {
   opacity: 0.35;

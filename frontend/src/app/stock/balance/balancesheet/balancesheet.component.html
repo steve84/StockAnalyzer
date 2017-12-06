@@ -1,9 +1,9 @@
 <div class="ui-g">
     <div class="ui-g-12">
-        <p-dropdown [options]="years" [(ngModel)]="year" (onChange)="setYear($event)"></p-dropdown>
+        <p-dropdown [options]="years" [autoWidth]="false" [style]="{'width':'100px'}" [(ngModel)]="year" (onChange)="setYear($event)"></p-dropdown>
     </div>
 </div>
-<div *ngIf="actualBalance" class="ui-g">
+<div *ngIf="actualBalance" class="ui-g" style="overflow: scroll;">
     <div class="ui-g-12">
         <table cellspacing="0" cellpadding="2px">
             <tr>

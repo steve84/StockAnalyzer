@@ -12,12 +12,12 @@
 </div>
 <div class = "ui-g">
 <div class = "ui-g-12">
-<button type="button" pButton i18n-label="@@search.search" label="Search" (click)="searchStocks()" icon="fa-search"></button>
+<button type="button" pButton i18n-label="@@search.search" label="Search" (click)="searchStocks(true)" icon="fa-search"></button>
 <button type="button" pButton i18n-label="@@search.reset" label="Reset filters" (click)="reset()" icon="fa-remove"></button>
 </div>
 </div>
 <div class = "ui-g">
 <div class = "ui-g-12">
-<app-stocktable [external]="true"[stocks]="stocks" [pageSize]="pageSize" [totalRecords]="totalRecords" (onLazyLoad)="onLazyLoad($event)"></app-stocktable>
+<app-stocktable [external]="true"[stocks]="stocks" [pageSize]="pageSize" [totalRecords]="totalRecords" [loading]="loading" (onLazyLoad)="onLazyLoad($event)"></app-stocktable>
 </div>
 </div>

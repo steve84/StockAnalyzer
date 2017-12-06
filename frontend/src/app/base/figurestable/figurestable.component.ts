@@ -72,17 +72,22 @@ export class FigurestableComponent implements OnInit, OnChanges {
     return res;
   }
   
-  getColsFromData(arr: any[]) {
+  getColsFromData(arr: any[], newestFirst: boolean = true) {
     let cols: any[] = [];
-    cols.push({field: 'title', header: 'title'});
+    if (!newestFirst)
+      cols.push({field: 'title', header: 'title'});
     for (let key of Object.keys(arr)) {
       for (let subkey of Object.keys(arr[key])) {
         if (!this.showFuture || Date.parse(subkey) > Date.now())
           cols.push({field: subkey.split('-')[0], header: subkey.split('-')[0]});
       }
-      if (cols && cols.length > 1)
+      if (cols && cols.length > 1) {
+        if (newestFirst) {
+          cols.push({field: 'title', header: ''});
+          return cols.reverse();
+        }
         return cols;
-      else
+      } else
         return [];
     }
   }

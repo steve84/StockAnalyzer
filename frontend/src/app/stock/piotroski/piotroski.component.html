@@ -18,7 +18,7 @@
               </div>
             </div>
           </p-header>
-          {{piotroskiData.returnOnAssets * 100 | number}}%
+          {{piotroskiData.returnOnAssets * 100 | number:'.0-2'}}%
         </p-accordionTab>
         <p-accordionTab [selected]="piotroskiData && piotroskiData.cashOperations" [disabled]="!piotroskiData || !piotroskiData.cashOperations">
           <p-header>
@@ -34,7 +34,7 @@
               </div>
             </div>
           </p-header>
-          {{piotroskiData.cashOperations * 100 | number}}%
+          {{piotroskiData.cashOperations * 100 | number:'.0-2'}}%
         </p-accordionTab>
         <p-accordionTab [selected]="piotroskiData && piotroskiData.actualReturnOnAssets" [disabled]="!piotroskiData || !piotroskiData.actualReturnOnAssets">
           <p-header>
@@ -50,7 +50,7 @@
               </div>
             </div>
           </p-header>
-          Diesjährige Beobachtungsperiode: {{piotroskiData.actualReturnOnAssets * 100 | number}}% > Letztjährige Beobachtungsperiode: {{piotroskiData.lastReturnOnAssets * 100 | number}}%
+          {{'This years observation period' | translateCommon}}: {{piotroskiData.actualReturnOnAssets * 100 | number}}% > {{'Last years observation period' | translateCommon}}: {{piotroskiData.lastReturnOnAssets * 100 | number}}%
         </p-accordionTab>
         <p-accordionTab [selected]="piotroskiData && piotroskiData.cashOperations" [disabled]="!piotroskiData || !piotroskiData.cashOperations">
           <p-header>
@@ -66,7 +66,7 @@
               </div>
             </div>
           </p-header>
-          Cashflow-Rendite: {{piotroskiData.cashOperations * 100 | number}}% > Nettorendite: {{piotroskiData.actualReturnOnAssets * 100 | number}}%
+          {{'Operating cashflow' | translateCommon}}: {{piotroskiData.cashOperations * 100 | number:'.0-2'}}% > {{'Return on assets' | translateCommon}}: {{piotroskiData.actualReturnOnAssets * 100 | number:'.0-2'}}%
         </p-accordionTab>
         <p-accordionTab [selected]="piotroskiData && piotroskiData.actualLongTermRatio" [disabled]="!piotroskiData || !piotroskiData.actualLongTermRatio">
           <p-header>
@@ -82,7 +82,7 @@
               </div>
             </div>
           </p-header>
-          Diesjährige Beobachtungsperiode: {{piotroskiData.actualLongTermRatio * 100 | number}}% < Letztjährige Beobachtungsperiode: {{piotroskiData.lastLongTermRatio * 100 | number}}%
+          {{'This years observation period' | translateCommon}}: {{piotroskiData.actualLongTermRatio * 100 | number:'.0-2'}}% < {{'Last years observation period' | translateCommon}}: {{piotroskiData.lastLongTermRatio * 100 | number:'.0-2'}}%
         </p-accordionTab>
         <p-accordionTab [selected]="piotroskiData && piotroskiData.actualCurrentRatio" [disabled]="!piotroskiData || !piotroskiData.actualCurrentRatio">
           <p-header>
@@ -98,7 +98,7 @@
               </div>
             </div>
           </p-header>
-          Diesjährige Beobachtungsperiode: {{piotroskiData.actualCurrentRatio | number}} > Letztjährige Beobachtungsperiode: {{piotroskiData.lastCurrentRatio | number}}
+          {{'This years observation period' | translateCommon}}: {{piotroskiData.actualCurrentRatio | number:'.0-2'}} > {{'Last years observation period' | translateCommon}}: {{piotroskiData.lastCurrentRatio | number:'.0-2'}}
         </p-accordionTab>
         <p-accordionTab [selected]="piotroskiData && piotroskiData.actualSharesOutstanding" [disabled]="!piotroskiData || !piotroskiData.actualSharesOutstanding">
           <p-header>
@@ -114,7 +114,7 @@
               </div>
             </div>
           </p-header>
-          Diesjährige Beobachtungsperiode: {{piotroskiData.actualSharesOutstanding | number}} <= Letztjährige Beobachtungsperiode: {{piotroskiData.lastSharesOutstanding | number}}
+          {{'This years observation period' | translateCommon}}: {{piotroskiData.actualSharesOutstanding | number}} <= {{'Last years observation period' | translateCommon}}: {{piotroskiData.lastSharesOutstanding | number}}
         </p-accordionTab>
         <p-accordionTab [selected]="false" [disabled]="true">
           <p-header>
@@ -140,7 +140,7 @@
               </div>
             </div>
           </p-header>
-           Diesjährige Beobachtungsperiode: {{piotroskiData.actualAssetTurnover | number}} > Letztjährige Beobachtungsperiode: {{piotroskiData.lastAssetTurnover | number}}
+           {{'This years observation period' | translateCommon}}: {{piotroskiData.actualAssetTurnover | number:'.0-2'}} > {{'Last years observation period' | translateCommon}}: {{piotroskiData.lastAssetTurnover | number:'.0-2'}}
         </p-accordionTab>
       </p-accordion>
     </div>

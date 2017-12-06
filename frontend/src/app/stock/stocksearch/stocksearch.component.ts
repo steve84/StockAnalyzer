@@ -37,6 +37,8 @@ export class StocksearchComponent implements OnInit {
   page: number = 0;
   sortField: string;
   sortOrder: number;
+  loading: boolean = false;
+  initialLoadSearch: boolean = true;
   countryTranslationPipe: CountryTranslationPipe = new CountryTranslationPipe('en-US');
   branchTranslationPipe: BranchTranslationPipe = new BranchTranslationPipe('en-US');
 
@@ -77,17 +79,22 @@ export class StocksearchComponent implements OnInit {
     this.page = (event.first / event.rows);
     this.sortField = event.sortField;
     this.sortOrder = event.sortOrder;
-    this.searchStocks();
+    if (!this.initialLoadSearch)
+        this.searchStocks();
   }
 	
-	searchStocks() {
+	searchStocks(searchByButton: boolean = false) {
+      if (searchByButton && this.initialLoadSearch)
+          this.initialLoadSearch = false;
+      this.loading = true;
 	  this.stockService.searchStocks(this.name, this.isin, this.nsin, this.wkn, this.selectedCountries, this.selectedBranches, this.selectedIndices, this.page, this.pageSize, this.sortField, this.sortOrder)
 		  .subscribe((data:any) => {
 			  if (data && data.page) 
 			    this.totalRecords = this.nbrStocksFound = data.page.totalElements;
 			  this.onStocksFound.emit(data._embedded.stock);
         this.stocks = data._embedded.stock;
-			});
+        this.loading = false;
+			}, (err:any) => this.loading = false);
 	}
 	
 	reset() {
@@ -102,6 +109,7 @@ export class StocksearchComponent implements OnInit {
     this.stocks = [];
     this.totalRecords = 0;
     this.page = 0;
+    this.loading = false;
 	}
 
 }

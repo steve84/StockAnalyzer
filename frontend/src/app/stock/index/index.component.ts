@@ -18,12 +18,14 @@ export class IndexComponent implements OnInit {
   selectedIndex: IndexType = null;
   totalRecords: number = 0;
   pageSize: number = 10;
+  loading: boolean = false;
 
   constructor(private stockService: StockService, private indexService: IndexService) {}
 
   ngOnInit() {}
 
   loadData(event: any) {
+    this.loading = true;
     this.getIndices(Math.floor(event.first / event.rows), event.sortField, event.sortOrder);
   }
 
@@ -32,7 +34,7 @@ export class IndexComponent implements OnInit {
       this.indices = data['_embedded']['index'];
       this.totalRecords = data['page']['totalElements'];
       this.addStockIds();
-    });
+    }, (err:any) => this.loading = false);
   }
 
   private addStockIds() {
@@ -52,6 +54,7 @@ export class IndexComponent implements OnInit {
       if (totalMarketCap > 0)
         index['levermannScore'] /= totalMarketCap;
     }
+    this.loading = false;
   }
 
   showIndexDetail(index: IndexType) {

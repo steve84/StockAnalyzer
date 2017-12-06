@@ -1,7 +1,11 @@
-<p-dataTable [value]="indices" responsive="true" selectionMode="single" [(selection)]="selectedIndex" [paginator]="true" [lazy]="true" [rows]="pageSize" (onLazyLoad)="loadData($event)" [totalRecords]="totalRecords" resizableColumns="true">
+<p-dataTable [value]="indices" responsive="true" selectionMode="single" [(selection)]="selectedIndex" [loading]="loading" [paginator]="true" [lazy]="true" [rows]="pageSize" (onLazyLoad)="loadData($event)" [totalRecords]="totalRecords" resizableColumns="true">
     <p-column field="name" i18n-header="@@index.name" header="Name" [sortable]="true"></p-column>
     <p-column field="country.name" i18n-header="@@index.country" header="Country" [sortable]="true"></p-column>
-    <p-column field="realStocks.length" i18n-header="@@index.nbrofstocks" header="Number of Stocks" [sortable]="false"></p-column>
+    <p-column field="realStocks.length" i18n-header="@@index.nbrofstocks" header="Number of Stocks" [sortable]="false">
+      <ng-template let-col let-index="rowData" pTemplate="body">
+          {{index.realStocks.length}}<span *ngIf="index.totalStocks != null">/{{index.totalStocks}} ({{(index.realStocks.length / index.totalStocks) * 100 | number:'.0-1'}}%)</span>
+      </ng-template>
+    </p-column>
     <p-column field="scoreLevermann" i18n-header="@@index.levermann.score" header="Levermann-Score" [sortable]="true">
       <ng-template let-col let-index="rowData" pTemplate="body">
         <span *ngFor="let score of index['scores']">

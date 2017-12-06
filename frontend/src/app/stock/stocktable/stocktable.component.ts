@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitter, Inject, LOCALE_ID } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { StockService} from '../stock.service';
@@ -7,6 +7,8 @@ import { IndexService} from '../index.service';
 import { Stock } from '../stock';
 import { IndexType } from '../indextype';
 import { StockIndexImpl } from '../stockindex';
+
+import { CommonTranslationPipe } from '../common_translation.pipe';
 
 @Component({
   selector: 'app-stocktable',
@@ -18,17 +20,20 @@ export class StockTableComponent implements OnInit, OnChanges {
   selectedStock: Stock = null;
   display: boolean = false;
   lazy: boolean = true;
+  commonTranslationPipe: CommonTranslationPipe = new CommonTranslationPipe('en_US');
+  @Input('loading') loading: boolean = false;
   @Input('totalRecords') totalRecords: number = 0;
   @Input('pageSize') pageSize: number = 20;
   @Input('stocks') stocksInput: Stock[];
   @Input('external') external: boolean = false;
   @Output() onLazyLoad: EventEmitter<any> = new EventEmitter<any>();
-  constructor(private stockService: StockService,
+  constructor(@Inject(LOCALE_ID) private locale: string,
+              private stockService: StockService,
               private indexService: IndexService,
               private router: Router) {}
               
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.stocksInput.currentValue) {
+    if (changes.stocksInput && changes.stocksInput.currentValue) {
       this.stocks = changes.stocksInput.currentValue;
     }
   }
@@ -37,6 +42,7 @@ export class StockTableComponent implements OnInit, OnChanges {
     if (this.external) {
       this.onLazyLoad.emit(event);
     } else {
+      this.loading = true;
       this.pageSize = event.rows;
       this.getStocks(Math.floor(event.first / event.rows), event.sortField, event.sortOrder);
     }
@@ -47,7 +53,7 @@ export class StockTableComponent implements OnInit, OnChanges {
       this.stocks = data['_embedded']['stock'];
       this.totalRecords = data['page']['totalElements'];
       this.addIndices();
-    });
+    }, (err:any) => this.loading = false);
   }
 
   private addIndices() {
@@ -63,7 +69,8 @@ export class StockTableComponent implements OnInit, OnChanges {
               stockIndex.indexId = data.indexId;
               stockIndex.stockId = stock.stockId;
               stock.stockIndex.push(stockIndex);
-            })
+              this.loading = false;
+            }, (err:any) => this.loading = false)
         }
       }
     }
@@ -84,6 +91,10 @@ export class StockTableComponent implements OnInit, OnChanges {
       return {'background': 'green', 'color': 'white', 'padding': '3px'};
     else
       return {};
+  }
+  
+  getEmptyMessage(): string {
+    return this.commonTranslationPipe.transform('No records found', this.locale);
   }
 
   showFundamental(stock: Stock) {

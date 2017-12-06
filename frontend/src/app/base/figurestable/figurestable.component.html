@@ -5,7 +5,10 @@ Values in Mio. {{currency}}
         <span *ngIf="col.field != 'title'">{{col.field}}</span>
       </ng-template>
       <ng-template let-col let-data="rowData" pTemplate="body">
-        <span *ngIf="col.field != 'title'">{{data[col.field] | number}}</span>
+        <span *ngIf="col.field != 'title'">
+          <span *ngIf="data[col.field] && data[col.field] != ''">{{data[col.field] | number}}</span>
+          <span *ngIf="data[col.field] == null || data[col.field] == ''">---</span>
+        </span>
         <span *ngIf="col.field == 'title'">{{fieldToLabelName(data[col.field])}}</span>
       </ng-template>
     </p-column>

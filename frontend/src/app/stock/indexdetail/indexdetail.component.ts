@@ -23,10 +23,12 @@ export class IndexdetailComponent implements OnInit, OnChanges {
   totalRecords: number = 0;
   pageSize: number = 10;
   chartData: any;
+  loading: boolean = false;
 
   constructor(private indexService: IndexService, private helperService: HelperService) {}
   
   ngOnInit() {
+    this.loading = true;
     this.indexService.getIndexEmitter()
       .subscribe((data:IndexType) => {
         this.index = data;
@@ -37,13 +39,15 @@ export class IndexdetailComponent implements OnInit, OnChanges {
         this.setTotalMarketCap();
         this.chartData = this.helperService.createPieChartData(this.allStocks, 'country.name', null, true, true);
         this.display = true;
-      });
+        this.loading = false;
+      }, (err:any) => this.loading = false);
   }
 
   ngOnChanges(changes: SimpleChanges) {
   }
   
   loadData(event: any) {
+    this.loading = true;
     if (event.sortField && event.sortOrder) {
       this.allStocks.sort(function(a, b) {
         let valueA = a;
@@ -60,6 +64,7 @@ export class IndexdetailComponent implements OnInit, OnChanges {
       });
     }
     this.stocks = this.allStocks.slice(event.first, (event.first + event.rows));
+    this.loading = false;
   }
 	
   setTotalMarketCap() {
@@ -79,6 +84,7 @@ export class IndexdetailComponent implements OnInit, OnChanges {
   closeDisplay() {
     this.display = false;
     this.close.emit(false);
+    this.loading = false;
   }
 
 }

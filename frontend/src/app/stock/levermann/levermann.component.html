@@ -18,7 +18,7 @@
               </div>
             </div>
           </p-header>
-          {{levermannData.roiEquity | number}}%
+          {{levermannData.roiEquity | number:'.0-2'}}%
         </p-accordionTab>
         <p-accordionTab [selected]="levermannData && levermannData.roiEbitMarge" [disabled]="!levermannData || !levermannData.roiEbitMarge">
           <p-header>
@@ -34,7 +34,7 @@
               </div>
             </div>
           </p-header>
-          {{levermannData.roiEbitMarge | number}}%
+          {{levermannData.roiEbitMarge | number:'.0-2'}}%
         </p-accordionTab>
         <p-accordionTab [selected]="levermannData && levermannData.balanceSheetEquityRatio" [disabled]="!levermannData || !levermannData.balanceSheetEquityRatio">
           <p-header>
@@ -50,7 +50,7 @@
               </div>
             </div>
           </p-header>
-          {{levermannData.balanceSheetEquityRatio | number}}%
+          {{levermannData.balanceSheetEquityRatio | number:'.0-2'}}%
         </p-accordionTab>
         <p-accordionTab [selected]="levermannData && levermannData.priceEarningsRatio5YearAverage" [disabled]="!levermannData || !levermannData.priceEarningsRatio5YearAverage">
           <p-header>
@@ -66,7 +66,7 @@
               </div>
             </div>
           </p-header>
-          {{levermannData.priceEarningsRatio5YearAverage | number}}
+          {{levermannData.priceEarningsRatio5YearAverage | number:'.0-2'}}
         </p-accordionTab>
         <p-accordionTab [selected]="levermannData && levermannData.priceEarningsRatio" [disabled]="!levermannData || !levermannData.priceEarningsRatio">
           <p-header>
@@ -82,7 +82,7 @@
               </div>
             </div>
           </p-header>
-          {{levermannData.priceEarningsRatio | number}}
+          {{levermannData.priceEarningsRatio | number:'.0-2'}}
         </p-accordionTab>
         <p-accordionTab [selected]="levermannData && levermannData.analystBuyRatio" [disabled]="!levermannData || !levermannData.analystBuyRatio">
           <p-header>
@@ -98,7 +98,7 @@
               </div>
             </div>
           </p-header>
-          Kaufen: {{levermannData.analystBuyRatio * 100 | number}}%, Verkaufen: {{levermannData.analystSellRatio * 100 | number}}%, Halten: {{100 - ((levermannData.analystSellRatio + levermannData.analystBuyRatio) * 100) | number}}%
+          {{'Buy' | translateCommon}}: {{levermannData.analystBuyRatio * 100 | number:'.0-1'}}%, {{'Sell' | translateCommon}}: {{levermannData.analystSellRatio * 100 | number:'.0-1'}}%, {{'Hold' | translateCommon}}: {{100 - ((levermannData.analystSellRatio + levermannData.analystBuyRatio) * 100) | number:'.0-1'}}%
         </p-accordionTab>
         <p-accordionTab [selected]="levermannData && levermannData.performance6m" [disabled]="!levermannData || !levermannData.performance6m">
           <p-header>
@@ -114,7 +114,7 @@
               </div>
             </div>
           </p-header>
-          {{levermannData.performance6m | number}}%
+          {{levermannData.performance6m | number:'.0-2'}}%
         </p-accordionTab>
         <p-accordionTab [selected]="levermannData && levermannData.performance1y" [disabled]="!levermannData || !levermannData.performance1y">
           <p-header>
@@ -130,7 +130,7 @@
               </div>
             </div>
           </p-header>
-          {{levermannData.performance1y | number}}%
+          {{levermannData.performance1y | number:'.0-2'}}%
         </p-accordionTab>
         <p-accordionTab [selected]="levermannData && levermannData.performance1y" [disabled]="!levermannData || !levermannData.performance1y">
           <p-header>
@@ -146,7 +146,7 @@
               </div>
             </div>
           </p-header>
-          {{levermannData.performance1y | number}}% (12 Monate) nach {{levermannData.performance6m | number}}% (6 Monate)
+          {{levermannData.performance1y | number:'.0-2'}}% {{'(12 months) to' | translateCommon}} {{levermannData.performance6m | number:'.0-2'}}% {{'(6 months)' | translateCommon}}
         </p-accordionTab>
         <p-accordionTab [selected]="levermannData && levermannData.earningsPerShareGrowthExpected" [disabled]="!levermannData || !levermannData.earningsPerShareGrowthExpected">
           <p-header>
@@ -162,7 +162,7 @@
               </div>
             </div>
           </p-header>
-          {{levermannData.earningsPerShareGrowthExpected | number}}%
+          {{levermannData.earningsPerShareGrowthExpected | number:'.0-2'}}%
         </p-accordionTab>
       </p-accordion>
     </div>

@@ -298,7 +298,8 @@ CREATE TABLE tindex (
     description character varying,
     country_id integer,
     public_index boolean default false,
-    created_at date NOT NULL
+    created_at date NOT NULL,
+    total_stocks integer
 );
 
 ALTER TABLE tindex OWNER TO postgres;

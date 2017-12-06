@@ -58,6 +58,8 @@ public class User {
     }
 
     public String getLanguage() {
+    	if (language == null)
+    		return "de";
         return language;
     }
 

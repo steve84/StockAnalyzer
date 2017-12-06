@@ -18,6 +18,8 @@ public class Branch {
     @Column(name = "branch_id")
     private Integer branchId;
     private String name;
+    @Column(name = "branch_group")
+    private String branchGroup;
     @Column(name = "created_at")
     private Calendar createdAt;
     
@@ -45,7 +47,15 @@ public class Branch {
         this.name = name;
     }
 
-    public Calendar getCreatedAt() {
+    public String getBranchGroup() {
+		return branchGroup;
+	}
+
+	public void setBranchGroup(String branchGroup) {
+		this.branchGroup = branchGroup;
+	}
+
+	public Calendar getCreatedAt() {
         return createdAt;
     }
 

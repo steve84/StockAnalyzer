@@ -38,6 +38,7 @@ export class ScorecombinerComponent implements OnInit {
   companySizeItems: SelectItem[] = [];
   stockOrIndex: string = 'stock';
   companySize: number = 0;
+  loading: boolean = false;
   commonTranslationPipe: CommonTranslationPipe = new CommonTranslationPipe('en-US');
   countryTranslationPipe: CountryTranslationPipe = new CountryTranslationPipe('en-US');
   branchTranslationPipe: BranchTranslationPipe = new BranchTranslationPipe('en-US');
@@ -109,29 +110,35 @@ export class ScorecombinerComponent implements OnInit {
       case 4:
         toMarketCap = 2000;
     }
+    this.loading = true;
     if (this.stockOrIndex == 'stock') {
       this.stockService.getNormalizedScores(this.levermannFactor / 100, this.magicFormulaFactor / 100, this.piotroskiFactor / 100, this.excludedCountries, this.excludedBranches, fromMarketCap, toMarketCap, this.numRows)
         .subscribe((data: any) => {
         this.scores = data["_embedded"]["normalizedscore"];
         for (let score of this.scores) {
           this.stockService.getStockFromNormalizedValue(score.scoreId)
-            .subscribe((data:Stock) => score.stock = data);
+            .subscribe((data:Stock) => {
+              score.stock = data;
+              this.loading = false;
+            }, (err:any) => this.loading = false);
         }
-      });
+      }, (err:any) => this.loading = false);
     } else {
       this.indexService.getNormalizedScores(this.levermannFactor / 100, this.magicFormulaFactor / 100, this.piotroskiFactor / 100, this.excludedCountries, this.numRows)
         .subscribe((data: any) => {
         this.scores = data["_embedded"]["normalizedscore"];
         for (let score of this.scores) {
           this.indexService.getIndexFromNormalizedValue(score.scoreId)
-            .subscribe((data:IndexType) => score.index = data);
+            .subscribe((data:IndexType) => {
+              score.index = data;
+              this.loading = false;
+            }, (err:any) => this.loading = false);
         }
-      });
+      }, (err:any) => this.loading = false);
     }
   }
   
   handleChange(event: any) {
-    debugger
     let sumFactors = this.levermannFactor + this.magicFormulaFactor + this.piotroskiFactor;
     if (sumFactors != 100)
       this.msgs = [{severity: 'info', summary: '', detail: this.messagePipe.transform(18, this.locale) + sumFactors + ")"}];

@@ -49,7 +49,9 @@ public class Index {
     @Column(name = "public_index")
     private Boolean publicIndex;
     @Column(name = "created_at")
-    private Calendar createdAt;    
+    private Calendar createdAt;
+    @Column(name = "total_stocks")
+    private Integer totalStocks;   
 	@Transient
 	private List<Stock> realStocks = new ArrayList<>();
 
@@ -123,7 +125,15 @@ public class Index {
         this.createdAt = createdAt;
     }
 
-	public List<Stock> getRealStocks() {
+	public Integer getTotalStocks() {
+        return totalStocks;
+    }
+
+    public void setTotalStocks(Integer totalStocks) {
+        this.totalStocks = totalStocks;
+    }
+
+    public List<Stock> getRealStocks() {
 		return realStocks;
 	}
 

@@ -16,6 +16,7 @@ parser.add_argument('-u', dest='db_user', help='user name of the database')
 parser.add_argument('-p', dest='db_pwd', help='database password')
 parser.add_argument('-d', dest='db_name', help='database name')
 parser.add_argument('-k', dest='quandl_key', help='quandl api key')
+parser.add_argument('-n', dest='maxItems', type=int, help='number of stocks to load')
 parser.add_argument('--host', dest='db_host', help='database name')
 parser.add_argument('--debug', dest='debug', action='store_true', help='print out debug information')
 
@@ -25,6 +26,7 @@ db_name = parser.parse_args().db_name
 db_host = parser.parse_args().db_host
 debug = parser.parse_args().debug
 quandl_key = parser.parse_args().quandl_key
+maxItems = parser.parse_args().maxItems
 
 conn = psycopg2.connect("dbname=%s user=%s host=%s password=%s" % (db_name, db_user, db_host, db_pwd))
 
@@ -118,8 +120,11 @@ for row in reader:
       cur.execute("""INSERT INTO tstock (name, isin, branch_id, country_id, reference_currency, share_currency, quandl_rb1_id, quandl_price_dataset, created_at) VALUES (%(name)s, %(isin)s, %(branch_id)s, %(country_id)s, %(reference_currency)s, %(share_currency)s, %(quandl_rb1_id)s, %(quandl_price_dataset)s, %(created_at)s);""", stock)
       totalInserted['stocks'] += 1
       totalProcessed += 1
-  if row_number % 100 == 0:
+  if row_number % 25 == 0:
     conn.commit()
+  if maxItems is not None and totalProcessed == maxItems:
+    conn.commit()
+    break
   row_number = row_number + 1
 
 conn.commit()

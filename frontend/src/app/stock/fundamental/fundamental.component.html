@@ -6,6 +6,14 @@
           <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.name">Name</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{stock.name}}</div>
           <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.isin">ISIN</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{stock.isin}}</div>
         </div>
+        <div class = "ui-g">
+          <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.branch">Branch</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{stock.branch.name}}</div>
+          <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.branch_group">Branch Group</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{stock.branch.branchGroup}}</div>
+        </div>
+        <div class = "ui-g">
+          <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.country">Country</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{stock.country.name}}</div>
+          <div class = "ui-g-12 ui-md-6 ui-lg-3"></div><div class = "ui-g-12 ui-md-6 ui-lg-3"></div>
+        </div>
         <div *ngIf="stock.balance && stock.balance.length > 0" class = "ui-g">
           <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.businessyearend">End of business year</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{stock.balance[0].modifiedAt | date:'dd.MM.'}}</div>
           <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.referencecurrency">Currency</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{stock.referenceCurrency}}</div>

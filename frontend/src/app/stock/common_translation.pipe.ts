@@ -41,6 +41,28 @@ export class CommonTranslationPipe implements PipeTransform {
         return 'Profil-Einstellungen';
       case 'Change Password':
         return 'Passwort wechseln';
+      case 'Home':
+        return 'Startseite';
+      case 'No records found':
+        return 'Keine Einträge gefunden';
+      case 'Buy':
+        return 'Kaufen';
+      case 'Sell':
+        return 'Verkaufen';
+      case 'Hold':
+        return 'Halten';
+      case '(12 months) to':
+        return '(12 Monate) nach';
+      case '(6 months)':
+        return '(6 Monate)';
+      case 'This years observation period':
+        return 'Diesjährige Beobachtungsperiode';
+      case 'Last years observation period':
+        return 'Letztjährige Beobachtungsperiode';
+      case 'Operating cashflow':
+        return 'Cashflow-Rendite';
+      case 'Return on assets':
+        return 'Nettorendite';
       default:
         return value;
     }
