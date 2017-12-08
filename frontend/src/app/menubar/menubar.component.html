@@ -1,5 +1,6 @@
 <p-menubar [model]="items">
   <app-stockquickfinder></app-stockquickfinder>
+  <app-language></app-language>
   <span *ngIf="getUsername()">
     <p-splitButton [label]="getUsername()" icon="fa-user-circle-o" [model]="userItems" styleClass="ui-button-secondary"></p-splitButton>
   </span>

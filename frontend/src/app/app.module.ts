@@ -39,6 +39,7 @@ import { FaqComponent } from './content/faq/faq.component';
 
 import { MessageTranslationPipe } from './stock/message_translation.pipe';
 import { AccountComponent } from './account/account.component';
+import { LanguageComponent } from './language/language.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { AccountComponent } from './account/account.component';
     PasswordComponent,
     FaqComponent,
     MessageTranslationPipe,
-    AccountComponent
+    AccountComponent,
+    LanguageComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
