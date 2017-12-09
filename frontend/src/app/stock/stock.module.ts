@@ -20,6 +20,7 @@ import { DataTableModule,
         SelectButtonModule,
         SpinnerModule,
         TooltipModule,
+        FieldsetModule,
         ChartModule } from 'primeng/primeng';
 
 import { StockService } from './stock.service';
@@ -71,7 +72,8 @@ import { FigureTranslationPipe } from './figure_translation.pipe';
     SharedModule,
     ChartModule,
     SpinnerModule,
-    TooltipModule
+    TooltipModule,
+    FieldsetModule
   ],
   exports: [
     StockTableComponent,

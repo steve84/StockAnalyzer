@@ -48,7 +48,9 @@
       </p-dataTable>
     </p-tabPanel>
     <p-tabPanel i18n-header="@@index.charts" header="Charts">
-      <p-chart type="pie" [data]="chartData"></p-chart>
+      <p-fieldset i18n-legend="@@index.country.composition" legend="Composition By Countries">
+        <p-chart type="pie" [data]="chartData"></p-chart>
+      </p-fieldset>
     </p-tabPanel>
   </p-tabView>
 </p-dialog>

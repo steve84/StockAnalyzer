@@ -60,6 +60,15 @@ export class UserService {
     return this.http.get(environment.apiUrl + "/user/search/existsByUsername", {search: params});  
   }
   
+  getUserById(userId: number) {
+    return this.authHttp.get(environment.apiUrl + "/user/get/" + userId.toString());
+  }
+  
+  saveUser(user: any) {
+    let headers = new Headers({'Content-Type': 'application/json'});
+    return this.authHttp.post(environment.apiUrl + "/user/save", JSON.stringify(user), {headers: headers});
+  }
+  
   logout() {
     this.removeToken();
     this.setUsername(null);

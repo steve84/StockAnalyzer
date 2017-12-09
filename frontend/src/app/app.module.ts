@@ -4,7 +4,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
-import { MenubarModule, DialogModule, ButtonModule, InputTextModule, CaptchaModule, MessagesModule, SplitButtonModule } from 'primeng/primeng';
+import { MenubarModule,
+         DialogModule,
+         ButtonModule,
+         InputTextModule,
+         CaptchaModule,
+         MessagesModule,
+         SplitButtonModule,
+         DropdownModule
+       } from 'primeng/primeng';
 
 import { StockModule } from './stock/stock.module';
 import { AuthModule } from './auth/auth.module';
@@ -30,6 +38,7 @@ import { PasswordComponent } from './password/password.component';
 import { FaqComponent } from './content/faq/faq.component';
 
 import { MessageTranslationPipe } from './stock/message_translation.pipe';
+import { AccountComponent } from './account/account.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +53,8 @@ import { MessageTranslationPipe } from './stock/message_translation.pipe';
     ConfirmComponent,
     PasswordComponent,
     FaqComponent,
-    MessageTranslationPipe
+    MessageTranslationPipe,
+    AccountComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -59,6 +69,7 @@ import { MessageTranslationPipe } from './stock/message_translation.pipe';
     CaptchaModule,
     MessagesModule,
     SplitButtonModule,
+    DropdownModule,
     StockModule,
     AuthModule
   ],

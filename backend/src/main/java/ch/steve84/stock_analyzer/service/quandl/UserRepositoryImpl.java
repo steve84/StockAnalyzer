@@ -1,11 +1,6 @@
 package ch.steve84.stock_analyzer.service.quandl;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
-import java.util.Base64.Encoder;
 import java.util.Calendar;
 
 import javax.persistence.EntityManager;
@@ -13,8 +8,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.apache.commons.text.CharacterPredicates;
-import org.apache.commons.text.RandomStringGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.client.RestOperations;
@@ -120,6 +113,29 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public User updateUser(User user) {
+		User existingUser = this.userRepository.findOne(user.getUserId());
+		existingUser.setLanguage(user.getLanguage());
+		User updatedUser = this.userRepository.save(existingUser);
+		return hideValues(updatedUser);
+	}
+
+	@Override
+	public User getUser(Integer userId) {
+		User user = this.userRepository.findOne(userId);
+		return hideValues(user);
+	}
+	
+	private User hideValues(User user) {
+		user.setActivatedAt(null);
+		user.setIsActivated(null);
+		user.setPassword(null);
+		user.setSalt(null);
+		user.setToken(null);
+		return user;
 	}
 }
 

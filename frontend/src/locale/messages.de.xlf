@@ -1229,14 +1229,6 @@
           <context context-type="linenumber">28</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="confirm.text" datatype="html">
-        <source>Please enter your password and activate your account by clicking the confirm button.</source>
-        <target>Bitte geben Sie Ihr Passwort ein und aktivieren</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src\app\confirm\confirm.component.ts</context>
-          <context context-type="linenumber">3</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="confirm.password.label" datatype="html">
         <source>Password</source>
         <target>Passwort</target>
@@ -1307,6 +1299,54 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src\app\menubar\menubar.component.ts</context>
           <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="index.country.composition" datatype="html">
+        <source>Composition By Countries</source>
+        <target/>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/indexdetail/indexdetail.component.ts</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="account.username" datatype="html">
+        <source>Username</source>
+        <target>Benutzername</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/account/account.component.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="account.email" datatype="html">
+        <source>E-Mail-Address</source>
+        <target>E-Mail-Adresse</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/account/account.component.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="account.language" datatype="html">
+        <source>Correspondence Language</source>
+        <target>Korrespondenz-Sprache</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/account/account.component.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="account.role" datatype="html">
+        <source>Role</source>
+        <target>Rolle</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/account/account.component.ts</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="accountform.submit.label" datatype="html">
+        <source>Save</source>
+        <target>Speichern</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/account/account.component.ts</context>
+          <context context-type="linenumber">13</context>
         </context-group>
       </trans-unit>
     </body>

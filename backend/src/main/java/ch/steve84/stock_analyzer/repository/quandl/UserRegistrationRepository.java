@@ -10,5 +10,7 @@ public interface UserRegistrationRepository {
 	boolean resetPassword(String username);
 	boolean changePassword(Integer userId, String oldPassword, String newPassword);
     boolean validateCaptcha(String token);
+    User updateUser(User user);
+    User getUser(Integer userId);
 
 }

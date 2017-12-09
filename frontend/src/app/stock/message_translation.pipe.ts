@@ -57,9 +57,9 @@ export class MessageTranslationPipe implements PipeTransform {
       case 18:
         return 'Die Summe der Faktoren muss 100 betragen (aktuell: ';
       case 19:
-        return '';
+        return 'Profil wurde erfolgreich aktualisiert';
       case 20:
-        return '';
+        return 'Bei der Aktualisierung ist ein Fehler aufgetreten';
     }
   }
 
@@ -82,11 +82,11 @@ export class MessageTranslationPipe implements PipeTransform {
       case 8:
         return 'Username or password not correct';
       case 9:
-        return 'Passwort reset successfully';
+        return 'Password reset successfully';
       case 10:
         return 'Cannot reset password';
       case 11:
-        return 'Passwort changed successfully';
+        return 'Password changed successfully';
       case 12:
         return 'Cannot change password';
       case 13:
@@ -102,9 +102,9 @@ export class MessageTranslationPipe implements PipeTransform {
       case 18:
         return 'The sum of the factors has to be 100 (actual: ';
       case 19:
-        return '';
+        return 'Profile updated successfully';
       case 20:
-        return '';
+        return 'Cannot update profile';
     }
   }
 }

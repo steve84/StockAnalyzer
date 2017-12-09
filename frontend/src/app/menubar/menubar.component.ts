@@ -30,7 +30,7 @@ export class MenubarComponent implements OnInit {
    ];
 
    this.userItems = [
-     {label: this.commonTranslationPipe.transform('Profile settings', this.locale), icon: 'fa-address-card-o', routerLink: ['/profile']},
+     {label: this.commonTranslationPipe.transform('Profile settings', this.locale), icon: 'fa-address-card-o', routerLink: ['/account']},
      {label: this.commonTranslationPipe.transform('Change Password', this.locale), icon: 'fa-exchange', routerLink: ['/password/change']},
      {label: this.commonTranslationPipe.transform('Logout', this.locale), icon: 'fa-sign-out', command: () => { this.logout(); }}
    ];

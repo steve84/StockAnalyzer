@@ -10,6 +10,7 @@ import { FaqComponent } from './content/faq/faq.component';
 import { ContactComponent } from './content/contact/contact.component';
 import { ConfirmComponent } from './confirm/confirm.component';
 import { PasswordComponent } from './password/password.component';
+import { AccountComponent } from './account/account.component';
 
 export const appRoutes: Routes = [
   { path: 'login', component: LoginComponent},
@@ -18,8 +19,9 @@ export const appRoutes: Routes = [
   { path: 'impressum', component: ImpressumComponent},
   { path: 'faq', component: FaqComponent},
   { path: 'contact', component: ContactComponent},
+  { path: 'account', component: AccountComponent, canActivate: [AuthGuard]},
   { path: 'confirm/:userid/:token', component: ConfirmComponent},
-  { path: 'password/:action', component: PasswordComponent},
+  { path: 'password/:action', component: PasswordComponent, canActivate: [AuthGuard]},
   { path: 'stocks', loadChildren: 'app/stock/stock.module#StockModule', canActivate: [AuthGuard] },
   { path: '', redirectTo: '/frontpage', pathMatch: 'full' }
 ];

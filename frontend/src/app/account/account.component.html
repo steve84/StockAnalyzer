@@ -1,0 +1,14 @@
+<form [formGroup]="accountform" (ngSubmit)="onSubmit()">
+  <div class = "ui-g" *ngIf="user">
+    <div class = "ui-g-12"><p-messages [(value)]="msgs" [closable]="false"></p-messages></div>
+    <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.username">Username</div>
+    <div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{user.username}}</div>
+    <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.email">E-Mail-Address</div>
+    <div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{user.email}}</div>
+    <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.language">Correspondence Language</div>
+    <div class = "ui-g-12 ui-md-6 ui-lg-3 value"><p-dropdown [options]="languages" formControlName="language" [(ngModel)]="user.language"></p-dropdown></div>
+    <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.role">Role</div>
+    <div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{user.role.roleName}}</div>
+  </div>
+  <div class = "ui-g-12"><button pButton type="submit" label="Save" [disabled]="!accountform.valid" i18n-label="@@accountform.submit.label"></button></div>
+</form>

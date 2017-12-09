@@ -43,5 +43,15 @@ public class UserController {
     public boolean captcha(@RequestBody String token) {
         return this.userRepository.validateCaptcha(token);
     }
+    
+    @RequestMapping(value = "/save", method = RequestMethod.POST)
+    public User updateUser(@RequestBody User user) {
+        return this.userRepository.updateUser(user);
+    }
+    
+    @RequestMapping(value = "/get/{userId}", method = RequestMethod.GET)
+    public User getUser(@PathVariable("userId") Integer userId) {
+        return this.userRepository.getUser(userId);
+    }
 
 }
