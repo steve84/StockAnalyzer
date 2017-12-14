@@ -25,9 +25,8 @@ export class LanguageComponent implements OnInit {
   }
   
   setLanguage(language: any, doRouting: boolean = false) {
-    debugger
-    if (doRouting)
-      window.location.href = environment.baseUrl + '/' + language.value;
+    if (doRouting && environment.production)
+      window.location.href = window.location.origin + '/' + language.value + window.location.pathname.substring(3);
     else
       this.selectedLanguage = language;
   }

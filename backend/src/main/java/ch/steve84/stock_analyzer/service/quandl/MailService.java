@@ -50,20 +50,20 @@ public class MailService {
     public void sendRegistrationMail(final User user) {
         String template = String.format("registration_%s.txt", user.getLanguage().toLowerCase());
         Map<String, Object> model = createObjectMap(user);
-        sendMail("Account registration", mailFrom, user.getEmail(), model, template);
+        sendMail("Registration", mailFrom, user.getEmail(), model, template);
     }
 
     public void sendWelcomeMail(final User user) {
         String template = String.format("welcome_%s.txt", user.getLanguage().toLowerCase());
         Map<String, Object> model = createObjectMap(user);
-        sendMail("Welcome", mailFrom, user.getEmail(), model, template);
+        sendMail("Herzlich Willkommen", mailFrom, user.getEmail(), model, template);
     }
     
     public void sendPasswordResetMail(final User user, final String password) {
         String template = String.format("password_reset_%s.txt", user.getLanguage().toLowerCase());
         Map<String, Object> model = createObjectMap(user);
         model.put("password", password);
-        sendMail("Passwort reset", mailFrom, user.getEmail(), model, template);
+        sendMail("Passwortrücksetzung", mailFrom, user.getEmail(), model, template);
     }
     
     private Map<String, Object> createObjectMap(final User user) {
