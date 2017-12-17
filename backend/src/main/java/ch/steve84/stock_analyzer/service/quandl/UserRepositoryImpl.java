@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,6 +40,7 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
     @Autowired private SecurityService securityService;
 
     @Override
+    @Transactional(rollbackOn=Exception.class)
     public User register(User user) {
         user.setRole(Roles.GPU.getRole());
         user.setLanguage("DE");
@@ -75,6 +77,7 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
     }
 
     @Override
+    @Transactional(rollbackOn=Exception.class)
     public User confirm(Integer userId, String hash, String password) {
         User user = this.userRepository.findOne(userId);
         if (user != null && user.getToken() != null && user.getToken().equals(hash) && user.getPassword().equals(securityService.hashAndSalt(password, user.getSalt()))) {
@@ -88,6 +91,7 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
     }
 
 	@Override
+	@Transactional(rollbackOn=Exception.class)
 	public boolean resetPassword(String username) {
 		User user = this.userRepository.findByUsername(username);
 		if (user != null) {
@@ -102,6 +106,7 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
 	}
 
 	@Override
+	@Transactional(rollbackOn=Exception.class)
 	public boolean changePassword(Integer userId, String oldPassword, String newPassword) {
 		User user = this.userRepository.findOne(userId);
 		if (user != null) {
@@ -117,6 +122,7 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
 	}
 
 	@Override
+	@Transactional(rollbackOn=Exception.class)
 	public User updateUser(User user) {
 		User existingUser = this.userRepository.findOne(user.getUserId());
 		existingUser.setLanguage(user.getLanguage());
