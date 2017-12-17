@@ -9,7 +9,7 @@
     </div>
     <div class="body">
         <p>Hallo <b>${user.username}</b>,</p>
-        <p>Herzlich Willkommen beim ${projectName}. Bitte aktiviere Dein erstelltes Konto <a href="${url}/confirm/${user.userId}/${user.token}">hier</a>.</p>
+        <p>Herzlich Willkommen beim ${projectName}. Bitte aktiviere Dein erstelltes Konto <a href="${url}/de/confirm/${user.userId}/${user.token}">hier</a>.</p>
         <p>
           Besten Dank<br />
           Dein ${projectName} Team

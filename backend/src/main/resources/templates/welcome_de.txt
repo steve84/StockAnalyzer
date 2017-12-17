@@ -14,7 +14,7 @@
         <p>Bei Fragen oder Anregungen kannst Du uns jederzeit über folgende Kanäle kontaktieren:
             <ul>
                 <li>info@stockanalyzer.com</li>
-                <li><a href="${url}/contacts">Kontakt</a>-Sektion auf der Website</li>
+                <li><a href="${url}/de/contacts">Kontakt</a>-Sektion auf der Website</li>
             </ul>
         </p>
         <p>

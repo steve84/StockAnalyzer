@@ -119,15 +119,19 @@ export class ScorecombinerComponent implements OnInit {
       this.stockService.getNormalizedScores(this.levermannFactor / 100, this.magicFormulaFactor / 100, this.piotroskiFactor / 100, this.excludedCountries, this.excludedBranches, fromMarketCap, toMarketCap, this.numRows)
         .subscribe((data: any) => {
         this.scores = data["_embedded"]["normalizedscore"];
-        for (let score of this.scores) {
-          this.stockService.getStockFromNormalizedValue(score.scoreId)
-            .subscribe((data:Stock) => {
-              score.stock = data;
-              this.loading = false;
-            }, (err:any) => {
-              this.loading = false;
-              this.helperService.handleError(err);
-            });
+        if (this.scores && this.scores.length > 0) {
+          for (let score of this.scores) {
+            this.stockService.getStockFromNormalizedValue(score.scoreId)
+              .subscribe((data:Stock) => {
+                score.stock = data;
+                this.loading = false;
+              }, (err:any) => {
+                this.loading = false;
+                this.helperService.handleError(err);
+              });
+          }
+        } else {
+          this.loading = false;
         }
       }, (err:any) => {
         this.loading = false;
