@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, URLSearchParams } from '@angular/http';
 
-import { JwtHelper, AuthHttp } from 'angular2-jwt';
+import { JwtHelper, AuthHttp, tokenNotExpired } from 'angular2-jwt';
 
 import 'rxjs/add/operator/map';
 
@@ -111,8 +111,16 @@ export class UserService {
     }
   }
   
+  getToken() {
+    return localStorage.getItem('token');
+  }
+  
   removeToken() {
     localStorage.removeItem('token');
+  }
+  
+  isLoggedIn() {
+    return this.getUsername() && this.getUsername().length > 0 && tokenNotExpired();
   }
 
 }

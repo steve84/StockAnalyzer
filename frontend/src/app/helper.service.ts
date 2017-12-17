@@ -1,11 +1,20 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, LOCALE_ID } from '@angular/core';
+import { Router } from '@angular/router';
+
+import {MessageService} from 'primeng/components/common/messageservice';
+
+import {Message} from 'primeng/primeng';
+
+import { MessageTranslationPipe } from './stock/message_translation.pipe';
 
 @Injectable()
 export class HelperService {
   previousUrl: string;
   nextUrl: string;
-
-  constructor() { }
+  messagePipe: MessageTranslationPipe = new MessageTranslationPipe('en-US');
+  constructor(private router: Router,
+              private messageService: MessageService,
+              @Inject(LOCALE_ID) private locale: string) { }
   
   setPreviousUrl(url: string) {
     this.previousUrl = url;
@@ -21,6 +30,26 @@ export class HelperService {
   
   getNextUrl() {
     return this.nextUrl;
+  }
+  
+  addGlobalMessage(msg: Message, isSingleMsg: boolean = true) {
+    if (isSingleMsg)
+      this.messageService.clear();
+    this.messageService.add(msg);
+  }
+  
+  handleError(err: any) {
+    if (err && err.message) {
+      if (err.message == 'No JWT present or has expired') {
+        this.setNextUrl(this.getActualRoute());
+        this.router.navigate(['/login']);
+        this.addGlobalMessage({severity: 'info', summary: '', detail: this.messagePipe.transform(21, this.locale)});
+      }
+    }
+  }
+  
+  getActualRoute() {
+    return this.router.url;
   }
 
   createPieChartData(data: any[], groupBy: string, value: string, percentage: boolean = true, count?: boolean) {

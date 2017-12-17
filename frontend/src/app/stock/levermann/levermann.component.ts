@@ -1,7 +1,5 @@
 import { Component, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
 
-import { StockService } from '../stock.service';
-
 import { Stock } from '../stock';
 import { Levermann } from '../levermann';
 
@@ -16,7 +14,7 @@ export class LevermannComponent implements OnInit, OnChanges {
   levermannScore: number = 0;
   calculatedAt: string;
   levermannAdvice: string = "nicht kaufen/verkaufen";
-  constructor(private stockService: StockService) { }
+  constructor() { }
 
   ngOnInit() {}
 

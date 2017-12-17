@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 
 import { StockService} from '../stock.service';
 import { IndexService} from '../index.service';
+import { HelperService} from '../../helper.service';
 
 import { Stock } from '../stock';
 import { IndexType } from '../indextype';
@@ -30,6 +31,7 @@ export class StockTableComponent implements OnInit, OnChanges {
   constructor(@Inject(LOCALE_ID) private locale: string,
               private stockService: StockService,
               private indexService: IndexService,
+              private helperService: HelperService,
               private router: Router) {}
               
   ngOnChanges(changes: SimpleChanges) {
@@ -53,7 +55,11 @@ export class StockTableComponent implements OnInit, OnChanges {
       this.stocks = data['_embedded']['stock'];
       this.totalRecords = data['page']['totalElements'];
       this.addIndices();
-    }, (err:any) => this.loading = false);
+      this.loading = false;
+    }, (err:any) => {
+      this.loading = false;
+      this.helperService.handleError(err);
+    });
   }
 
   private addIndices() {
@@ -69,8 +75,10 @@ export class StockTableComponent implements OnInit, OnChanges {
               stockIndex.indexId = data.indexId;
               stockIndex.stockId = stock.stockId;
               stock.stockIndex.push(stockIndex);
+            }, (err:any) => {
               this.loading = false;
-            }, (err:any) => this.loading = false)
+              this.helperService.handleError(err);
+            });
         }
       }
     }

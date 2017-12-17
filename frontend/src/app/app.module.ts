@@ -11,8 +11,10 @@ import { MenubarModule,
          CaptchaModule,
          MessagesModule,
          SplitButtonModule,
-         DropdownModule
+         DropdownModule,
+         GrowlModule
        } from 'primeng/primeng';
+import {MessageService} from 'primeng/components/common/messageservice';
 
 import { StockModule } from './stock/stock.module';
 import { AuthModule } from './auth/auth.module';
@@ -72,10 +74,17 @@ import { LanguageComponent } from './language/language.component';
     MessagesModule,
     SplitButtonModule,
     DropdownModule,
+    GrowlModule,
     StockModule,
     AuthModule
   ],
-  providers: [StockTableComponent, StockquickfinderComponent, UserService, HelperService, AuthGuard],
+  providers: [
+    StockTableComponent,
+    StockquickfinderComponent,
+    UserService,
+    HelperService,
+    MessageService,
+    AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

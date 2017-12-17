@@ -5,6 +5,7 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Message } from 'primeng/primeng';
 
 import { UserService } from '../user.service';
+import { HelperService} from '../helper.service';
 
 import { MessageTranslationPipe } from '../stock/message_translation.pipe';
 
@@ -24,7 +25,11 @@ export class PasswordComponent implements OnInit {
   resetform: FormGroup;
   action: string;
   messagePipe: MessageTranslationPipe = new MessageTranslationPipe('en-US');
-  constructor(@Inject(LOCALE_ID) private locale: string, private userService: UserService, private route: ActivatedRoute, private fb: FormBuilder) { }
+  constructor(@Inject(LOCALE_ID) private locale: string,
+              private userService: UserService,
+              private helperService: HelperService,
+              private route: ActivatedRoute,
+              private fb: FormBuilder) { }
 
   ngOnInit() {
     this.route.paramMap
@@ -53,7 +58,10 @@ export class PasswordComponent implements OnInit {
   changePwd() {
     this.userService.changePassword(this.userId, this.password, this.passwordNew)
       .subscribe((data:any) => this.msgs = [{severity: 'success', summary: '', detail: this.messagePipe.transform(11, this.locale)}],
-      (err:any) => this.msgs = [{severity: 'error', summary: '', detail: this.messagePipe.transform(12, this.locale)}]);
+      (err:any) => {
+        this.msgs = [{severity: 'error', summary: '', detail: this.messagePipe.transform(12, this.locale)}];
+        this.helperService.handleError(err);
+      });
   }
 
 }

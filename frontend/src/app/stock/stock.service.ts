@@ -76,7 +76,7 @@ export class StockService {
 		params.set("page", "0");
     
     let url = environment.apiUrl + "/stocks/search/findByIsinOrName";
-    if (this.userService.getRoles().toLowerCase().indexOf('gpu') > -1)
+    if (!this.userService.getRoles() || this.userService.getRoles().toLowerCase().indexOf('gpu') > -1)
       url += "GPU";
 		
 		return this.http.get(url, {search: params})

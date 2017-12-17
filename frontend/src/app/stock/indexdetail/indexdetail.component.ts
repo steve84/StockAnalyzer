@@ -25,7 +25,8 @@ export class IndexdetailComponent implements OnInit, OnChanges {
   chartData: any;
   loading: boolean = false;
 
-  constructor(private indexService: IndexService, private helperService: HelperService) {}
+  constructor(private indexService: IndexService,
+              private helperService: HelperService) {}
   
   ngOnInit() {
     this.loading = true;

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { StockService } from '../stock.service';
 import { IndexService } from '../index.service';
+import { HelperService} from '../../helper.service';
 
 import { IndexType } from '../indextype';
 import { Stock } from '../stock';
@@ -20,7 +21,9 @@ export class IndexComponent implements OnInit {
   pageSize: number = 10;
   loading: boolean = false;
 
-  constructor(private stockService: StockService, private indexService: IndexService) {}
+  constructor(private stockService: StockService,
+              private indexService: IndexService,
+              private helperService: HelperService,) {}
 
   ngOnInit() {}
 
@@ -34,7 +37,10 @@ export class IndexComponent implements OnInit {
       this.indices = data['_embedded']['index'];
       this.totalRecords = data['page']['totalElements'];
       this.addStockIds();
-    }, (err:any) => this.loading = false);
+    }, (err:any) => {
+      this.loading = false;
+      this.helperService.handleError(err);
+    });
   }
 
   private addStockIds() {

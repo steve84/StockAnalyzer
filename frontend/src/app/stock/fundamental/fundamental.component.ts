@@ -1,10 +1,11 @@
 import { Component, OnInit, OnChanges, SimpleChanges, EventEmitter, Input, Output, ViewChild, Inject, LOCALE_ID } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { Location } from '@angular/common';
 
 import { UIChart } from "primeng/components/chart/chart";
 
 import { HelperService } from '../../helper.service';
+import { UserService } from '../../user.service';
 
 import { StockService } from '../stock.service';
 import { FundamentalService } from '../fundamental.service';
@@ -16,6 +17,7 @@ import { Values } from '../values';
 import { Price } from '../price';
 
 import { FigureTranslationPipe } from '../figure_translation.pipe';
+import { MessageTranslationPipe } from '../message_translation.pipe';
 
 import 'rxjs/add/operator/switchMap';
 
@@ -39,6 +41,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
   indexNames: string[] = [];
   
   figureTranslationPipe: FigureTranslationPipe = new FigureTranslationPipe('en_US');
+  messagePipe: MessageTranslationPipe = new MessageTranslationPipe('en-US');
   
   balanceFields: string[] = [];
   cashflowFields: string[] = [];
@@ -58,8 +61,10 @@ export class FundamentalComponent implements OnInit, OnChanges {
               private fundamentalService: FundamentalService,
               private priceService: PriceService,
               @Inject(LOCALE_ID) private locale: string,
+              private userService: UserService,
               private helperService: HelperService,
               private route: ActivatedRoute,
+              private router: Router,
               private location: Location) {
     this.title = "Fundamental data";
     
@@ -212,19 +217,25 @@ export class FundamentalComponent implements OnInit, OnChanges {
                 this.getPrices();
                 this.getIndexNames();
                 this.display = true;
-              });
+              }, (err:any) => this.helperService.handleError(err));
           }
         }
       });
     this.stockService.getStockEmitter()
       .subscribe((data:Stock) => {
-        this.stock = data;
-        this.title = this.stock.name;
-        this.getValue();
-        this.getSignals();
-        this.getPrices();
-        this.getIndexNames();
-        this.display = true;
+        if (!this.userService.isLoggedIn()) {
+          this.helperService.setNextUrl(this.helperService.getActualRoute());
+          this.router.navigate(['/login']);
+          this.helperService.addGlobalMessage({severity: 'info', summary: '', detail: this.messagePipe.transform(21, this.locale)});
+        } else {
+          this.stock = data;
+          this.title = this.stock.name;
+          this.getValue();
+          this.getSignals();
+          this.getPrices();
+          this.getIndexNames();
+          this.display = true;
+        }
       });
   }
 
@@ -258,14 +269,14 @@ export class FundamentalComponent implements OnInit, OnChanges {
   getValue() {
     if (this.stock) {
       this.fundamentalService.getNewestValueByStockId(this.stock.stockId)
-        .subscribe((data:Values[]) => this.value = data[0]);
+        .subscribe((data:Values[]) => this.value = data[0], (err:any) => this.helperService.handleError(err));
     }
   }
 
   getSignals() {
     if (this.stock) {
       this.fundamentalService.getSignalsByStockId(this.stock.stockId)
-        .subscribe((data:Signals[]) => this.signals = data);
+        .subscribe((data:Signals[]) => this.signals = data, (err:any) => this.helperService.handleError(err));
     }
   }
   
@@ -281,7 +292,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
           return i % 5 == 0;
         });
         this.priceChart = this.helperService.createLineChartData(this.stock.name, chart_labels, chart_data);
-        });
+        }, (err:any) => this.helperService.handleError(err));
     }
   }
   

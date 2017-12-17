@@ -4,6 +4,7 @@ import { SelectItem, Message } from 'primeng/primeng';
 
 import { StockService } from '../stock.service';
 import { IndexService } from '../index.service';
+import { HelperService} from '../../helper.service';
 
 import { Score } from '../score';
 import { Stock } from '../stock';
@@ -43,7 +44,10 @@ export class ScorecombinerComponent implements OnInit {
   countryTranslationPipe: CountryTranslationPipe = new CountryTranslationPipe('en-US');
   branchTranslationPipe: BranchTranslationPipe = new BranchTranslationPipe('en-US');
   messagePipe: MessageTranslationPipe = new MessageTranslationPipe('en-US');
-  constructor(private stockService: StockService, private indexService: IndexService, @Inject(LOCALE_ID) private locale: string) {
+  constructor(private stockService: StockService,
+              private indexService: IndexService,
+              private helperService: HelperService,
+              @Inject(LOCALE_ID) private locale: string) {
     this.numRowValues.push({label: '10', value: 10});
     this.numRowValues.push({label: '20', value: 20});
     this.numRowValues.push({label: '30', value: 30});
@@ -64,7 +68,7 @@ export class ScorecombinerComponent implements OnInit {
                     for (let country of data._embedded.countries) {
                       this.countries.push({label: this.countryTranslationPipe.transform(country.name, this.locale), value: country.countryId});
                     }
-            });
+            }, (err:any) => this.helperService.handleError(err));
 
       this.stockService.getAllBranches()
           .subscribe((data:any) => {
@@ -73,7 +77,7 @@ export class ScorecombinerComponent implements OnInit {
                     for (let branch of data._embedded.branches) {
                       this.branches.push({label: this.branchTranslationPipe.transform(branch.name, this.locale), value: branch.branchId});
                     }
-            });
+            }, (err:any) => this.helperService.handleError(err));
   }
 
   ngOnInit() {
@@ -120,9 +124,15 @@ export class ScorecombinerComponent implements OnInit {
             .subscribe((data:Stock) => {
               score.stock = data;
               this.loading = false;
-            }, (err:any) => this.loading = false);
+            }, (err:any) => {
+              this.loading = false;
+              this.helperService.handleError(err);
+            });
         }
-      }, (err:any) => this.loading = false);
+      }, (err:any) => {
+        this.loading = false;
+        this.helperService.handleError(err);
+      });
     } else {
       this.indexService.getNormalizedScores(this.levermannFactor / 100, this.magicFormulaFactor / 100, this.piotroskiFactor / 100, this.excludedCountries, this.numRows)
         .subscribe((data: any) => {
@@ -132,9 +142,15 @@ export class ScorecombinerComponent implements OnInit {
             .subscribe((data:IndexType) => {
               score.index = data;
               this.loading = false;
-            }, (err:any) => this.loading = false);
+            }, (err:any) => {
+              this.loading = false;
+              this.helperService.handleError(err);
+            });
         }
-      }, (err:any) => this.loading = false);
+      }, (err:any) => {
+        this.loading = false;
+        this.helperService.handleError(err);
+      });
     }
   }
   

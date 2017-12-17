@@ -60,6 +60,8 @@ export class MessageTranslationPipe implements PipeTransform {
         return 'Profil wurde erfolgreich aktualisiert';
       case 20:
         return 'Bei der Aktualisierung ist ein Fehler aufgetreten';
+       case 21:
+        return 'Sitzung abgelaufen, bitte erneut anmelden';
     }
   }
 
@@ -105,6 +107,8 @@ export class MessageTranslationPipe implements PipeTransform {
         return 'Profile updated successfully';
       case 20:
         return 'Cannot update profile';
+       case 21:
+        return 'Expired session, please login again';
     }
   }
 }

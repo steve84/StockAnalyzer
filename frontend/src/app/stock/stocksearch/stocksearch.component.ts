@@ -4,6 +4,7 @@ import { SelectItem } from 'primeng/primeng';
 
 import { StockService } from '../stock.service';
 import { IndexService } from '../index.service';
+import { HelperService} from '../../helper.service';
 
 import { Stock } from '../stock';
 import { Country } from '../country';
@@ -42,7 +43,10 @@ export class StocksearchComponent implements OnInit {
   countryTranslationPipe: CountryTranslationPipe = new CountryTranslationPipe('en-US');
   branchTranslationPipe: BranchTranslationPipe = new BranchTranslationPipe('en-US');
 
-  constructor(private stockService: StockService, private indexService: IndexService, @Inject(LOCALE_ID) private locale: string) {
+  constructor(private stockService: StockService,
+              private indexService: IndexService,
+              private helperService: HelperService,
+              @Inject(LOCALE_ID) private locale: string) {
 	  this.stockService.getAllCountries()
 		  .subscribe((data:any) => {
 			  this.countries = [];
@@ -50,7 +54,9 @@ export class StocksearchComponent implements OnInit {
 					for (let country of data._embedded.countries) {
 					  this.countries.push({label: this.countryTranslationPipe.transform(country.name, this.locale), value: country.countryId});
 					}
-			});
+			}, (err) => {
+        this.helperService.handleError(err);
+      });
 
 	  this.stockService.getAllBranches()
 		  .subscribe((data:any) => {
@@ -59,7 +65,9 @@ export class StocksearchComponent implements OnInit {
 					for (let branch of data._embedded.branches) {
 					  this.branches.push({label: this.branchTranslationPipe.transform(branch.name, this.locale), value: branch.branchId});
 					}
-			});
+			}, (err:any) => {
+        this.helperService.handleError(err);
+      });
 
 	  this.indexService.getAllIndices()
 		  .subscribe((data:any) => {
@@ -68,7 +76,9 @@ export class StocksearchComponent implements OnInit {
 					for (let index of data._embedded.index) {
 					  this.indices.push({label: index.name, value: index.indexId});
 					}
-		  });
+		  }, (err:any) => {
+        this.helperService.handleError(err);
+      });
 	}
 
   ngOnInit() {
@@ -94,7 +104,10 @@ export class StocksearchComponent implements OnInit {
 			  this.onStocksFound.emit(data._embedded.stock);
         this.stocks = data._embedded.stock;
         this.loading = false;
-			}, (err:any) => this.loading = false);
+			}, (err:any) => {
+        this.loading = false;
+        this.helperService.handleError(err);
+      });
 	}
 	
 	reset() {
