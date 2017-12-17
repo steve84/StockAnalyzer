@@ -41,6 +41,7 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
     @Override
     public User register(User user) {
         user.setRole(Roles.GPU.getRole());
+        user.setLanguage("DE");
         user.setCreatedAt(Calendar.getInstance());
         user.setToken(securityService.generateRandomString(TOKEN_LENGTH));
         user.setSalt(securityService.generateRandomString(SALT_LENGTH));
