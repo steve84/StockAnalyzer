@@ -2,7 +2,26 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class HelperService {
+  previousUrl: string;
+  nextUrl: string;
+
   constructor() { }
+  
+  setPreviousUrl(url: string) {
+    this.previousUrl = url;
+  }
+  
+  getPreviousUrl(): string {
+    return this.previousUrl;
+  }
+  
+  setNextUrl(url: string) {
+    this.nextUrl = url;
+  }
+  
+  getNextUrl() {
+    return this.nextUrl;
+  }
 
   createPieChartData(data: any[], groupBy: string, value: string, percentage: boolean = true, count?: boolean) {
     let labels: string[] = [];
