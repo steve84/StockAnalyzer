@@ -1,7 +1,7 @@
 import { Injectable, Inject, LOCALE_ID } from '@angular/core';
 import { Router } from '@angular/router';
 
-import {MessageService} from 'primeng/components/common/messageservice';
+import {MessageService} from './message.service';
 
 import {Message} from 'primeng/primeng';
 
@@ -32,10 +32,8 @@ export class HelperService {
     return this.nextUrl;
   }
   
-  addGlobalMessage(msg: Message, isSingleMsg: boolean = true) {
-    if (isSingleMsg)
-      this.messageService.clear();
-    this.messageService.add(msg);
+  addGlobalMessage(msg: Message) {
+    this.messageService.getMessageEmitter().emit(msg);
   }
   
   handleError(err: any) {

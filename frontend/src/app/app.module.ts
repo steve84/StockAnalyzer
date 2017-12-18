@@ -14,8 +14,7 @@ import { MenubarModule,
          DropdownModule,
          GrowlModule
        } from 'primeng/primeng';
-import {MessageService} from 'primeng/components/common/messageservice';
-
+       
 import { StockModule } from './stock/stock.module';
 import { AuthModule } from './auth/auth.module';
 
@@ -29,6 +28,7 @@ import { LoginComponent } from './login/login.component';
 
 import { UserService } from './user.service';
 import { HelperService } from './helper.service';
+import { MessageService } from './message.service';
 import { AuthGuard } from './auth/authguard.service';
 import { UserRegistrationComponent } from './userregistration/userregistration.component';
 import { ImpressumComponent } from './content/impressum/impressum.component';
