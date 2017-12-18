@@ -36,7 +36,8 @@ import { FrontpageComponent } from './content/frontpage/frontpage.component';
 import { ContactComponent } from './content/contact/contact.component';
 import { FooterbarComponent } from './footerbar/footerbar.component';
 import { ConfirmComponent } from './confirm/confirm.component';
-import { PasswordComponent } from './password/password.component';
+import { PasswordChangeComponent } from './password/passwordchange/passwordchange.component';
+import { PasswordResetComponent } from './password/passwordreset/passwordreset.component';
 import { FaqComponent } from './content/faq/faq.component';
 
 import { MessageTranslationPipe } from './stock/message_translation.pipe';
@@ -54,11 +55,12 @@ import { LanguageComponent } from './language/language.component';
     ContactComponent,
     FooterbarComponent,
     ConfirmComponent,
-    PasswordComponent,
     FaqComponent,
     MessageTranslationPipe,
     AccountComponent,
-    LanguageComponent
+    LanguageComponent,
+    PasswordChangeComponent,
+    PasswordResetComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),

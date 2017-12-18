@@ -1270,42 +1270,44 @@
       </trans-unit>
       <trans-unit id="password.change.password" datatype="html">
         <source>Password</source>
-        <target/>
         <context-group purpose="location">
-          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/password/password.component.ts</context>
-          <context context-type="linenumber">5</context>
+          <context context-type="sourcefile">src\app\password\passwordchange\passwordchange.component.ts</context>
+          <context context-type="linenumber">4</context>
         </context-group>
       </trans-unit>
       <trans-unit id="password.change.newpassword" datatype="html">
         <source>New Password</source>
-        <target/>
         <context-group purpose="location">
-          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/password/password.component.ts</context>
-          <context context-type="linenumber">10</context>
+          <context context-type="sourcefile">src\app\password\passwordchange\passwordchange.component.ts</context>
+          <context context-type="linenumber">9</context>
         </context-group>
       </trans-unit>
       <trans-unit id="password.change.newpasswordr" datatype="html">
         <source>New Password (Repeat)</source>
-        <target/>
         <context-group purpose="location">
-          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/password/password.component.ts</context>
-          <context context-type="linenumber">15</context>
+          <context context-type="sourcefile">src\app\password\passwordchange\passwordchange.component.ts</context>
+          <context context-type="linenumber">14</context>
         </context-group>
       </trans-unit>
       <trans-unit id="password.change.submit.label" datatype="html">
         <source>Submit</source>
-        <target/>
         <context-group purpose="location">
-          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/password/password.component.ts</context>
-          <context context-type="linenumber">21</context>
+          <context context-type="sourcefile">src\app\password\passwordchange\passwordchange.component.ts</context>
+          <context context-type="linenumber">20</context>
         </context-group>
       </trans-unit>
       <trans-unit id="password.reset.username" datatype="html">
         <source>Username</source>
-        <target/>
         <context-group purpose="location">
-          <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/password/password.component.ts</context>
-          <context context-type="linenumber">29</context>
+          <context context-type="sourcefile">src\app\password\passwordreset\passwordreset.component.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="password.reset.submit.label" datatype="html">
+        <source>Submit</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\password\passwordreset\passwordreset.component.ts</context>
+          <context context-type="linenumber">9</context>
         </context-group>
       </trans-unit>
       <trans-unit id="password.reset.submit.label" datatype="html">
