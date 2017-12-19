@@ -470,6 +470,9 @@ span.ui-column-title {
 }
 
 .ui-datatable-data td {
+  white-space: normal;
+}
+.ui-datatable.ui-datatable-resizable .ui-datatable-thead > tr > th, .ui-datatable.ui-datatable-resizable .ui-datatable-tfoot > tr > td, .ui-datatable.ui-datatable-resizable .ui-datatable-data > tr > td {
   white-space: nowrap;
   text-overflow: ellipsis;  
 }

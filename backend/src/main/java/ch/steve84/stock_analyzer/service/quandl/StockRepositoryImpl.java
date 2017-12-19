@@ -10,6 +10,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.JoinType;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Root;
 
@@ -83,9 +84,9 @@ public class StockRepositoryImpl implements ReadOnlyRepository<Stock, Integer> {
     			String[] parts = o.getProperty().split("\\.");
     			if (parts.length >= 2) {
     				if (o.isAscending())
-    					orders.add(cb.asc(s.join(parts[0]).get(parts[1])));
+    					orders.add(cb.asc(s.join(parts[0], JoinType.LEFT).get(parts[1])));
     				else
-    					orders.add(cb.desc(s.join(parts[0]).get(parts[1])));
+    					orders.add(cb.desc(s.join(parts[0], JoinType.LEFT).get(parts[1])));
     			} else {
 	    			if (o.isAscending())
 	    				orders.add(cb.asc(s.get(parts[0])));

@@ -924,7 +924,33 @@ CREATE OR REPLACE VIEW public.vscore_normalized AS
 ALTER TABLE public.vscore_normalized
   OWNER TO postgres;
 
- 
+
+CREATE OR REPLACE VIEW public.vfullscore AS 
+select
+  interm_score.score_id,
+  interm_score.score_type_id,
+  interm_score.stock_id,
+  interm_score.index_id,
+  interm_score.score_value,
+  interm_score.modified_at
+from 
+    (select null as score_id, st.score_type_id, s.stock_id, null as index_id, null as score_value, null as modified_at from tstock s, tscoretype st) as interm_score
+    left join tscore sc on sc.stock_id = interm_score.stock_id and sc.score_type_id = interm_score.score_type_id
+    where sc.score_id is null
+  union
+    select * from tscore
+    where stock_id is not null
+  union
+    select interm_score.* from 
+    (select null as score_id, st.score_type_id, null as stock_id, i.index_id, null as score_value, null as modified_at from tindex i, tscoretype st) as interm_score
+    left join tscore sc on sc.index_id = interm_score.index_id and sc.score_type_id = interm_score.score_type_id
+    where sc.score_id is null
+  union
+    select * from tscore
+    where index_id is not null;
+
+ALTER TABLE public.vfullscore
+  OWNER TO postgres;
 --
 -- TOC entry 2130 (class 0 OID 0)
 -- Dependencies: 7
