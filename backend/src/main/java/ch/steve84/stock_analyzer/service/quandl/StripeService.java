@@ -75,7 +75,7 @@ public class StripeService {
         return false;
     }
     
-    public boolean createSubscription(final String customerId, boolean basicPlan, boolean testMode) {
+    public boolean createSubscription(final String customerId, boolean basicPlan) {
     	setAPiKey();
         if (customerId != null) {
             Map<String, Object> item = new HashMap<String, Object>();
@@ -89,8 +89,6 @@ public class StripeService {
 
             Map<String, Object> params = new HashMap<String, Object>();
             params.put("customer", customerId);
-            if (testMode)
-                params.put("livemode", false);
             params.put("items", items);
 
             Subscription subscription = null;
@@ -123,7 +121,7 @@ public class StripeService {
                 }
             }
         }
-        return false;
+        return true;
     }
     
     public boolean addCardToCustomer(final String customerId, final String token) {
@@ -168,7 +166,7 @@ public class StripeService {
         return false;
     }
     
-    private Customer getCustomer(final String customerId) {
+    public Customer getCustomer(final String customerId) {
     	setAPiKey();
         if (customerId != null) {
             Customer customer = null;

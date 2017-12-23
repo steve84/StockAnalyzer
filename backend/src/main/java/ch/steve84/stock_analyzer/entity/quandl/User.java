@@ -2,16 +2,9 @@ package ch.steve84.stock_analyzer.entity.quandl;
 
 import java.util.Calendar;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
+import javax.persistence.*;
+
+import com.stripe.model.Customer;
 
 @Entity
 @NamedQueries({
@@ -42,6 +35,9 @@ public class User {
     private Calendar createdAt;
     @Column(name = "activated_at")
     private Calendar activatedAt;
+    
+    @Transient
+    private StripeCustomerDTO stripeCustomerDTO;
 
 	public String getUsername() {
 		return username;
@@ -139,5 +135,13 @@ public class User {
 
 	public void setUserId(Integer userId) {
 		this.userId = userId;
+	}
+
+	public StripeCustomerDTO getStripeCustomerDTO() {
+		return stripeCustomerDTO;
+	}
+
+	public void setStripeCustomerDTO(StripeCustomerDTO stripeCustomerDTO) {
+		this.stripeCustomerDTO = stripeCustomerDTO;
 	}
 }

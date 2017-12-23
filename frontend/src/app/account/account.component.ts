@@ -36,8 +36,10 @@ export class AccountComponent implements OnInit {
 
     this.userService.getUserById(this.userService.getUserId()).
       subscribe((data:any) => {
-      if (data)
+      if (data) {
+        debugger
         this.user = data.json();
+      }
       }, (err:any) => this.helperService.handleError(err));
   }
   

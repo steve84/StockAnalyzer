@@ -12,7 +12,8 @@ import { MenubarModule,
          MessagesModule,
          SplitButtonModule,
          DropdownModule,
-         GrowlModule
+         GrowlModule,
+         FieldsetModule
        } from 'primeng/primeng';
        
 import { StockModule } from './stock/stock.module';
@@ -79,6 +80,7 @@ import { StripeComponent } from './stripe/stripe.component';
     SplitButtonModule,
     DropdownModule,
     GrowlModule,
+    FieldsetModule,
     StockModule,
     AuthModule
   ],

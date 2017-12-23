@@ -1,15 +1,44 @@
-<form [formGroup]="accountform" (ngSubmit)="onSubmit()">
-  <div class = "ui-g" *ngIf="user">
-    <div class = "ui-g-12"><p-messages [(value)]="msgs" [closable]="false"></p-messages></div>
-    <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.username">Username</div>
-    <div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{user.username}}</div>
-    <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.email">E-Mail-Address</div>
-    <div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{user.email}}</div>
-    <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.language">Correspondence Language</div>
-    <div class = "ui-g-12 ui-md-6 ui-lg-3 value"><p-dropdown [options]="languages" formControlName="language" [(ngModel)]="user.language"></p-dropdown></div>
-    <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.role">Role</div>
-    <div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{user.role.roleName}}</div>
-    <div class = "ui-g-12"><button pButton type="submit" label="Save" [disabled]="!accountform.valid" i18n-label="@@accountform.submit.label"></button></div>
-  </div>
-</form>
-<app-stripe></app-stripe>
+<p-fieldset legend="Account Details" [toggleable]="true">
+  <form [formGroup]="accountform" (ngSubmit)="onSubmit()">
+    <div class = "ui-g" *ngIf="user">
+      <div class = "ui-g-12"><p-messages [(value)]="msgs" [closable]="false"></p-messages></div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.username">Username</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{user.username}}</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.email">E-Mail-Address</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{user.email}}</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.language">Correspondence Language</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 value"><p-dropdown [options]="languages" formControlName="language" [(ngModel)]="user.language"></p-dropdown></div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.role">Role</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{user.role.roleName}}</div>
+      <div class = "ui-g-12"><button pButton type="submit" label="Save" [disabled]="!accountform.valid" i18n-label="@@accountform.submit.label"></button></div>
+    </div>
+  </form>
+</p-fieldset>
+<br />
+<p-fieldset legend="Premium" [toggleable]="true">
+  <app-stripe *ngIf="user && user.role && user.role.roleName == 'GPU'"></app-stripe>
+  <span *ngIf="user && user.role && user.role.roleName != 'GPU'">
+    <span *ngIf="user && user.stripeCustomerDTO && user.stripeCustomerDTO.card">
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.username">Card type</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{user.stripeCustomerDTO.card.brand}}</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.username">Country</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{user.stripeCustomerDTO.card.country}}</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.username">Last 4 digits</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{user.stripeCustomerDTO.card.last4}}</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.username">Expiration date</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{user.stripeCustomerDTO.card.expMonth}} / {{user.stripeCustomerDTO.card.expYear}}</div>
+    </span>
+    <span *ngIf="user && user.stripeCustomerDTO && user.stripeCustomerDTO.subscription">
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.username">Start date</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{user.stripeCustomerDTO.subscription.currentPeriodStart * 1000 | date}}</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.username">End date</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{user.stripeCustomerDTO.subscription.currentPeriodEnd * 1000 | date}}</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.username">Currency</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{user.stripeCustomerDTO.subscription.plan.currency}}</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.username">Amount</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{user.stripeCustomerDTO.subscription.plan.amount}}</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.username">Interval</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{user.stripeCustomerDTO.subscription.plan.interval}}</div>
+    </span>
+  </span>
+</p-fieldset>

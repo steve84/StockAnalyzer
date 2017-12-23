@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import ch.steve84.stock_analyzer.entity.quandl.StripeCustomerDTO;
 import ch.steve84.stock_analyzer.entity.quandl.User;
 import ch.steve84.stock_analyzer.enums.Roles;
 import ch.steve84.stock_analyzer.repository.quandl.UserRegistrationRepository;
@@ -90,7 +91,7 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
             user.setToken(null);
             mailService.sendWelcomeMail(user);
             user = stripeService.createCustomer(user);
-            stripeService.createSubscription(user.getStripeCustomer(), true, true);
+            stripeService.createSubscription(user.getStripeCustomer(), true);
             return this.userRepository.save(user);
         }
         return null;
@@ -140,7 +141,9 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
 	@Override
 	public User getUser(Integer userId) {
 		User user = new User();
-		BeanUtils.copyProperties(this.userRepository.findOne(userId), user, IGNORE_FIELDS);
+		User existingUser = this.userRepository.findOne(userId);
+		BeanUtils.copyProperties(existingUser, user, IGNORE_FIELDS);
+		user.setStripeCustomerDTO(new StripeCustomerDTO(this.stripeService.getCustomer(existingUser.getStripeCustomer())));
 		return user;
 	}
 	
@@ -157,9 +160,15 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
 
     @Override
     public boolean addCard(Integer userId, String token) {
-        // TODO Auto-generated method stub
         User user = this.userRepository.findOne(userId);
-        return this.stripeService.addCardToCustomer(user.getStripeCustomer(), token);
+        if (this.stripeService.cancelSubscription(user.getStripeCustomer()) &&
+        		this.stripeService.addCardToCustomer(user.getStripeCustomer(), token) &&
+        		this.stripeService.createSubscription(user.getStripeCustomer(), false)) {
+        	user.setRole(Roles.ABO.getRole());
+        	this.userRepository.save(user);
+        	return true;
+        }
+        return false;
     }
 }
 
