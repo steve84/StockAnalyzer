@@ -1,7 +1,14 @@
 <form #checkout="ngForm" (ngSubmit)="onSubmit(checkout)">
   <div class = "ui-g">
     <div class = "ui-g-12"><p-messages [(value)]="msgs" [closable]="false"></p-messages></div>
-    <div class = "ui-g-4" #cardInfo></div><div class = "ui-g-8"></div>
-    <div class = "ui-g-12"><button pButton type="submit" label="Pay" i18n-label="@@stripeform.submit.label"></button></div>
+    <div class = "ui-g-12 ui-md-6 ui-lg-3" #cardInfo></div>
+    <div class = "ui-g-12"><p-checkbox [(ngModel)]="acceptTerms" name="terms" binary="true" required></p-checkbox><span i18n="@@stripeform.terms.checkbox">Accept <a href="#" (click)="showTermsDialog($event)">terms</a></span></div>
+    <div class = "ui-g-12"><button pButton type="submit" label="Pay" i18n-label="@@stripeform.submit.label" [disabled]="!isValid()"></button></div>
   </div>
+  <p-dialog header="Terms" i18n-header="@@stripeform.terms.header" [(visible)]="showTerms" [width]="auto">
+    <div class = "ui-g">
+      <div class = "ui-g-12" i18n="@@stripeform.terms.text">Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</div>
+      <div class = "ui-g-12" style="text-align: center;"><button pButton type="button" (click)="closeTermsDialog()" label="Close" i18n-label="@@stripeform.terms.close"></button></div>
+    </div>
+  </p-dialog>
 </form>

@@ -60,8 +60,12 @@ export class MessageTranslationPipe implements PipeTransform {
         return 'Profil wurde erfolgreich aktualisiert';
       case 20:
         return 'Bei der Aktualisierung ist ein Fehler aufgetreten';
-       case 21:
+      case 21:
         return 'Sitzung abgelaufen, bitte erneut anmelden';
+      case 22:
+        return 'Premium-Abo erfolgreich abgeschlossen. Bitte aus und wieder einloggen, um die volle Funktionalität zu nützen';
+      case 23:
+        return 'Bei der Zahlung ist ein Problem aufgetreten. Bitte erneut versuchen';
     }
   }
 
@@ -107,8 +111,12 @@ export class MessageTranslationPipe implements PipeTransform {
         return 'Profile updated successfully';
       case 20:
         return 'Cannot update profile';
-       case 21:
+      case 21:
         return 'Expired session, please login again';
+      case 22:
+        return 'Successful premium subscription. Please log out and in to use it';
+      case 23:
+        return 'Error during premium subscription creation. Please try again later';
     }
   }
 }

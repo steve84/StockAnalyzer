@@ -31,8 +31,12 @@ export class ConfirmComponent implements OnInit {
   
   confirm() {
     this.userService.confirm(this.userId, this.token, this.password)
-      .subscribe((data:any) => this.msgs = [{severity: 'success', summary: '', detail: this.messagePipe.transform(6, this.locale)}],
-      (err:any) => this.msgs = [{severity: 'error', summary: '', detail: this.messagePipe.transform(7, this.locale)}]);
+      .subscribe((data:any) => {
+        if (data.json())
+          this.msgs = [{severity: 'success', summary: '', detail: this.messagePipe.transform(6, this.locale)}];
+        else
+          this.msgs = [{severity: 'error', summary: '', detail: this.messagePipe.transform(7, this.locale)}];
+      }, (err:any) => this.msgs = [{severity: 'error', summary: '', detail: this.messagePipe.transform(7, this.locale)}]);
   }
 
 }

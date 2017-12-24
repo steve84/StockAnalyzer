@@ -83,7 +83,7 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
 
     @Override
     @Transactional(rollbackOn=Exception.class)
-    public User confirm(Integer userId, String hash, String password) {
+    public boolean confirm(Integer userId, String hash, String password) {
         User user = this.userRepository.findOne(userId);
         if (user != null && user.getToken() != null && user.getToken().equals(hash) && user.getPassword().equals(securityService.hashAndSalt(password, user.getSalt()))) {
             user.setIsActivated(true);
@@ -92,9 +92,10 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
             mailService.sendWelcomeMail(user);
             user = stripeService.createCustomer(user);
             stripeService.createSubscription(user.getStripeCustomer(), true);
-            return this.userRepository.save(user);
+            this.userRepository.save(user);
+            return true;
         }
-        return null;
+        return false;
     }
 
 	@Override

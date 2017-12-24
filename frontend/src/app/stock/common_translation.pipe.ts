@@ -63,6 +63,8 @@ export class CommonTranslationPipe implements PipeTransform {
         return 'Cashflow-Rendite';
       case 'Return on assets':
         return 'Nettorendite';
+      case 'month':
+        return 'Monat';
       default:
         return value;
     }

@@ -25,7 +25,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/confirm/{userId}/{userHash}", method = RequestMethod.POST)
-    public User confirm(@PathVariable("userId") Integer userId, @PathVariable("userHash") String userHash, @RequestBody String password) {
+    public boolean confirm(@PathVariable("userId") Integer userId, @PathVariable("userHash") String userHash, @RequestBody String password) {
         return this.userRepository.confirm(userId, userHash, password);
     }
 

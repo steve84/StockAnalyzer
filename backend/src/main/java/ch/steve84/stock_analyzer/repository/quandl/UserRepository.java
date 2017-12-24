@@ -11,7 +11,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 	User findByUsername(@Param("username") String username);
 	boolean existsByUsername(@Param("username") String username);
 	User register(User user);
-	User confirm(Integer userId, String hash, String password);
+	boolean confirm(Integer userId, String hash, String password);
 	boolean resetPassword(String username);
 	boolean changePassword(Integer userId, String oldPassword, String newPassword);
 	boolean validateCaptcha(String token);

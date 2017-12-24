@@ -1311,7 +1311,7 @@
       </trans-unit>
       <trans-unit id="index.country.composition" datatype="html">
         <source>Composition By Countries</source>
-        <target/>
+        <target>Index-Zusammensetzung Länder</target>
         <context-group purpose="location">
           <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/stock/indexdetail/indexdetail.component.ts</context>
           <context context-type="linenumber">51</context>
@@ -1349,12 +1349,140 @@
           <context context-type="linenumber">10</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="account.card.type" datatype="html">
+        <source>Card type</source>
+        <target>Kartentyp</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\account\account.component.ts</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="account.card.country" datatype="html">
+        <source>Country</source>
+        <target>Land</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\account\account.component.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="account.card.number" datatype="html">
+        <source>Card number</source>
+        <target>Kartennummer</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\account\account.component.ts</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="account.card.expdate" datatype="html">
+        <source>Expiration date</source>
+        <target>Ablaufdatum</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\account\account.component.ts</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="account.subscription.startdate" datatype="html">
+        <source>Start date</source>
+        <target>Startzeitpunkt</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\account\account.component.ts</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="account.subscription.enddate" datatype="html">
+        <source>End date</source>
+        <target>Endzeitpunkt</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\account\account.component.ts</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="account.subscription.currency" datatype="html">
+        <source>Currency</source>
+        <target>Währung</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\account\account.component.ts</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="account.subscription.amount" datatype="html">
+        <source>Amount</source>
+        <target>Betrag</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\account\account.component.ts</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="account.subscription.interval" datatype="html">
+        <source>Interval</source>
+        <target>Zahlungshäufigkeit</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\account\account.component.ts</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="accountform.submit.label" datatype="html">
         <source>Save</source>
         <target>Speichern</target>
         <context-group purpose="location">
           <context context-type="sourcefile">C:/Users/Steve/workspace/StockAnalyzer/frontend/src/app/account/account.component.ts</context>
           <context context-type="linenumber">13</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="account.premium.legend" datatype="html">
+        <source>Premium</source>
+        <target>Premium</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\account\account.component.ts</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="account.details.legend" datatype="html">
+        <source>Account Details</source>
+        <target>Benutzerinformationen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\account\account.component.ts</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stripeform.submit.label" datatype="html">
+        <source>Pay</source>
+        <target>Bezahlen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stripe\stripe.component.ts</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stripeform.terms.text" datatype="html">
+        <source>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</source>
+        <target>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stripe\stripe.component.ts</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stripeform.terms.close" datatype="html">
+        <source>Close</source>
+        <target>Schliessen</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stripe\stripe.component.ts</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stripeform.terms.header" datatype="html">
+        <source>Terms</source>
+        <target>AGBs</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stripe\stripe.component.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="stripeform.terms.checkbox" datatype="html">
+        <source>Accept <x id="START_LINK" ctype="x-a"/>terms<x id="CLOSE_LINK" ctype="x-a"/></source>
+        <target>Akzeptiere <x id="START_LINK" ctype="x-a"/>AGBs<x id="CLOSE_LINK" ctype="x-a"/></target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stripe\stripe.component.ts</context>
+          <context context-type="linenumber">5</context>
         </context-group>
       </trans-unit>
     </body>

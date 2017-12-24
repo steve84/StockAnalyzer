@@ -1,4 +1,4 @@
-<p-fieldset legend="Account Details" [toggleable]="true">
+<p-fieldset legend="Account Details" i18n-legend="@@account.details.legend" [toggleable]="true">
   <form [formGroup]="accountform" (ngSubmit)="onSubmit()">
     <div class = "ui-g" *ngIf="user">
       <div class = "ui-g-12"><p-messages [(value)]="msgs" [closable]="false"></p-messages></div>
@@ -15,30 +15,30 @@
   </form>
 </p-fieldset>
 <br />
-<p-fieldset legend="Premium" [toggleable]="true">
+<p-fieldset legend="Premium" i18n-legend="@@account.premium.legend" [toggleable]="true">
   <app-stripe *ngIf="user && user.role && user.role.roleName == 'GPU'"></app-stripe>
   <span *ngIf="user && user.role && user.role.roleName != 'GPU'">
     <span *ngIf="user && user.stripeCustomerDTO && user.stripeCustomerDTO.card">
-      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.username">Card type</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.card.type">Card type</div>
       <div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{user.stripeCustomerDTO.card.brand}}</div>
-      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.username">Country</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.card.country">Country</div>
       <div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{user.stripeCustomerDTO.card.country}}</div>
-      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.username">Last 4 digits</div>
-      <div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{user.stripeCustomerDTO.card.last4}}</div>
-      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.username">Expiration date</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.card.number">Card number</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 value">**** {{user.stripeCustomerDTO.card.last4}}</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.card.expdate">Expiration date</div>
       <div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{user.stripeCustomerDTO.card.expMonth}} / {{user.stripeCustomerDTO.card.expYear}}</div>
     </span>
     <span *ngIf="user && user.stripeCustomerDTO && user.stripeCustomerDTO.subscription">
-      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.username">Start date</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.subscription.startdate">Start date</div>
       <div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{user.stripeCustomerDTO.subscription.currentPeriodStart * 1000 | date}}</div>
-      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.username">End date</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.subscription.enddate">End date</div>
       <div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{user.stripeCustomerDTO.subscription.currentPeriodEnd * 1000 | date}}</div>
-      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.username">Currency</div>
-      <div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{user.stripeCustomerDTO.subscription.plan.currency}}</div>
-      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.username">Amount</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.subscription.currency">Currency</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{user.stripeCustomerDTO.subscription.plan.currency | uppercase}}</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.subscription.amount">Amount</div>
       <div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{user.stripeCustomerDTO.subscription.plan.amount}}</div>
-      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.username">Interval</div>
-      <div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{user.stripeCustomerDTO.subscription.plan.interval}}</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@account.subscription.interval">Interval</div>
+      <div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{user.stripeCustomerDTO.subscription.plan.interval | translateCommon}}</div>
     </span>
   </span>
 </p-fieldset>

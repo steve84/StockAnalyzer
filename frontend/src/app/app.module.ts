@@ -13,7 +13,8 @@ import { MenubarModule,
          SplitButtonModule,
          DropdownModule,
          GrowlModule,
-         FieldsetModule
+         FieldsetModule,
+         CheckboxModule
        } from 'primeng/primeng';
        
 import { StockModule } from './stock/stock.module';
@@ -81,6 +82,7 @@ import { StripeComponent } from './stripe/stripe.component';
     DropdownModule,
     GrowlModule,
     FieldsetModule,
+    CheckboxModule,
     StockModule,
     AuthModule
   ],
