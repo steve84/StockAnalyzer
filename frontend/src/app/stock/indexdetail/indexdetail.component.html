@@ -48,8 +48,12 @@
       </p-dataTable>
     </p-tabPanel>
     <p-tabPanel i18n-header="@@index.charts" header="Charts">
-      <p-fieldset i18n-legend="@@index.country.composition" legend="Composition By Countries">
-        <p-chart type="pie" [data]="chartData"></p-chart>
+      <p-fieldset *ngIf="index && index.country == null" i18n-legend="@@index.country.composition" legend="Composition By Countries" [toggleable]="true">
+        <p-chart type="pie" [data]="chartDataCountry"></p-chart>
+      </p-fieldset>
+      <br />
+      <p-fieldset i18n-legend="@@index.branch.composition" legend="Composition By Branches" [toggleable]="true">
+        <p-chart type="pie" [data]="chartDataBranch"></p-chart>
       </p-fieldset>
     </p-tabPanel>
   </p-tabView>

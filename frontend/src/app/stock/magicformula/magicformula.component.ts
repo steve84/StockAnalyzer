@@ -18,13 +18,19 @@ export class MagicformulaComponent implements OnInit {
   ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.stock && changes.stock.currentValue) {
-      this.magicFormulaData = changes.stock.currentValue.magicFormula;
-      for (let score of this.stock.scores) {
-        if (score.scoreType.name == 'Magic Formula') {
-          this.magicFormulaScore = score.scoreValue;
-          this.calculatedAt = score.modifiedAt;
+    if (changes.stock) {
+      if (changes.stock.currentValue) {
+        this.magicFormulaData = changes.stock.currentValue.magicFormula;
+        for (let score of this.stock.scores) {
+          if (score.scoreType.name == 'Magic Formula') {
+            this.magicFormulaScore = score.scoreValue;
+            this.calculatedAt = score.modifiedAt;
+          }
         }
+      } else {
+        this.magicFormulaData = null;
+        this.magicFormulaScore = 0;
+        this.calculatedAt = null;
       }
     }
   }

@@ -42,13 +42,13 @@
 <div class = "ui-g">
   <div class = "ui-g-12 ui-md-3 ui-lg-3 description" i18n="@@score.combiner.exclude_countries">Exclude countries</div>
   <div class = "ui-g-12 ui-md-9 ui-lg-9 value">
-    <p-multiSelect [options]="countries" [(ngModel)]="excludedCountries" i18n-defaultLabel="@@search.choice.label" defaultLabel="Choose" i18n-selectedItemsLabel="@@search.choice.selected.label" selectedItemsLabel="{{0}} entries selected" maxSelectedLabels=2></p-multiSelect>
+    <p-multiSelect [options]="countries" [(ngModel)]="excludedCountries" i18n-defaultLabel="@@search.choice.label" defaultLabel="Choose" i18n-selectedItemsLabel="@@search.choice.selected.label" selectedItemsLabel="{{ '{' }}0{{ '}' }} entries selected" maxSelectedLabels=2></p-multiSelect>
   </div>
 </div>
 <div *ngIf="stockOrIndex == 'stock'" class = "ui-g">
   <div class = "ui-g-12 ui-md-3 ui-lg-3 description" i18n="@@score.combiner.exclude_branches">Exclude branches</div>
   <div class = "ui-g-12 ui-md-9 ui-lg-9 value">
-    <p-multiSelect [options]="branches" [(ngModel)]="excludedBranches" i18n-defaultLabel="@@search.choice.label" defaultLabel="Choose" i18n-selectedItemsLabel="@@search.choice.selected.label" selectedItemsLabel="{{0}} entries selected" maxSelectedLabels=2></p-multiSelect>
+    <p-multiSelect [options]="branches" [(ngModel)]="excludedBranches" i18n-defaultLabel="@@search.choice.label" defaultLabel="Choose" i18n-selectedItemsLabel="@@search.choice.selected.label" selectedItemsLabel="{{ '{' }}0{{ '}' }} entries selected" maxSelectedLabels=2></p-multiSelect>
   </div>
 </div>
 <div *ngIf="stockOrIndex == 'stock'" class = "ui-g">

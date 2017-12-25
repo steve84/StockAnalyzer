@@ -324,7 +324,11 @@ export class FundamentalComponent implements OnInit, OnChanges {
       this.display = false;
       this.incomeChart = null;
       this.close.emit(false);
-      //this.location.back();
+      this.stock = null;
+      this.value = null;
+      this.signals = [];
+      this.prices = [];
+      this.indexNames = [];
     }
   }
 

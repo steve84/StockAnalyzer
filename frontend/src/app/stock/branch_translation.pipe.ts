@@ -253,6 +253,43 @@ export class BranchTranslationPipe implements PipeTransform {
         return 'Fahrzeugverkauf und Reparatur';
       case 'waste and water management':
         return 'Abfall- und Gewässerbewirtschaftung';
+      // groups
+      case 'chemicals':
+        return 'Chemie';
+      case 'conglomerates':
+        return 'Mischkonzern';
+      case 'construction':
+        return 'Baugewerbe';
+      case 'consumer':
+        return 'Verbraucherartikel';
+      case 'electrical, electronic':
+        return 'Elektronik, Elektrik';
+      case 'healthcare':
+        return 'Gesundheitswesen';
+      case 'industrial':
+        return 'Industrie';
+      case 'IT':
+        return 'IT';
+      case 'media, publishing':
+        return 'Medien, Verlagswesen';
+      case 'primary production':
+        return 'Rohstoffproduktion';
+      case 'real estate':
+        return 'Immobilien';
+      case 'services':
+        return 'Dienstleistungen';
+      case 'technology':
+        return 'Technologie';
+      case 'telecommunications':
+        return 'Telekommunikation';
+      case 'transport':
+        return 'Transport';
+      case 'utilities':
+        return 'Hilfsmittel';
+      case 'vehicles':
+        return 'Fahrzeuge';
+      case 'welfare and community':
+        return 'Sozialwesen und Gemeinwesen';
       default:
         return value;
     }

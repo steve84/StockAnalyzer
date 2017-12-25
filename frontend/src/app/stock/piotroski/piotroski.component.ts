@@ -18,13 +18,19 @@ export class PiotroskiComponent implements OnInit, OnChanges {
   ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.stock && changes.stock.currentValue) {
-      this.piotroskiData = changes.stock.currentValue.piotroski;
-      for (let score of this.stock.scores) {
-        if (score.scoreType.name == 'Piotroski F-Score') {
-          this.piotroskiScore = score.scoreValue;
-          this.calculatedAt = score.modifiedAt;
+    if (changes.stock) {
+      if (changes.stock.currentValue) {
+        this.piotroskiData = changes.stock.currentValue.piotroski;
+        for (let score of this.stock.scores) {
+          if (score.scoreType.name == 'Piotroski F-Score') {
+            this.piotroskiScore = score.scoreValue;
+            this.calculatedAt = score.modifiedAt;
+          }
         }
+      } else {
+        this.piotroskiData = null;
+        this.piotroskiScore = 0;
+        this.calculatedAt = null;
       }
     }
   }

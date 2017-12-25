@@ -24,7 +24,6 @@ export class StockquickfinderComponent implements OnInit {
   }
 	
 	search(event) {
-    debugger
     if (event.query && event.query != "") {
       this.stockService.findByIsinOrName(event.query)
         .subscribe((data:any) => {

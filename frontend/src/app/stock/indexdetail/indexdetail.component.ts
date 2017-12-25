@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, SimpleChanges, EventEmitter, Input, Output } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, EventEmitter, Input, Output, Inject, LOCALE_ID } from '@angular/core';
 
 import { HelperService } from '../../helper.service';
 
@@ -6,6 +6,9 @@ import { IndexService } from '../index.service';
 
 import { IndexType } from '../indextype';
 import { Stock } from '../stock';
+
+import { CountryTranslationPipe } from '../country_translation.pipe';
+import { BranchTranslationPipe } from '../branch_translation.pipe';
 
 @Component({
   selector: 'app-indexdetail',
@@ -22,11 +25,14 @@ export class IndexdetailComponent implements OnInit, OnChanges {
   allStocks: Stock[] = [];
   totalRecords: number = 0;
   pageSize: number = 10;
-  chartData: any;
+  chartDataCountry: any;
+  chartDataBranch: any;
   loading: boolean = false;
-
+  countryTranslationPipe: CountryTranslationPipe = new CountryTranslationPipe('en_US');
+  branchTranslationPipe: BranchTranslationPipe = new BranchTranslationPipe('en_US');
   constructor(private indexService: IndexService,
-              private helperService: HelperService) {}
+              private helperService: HelperService,
+              @Inject(LOCALE_ID) private locale: string) {}
   
   ngOnInit() {
     this.loading = true;
@@ -38,7 +44,21 @@ export class IndexdetailComponent implements OnInit, OnChanges {
         this.stocks = this.allStocks.slice(0, this.pageSize);
         this.title = data.name;
         this.setTotalMarketCap();
-        this.chartData = this.helperService.createPieChartData(this.allStocks, 'country.name', null, true, true);
+        this.chartDataCountry = this.helperService.createPieChartData(this.allStocks, 'country.name', null, true, true);
+        this.chartDataBranch = this.helperService.createPieChartData(this.allStocks, 'branch.branchGroup', null, true, true);
+        
+        let countryLabels = [];
+        for (let label of this.chartDataCountry.labels) {
+          countryLabels.push(this.countryTranslationPipe.transform(label, this.locale));
+        }
+        this.chartDataCountry.labels = countryLabels;
+        
+        let branchLabels = [];
+        for (let label of this.chartDataBranch.labels) {
+          branchLabels.push(this.branchTranslationPipe.transform(label, this.locale));
+        }
+        this.chartDataBranch.labels = branchLabels;
+        
         this.display = true;
         this.loading = false;
       }, (err:any) => this.loading = false);

@@ -19,13 +19,19 @@ export class LevermannComponent implements OnInit, OnChanges {
   ngOnInit() {}
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.stock && changes.stock.currentValue) {
-      this.levermannData = changes.stock.currentValue.levermann;
-      for (let score of this.stock.scores) {
-        if (score.scoreType.name == 'Levermann') {
-          this.levermannScore = score.scoreValue;
-          this.calculatedAt = score.modifiedAt;
+    if (changes.stock) {
+      if (changes.stock.currentValue) {
+        this.levermannData = changes.stock.currentValue.levermann;
+        for (let score of this.stock.scores) {
+          if (score.scoreType.name == 'Levermann') {
+            this.levermannScore = score.scoreValue;
+            this.calculatedAt = score.modifiedAt;
+          }
         }
+      } else {
+        this.levermannData = null;
+        this.levermannScore = 0;
+        this.calculatedAt = null;
       }
     }
   }
