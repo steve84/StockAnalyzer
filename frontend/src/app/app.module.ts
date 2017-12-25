@@ -14,7 +14,8 @@ import { MenubarModule,
          DropdownModule,
          GrowlModule,
          FieldsetModule,
-         CheckboxModule
+         CheckboxModule,
+         ProgressSpinnerModule
        } from 'primeng/primeng';
        
 import { StockModule } from './stock/stock.module';
@@ -43,6 +44,7 @@ import { PasswordResetComponent } from './password/passwordreset/passwordreset.c
 import { FaqComponent } from './content/faq/faq.component';
 
 import { MessageTranslationPipe } from './stock/message_translation.pipe';
+import { CommonTranslationPipe } from './stock/common_translation.pipe';
 import { AccountComponent } from './account/account.component';
 import { LanguageComponent } from './language/language.component';
 import { StripeComponent } from './stripe/stripe.component';
@@ -83,6 +85,7 @@ import { StripeComponent } from './stripe/stripe.component';
     GrowlModule,
     FieldsetModule,
     CheckboxModule,
+    ProgressSpinnerModule,
     StockModule,
     AuthModule
   ],

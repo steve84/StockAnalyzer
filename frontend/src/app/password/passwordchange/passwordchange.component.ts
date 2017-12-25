@@ -39,11 +39,19 @@ export class PasswordChangeComponent implements OnInit {
   }
   
   changePwd() {
+    this.helperService.setSpinner(true);
     this.userService.changePassword(this.userId, this.password, this.passwordNew)
-      .subscribe((data:any) => this.msgs = [{severity: 'success', summary: '', detail: this.messagePipe.transform(11, this.locale)}],
+      .subscribe((data:any) => {
+        if (data.json())
+          this.msgs = [{severity: 'success', summary: '', detail: this.messagePipe.transform(11, this.locale)}];
+        else
+          this.msgs = [{severity: 'error', summary: '', detail: this.messagePipe.transform(12, this.locale)}];
+        this.helperService.setSpinner(false);
+      },
       (err:any) => {
         this.msgs = [{severity: 'error', summary: '', detail: this.messagePipe.transform(12, this.locale)}];
         this.helperService.handleError(err);
+        this.helperService.setSpinner(false);
       });
   }
 

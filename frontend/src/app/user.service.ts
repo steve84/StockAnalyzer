@@ -43,9 +43,9 @@ export class UserService {
   }
   
   resetPassword(username: string) {
-      let body = {'username': username};
-      let headers = new Headers({'Content-Type': 'application/json'});
-      return this.http.post(environment.apiUrl + "/user/password/reset", JSON.stringify(body), {headers: headers});
+    let params = new URLSearchParams();
+    params.set("username", username);
+    return this.http.post(environment.apiUrl + "/user/password/reset", null, {search: params});
   }
   
   changePassword(userId: number, oldPassword: string, newPassword: string) {

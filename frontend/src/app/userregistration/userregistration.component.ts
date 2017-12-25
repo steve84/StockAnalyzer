@@ -4,6 +4,7 @@ import { Validators, FormControl, FormGroup, FormBuilder} from '@angular/forms';
 import { Message } from 'primeng/primeng';
 
 import { UserService } from '../user.service';
+import { HelperService } from '../helper.service';
 
 import { MessageTranslationPipe } from '../stock/message_translation.pipe';
 
@@ -23,7 +24,10 @@ export class UserRegistrationComponent implements OnInit {
   messagePipe: MessageTranslationPipe = new MessageTranslationPipe('en-US');
   
   registerform: FormGroup;
-  constructor(@Inject(LOCALE_ID) private locale: string, private userService: UserService, private fb: FormBuilder) { }
+  constructor(@Inject(LOCALE_ID) private locale: string,
+              private userService: UserService,
+              private helperService: HelperService,
+              private fb: FormBuilder) { }
 
   ngOnInit() {
     this.registerform = this.fb.group({
@@ -46,11 +50,14 @@ export class UserRegistrationComponent implements OnInit {
   }
 
   onSubmit(value: string) {
+    this.helperService.setSpinner(true);
     this.userService.register(value)
       .subscribe((data:any) => {
         this.msgs = [{severity: 'success', summary: '', detail: this.messagePipe.transform(14, this.locale)}];
+        this.helperService.setSpinner(false);
       }, (err: any) => {
         this.msgs = [{severity: 'error', summary: '', detail: this.messagePipe.transform(15, this.locale)}];
+        this.helperService.setSpinner(false);
       });
   }
   

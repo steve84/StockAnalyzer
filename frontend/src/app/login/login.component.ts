@@ -38,6 +38,7 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
+    this.helperService.setSpinner(true);
     this.userService.login(this.username, this.password)
       .subscribe((data:any) => {
         if (data.status == 200 && data.headers.get('Authorization')) {
@@ -46,7 +47,11 @@ export class LoginComponent implements OnInit {
           this.router.navigateByUrl(this.helperService.getNextUrl() || '/');
           this.helperService.setNextUrl(null);
           this.helperService.setPreviousUrl(null);
+          this.helperService.setSpinner(false);
         }
-      }, (err:any) => this.msgs = [{severity: 'error', summary: '', detail: this.messagePipe.transform(8, this.locale)}]);
+      }, (err:any) => {
+        this.msgs = [{severity: 'error', summary: '', detail: this.messagePipe.transform(8, this.locale)}];
+        this.helperService.setSpinner(false);
+      });
   }
 }

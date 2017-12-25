@@ -63,10 +63,8 @@ public interface StockRepository extends ReadOnlyRepository<Stock, Integer> {
 							 @Param("indexIds") List<Integer> indexIds,
 							 Pageable pageable);
 
-	@Query("select s from Stock s "
-			+ "left join s.scores sc "
-			+ "left join sc.scoreType t "
-			+ "where s.stockId in "
+	@Query("select s from Stock s, FullScore sc, ScoreType st "
+			+ "where s.stockId = sc.stockId and sc.scoreTypeId = st.scoreTypeId and s.stockId in "
 			+ "(select distinct s.stockId from Stock s "
 			+ "left join s.indices i where "
 			+ "(upper(s.name) like %:name% or :name is null) and "
@@ -76,8 +74,8 @@ public interface StockRepository extends ReadOnlyRepository<Stock, Integer> {
 			+ "(s.country.countryId in :countryIds or :countryIds is null) and "
 			+ "(s.branch.branchId in :branchIds or :branchIds is null) and "
 			+ "(i.indexId in :indexIds or :indexIds is null)) and "
-			+ "t.name = :scoretype "
-			+ "order by sc.scoreValue")
+			+ "st.name = :scoretype "
+			+ "order by sc.scoreValue nulls last")
 	Page<Stock> searchStocksScoreTypeAsc(@Param("name") String name,
 							 		  @Param("isin") String isin,
 							 		  @Param("nsin") String nsin,
@@ -88,10 +86,8 @@ public interface StockRepository extends ReadOnlyRepository<Stock, Integer> {
 							 		  @Param("indexIds") List<Integer> indexIds,
 							 		  Pageable pageable);
 
-	@Query("select s from Stock s "
-			+ "left join s.scores sc "
-			+ "left join sc.scoreType t "
-			+ "where s.stockId in "
+	@Query("select s from Stock s, FullScore sc, ScoreType st "
+			+ "where s.stockId = sc.stockId and sc.scoreTypeId = st.scoreTypeId and s.stockId in "
 			+ "(select distinct s.stockId from Stock s "
 			+ "left join s.indices i where "
 			+ "(upper(s.name) like %:name% or :name is null) and "
@@ -101,8 +97,8 @@ public interface StockRepository extends ReadOnlyRepository<Stock, Integer> {
 			+ "(s.country.countryId in :countryIds or :countryIds is null) and "
 			+ "(s.branch.branchId in :branchIds or :branchIds is null) and "
 			+ "(i.indexId in :indexIds or :indexIds is null)) and "
-			+ "t.name = :scoretype "
-			+ "order by sc.scoreValue desc")
+			+ "st.name = :scoretype "
+			+ "order by sc.scoreValue desc nulls last")
 	Page<Stock> searchStocksScoreTypeDesc(@Param("name") String name,
 							 		  @Param("isin") String isin,
 							 		  @Param("nsin") String nsin,
@@ -133,10 +129,8 @@ public interface StockRepository extends ReadOnlyRepository<Stock, Integer> {
 							 @Param("indexIds") List<Integer> indexIds,
 							 Pageable pageable);
 
-	@Query("select s from Stock s "
-			+ "left join s.scores sc "
-			+ "left join sc.scoreType t "
-			+ "where s.stockId in "
+	@Query("select s from Stock s, FullScore sc, ScoreType st "
+			+ "where s.stockId = sc.stockId and sc.scoreTypeId = st.scoreTypeId and s.stockId in "
 			+ "(select distinct s.stockId from Stock s "
 			+ "left join s.indices i where "
 			+ "(upper(s.name) like %:name% or :name is null) and "
@@ -147,8 +141,8 @@ public interface StockRepository extends ReadOnlyRepository<Stock, Integer> {
 			+ "(s.branch.branchId in :branchIds or :branchIds is null) and "
 			+ "(i.indexId in :indexIds or :indexIds is null) and "
 			+ "s.publicStock = TRUE) and "
-			+ "t.name = :scoretype "
-			+ "order by sc.scoreValue")
+			+ "st.name = :scoretype "
+			+ "order by sc.scoreValue nulls last")
 	Page<Stock> searchStocksGPUScoreTypeAsc(@Param("name") String name,
 							 				@Param("isin") String isin,
 						 					@Param("nsin") String nsin,
@@ -159,10 +153,8 @@ public interface StockRepository extends ReadOnlyRepository<Stock, Integer> {
 						 					@Param("indexIds") List<Integer> indexIds,
 						 					Pageable pageable);
 
-	@Query("select s from Stock s "
-			+ "left join s.scores sc "
-			+ "left join sc.scoreType t "
-			+ "where s.stockId in "
+	@Query("select s from Stock s, FullScore sc, ScoreType st "
+			+ "where s.stockId = sc.stockId and sc.scoreTypeId = st.scoreTypeId and s.stockId in "
 			+ "(select distinct s.stockId from Stock s "
 			+ "left join s.indices i where "
 			+ "(upper(s.name) like %:name% or :name is null) and "
@@ -173,8 +165,8 @@ public interface StockRepository extends ReadOnlyRepository<Stock, Integer> {
 			+ "(s.branch.branchId in :branchIds or :branchIds is null) and "
 			+ "(i.indexId in :indexIds or :indexIds is null) and "
 			+ "s.publicStock = TRUE) and "
-			+ "t.name = :scoretype "
-			+ "order by sc.scoreValue desc")
+			+ "st.name = :scoretype "
+			+ "order by sc.scoreValue desc nulls last")
 	Page<Stock> searchStocksGPUScoreTypeDesc(@Param("name") String name,
 							 				 @Param("isin") String isin,
 							 				 @Param("nsin") String nsin,

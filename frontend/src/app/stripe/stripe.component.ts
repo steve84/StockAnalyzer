@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 import { Message } from 'primeng/primeng';
 
 import { UserService } from '../user.service';
+import { HelperService } from '../helper.service';
 
 import { MessageTranslationPipe } from '../stock/message_translation.pipe';
 
@@ -23,6 +24,7 @@ export class StripeComponent implements AfterViewInit, OnDestroy {
   isCardValid: boolean = false;
   messagePipe: MessageTranslationPipe = new MessageTranslationPipe('en-US');
   constructor(private userService: UserService,
+              private helperService: HelperService,
               private cd: ChangeDetectorRef,
               @Inject(LOCALE_ID) private locale: string) {}
   
@@ -31,12 +33,19 @@ export class StripeComponent implements AfterViewInit, OnDestroy {
     if (error) {
       this.msgs = [{severity: 'error', summary: '', detail: error.message}];
     } else {
+      this.helperService.setSpinner(true);
       this.userService.addCard(this.userService.getUserId(), token.id)
         .subscribe((data:any) => {
-          if (data.json())
+          if (data.json()) {
             this.msgs = [{severity: 'success', summary: '', detail: this.messagePipe.transform(22, this.locale)}];
-          else
+            this.helperService.setSpinner(false);
+          } else {
             this.msgs = [{severity: 'error', summary: '', detail: this.messagePipe.transform(23, this.locale)}];
+            this.helperService.setSpinner(false);
+          }
+        }, (err:any) => {
+          this.msgs = [{severity: 'error', summary: '', detail: this.messagePipe.transform(23, this.locale)}];
+          this.helperService.setSpinner(false);
         });
     }
   }

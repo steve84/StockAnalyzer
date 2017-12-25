@@ -1,4 +1,4 @@
-import { Injectable, Inject, LOCALE_ID } from '@angular/core';
+import { Injectable, Inject, LOCALE_ID, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 
 import {MessageService} from './message.service';
@@ -12,6 +12,7 @@ export class HelperService {
   previousUrl: string;
   nextUrl: string;
   messagePipe: MessageTranslationPipe = new MessageTranslationPipe('en-US');
+  spinnerEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
   constructor(private router: Router,
               private messageService: MessageService,
               @Inject(LOCALE_ID) private locale: string) { }
@@ -48,6 +49,14 @@ export class HelperService {
   
   getActualRoute() {
     return this.router.url;
+  }
+  
+  getSpinnerEmitter() {
+    return this.spinnerEmitter;
+  }
+  
+  setSpinner(value: boolean) {
+    this.spinnerEmitter.emit(value);
   }
 
   createPieChartData(data: any[], groupBy: string, value: string, percentage: boolean = true, count?: boolean) {

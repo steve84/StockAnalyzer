@@ -136,6 +136,7 @@ public class UserRepositoryImpl implements UserRegistrationRepository {
 		existingUser.setLanguage(user.getLanguage());
 		User updatedUser = new User();
 		BeanUtils.copyProperties(this.userRepository.save(existingUser), updatedUser, IGNORE_FIELDS);
+		updatedUser.setStripeCustomerDTO(new StripeCustomerDTO(this.stripeService.getCustomer(existingUser.getStripeCustomer())));
 		return updatedUser;
 	}
 

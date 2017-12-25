@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ch.steve84.stock_analyzer.entity.quandl.User;
@@ -34,8 +35,8 @@ public class UserController {
         return this.userRepository.changePassword(userId, passwords.getOldPassword(), passwords.getNewPassword());
     }
 
-    @RequestMapping(value = "/password/reset}", method = RequestMethod.POST)
-    public boolean resetPassword(@RequestBody String username) {
+    @RequestMapping(value = "/password/reset", method = RequestMethod.POST)
+    public boolean resetPassword(@RequestParam(name = "username") String username) {
         return this.userRepository.resetPassword(username);
     }
 

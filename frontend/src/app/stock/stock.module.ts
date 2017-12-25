@@ -79,7 +79,8 @@ import { FigureTranslationPipe } from './figure_translation.pipe';
     StockTableComponent,
     StockquickfinderComponent,
     FundamentalComponent,
-    IndexdetailComponent
+    IndexdetailComponent,
+    CommonTranslationPipe
   ],
   providers: [
     StockService,

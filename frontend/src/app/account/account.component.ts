@@ -34,24 +34,33 @@ export class AccountComponent implements OnInit {
       {label: 'English', value: 'EN'}
     ];
 
+    this.helperService.setSpinner(true);
     this.userService.getUserById(this.userService.getUserId()).
       subscribe((data:any) => {
-      if (data) {
-        this.user = data.json();
-      }
-      }, (err:any) => this.helperService.handleError(err));
+        if (data) {
+          this.user = data.json();
+        }
+        this.helperService.setSpinner(false);
+      }, (err:any) => {
+        this.helperService.handleError(err);
+        this.helperService.setSpinner(false);
+      });
   }
   
   onSubmit() {
+    this.helperService.setSpinner(true);
+    this.user.stripeCustomerDTO = null;
     this.userService.saveUser(this.user)
       .subscribe((data:any) => {
         if (data) {
           this.user = data.json();
           this.msgs = [{severity: 'success', summary: '', detail: this.messagePipe.transform(19, this.locale)}];
+          this.helperService.setSpinner(false);
         }
       }, (err:any) => {
         this.msgs = [{severity: 'error', summary: '', detail: this.messagePipe.transform(20, this.locale)}];
         this.helperService.handleError(err);
+        this.helperService.setSpinner(false);
       });
   }
 
