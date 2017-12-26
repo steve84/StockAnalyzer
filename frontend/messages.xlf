@@ -188,7 +188,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="search.choice.selected.label" datatype="html">
-        <source><x id="INTERPOLATION"/> entries selected}</source>
+        <source><x id="INTERPOLATION"/>0<x id="INTERPOLATION_1"/> entries selected</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src\app\stock\stocksearch\stocksearch.component.ts</context>
           <context context-type="linenumber">6</context>
@@ -376,7 +376,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src\app\stock\index\index.component.ts</context>
-          <context context-type="linenumber">4</context>
+          <context context-type="linenumber">8</context>
         </context-group>
       </trans-unit>
       <trans-unit id="index.score" datatype="html">
@@ -394,7 +394,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src\app\stock\index\index.component.ts</context>
-          <context context-type="linenumber">30</context>
+          <context context-type="linenumber">34</context>
         </context-group>
       </trans-unit>
       <trans-unit id="stock.businessyearend" datatype="html">
@@ -597,21 +597,21 @@
         <source>Levermann-Score</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src\app\stock\index\index.component.ts</context>
-          <context context-type="linenumber">9</context>
+          <context context-type="linenumber">13</context>
         </context-group>
       </trans-unit>
       <trans-unit id="index.magicformula.score" datatype="html">
         <source>Magic Formula-Score</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src\app\stock\index\index.component.ts</context>
-          <context context-type="linenumber">16</context>
+          <context context-type="linenumber">20</context>
         </context-group>
       </trans-unit>
       <trans-unit id="index.piotroski.score" datatype="html">
         <source>Piotroski F-Score</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src\app\stock\index\index.component.ts</context>
-          <context context-type="linenumber">23</context>
+          <context context-type="linenumber">27</context>
         </context-group>
       </trans-unit>
       <trans-unit id="levermann.title" datatype="html">
@@ -882,6 +882,13 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src\app\stock\balance\balancesheet\balancesheet.component.ts</context>
           <context context-type="linenumber">58</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="figuretable.values" datatype="html">
+        <source>Values in Mio.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\base\figurestable\figurestable.component.ts</context>
+          <context context-type="linenumber">1</context>
         </context-group>
       </trans-unit>
       <trans-unit id="piotroski.title" datatype="html">

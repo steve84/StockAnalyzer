@@ -29,6 +29,7 @@ export class IndexComponent implements OnInit {
 
   loadData(event: any) {
     this.loading = true;
+    this.pageSize = event.rows;
     this.getIndices(Math.floor(event.first / event.rows), event.sortField, event.sortOrder);
   }
 

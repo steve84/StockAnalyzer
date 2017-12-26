@@ -101,8 +101,8 @@ export class StockTableComponent implements OnInit, OnChanges {
       return {};
   }
   
-  getEmptyMessage(): string {
-    return this.commonTranslationPipe.transform('No records found', this.locale);
+  getEmptyMessage() {
+    return this.helperService.getEmptyMessage(this.locale);
   }
 
   showFundamental(stock: Stock) {

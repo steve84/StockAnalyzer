@@ -38,7 +38,6 @@ import { IndexdetailComponent } from './indexdetail/indexdetail.component';
 import { StockquickfinderComponent } from './stockquickfinder/stockquickfinder.component';
 import { StocksearchComponent } from './stocksearch/stocksearch.component';
 import { ScorecombinerComponent } from './scorecombiner/scorecombiner.component';
-import { BalancetableComponent } from './balance/balancetable/balancetable.component';
 import { BalancesheetComponent } from './balance/balancesheet/balancesheet.component';
 import { FigurestableComponent } from '../base/figurestable/figurestable.component';
 import { PiotroskiComponent } from './piotroski/piotroski.component';
@@ -102,7 +101,6 @@ import { FigureTranslationPipe } from './figure_translation.pipe';
     StockquickfinderComponent,
     StocksearchComponent,
     ScorecombinerComponent,
-    BalancetableComponent,
     BalancesheetComponent,
     FigurestableComponent,
     PiotroskiComponent,

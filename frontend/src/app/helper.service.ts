@@ -6,12 +6,14 @@ import {MessageService} from './message.service';
 import {Message} from 'primeng/primeng';
 
 import { MessageTranslationPipe } from './stock/message_translation.pipe';
+import { CommonTranslationPipe } from './stock/common_translation.pipe';
 
 @Injectable()
 export class HelperService {
   previousUrl: string;
   nextUrl: string;
   messagePipe: MessageTranslationPipe = new MessageTranslationPipe('en-US');
+  commonPipe: CommonTranslationPipe = new CommonTranslationPipe('en-US');
   spinnerEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
   constructor(private router: Router,
               private messageService: MessageService,
@@ -57,6 +59,10 @@ export class HelperService {
   
   setSpinner(value: boolean) {
     this.spinnerEmitter.emit(value);
+  }
+  
+  getEmptyMessage(locale: string): string {
+    return this.commonPipe.transform('No records found', locale);
   }
 
   createPieChartData(data: any[], groupBy: string, value: string, percentage: boolean = true, count?: boolean) {

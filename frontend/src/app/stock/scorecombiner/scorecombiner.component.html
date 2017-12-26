@@ -78,7 +78,7 @@
 
 <div *ngIf="stockOrIndex == 'stock'" class = "ui-g">
   <div class = "ui-g-12">
-    <p-dataTable #dt [value]="scores" [loading]="loading" selectionMode="single" [(selection)]="selectedScore" resizableColumns="true" responsive="true">
+    <p-dataTable #dt [value]="scores" [loading]="loading" selectionMode="single" [(selection)]="selectedScore" resizableColumns="true" responsive="true" [emptyMessage]="helperService.getEmptyMessage(locale)">
       <p-header>
         <div class="ui-helper-clearfix">
           <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left"></button>
@@ -114,7 +114,7 @@
 
 <div *ngIf="stockOrIndex == 'index'" class = "ui-g">
   <div class = "ui-g-12">
-    <p-dataTable #dt [value]="scores" [loading]="loading" selectionMode="single" [(selection)]="selectedScore" resizableColumns="true" responsive="true">
+    <p-dataTable #dt [value]="scores" [loading]="loading" selectionMode="single" [(selection)]="selectedScore" resizableColumns="true" responsive="true" [emptyMessage]="helperService.getEmptyMessage(locale)">
       <p-header>
         <div class="ui-helper-clearfix">
           <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left"></button>

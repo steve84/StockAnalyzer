@@ -191,8 +191,8 @@
         </context-group>
       </trans-unit>
       <trans-unit id="search.choice.selected.label" datatype="html">
-        <source><x id="INTERPOLATION"/> entries selected}</source>
-        <target><x id="INTERPOLATION"/> Einträge ausgewählt}</target>
+        <source><x id="INTERPOLATION"/>0<x id="INTERPOLATION_1"/> entries selected</source>
+        <target><x id="INTERPOLATION"/>0<x id="INTERPOLATION_1"/> Einträge ausgewählt</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src\app\stock\stocksearch\stocksearch.component.ts</context>
           <context context-type="linenumber">6</context>
@@ -1491,6 +1491,14 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src\app\stripe\stripe.component.ts</context>
           <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="figuretable.values" datatype="html">
+        <source>Values in Mio.</source>
+        <target>Werte in Mio.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\base\figurestable\figurestable.component.ts</context>
+          <context context-type="linenumber">1</context>
         </context-group>
       </trans-unit>
     </body>

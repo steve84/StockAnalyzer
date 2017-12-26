@@ -469,6 +469,10 @@ span.ui-column-title {
   white-space: normal;
 }
 
+div .ui-datatable.ui-widget.ui-datatable-reflow.ui-datatable-resizable {
+  overflow: visible;
+}
+
 .ui-datatable-data td {
   white-space: normal;
 }

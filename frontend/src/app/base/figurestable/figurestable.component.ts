@@ -1,4 +1,6 @@
-import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitter, ChangeDetectionStrategy, Inject, LOCALE_ID } from '@angular/core';
+
+import { HelperService} from '../../helper.service';
 
 @Component({
   selector: 'app-figurestable',
@@ -14,7 +16,8 @@ export class FigurestableComponent implements OnInit, OnChanges {
   @Input('showFuture') showFuture: boolean = false;
   @Output() onRowSelect: EventEmitter<any> = new EventEmitter<any>();
   @Output() onRowUnselect: EventEmitter<any> = new EventEmitter<any>();
-  constructor() { }
+  constructor(private helperService: HelperService,
+              @Inject(LOCALE_ID) private locale: string) { }
 
   ngOnInit() {
   }
@@ -28,6 +31,10 @@ export class FigurestableComponent implements OnInit, OnChanges {
 
   unselectRow(event: any) {
     this.onRowUnselect.emit(event.data);
+  }
+  
+  getEmptyMessage() {
+    return this.helperService.getEmptyMessage(this.locale);
   }
   
   removeUnvisibleRows(data: any[]): any[] {
