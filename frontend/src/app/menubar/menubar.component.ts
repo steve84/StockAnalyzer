@@ -26,7 +26,8 @@ export class MenubarComponent implements OnInit {
        {label: this.commonTranslationPipe.transform('Indices', this.locale), routerLink: ['/indices']}
      ]},
      {label: this.commonTranslationPipe.transform('Stock screener', this.locale), icon: 'fa-search', routerLink: ['/stocks/search']},
-     {label: this.commonTranslationPipe.transform('Advisor', this.locale), icon: ' fa-lightbulb-o', routerLink: ['/combiner']}
+     {label: this.commonTranslationPipe.transform('Advisor', this.locale), icon: 'fa-lightbulb-o', routerLink: ['/combiner']},
+     {label: this.commonTranslationPipe.transform('Wizard', this.locale), icon: 'fa-magic', routerLink: ['/wizard']}
    ];
 
    this.userItems = [

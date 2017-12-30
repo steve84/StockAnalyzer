@@ -1,0 +1,118 @@
+<div class = "ui-g">
+  <p-steps [model]="items" [activeIndex]="activeIndex" [readonly]="false" (activeIndexChange)="setIndex($event)"></p-steps>
+</div>
+<div class = "ui-g">
+  <div class = "ui-g-12"><p-messages [(value)]="msgs" [closable]="false"></p-messages></div>
+  <div class = "ui-g-12" *ngIf="activeIndex == 0">
+    <div class = "ui-g-12" i18n="@@wizard.question.asset">Which asset classes do you want to analyze?</div>
+    <div class = "ui-g-12"><p-radioButton name="stockorindex" value="stock" [(ngModel)]="stockOrIndex" (onClick)="setSteps()"></p-radioButton><span i18n="@@wizard.asset.stock">Single Stocks</span></div>
+    <div class = "ui-g-12"><p-radioButton name="stockorindex" value="index" [(ngModel)]="stockOrIndex" (onClick)="setSteps()"></p-radioButton><span i18n="@@wizard.asset.index">Indices</span></div>
+    <br />
+    <div class = "ui-g-12" *ngIf="stockOrIndex == 'stock'"><span i18n="@@wizard.question.numberstocks">How many results should be displayed at the end of the process?</span><p-spinner [(ngModel)]="numRows" [min]="1"></p-spinner></div>
+  </div>
+  <div class = "ui-g-12" *ngIf="activeIndex == 1">
+    <div class = "ui-g-12" i18n="@@wizard.question.strategy">Which investment strategy do you want pursue?</div>
+    <p-dataTable [value]="strategies" [responsive]="true" selectionMode="single" [(selection)]="selectedStrategyRow" (onRowSelect)="selectStrategy($event)">
+      <p-column [style]="{'width': '50px', 'text-align': 'center'}">
+        <ng-template let-strategy="rowData" pTemplate="body">
+            <span><p-checkbox name="strategy" [value]="strategy['value']" [(ngModel)]="selectedStrategy"></p-checkbox></span>
+        </ng-template>
+      </p-column>
+      <p-column field="title" header="Name" i18n-header="@@wizard.strategy.name"></p-column>
+      <p-column field="levermann" header="Levermann-Factor" i18n-header="@@wizard.strategy.levermann"></p-column>
+      <p-column field="magic" header="Magic Formula Factor" i18n-header="@@wizard.strategy.magic"></p-column>
+      <p-column field="piotroski" header="Piotroski F-Score Factor" i18n-header="@@wizard.strategy.piotroski"></p-column>
+    </p-dataTable>
+  </div>
+  <div class = "ui-g-12" *ngIf="activeIndex == 2">
+    <div class = "ui-g-12" i18n="@@wizard.question.countries">In which countries/regions do you want to invest?</div>
+    <div class = "ui-g-12"><p-tree [value]="countryNodeTree" selectionMode="checkbox" [(selection)]="selectedCountryNodes"></p-tree></div>
+  </div>
+  <div class = "ui-g-12" *ngIf="activeIndex == 3 && stockOrIndex == 'stock'">
+    <div class = "ui-g-12" i18n="@@wizard.question.branches">In which branches do you want to invest?</div>
+    <div class = "ui-g-12"><p-tree [value]="branchNodeTree" selectionMode="checkbox" [(selection)]="selectedBranchNodes"></p-tree></div>
+  </div>
+  <div class = "ui-g-12" *ngIf="activeIndex == 4 && stockOrIndex == 'stock'">
+    <div class = "ui-g-12" i18n="@@wizard.question.marketcap">Which market capitalizations should the desired companies have?</div>
+    <div class = "ui-g-12"><p-radioButton name="companysize" value="0" [(ngModel)]="selectedCompanySize"></p-radioButton>Large, Mid and Small Caps</div>
+    <div class = "ui-g-12"><p-radioButton name="companysize" value="1" [(ngModel)]="selectedCompanySize"></p-radioButton>Large and Mid Caps<span style="margin-left: 7px"></span><i class="fa fa-info-circle" i18n-pTooltip="@@wizard.largemidcaps.tooltip" pTooltip="Companies with a market capitalization of at least 2 billion USD" tooltipPosition="right"></i></div>
+    <div class = "ui-g-12"><p-radioButton name="companysize" value="2" [(ngModel)]="selectedCompanySize"></p-radioButton>Large Caps<span style="margin-left: 7px"></span><i class="fa fa-info-circle" i18n-pTooltip="@@wizard.largecaps.tooltip" pTooltip="Companies with a market capitalization of at least 10 billion USD" tooltipPosition="right"></i></div>
+    <div class = "ui-g-12"><p-radioButton name="companysize" value="3" [(ngModel)]="selectedCompanySize"></p-radioButton>Mid Caps<span style="margin-left: 7px"></span><i class="fa fa-info-circle" i18n-pTooltip="@@wizard.midcaps.tooltip" pTooltip="Companies with a market capitalization between 2 and 10 billion USD" tooltipPosition="right"></i></div>
+    <div class = "ui-g-12"><p-radioButton name="companysize" value="4" [(ngModel)]="selectedCompanySize"></p-radioButton>Small Caps<span style="margin-left: 7px"></span><i class="fa fa-info-circle" i18n-pTooltip="@@wizard.smallcaps.tooltip" pTooltip="Companies with a market capitalization lower equal than 2 billion USD" tooltipPosition="right"></i></div>
+  </div>
+  
+  
+  <div class = "ui-g-12" *ngIf="(activeIndex == 5 && stockOrIndex == 'stock') || (activeIndex == 3 && stockOrIndex == 'index')">
+    <div class = "ui-g-12" i18n="@@wizard.result">The following table shows the resulting stocks/indices based on your criterias. The results are sorted in descending order (the maximum score can be 100). You can see the detailed score of every strategy by clicking the magnifier.</div>
+    <div *ngIf="stockOrIndex == 'stock'" class = "ui-g-12">
+      <p-dataTable #dt [value]="scores" [loading]="loading" selectionMode="single" [(selection)]="selectedScore" resizableColumns="true" responsive="true" [emptyMessage]="helperService.getEmptyMessage(locale)">
+        <p-header>
+          <div class="ui-helper-clearfix">
+            <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left"></button>
+          </div>
+        </p-header>
+        <p-column field="stock.isin" i18n-header="@@stock.isin" header="ISIN"></p-column>
+        <p-column field="stock.name" i18n-header="@@stock.name" header="Name"></p-column>
+        <p-column field="stock.branch.name" i18n-header="@@stock.branch" header="Branch">
+          <ng-template let-score="rowData" pTemplate="body">
+            <span *ngIf="score['stock']">{{score['stock']['branch']['name'] | translateBranch}}</span>
+          </ng-template>
+        </p-column>
+        <p-column field="stock.country.name" i18n-header="@@stock.country" header="Country">
+          <ng-template let-score="rowData" pTemplate="body">
+            <span *ngIf="score['stock']">{{score['stock']['country']['name'] | translateCountry}}</span>
+          </ng-template>
+        </p-column>
+        <p-column field="stock.latestPrice.price" i18n-header="@@stock.price" header="Price"></p-column>
+        <p-column field="stock.shareCurrency" i18n-header="@@stock.sharecurrency" header="Share Currency"></p-column>
+        <p-column field="scoreValue" i18n-header="@@stock.score" header="Score">
+          <ng-template let-col let-score="rowData" pTemplate="body">
+            {{score[col.field] * 100 | number}}
+          </ng-template>
+        </p-column>
+        <p-column i18n-header="@@stock.details" header="Details" styleClass="col-button">
+          <ng-template let-score="rowData" pTemplate="body">
+            <button type="button" pButton (click)="showStock(score)" icon="fa-search"></button>
+          </ng-template>
+        </p-column>
+      </p-dataTable>
+    </div>
+
+    <div *ngIf="stockOrIndex == 'index'" class = "ui-g-12">
+      <p-dataTable #dt [value]="scores" [loading]="loading" selectionMode="single" [(selection)]="selectedScore" resizableColumns="true" responsive="true" [emptyMessage]="helperService.getEmptyMessage(locale)">
+        <p-header>
+          <div class="ui-helper-clearfix">
+            <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left"></button>
+          </div>
+        </p-header>
+        <p-column field="index.name" i18n-header="@@index.name" header="Name"></p-column>
+        <p-column field="index.country.name" i18n-header="@@index.country" header="Country">
+          <ng-template let-score="rowData" pTemplate="body">
+            <span *ngIf="score['index']">{{score['index']['country']['name'] | translateCountry}}</span>
+          </ng-template>
+        </p-column>
+        <p-column field="index.realStocks.length" i18n-header="@@index.nbrofstocks" header="Number of Stocks">
+            <ng-template let-col let-score="rowData" pTemplate="body">
+                <span *ngIf="score && score['index'] && score['index']['realStocks']">{{score['index']['realStocks'].length}}<span *ngIf="score['index']['totalStocks'] != null">/{{score['index']['totalStocks']}} ({{(score['index']['realStocks'].length / score['index']['totalStocks']) * 100 | number:'.0-1'}}%)</span></span>
+            </ng-template>
+        </p-column>
+        <p-column field="scoreValue" i18n-header="@@index.score" header="Score">
+          <ng-template let-col let-score="rowData" pTemplate="body">
+            {{score[col.field] * 100 | number}}
+          </ng-template>
+        </p-column>
+        <p-column  i18n-header="@@index.details" header="Details" styleClass="col-button">
+          <ng-template let-score="rowData" pTemplate="body">
+            <button type="button" pButton (click)="showIndex(score)" icon="fa-search"></button>
+          </ng-template>
+        </p-column>
+      </p-dataTable>
+    </div>
+  </div>
+
+
+  <div class = "ui-g-12">
+    <span *ngIf="activeIndex > 0"><button type="button" pButton label="Previous step" i18n-label="@@wizard.button.previous" (click)="setIndex(activeIndex-1)" icon="fa-long-arrow-left"></button></span>
+    <span *ngIf="activeIndex < items.length - 1"><button type="button" pButton label="Next step" i18n-label="@@wizard.button.next" (click)="setIndex(activeIndex+1)" icon="fa-long-arrow-right"></button></span>
+  </div>
+</div>

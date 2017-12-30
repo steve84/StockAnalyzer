@@ -499,6 +499,14 @@ p-dialog .ui-dialog  {
   max-height: 90%;
 }
 
+.ui-state-highlight .ui-steps-number {
+  color: white;
+}
+
+.ui-state-highlight .ui-steps-title {
+  color: white;
+}
+
 div .value {
   background: white;
   font-size: 0.95em;

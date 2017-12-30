@@ -21,6 +21,10 @@ import { DataTableModule,
         SpinnerModule,
         TooltipModule,
         FieldsetModule,
+        StepsModule,
+        RadioButtonModule,
+        CheckboxModule,
+        TreeModule,
         ChartModule } from 'primeng/primeng';
 
 import { StockService } from './stock.service';
@@ -48,6 +52,8 @@ import { CountryTranslationPipe } from './country_translation.pipe';
 import { BranchTranslationPipe } from './branch_translation.pipe';
 import { CommonTranslationPipe } from './common_translation.pipe';
 import { FigureTranslationPipe } from './figure_translation.pipe';
+import { WizardComponent } from './wizard/wizard.component';
+import { RegionPipe } from './region.pipe';
 
 @NgModule({
   imports: [
@@ -72,7 +78,11 @@ import { FigureTranslationPipe } from './figure_translation.pipe';
     ChartModule,
     SpinnerModule,
     TooltipModule,
-    FieldsetModule
+    FieldsetModule,
+    StepsModule,
+    RadioButtonModule,
+    CheckboxModule,
+    TreeModule
   ],
   exports: [
     StockTableComponent,
@@ -104,7 +114,9 @@ import { FigureTranslationPipe } from './figure_translation.pipe';
     BalancesheetComponent,
     FigurestableComponent,
     PiotroskiComponent,
-    MagicformulaComponent
+    MagicformulaComponent,
+    WizardComponent,
+    RegionPipe
   ]
 })
 export class StockModule { }

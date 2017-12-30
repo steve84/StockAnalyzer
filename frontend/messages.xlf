@@ -17,6 +17,10 @@
           <context context-type="linenumber">87</context>
         </context-group>
         <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+        <context-group purpose="location">
           <context context-type="sourcefile">src\app\stock\fundamental\fundamental.component.ts</context>
           <context context-type="linenumber">7</context>
         </context-group>
@@ -38,6 +42,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src\app\stock\scorecombiner\scorecombiner.component.ts</context>
           <context context-type="linenumber">88</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">55</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src\app\stock\fundamental\fundamental.component.ts</context>
@@ -63,6 +71,10 @@
           <context context-type="linenumber">94</context>
         </context-group>
         <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+        <context-group purpose="location">
           <context context-type="sourcefile">src\app\stock\fundamental\fundamental.component.ts</context>
           <context context-type="linenumber">11</context>
         </context-group>
@@ -84,6 +96,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src\app\stock\scorecombiner\scorecombiner.component.ts</context>
           <context context-type="linenumber">89</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">56</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src\app\stock\fundamental\fundamental.component.ts</context>
@@ -152,6 +168,10 @@
           <context context-type="sourcefile">src\app\stock\scorecombiner\scorecombiner.component.ts</context>
           <context context-type="linenumber">99</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">66</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="stock.details" datatype="html">
         <source>Details</source>
@@ -162,6 +182,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src\app\stock\scorecombiner\scorecombiner.component.ts</context>
           <context context-type="linenumber">106</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">73</context>
         </context-group>
       </trans-unit>
       <trans-unit id="search.choice.label" datatype="html">
@@ -338,6 +362,10 @@
           <context context-type="sourcefile">src\app\stock\scorecombiner\scorecombiner.component.ts</context>
           <context context-type="linenumber">100</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">67</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="stock.score" datatype="html">
         <source>Score</source>
@@ -345,12 +373,20 @@
           <context context-type="sourcefile">src\app\stock\scorecombiner\scorecombiner.component.ts</context>
           <context context-type="linenumber">101</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">68</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="index.name" datatype="html">
         <source>Name</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src\app\stock\scorecombiner\scorecombiner.component.ts</context>
           <context context-type="linenumber">123</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">88</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src\app\stock\index\index.component.ts</context>
@@ -364,6 +400,10 @@
           <context context-type="linenumber">124</context>
         </context-group>
         <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">89</context>
+        </context-group>
+        <context-group purpose="location">
           <context context-type="sourcefile">src\app\stock\index\index.component.ts</context>
           <context context-type="linenumber">3</context>
         </context-group>
@@ -373,6 +413,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src\app\stock\scorecombiner\scorecombiner.component.ts</context>
           <context context-type="linenumber">129</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">94</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src\app\stock\index\index.component.ts</context>
@@ -385,6 +429,10 @@
           <context context-type="sourcefile">src\app\stock\scorecombiner\scorecombiner.component.ts</context>
           <context context-type="linenumber">134</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">99</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="index.details" datatype="html">
         <source>Details</source>
@@ -393,8 +441,145 @@
           <context context-type="linenumber">139</context>
         </context-group>
         <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">104</context>
+        </context-group>
+        <context-group purpose="location">
           <context context-type="sourcefile">src\app\stock\index\index.component.ts</context>
           <context context-type="linenumber">34</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.question.asset" datatype="html">
+        <source>Which asset classes do you want to analyze?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.asset.stock" datatype="html">
+        <source>Single Stocks</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.asset.index" datatype="html">
+        <source>Indices</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.question.numberstocks" datatype="html">
+        <source>How many results should be displayed at the end of the process?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.question.strategy" datatype="html">
+        <source>Which investment strategy do you want pursue?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.strategy.name" datatype="html">
+        <source>Name</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.strategy.levermann" datatype="html">
+        <source>Levermann-Factor</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.strategy.magic" datatype="html">
+        <source>Magic Formula Factor</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.strategy.piotroski" datatype="html">
+        <source>Piotroski F-Score Factor</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.question.countries" datatype="html">
+        <source>In which countries/regions do you want to invest?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.question.branches" datatype="html">
+        <source>In which branches do you want to invest?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.question.marketcap" datatype="html">
+        <source>Which market capitalizations should the desired companies have?</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.largemidcaps.tooltip" datatype="html">
+        <source>Companies with a market capitalization of at least 2 billion USD</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.largecaps.tooltip" datatype="html">
+        <source>Companies with a market capitalization of at least 10 billion USD</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.midcaps.tooltip" datatype="html">
+        <source>Companies with a market capitalization between 2 and 10 billion USD</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.smallcaps.tooltip" datatype="html">
+        <source>Companies with a market capitalization lower equal than 2 billion USD</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.result" datatype="html">
+        <source>The following table shows the resulting stocks/indices based on your criterias. The results are sorted in descending order (the maximum score can be 100). You can see the detailed score of every strategy by clicking the magnifier.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.button.previous" datatype="html">
+        <source>Previous step</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">115</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.button.next" datatype="html">
+        <source>Next step</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">116</context>
         </context-group>
       </trans-unit>
       <trans-unit id="stock.businessyearend" datatype="html">

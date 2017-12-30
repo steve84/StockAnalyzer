@@ -290,6 +290,8 @@ export class BranchTranslationPipe implements PipeTransform {
         return 'Fahrzeuge';
       case 'welfare and community':
         return 'Sozialwesen und Gemeinwesen';
+      case 'All':
+        return 'Alle';
       default:
         return value;
     }

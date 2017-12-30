@@ -65,6 +65,33 @@ export class CommonTranslationPipe implements PipeTransform {
         return 'Nettorendite';
       case 'month':
         return 'Monat';
+      // Wizard
+      case 'Pure Levermann':
+        return 'Levermann';
+      case 'Pure Magic Formula':
+        return 'Magic Formula';
+      case 'Pure Piotroski F-Score':
+        return 'Piotroski F-Score';
+      case 'Levermann + Magic Formula':
+        return 'Levermann + Magic Formula';
+      case 'Levermann + Piotroski F-Score':
+        return 'Levermann + Piotroski F-Score';
+      case 'Magic Formula + Piotroski F-Score':
+        return 'Magic Formula + Piotroski F-Score';
+      case 'All':
+        return 'Alle';
+      case 'Asset class':
+        return 'Anlageklasse';
+      case 'Strategy':
+        return 'Strategie';
+      case 'Countries/Regions':
+        return 'Länder/Regionen';
+      case 'Branches':
+        return 'Branchen';
+      case 'Company sizes':
+        return 'Unternehmensgrössen';
+      case 'Result':
+        return 'Auswertung';
       default:
         return value;
     }

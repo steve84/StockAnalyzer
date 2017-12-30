@@ -1501,6 +1501,158 @@
           <context context-type="linenumber">1</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="wizard.question.asset" datatype="html">
+        <source>Which asset classes do you want to analyze?</source>
+        <target>In welche Anlageklasse würden Sie gerne investieren?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.asset.stock" datatype="html">
+        <source>Single Stocks</source>
+        <target>Einzelaktien</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.asset.index" datatype="html">
+        <source>Indices</source>
+        <target>Indizes</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.question.numberstocks" datatype="html">
+        <source>How many results should be displayed at the end of the process?</source>
+        <target>Wie viele Resultate sollen am Ende präsentiert werden?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.question.strategy" datatype="html">
+        <source>Which investment strategy do you want pursue?</source>
+        <target>Was für eine Anlagestrategie möchten Sie verfolgen?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.strategy.name" datatype="html">
+        <source>Name</source>
+        <target>Name</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.strategy.levermann" datatype="html">
+        <source>Levermann-Factor</source>
+        <target>Levermann-Faktor</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.strategy.magic" datatype="html">
+        <source>Magic Formula Factor</source>
+        <target>Magic Formula Faktor</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.strategy.piotroski" datatype="html">
+        <source>Piotroski F-Score Factor</source>
+        <target>Piotroski F-Score Faktor</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.question.countries" datatype="html">
+        <source>In which countries/regions do you want to invest?</source>
+        <target>In welche Länder/Regionen würden Sie gerne investieren?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.question.branches" datatype="html">
+        <source>In which branches do you want to invest?</source>
+        <target>Welche Branchen sollen wir für unsere Vorschläge beachten?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.question.marketcap" datatype="html">
+        <source>Which market capitalizations should the desired companies have?</source>
+        <target>Welche Grösse (Marktkapitalisierung) sollen die Unternehmen haben?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.largemidcaps.tooltip" datatype="html">
+        <source>Companies with a market capitalization of at least 2 billion USD</source>
+        <target>Firmen mit einer Marktkapitalisierung von mindestens 2 Milliarden USD</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.largecaps.tooltip" datatype="html">
+        <source>Companies with a market capitalization of at least 10 billion USD</source>
+        <target>Firmen mit einer Marktkapitalisierung von mindestens 10 Milliarden USD</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.midcaps.tooltip" datatype="html">
+        <source>Companies with a market capitalization between 2 and 10 billion USD</source>
+        <target>Firmen mit einer Marktkapitalisierung von 2 bis 10 Milliarden USD</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.smallcaps.tooltip" datatype="html">
+        <source>Companies with a market capitalization lower equal than 2 billion USD</source>
+        <target>Firmen mit einer Marktkapitalisierung von 2 Milliarden USD oder weniger</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.result" datatype="html">
+        <source>The following table shows the resulting stocks/indices based on your criterias. The results are sorted in descending order (the maximum score can be 100). You can see the detailed score of every strategy by clicking the magnifier.</source>
+        <target>Die nachfolgende Liste beinhaltet die nach Ihren eingegebene Kriterien gefundenen Aktien/Indizes. Diese werden absteigend nach ihrer Gesamtpunktzahl sortiert (Maximalpunktzahl beträgt 100). Die genauen Punktzahlen der einzelnen Strategien sind in der Detail-Ansicht (Lupe) einsehbar.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.button.previous" datatype="html">
+        <source>Previous step</source>
+        <target>Vorheriger Schritt</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">115</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="wizard.button.next" datatype="html">
+        <source>Next step</source>
+        <target>Nächster Schritt</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src\app\stock\wizard\wizard.component.ts</context>
+          <context context-type="linenumber">116</context>
+        </context-group>
+      </trans-unit>
     </body>
   </file>
 </xliff>

@@ -66,6 +66,8 @@ export class MessageTranslationPipe implements PipeTransform {
         return 'Premium-Abo erfolgreich abgeschlossen. Bitte aus und wieder einloggen, um die volle Funktionalität zu nützen';
       case 23:
         return 'Bei der Zahlung ist ein Problem aufgetreten. Bitte erneut versuchen';
+      case 24:
+        return 'Es sind nicht alle Informationen für eine Auswertung vorhanden';
     }
   }
 
@@ -117,6 +119,8 @@ export class MessageTranslationPipe implements PipeTransform {
         return 'Successful premium subscription. Please log out and in to use it';
       case 23:
         return 'Error during premium subscription creation. Please try again later';
+      case 24:
+        return 'There is missing some information to show you a result';
     }
   }
 }
