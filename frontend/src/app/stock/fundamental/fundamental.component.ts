@@ -96,6 +96,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
     this.cashflowFields.push('depreciation');
     this.cashflowFields.push('capex');
     this.cashflowFields.push('cashInvesting');
+    this.cashflowFields.push('cashFree');
     this.cashflowFields.push('issuanceOfStock');
     this.cashflowFields.push('issuanceOfDdebt');
     this.cashflowFields.push('cashFinancing');
@@ -107,6 +108,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
       'depreciation': this.figureTranslationPipe.transform('Depreciation', this.locale),
       'capex': this.figureTranslationPipe.transform('CAPEX', this.locale),
       'cashInvesting': this.figureTranslationPipe.transform('Investing Cashflow', this.locale),
+      'cashFree': 'Free Cashflow',
       'issuanceOfStock': this.figureTranslationPipe.transform('Issuance of Stock', this.locale),
       'issuanceOfDdebt': this.figureTranslationPipe.transform('Issuance of Debt', this.locale),
       'cashFinancing': this.figureTranslationPipe.transform('Financing Cashflow', this.locale),
@@ -119,6 +121,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
     this.incomeFields.push('netIncomeExc');
     this.incomeFields.push('epsExc');
     this.incomeFields.push('dividend');
+    this.incomeFields.push('dividendYield');
     this.incomeFields.push('dilutedSharesOs');
     this.incomeFields.push('historicYield');
     this.incomeFields.push('sharePriceEop');
@@ -129,6 +132,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
       'netIncomeExc': this.figureTranslationPipe.transform('Net Income', this.locale),
       'epsExc': this.figureTranslationPipe.transform('Earnings per Share', this.locale),
       'dividend': this.figureTranslationPipe.transform('Dividend', this.locale),
+      'dividendYield': this.figureTranslationPipe.transform('Dividend Yield', this.locale),
       'dilutedSharesOs': this.figureTranslationPipe.transform('Outstanding Shares (Diluted)', this.locale),
       'historicYield': this.figureTranslationPipe.transform('Historic Yield', this.locale),
       'sharePriceEop': this.figureTranslationPipe.transform('Share Price (End of period)', this.locale)

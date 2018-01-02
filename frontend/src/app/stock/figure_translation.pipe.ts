@@ -107,6 +107,8 @@ export class FigureTranslationPipe implements PipeTransform {
         return 'Verhältnis Schulden/Betriebsgewinn';
       case 'Operating Income':
         return 'Betriebsgewinn';
+      case 'Dividend Yield':
+        return 'Dividendenrendite';
       default:
         return value;
     }

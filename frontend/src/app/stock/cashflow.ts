@@ -5,6 +5,7 @@ export interface Cashflow {
     depreciation?: number,
     capex?: number,
     cashInvesting?: number,
+    cashFree?: number,
     issuanceOfStock?: number,
     issuanceOfDdebt?: number,
     cashFinancing?: number,

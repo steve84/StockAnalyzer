@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "tincome")
@@ -41,6 +42,9 @@ public class Income {
 
     @Column(name = "dividend")
     private Double dividend;
+    
+    @Transient
+    private Double dividendYield;
 
     @Column(name = "diluted_shares_os")
     private Double dilutedSharesOs;
@@ -119,6 +123,16 @@ public class Income {
 
 	public void setDividend(Double dividend) {
 		this.dividend = dividend;
+	}
+
+	public Double getDividendYield() {
+		if (getDividend() != null && getSharePriceEop() != null && getSharePriceEop() != 0)
+			return getDividend() / getSharePriceEop();
+		return null;
+	}
+
+	public void setDividendYield(Double dividendYield) {
+		this.dividendYield = dividendYield;
 	}
 
 	public Double getDilutedSharesOs() {

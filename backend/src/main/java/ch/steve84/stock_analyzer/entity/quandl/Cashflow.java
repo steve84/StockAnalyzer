@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "tcashflow")
@@ -41,6 +42,9 @@ public class Cashflow {
 
     @Column(name = "cash_financing")
     private Double cashFinancing;
+    
+    @Transient
+    private Double cashFree;
 
     @Column(name = "start_cash")
     private Double startCash;
@@ -113,6 +117,16 @@ public class Cashflow {
 
 	public void setCashFinancing(Double cashFinancing) {
 		this.cashFinancing = cashFinancing;
+	}
+
+	public Double getCashFree() {
+		if (getCashOperations() != null && getCapex() != null)
+		  return getCashOperations() - Math.abs(getCapex());
+		return null;
+	}
+
+	public void setCashFree(Double cashFree) {
+		this.cashFree = cashFree;
 	}
 
 	public Double getStartCash() {
