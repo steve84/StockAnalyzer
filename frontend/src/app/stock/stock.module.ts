@@ -25,6 +25,7 @@ import { DataTableModule,
         RadioButtonModule,
         CheckboxModule,
         TreeModule,
+        SplitButtonModule,
         ChartModule } from 'primeng/primeng';
 
 import { StockService } from './stock.service';
@@ -54,6 +55,7 @@ import { CommonTranslationPipe } from './common_translation.pipe';
 import { FigureTranslationPipe } from './figure_translation.pipe';
 import { WizardComponent } from './wizard/wizard.component';
 import { RegionPipe } from './region.pipe';
+import { CompareComponent } from './compare/compare.component';
 
 @NgModule({
   imports: [
@@ -82,7 +84,8 @@ import { RegionPipe } from './region.pipe';
     StepsModule,
     RadioButtonModule,
     CheckboxModule,
-    TreeModule
+    TreeModule,
+    SplitButtonModule
   ],
   exports: [
     StockTableComponent,
@@ -116,7 +119,8 @@ import { RegionPipe } from './region.pipe';
     PiotroskiComponent,
     MagicformulaComponent,
     WizardComponent,
-    RegionPipe
+    RegionPipe,
+    CompareComponent
   ]
 })
 export class StockModule { }

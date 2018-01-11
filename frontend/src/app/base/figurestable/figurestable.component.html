@@ -1,6 +1,6 @@
 <span i18n="@@figuretable.values">Values in Mio.</span> {{currency}}
-<p-dataTable responsive="true" [value]="removeUnvisibleRows(createTableObject(transposeData(data)))" selectionMode="multiple" (onRowSelect)="selectRow($event)" (onRowUnselect)="unselectRow($event)" [emptyMessage]="getEmptyMessage()">
-    <p-column *ngFor="let col of getColsFromData(transposeData(data))" [field]="col.field" [header]="col.header">
+<p-dataTable responsive="true" [value]="removeUnvisibleRows(helperService.createTableObject(helperService.transposeData(data), showFuture))" selectionMode="multiple" (onRowSelect)="selectRow($event)" (onRowUnselect)="unselectRow($event)" [emptyMessage]="getEmptyMessage()">
+    <p-column *ngFor="let col of helperService.getColsFromData(helperService.transposeData(data), true, showFuture)" [field]="col.field" [header]="col.header">
       <ng-template let-col pTemplate="header">
         <span *ngIf="col.field != 'title'">{{col.field}}</span>
       </ng-template>

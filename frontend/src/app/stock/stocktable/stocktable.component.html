@@ -1,4 +1,9 @@
 <p-dataTable [value]="stocks" selectionMode="single" responsive="true" [(selection)]="selectedStock" [loading]="loading" [paginator]="true" [lazy]="lazy" [rows]="pageSize" [rowsPerPageOptions]="[10,20,30]" (onLazyLoad)="loadData($event)" [totalRecords]="totalRecords" sortField="name" sortOrder="1" resizableColumns="true" [emptyMessage]="getEmptyMessage()">
+    <p-header *ngIf="compareActive && getCompareSize() >= 1">
+      <div class="ui-helper-clearfix">
+        <p-splitButton [label]="getCompareLabel()" icon="fa-balance-scale" (onClick)="compare()" [model]="compareItems" styleClass="ui-button-warning" [style]="{'float':'right'}"></p-splitButton>
+      </div>
+    </p-header>
     <p-column field="isin" i18n-header="@@stock.isin" header="ISIN" [sortable]="true"></p-column>
     <p-column field="name" i18n-header="@@stock.name" header="Name" [sortable]="true"></p-column>
     <p-column field="country.name" i18n-header="@@stock.country" header="Country" [sortable]="true">
@@ -45,6 +50,12 @@
     <p-column i18n-header="@@stock.details" header="Details" styleClass="col-button">
       <ng-template let-stock="rowData" pTemplate="body">
         <button type="button" pButton (click)="showFundamental(stock)" icon="fa-search"></button>
+      </ng-template>
+    </p-column>
+    <p-column *ngIf="compareActive" i18n-header="@@stock.compare" header="Compare" styleClass="col-button">
+      <ng-template let-stock="rowData" pTemplate="body">
+        <span *ngIf="!isStockInCompare(stock)"><button type="button" pButton (click)="addCompare(stock)" icon="fa-plus-square" class="ui-button-success"></button></span>
+        <span *ngIf="isStockInCompare(stock)"><button type="button" pButton (click)="removeCompare(stock)" icon="fa-minus-square" class="ui-button-danger"></button></span>
       </ng-template>
     </p-column>
 </p-dataTable>

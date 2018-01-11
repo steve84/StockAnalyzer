@@ -64,6 +64,23 @@ export class HelperService {
   getEmptyMessage(locale: string): string {
     return this.commonPipe.transform('No records found', locale);
   }
+  
+  removeLocalStorageItem(key: string) {
+    if (this.isKeyInLocalStorage(key))
+      localStorage.removeItem(key);
+  }
+  
+  getLocalStorageItem(key: string) {
+    return JSON.parse(localStorage.getItem(key));
+  }
+  
+  setLocalStorageItem(key: string, object: any) {
+    localStorage.setItem(key, JSON.stringify(object));
+  }
+  
+  isKeyInLocalStorage(key: string): boolean {
+    return Object.keys(localStorage).indexOf(key) > -1;
+  }
 
   createPieChartData(data: any[], groupBy: string, value: string, percentage: boolean = true, count?: boolean) {
     let labels: string[] = [];
@@ -105,19 +122,45 @@ export class HelperService {
       return null;
   }
   
+  createLineOrBarChart(datasetName: string, xAxis: string[], yAxis: number[], bar: boolean = false, existingChart?: any) {
+    if (!xAxis || xAxis.length == 0) {
+      return !existingChart ? null : existingChart;
+    }
   
-  createLineChartData(datasetName: string, xAxis: string[], yAxis: number[], existingChart?: any) {
     let lineData = {};
+    // Set inital labels
     if (!existingChart) {
       lineData['labels'] = xAxis;
       lineData['datasets'] = [];
     }
+    // Build dataset
     let dataset = {};
     dataset['label'] = datasetName;
-    dataset['data'] = yAxis;
-    dataset['fill'] = false;
-    dataset['borderColor'] = this.randomColor();
-    dataset['lineTension'] = 0;
+    
+    // Remove data of none existing labels
+    if (existingChart) {
+      dataset['data'] = [];
+      for (let label of existingChart['labels']) {
+        let index = xAxis.indexOf(label);
+        if (index > -1)
+          dataset['data'].push(yAxis[index]);
+        else
+          dataset['data'].push(0);
+      }
+    } else {
+      dataset['data'] = yAxis;
+    }
+    
+    // Bar or Line chart
+    if (bar) {
+      dataset['backgroundColor'] = this.randomColor();
+    } else {
+      dataset['fill'] = false;
+      dataset['borderColor'] = this.randomColor();
+      dataset['lineTension'] = 0;
+    }
+    
+    // Set dataset
     if (!existingChart) {
       lineData['datasets'].push(dataset);
       return lineData;       
@@ -126,8 +169,8 @@ export class HelperService {
       return existingChart;
     }
   }
-
-  removeLineChartData(datasetName: string, existingChart: any) {
+  
+  removeLineOrBarChartData(datasetName: string, existingChart: any) {
     if (existingChart) {
       if (Object.keys(existingChart).indexOf('datasets') > -1) {
         let i = 0;
@@ -169,6 +212,53 @@ export class HelperService {
       }
     }
     return percentageArr;
+  }
+  
+  transposeData(origData: any[]) {
+    let transposedData: any[] = [];
+    for (let arr of origData) {
+      for (let key of Object.keys(arr)) {
+        if (key != '_links') {
+          if (Object.keys(transposedData).indexOf(key) < 0)
+            transposedData[key] = [];
+          transposedData[key][arr['modifiedAt']] = arr[key];
+        }
+      }
+    }
+    return transposedData;
+  }
+
+  createTableObject(obj: any, showFuture: boolean = false) {
+    let res: any[] = [];
+    for (let key of Object.keys(obj)) {
+      let entry: any = {title: key};
+      for (let subkey of Object.keys(obj[key])) {
+        if (!showFuture || Date.parse(subkey) > Date.now())
+          entry[subkey.split('-')[0]] = obj[key][subkey];
+      }
+      res.push(entry);
+    }
+    return res;
+  }
+  
+  getColsFromData(arr: any[], newestFirst: boolean = true, showFuture: boolean = false) {
+    let cols: any[] = [];
+    if (!newestFirst)
+      cols.push({field: 'title', header: 'title'});
+    for (let key of Object.keys(arr)) {
+      for (let subkey of Object.keys(arr[key])) {
+        if (!showFuture || Date.parse(subkey) > Date.now())
+          cols.push({field: subkey.split('-')[0], header: subkey.split('-')[0]});
+      }
+      if (cols && cols.length > 1) {
+        if (newestFirst) {
+          cols.push({field: 'title', header: ''});
+          return cols.reverse();
+        }
+        return cols;
+      } else
+        return [];
+    }
   }
   
   randomColor() {

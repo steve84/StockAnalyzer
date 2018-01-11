@@ -81,16 +81,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
     this.balanceFields.push('totalLiabilities');
     this.balanceFields.push('shareholderEquity');
     
-    this.balanceLabels = {
-      'currentAssets': this.figureTranslationPipe.transform('Current Assets', this.locale),
-      'totalAssets': this.figureTranslationPipe.transform('Total Assets', this.locale),
-      'goodwill': this.figureTranslationPipe.transform('Goodwill', this.locale),
-      'intangibles': this.figureTranslationPipe.transform('Intangibles', this.locale),
-      'currentLiabilities': this.figureTranslationPipe.transform('Current Liabilities', this.locale),
-      'totalLiabilities': this.figureTranslationPipe.transform('Total Liabilities', this.locale),
-      'longTermDebt': this.figureTranslationPipe.transform('Long-term Debt', this.locale),
-      'shareholderEquity': this.figureTranslationPipe.transform('Shareholder Equity', this.locale)
-    };
+    this.balanceLabels = this.fundamentalService.getBalanceLabels();
 
     this.cashflowFields.push('cashOperations');
     this.cashflowFields.push('depreciation');
@@ -103,40 +94,18 @@ export class FundamentalComponent implements OnInit, OnChanges {
     this.cashflowFields.push('startCash');
     this.cashflowFields.push('endCash');
     
-    this.cashflowLabels = {
-      'cashOperations': this.figureTranslationPipe.transform('Operating Cashflow', this.locale),
-      'depreciation': this.figureTranslationPipe.transform('Depreciation', this.locale),
-      'capex': this.figureTranslationPipe.transform('CAPEX', this.locale),
-      'cashInvesting': this.figureTranslationPipe.transform('Investing Cashflow', this.locale),
-      'cashFree': 'Free Cashflow',
-      'issuanceOfStock': this.figureTranslationPipe.transform('Issuance of Stock', this.locale),
-      'issuanceOfDdebt': this.figureTranslationPipe.transform('Issuance of Debt', this.locale),
-      'cashFinancing': this.figureTranslationPipe.transform('Financing Cashflow', this.locale),
-      'startCash': this.figureTranslationPipe.transform('Start Cash', this.locale),
-      'endCash': this.figureTranslationPipe.transform('End Cash', this.locale)
-    };
+    this.cashflowLabels = this.fundamentalService.getCashflowLabels();
     
     this.incomeFields.push('revenue');
     this.incomeFields.push('operatingRevenue');
     this.incomeFields.push('netIncomeExc');
     this.incomeFields.push('epsExc');
     this.incomeFields.push('dividend');
-    this.incomeFields.push('dividendYield');
     this.incomeFields.push('dilutedSharesOs');
     this.incomeFields.push('historicYield');
     this.incomeFields.push('sharePriceEop');
     
-    this.incomeLabels = {
-      'revenue': this.figureTranslationPipe.transform('Revenue', this.locale),
-      'operatingRevenue': this.figureTranslationPipe.transform('Operating Revenue', this.locale),
-      'netIncomeExc': this.figureTranslationPipe.transform('Net Income', this.locale),
-      'epsExc': this.figureTranslationPipe.transform('Earnings per Share', this.locale),
-      'dividend': this.figureTranslationPipe.transform('Dividend', this.locale),
-      'dividendYield': this.figureTranslationPipe.transform('Dividend Yield', this.locale),
-      'dilutedSharesOs': this.figureTranslationPipe.transform('Outstanding Shares (Diluted)', this.locale),
-      'historicYield': this.figureTranslationPipe.transform('Historic Yield', this.locale),
-      'sharePriceEop': this.figureTranslationPipe.transform('Share Price (End of period)', this.locale)
-    };
+    this.incomeLabels = this.fundamentalService.getIncomeLabels();
     
     this.valueFields.push('priceEarningsRatio');
     this.valueFields.push('priceCashflowRatio');
@@ -146,15 +115,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
     this.valueFields.push('price52Wk');
     this.valueFields.push('currentYield');
     
-    this.valueLabels = {
-      'priceEarningsRatio': this.figureTranslationPipe.transform('Price-Earnings Ratio', this.locale),
-      'priceCashflowRatio': this.figureTranslationPipe.transform('Price-Cashflow Ratio', this.locale),
-      'priceBookRatio': this.figureTranslationPipe.transform('Price-Book Ratio', this.locale),
-      'pegRatio': this.figureTranslationPipe.transform('Price/Earnings to Growth', this.locale),
-      'enterpriseRatio': this.figureTranslationPipe.transform('Enterprise Ratio', this.locale),
-      'price52Wk': this.figureTranslationPipe.transform('Price 52W', this.locale),
-      'currentYield': this.figureTranslationPipe.transform('Current Yield', this.locale)
-    };
+    this.valueLabels = this.fundamentalService.getValueLabels();
     
     this.signalFields.push('currentRatio');
     this.signalFields.push('buybacks');
@@ -167,18 +128,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
     this.signalFields.push('rotc');
     this.signalFields.push('ltDebtOpIncome');
     
-    this.signalLabels = {
-      'currentRatio': this.figureTranslationPipe.transform('Current Ratio', this.locale),
-      'buybacks': this.figureTranslationPipe.transform('Buybacks', this.locale),
-      'solvency': this.figureTranslationPipe.transform('Solvency', this.locale),
-      'dividendPayout': this.figureTranslationPipe.transform('Dividend Payout', this.locale),
-      'operatingMargin': this.figureTranslationPipe.transform('Operating Margin', this.locale),
-      'netIncMargin': this.figureTranslationPipe.transform('Net Margin', this.locale),
-      'roe': this.figureTranslationPipe.transform('Return on Equity', this.locale),
-      'roae': this.figureTranslationPipe.transform('Return on Assets Employed', this.locale),
-      'rotc': this.figureTranslationPipe.transform('Return on Total Capital Employed', this.locale),
-      'ltDebtOpIncome': this.figureTranslationPipe.transform('Long-term Dept/Operating Income Ratio', this.locale)
-    };
+    this.signalLabels = this.fundamentalService.getSignalLabels();
 
     this.forecastFields.push('revenue');
     this.forecastFields.push('operatingIncome');
@@ -191,19 +141,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
     this.forecastFields.push('epsExc');
     this.forecastFields.push('dividend');
     
-    this.forecastLabels = {
-      'revenue': this.figureTranslationPipe.transform('Revenue', this.locale),
-      'operatingIncome': this.figureTranslationPipe.transform('Operating Income', this.locale),
-      'netIncomeExc': this.figureTranslationPipe.transform('Net Income', this.locale),
-      'cashOperations': this.figureTranslationPipe.transform('Operating Cashflow', this.locale),
-      'depreciation': this.figureTranslationPipe.transform('Depreciation', this.locale),
-      'capex': this.figureTranslationPipe.transform('CAPEX', this.locale),
-      'startCash': this.figureTranslationPipe.transform('Start Cash', this.locale),
-      'endCash': this.figureTranslationPipe.transform('End Cash', this.locale),
-      'epsExc': this.figureTranslationPipe.transform('Earnings per Share', this.locale),
-      'dividend': this.figureTranslationPipe.transform('Dividend', this.locale)
-    };
-
+    this.forecastLabels = this.fundamentalService.getForecastLabels();
   }
 
   ngOnInit() {
@@ -261,12 +199,12 @@ export class FundamentalComponent implements OnInit, OnChanges {
     for (let label of xAxisLabels) {
       yData.push(data[label]);
     }
-    this.incomeChart = this.helperService.createLineChartData(this.incomeLabels[data['title']], xAxisLabels, yData);
+    this.incomeChart = this.helperService.createLineOrBarChart(this.incomeLabels[data['title']], xAxisLabels, yData);
     this.chart.reinit();
   }
   
   onRowUnselect(data: any) {
-    //this.incomeChart = this.helperService.removeLineChartData(this.incomeLabels[data['title']], this.incomeChart);
+    //this.incomeChart = this.helperService.removeLineBarChartData(this.incomeLabels[data['title']], this.incomeChart);
     //this.chart.reinit();
   }
 
@@ -295,7 +233,7 @@ export class FundamentalComponent implements OnInit, OnChanges {
         let chart_labels = this.prices.map(p => p.createdAt.split('T')[0]).filter(function(p,i) {
           return i % 5 == 0;
         });
-        this.priceChart = this.helperService.createLineChartData(this.stock.name, chart_labels, chart_data);
+        this.priceChart = this.helperService.createLineOrBarChart(this.stock.name, chart_labels, chart_data);
         }, (err:any) => this.helperService.handleError(err));
     }
   }

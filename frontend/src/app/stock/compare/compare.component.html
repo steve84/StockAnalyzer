@@ -1,0 +1,83 @@
+<div class = "ui-g">
+  <div class="ui-g-12">
+    <p-tabView styleClass="scroll" (onChange)="handleChange($event)">
+      <p-tabPanel i18n-header="@@stock.detail.tab.overview.header" header="Overview">
+        <app-stocktable [external]="true" [stocks]="stocks" [pageSize]="pageSize" [totalRecords]="totalRecords" [loading]="loading" [compareActive]="false" (onLazyLoad)="onLazyLoad($event)"></app-stocktable>
+      </p-tabPanel>
+      <p-tabPanel i18n-header="@@stock.figures" header="Figures">
+        <p-tabView (onChange)="handleChange($event)">
+          <p-tabPanel i18n-header="@@stock.balance" header="Balance">
+            <div class = "ui-g">
+              <div *ngFor="let figure of getObjects(balanceLabels)" class="ui-g-12 ui-md-4 ui-lg-2">
+                <p-radioButton name="balance" [value]="figure" [(ngModel)]="selectedBalanceFigure" (ngModelChange)="createFigureCharts($event)"></p-radioButton>{{balanceLabels[figure] | translateFigure}}
+              </div>
+              <div class="ui-g-12">
+                <p-chart type="bar" #balanceChart [data]="balanceChartObj" [options]="options" height="500px"></p-chart>
+              </div>
+            </div>
+          </p-tabPanel>
+          <p-tabPanel i18n-header="@@stock.cashflow" header="Cashflow">
+            <div class = "ui-g">
+              <div *ngFor="let figure of getObjects(cashflowLabels)" class="ui-g-12 ui-md-4 ui-lg-2">
+                <p-radioButton name="cashflow" [value]="figure" [(ngModel)]="selectedCashflowFigure" (ngModelChange)="createFigureCharts($event)"></p-radioButton>{{cashflowLabels[figure] | translateFigure}}
+              </div>
+              <div class="ui-g-12">
+                <p-chart type="bar" #cashflowChart [data]="cashflowChartObj" [options]="options" height="500px"></p-chart>
+              </div>
+            </div>
+          </p-tabPanel>
+          <p-tabPanel i18n-header="@@stock.income" header="Income">
+            <div class = "ui-g">
+              <div *ngFor="let figure of getObjects(incomeLabels)" class="ui-g-12 ui-md-4 ui-lg-2">
+                <p-radioButton name="income" [value]="figure" [(ngModel)]="selectedIncomeFigure" (ngModelChange)="createFigureCharts($event)"></p-radioButton>{{incomeLabels[figure] | translateFigure}}
+              </div>
+              <div class="ui-g-12">
+                <p-chart type="bar" #incomeChart [data]="incomeChartObj" [options]="options" height="500px"></p-chart>
+              </div>
+            </div>
+          </p-tabPanel>
+          <p-tabPanel i18n-header="@@stock.values" header="Values">
+            <div class = "ui-g">
+              <div *ngIf="stocks && stocks.length > 0 && stocks[0]['value']" class="ui-g-12">
+                <p-dataTable [value]="getValueProperties(stocks[0]['value'])" selectionMode="single" responsive="true" [(selection)]="selectedValueFigureRow" (onRowSelect)="selectValueRow($event)">
+                  <p-column *ngFor="let col of getValueHeader()" [field]="col.field" [header]="col.header">
+                    <ng-template let-col let-stock="rowData" pTemplate="body">
+                      <span *ngIf="col.field == 'title'">{{valueLabels[stock] | translateFigure}}</span>
+                      <span *ngIf="col.field != 'title' && this.stocks[col.field]['value'] && this.stocks[col.field]['value'][stock]">{{this.stocks[col.field]['value'][stock]}}</span>
+                    </ng-template>
+                  </p-column>
+                </p-dataTable>
+              </div>
+              <div class = "ui-g-12">
+                <p-chart type="bar" #valueChart [data]="valuesChartObj" [options]="options" height="500px"></p-chart>
+              </div>
+            </div>
+          </p-tabPanel>
+          <p-tabPanel i18n-header="@@stock.signals" header="Signals">
+            <div class = "ui-g">
+              <div *ngFor="let figure of getObjects(signalLabels)" class="ui-g-12 ui-md-4 ui-lg-2">
+                <p-radioButton name="signals" [value]="figure" [(ngModel)]="selectedSignalFigure" (ngModelChange)="createFigureCharts($event)"></p-radioButton>{{signalLabels[figure] | translateFigure}}
+              </div>
+              <div class="ui-g-12">
+                <p-chart type="bar" #signalChart [data]="signalsChartObj" [options]="options" height="500px"></p-chart>
+              </div>
+            </div>
+          </p-tabPanel>
+          <p-tabPanel i18n-header="@@stock.forecast" header="Forecast">
+            <div class = "ui-g">
+              <div *ngFor="let figure of getObjects(forecastLabels)" class="ui-g-12 ui-md-4 ui-lg-2">
+                <p-radioButton name="forecast" [value]="figure" [(ngModel)]="selectedForecastFigure" (ngModelChange)="createFigureCharts($event)"></p-radioButton>{{forecastLabels[figure] | translateFigure}}
+              </div>
+              <div class="ui-g-12">
+                <p-chart type="bar" #forecastChart [data]="forecastChartObj" [options]="options" height="500px"></p-chart>
+              </div>
+            </div>
+          </p-tabPanel>
+        </p-tabView>
+      </p-tabPanel>
+    </p-tabView>
+  </div>
+  <div class="ui-g-12">
+    <button type="button" pButton label="Back" (click)="location.back()"></button>
+  </div>
+</div>

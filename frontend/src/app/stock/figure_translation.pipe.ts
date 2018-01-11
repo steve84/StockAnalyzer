@@ -67,8 +67,6 @@ export class FigureTranslationPipe implements PipeTransform {
         return 'Dividende';
       case 'Outstanding Shares (Diluted)':
         return 'Ausstehende Aktien (verwässert)';
-      case 'Historic Yield':
-        return 'Historische Rendite';
       case 'Share Price (End of period)':
         return 'Aktienpreis Ende Geschäftsjahr';
       case 'Price-Earnings Ratio':
@@ -107,7 +105,7 @@ export class FigureTranslationPipe implements PipeTransform {
         return 'Verhältnis Schulden/Betriebsgewinn';
       case 'Operating Income':
         return 'Betriebsgewinn';
-      case 'Dividend Yield':
+      case 'Historic Yield':
         return 'Dividendenrendite';
       default:
         return value;

@@ -125,16 +125,6 @@ public class Income {
 		this.dividend = dividend;
 	}
 
-	public Double getDividendYield() {
-		if (getDividend() != null && getSharePriceEop() != null && getSharePriceEop() != 0)
-			return getDividend() / getSharePriceEop();
-		return null;
-	}
-
-	public void setDividendYield(Double dividendYield) {
-		this.dividendYield = dividendYield;
-	}
-
 	public Double getDilutedSharesOs() {
 		return dilutedSharesOs;
 	}

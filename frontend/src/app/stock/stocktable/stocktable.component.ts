@@ -1,6 +1,8 @@
 import { Component, OnInit, OnChanges, SimpleChanges, Input, Output, EventEmitter, Inject, LOCALE_ID } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { MenuItem } from 'primeng/primeng';
+
 import { StockService} from '../stock.service';
 import { IndexService} from '../index.service';
 import { HelperService} from '../../helper.service';
@@ -21,12 +23,15 @@ export class StockTableComponent implements OnInit, OnChanges {
   selectedStock: Stock = null;
   display: boolean = false;
   lazy: boolean = true;
+  compareIds: number[] = [];
+  compareItems: MenuItem[] = [];
   commonTranslationPipe: CommonTranslationPipe = new CommonTranslationPipe('en_US');
   @Input('loading') loading: boolean = false;
   @Input('totalRecords') totalRecords: number = 0;
   @Input('pageSize') pageSize: number = 20;
   @Input('stocks') stocksInput: Stock[];
   @Input('external') external: boolean = false;
+  @Input('compareActive') compareActive: boolean = true;
   @Output() onLazyLoad: EventEmitter<any> = new EventEmitter<any>();
   constructor(@Inject(LOCALE_ID) private locale: string,
               private stockService: StockService,
@@ -104,7 +109,7 @@ export class StockTableComponent implements OnInit, OnChanges {
   getEmptyMessage() {
     return this.helperService.getEmptyMessage(this.locale);
   }
-
+  
   showFundamental(stock: Stock) {
     this.selectedStock = stock;
     //this.router.navigate(['/stocks', this.selectedStock.stockId]);
@@ -114,8 +119,43 @@ export class StockTableComponent implements OnInit, OnChanges {
   closeFundamental(display: boolean) {
     this.display = display;
   }
-
-  ngOnInit() {
+  
+  compare() {
+    this.router.navigate(['/compare']);
+  }
+  
+  addCompare(stock: Stock) {
+    this.compareIds.push(stock.stockId);
+    this.helperService.setLocalStorageItem('compare', this.compareIds);
+  }
+  
+  removeCompare(stock: Stock) {
+    this.compareIds.splice(this.compareIds.indexOf(stock.stockId), 1);
+    this.helperService.setLocalStorageItem('compare', this.compareIds);
+  }
+  
+  resetCompare() {
+    this.compareIds = [];
+    this.helperService.setLocalStorageItem('compare', this.compareIds);
+  }
+  
+  getCompareSize(): number {
+    return this.compareIds.length;
+  }
+  
+  getCompareLabel() {
+    return this.commonTranslationPipe.transform("Compare selection", this.locale) + " (" + this.getCompareSize() + ")";
+  }
+  
+  isStockInCompare(stock: Stock): boolean {
+    return this.compareIds.indexOf(stock.stockId) > -1;
   }
 
+  ngOnInit() {
+    if (this.helperService.isKeyInLocalStorage('compare')) {
+      this.compareIds = this.helperService.getLocalStorageItem('compare');
+      if (this.compareIds && this.compareIds.length > 0)
+        this.compareItems = [{label: this.commonTranslationPipe.transform("Cancel selection", this.locale), icon: 'fa-ban', command: () => { this.resetCompare(); }}];
+    }
+  }
 }

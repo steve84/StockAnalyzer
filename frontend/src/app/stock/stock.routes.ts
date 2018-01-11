@@ -6,6 +6,7 @@ import { StockTableComponent } from './stocktable/stocktable.component';
 import { StocksearchComponent } from './stocksearch/stocksearch.component';
 import { ScorecombinerComponent } from './scorecombiner/scorecombiner.component';
 import { WizardComponent } from './wizard/wizard.component';
+import { CompareComponent } from './compare/compare.component';
 import { FundamentalComponent } from './fundamental/fundamental.component';
 import { IndexComponent } from './index/index.component';
 
@@ -15,5 +16,6 @@ export const stockRoutes: Routes = [
   { path: 'stocks', component: StockTableComponent, canActivate: [AuthGuard] },
   { path: 'combiner', component: ScorecombinerComponent, canActivate: [AuthGuard] },
   { path: 'wizard', component: WizardComponent, canActivate: [AuthGuard] },
+  { path: 'compare', component: CompareComponent, canActivate: [AuthGuard] },
   { path: 'indices', component: IndexComponent, canActivate: [AuthGuard] }
 ];

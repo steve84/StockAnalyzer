@@ -20,18 +20,18 @@ import { BranchTranslationPipe } from '../branch_translation.pipe';
   styleUrls: ['./stocksearch.component.css']
 })
 export class StocksearchComponent implements OnInit {
-	@Output("OnStocksFound") onStocksFound: EventEmitter<Stock[]> = new EventEmitter<Stock[]>();
-	name: string;
-	isin: string;
-	nsin: string;
-	wkn: string;
-	selectedCountries: number[];
-	countries: SelectItem[];
-	selectedBranches: number[];
-	branches: SelectItem[];
-	selectedIndices: number[];
-	indices: SelectItem[];
-	nbrStocksFound: number = 0;
+  @Output("OnStocksFound") onStocksFound: EventEmitter<Stock[]> = new EventEmitter<Stock[]>();
+  name: string;
+  isin: string;
+  nsin: string;
+  wkn: string;
+  selectedCountries: number[];
+  countries: SelectItem[];
+  selectedBranches: number[];
+  branches: SelectItem[];
+  selectedIndices: number[];
+  indices: SelectItem[];
+  nbrStocksFound: number = 0;
   stocks: Stock[] = [];
   totalRecords: number = 0;
   pageSize: number = 20;
@@ -47,39 +47,39 @@ export class StocksearchComponent implements OnInit {
               private indexService: IndexService,
               private helperService: HelperService,
               @Inject(LOCALE_ID) private locale: string) {
-	  this.stockService.getAllCountries()
-		  .subscribe((data:any) => {
-			  this.countries = [];
-				if (data && Object.keys(data).indexOf("_embedded") > -1 && Object.keys(data._embedded).indexOf("countries") > -1)
-					for (let country of data._embedded.countries) {
-					  this.countries.push({label: this.countryTranslationPipe.transform(country.name, this.locale), value: country.countryId});
-					}
-			}, (err) => {
+    this.stockService.getAllCountries()
+      .subscribe((data:any) => {
+        this.countries = [];
+        if (data && Object.keys(data).indexOf("_embedded") > -1 && Object.keys(data._embedded).indexOf("countries") > -1)
+          for (let country of data._embedded.countries) {
+            this.countries.push({label: this.countryTranslationPipe.transform(country.name, this.locale), value: country.countryId});
+          }
+      }, (err) => {
         this.helperService.handleError(err);
       });
 
-	  this.stockService.getAllBranches()
-		  .subscribe((data:any) => {
-			  this.branches = [];
-				if (data && Object.keys(data).indexOf("_embedded") > -1 && Object.keys(data._embedded).indexOf("branches") > -1)
-					for (let branch of data._embedded.branches) {
-					  this.branches.push({label: this.branchTranslationPipe.transform(branch.name, this.locale), value: branch.branchId});
-					}
-			}, (err:any) => {
+    this.stockService.getAllBranches()
+      .subscribe((data:any) => {
+        this.branches = [];
+        if (data && Object.keys(data).indexOf("_embedded") > -1 && Object.keys(data._embedded).indexOf("branches") > -1)
+          for (let branch of data._embedded.branches) {
+            this.branches.push({label: this.branchTranslationPipe.transform(branch.name, this.locale), value: branch.branchId});
+          }
+      }, (err:any) => {
         this.helperService.handleError(err);
       });
 
-	  this.indexService.getAllIndices()
-		  .subscribe((data:any) => {
-			  this.indices = [];
-				if (data && Object.keys(data).indexOf("_embedded") > -1 && Object.keys(data._embedded).indexOf("index") > -1)
-					for (let index of data._embedded.index) {
-					  this.indices.push({label: index.name, value: index.indexId});
-					}
-		  }, (err:any) => {
+    this.indexService.getAllIndices()
+      .subscribe((data:any) => {
+        this.indices = [];
+        if (data && Object.keys(data).indexOf("_embedded") > -1 && Object.keys(data._embedded).indexOf("index") > -1)
+          for (let index of data._embedded.index) {
+            this.indices.push({label: index.name, value: index.indexId});
+          }
+      }, (err:any) => {
         this.helperService.handleError(err);
       });
-	}
+  }
 
   ngOnInit() {
   }
@@ -90,27 +90,27 @@ export class StocksearchComponent implements OnInit {
     this.sortField = event.sortField;
     this.sortOrder = event.sortOrder;
     if (!this.initialLoadSearch)
-        this.searchStocks();
+      this.searchStocks();
   }
-	
-	searchStocks(searchByButton: boolean = false) {
+  
+  searchStocks(searchByButton: boolean = false) {
       if (searchByButton && this.initialLoadSearch)
-          this.initialLoadSearch = false;
+        this.initialLoadSearch = false;
       this.loading = true;
-	  this.stockService.searchStocks(this.name, this.isin, this.nsin, this.wkn, this.selectedCountries, this.selectedBranches, this.selectedIndices, this.page, this.pageSize, this.sortField, this.sortOrder)
-		  .subscribe((data:any) => {
-			  if (data && data.page) 
-			    this.totalRecords = this.nbrStocksFound = data.page.totalElements;
-			  this.onStocksFound.emit(data._embedded.stock);
+    this.stockService.searchStocks(this.name, this.isin, this.nsin, this.wkn, this.selectedCountries, this.selectedBranches, this.selectedIndices, null, this.page, this.pageSize, this.sortField, this.sortOrder)
+      .subscribe((data:any) => {
+        if (data && data.page) 
+          this.totalRecords = this.nbrStocksFound = data.page.totalElements;
+        this.onStocksFound.emit(data._embedded.stock);
         this.stocks = data._embedded.stock;
         this.loading = false;
-			}, (err:any) => {
+      }, (err:any) => {
         this.loading = false;
         this.helperService.handleError(err);
       });
-	}
-	
-	reset() {
+  }
+  
+  reset() {
     this.name = "";
     this.isin = "";
     this.nsin = "";
@@ -123,6 +123,6 @@ export class StocksearchComponent implements OnInit {
     this.totalRecords = 0;
     this.page = 0;
     this.loading = false;
-	}
+  }
 
 }

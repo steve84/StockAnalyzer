@@ -65,6 +65,10 @@ export class CommonTranslationPipe implements PipeTransform {
         return 'Nettorendite';
       case 'month':
         return 'Monat';
+      case 'Compare selection':
+        return 'Auswahl vergleichen';
+      case 'Cancel selection':
+        return 'Auswahl aufheben';
       // Wizard
       case 'Pure Levermann':
         return 'Levermann';

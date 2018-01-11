@@ -8,7 +8,6 @@ export interface Income {
     epsExc?: number,
     epsInc?: number,
     dividend?: number,
-    dividendYield?: number,
     dilutedSharesOs?: number,
     historicYield?: number,
     sharePriceEop?: number,

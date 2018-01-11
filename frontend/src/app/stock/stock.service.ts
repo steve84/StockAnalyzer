@@ -67,71 +67,74 @@ export class StockService {
     return this.http.get(url)
       .map(this.extractData);
   }
-	
-	findByIsinOrName(query: string, size: number = 10) {
+  
+  findByIsinOrName(query: string, size: number = 10) {
     let params = new URLSearchParams();
     params.set("isin", query);
     params.set("name", query);
-		params.set("size", size.toString());
-		params.set("page", "0");
+    params.set("size", size.toString());
+    params.set("page", "0");
     
     let url = environment.apiUrl + "/stocks/search/findByIsinOrName";
     if (!this.userService.getRoles() || this.userService.getRoles().toLowerCase().indexOf('gpu') > -1)
       url += "GPU";
-		
-		return this.http.get(url, {search: params})
+    
+    return this.http.get(url, {search: params})
       .map(this.extractData);
-	}
-	
-	getAllCountries() {
-	  let url = environment.apiUrl + "/stocks/search/getAllCountries";
+  }
+  
+  getAllCountries() {
+    let url = environment.apiUrl + "/stocks/search/getAllCountries";
 
     return this.http.get(url)
       .map(this.extractData);
-	}
-	
-	getAllBranches() {
-	  let url = environment.apiUrl + "/stocks/search/getAllBranches";
+  }
+  
+  getAllBranches() {
+    let url = environment.apiUrl + "/stocks/search/getAllBranches";
 
     return this.http.get(url)
       .map(this.extractData);
-	}
-	
-	searchStocks(name: string,
-	             isin: string,
-							 nsin: string,
-							 wkn: string,
-							 countryIds: number[],
-							 branchIds: number[],
-							 indexIds: number[],
-							 page?: number,
-							 size?: number,
-							 sortField?: string,
-							 sortOrder?: number) {
-	let url = environment.apiUrl + "/stocks/search/searchStocks";
+  }
+  
+  searchStocks(name: string,
+               isin: string,
+               nsin: string,
+               wkn: string,
+               countryIds: number[],
+               branchIds: number[],
+               indexIds: number[],
+               stockIds?: number[],
+               page?: number,
+               size?: number,
+               sortField?: string,
+               sortOrder?: number) {
+  let url = environment.apiUrl + "/stocks/search/searchStocks";
   
   if (this.userService.getRoles().toLowerCase().indexOf('gpu') > -1)
     url += "GPU";
   
   let params = new URLSearchParams();
-	if (name)
-		params.set("name", name.toUpperCase());
-	if (isin)
-		params.set("isin", isin.toUpperCase());
-	if (nsin)
-		params.set("nsin", nsin.toUpperCase());
-	if (wkn)
-		params.set("wkn", wkn.toUpperCase());
-	if (countryIds && countryIds.length)
-		params.set("countryIds", countryIds.join(','));
-	if (branchIds && branchIds.length)
-		params.set("branchIds", branchIds.join(','));
-	if (indexIds && indexIds.length)
-		params.set("indexIds", indexIds.join(','));
-	if (page)
-		params.set("page", page.toString());
-	if (size)
-		params.set("size", size.toString());
+  if (name)
+    params.set("name", name.toUpperCase());
+  if (isin)
+    params.set("isin", isin.toUpperCase());
+  if (nsin)
+    params.set("nsin", nsin.toUpperCase());
+  if (wkn)
+    params.set("wkn", wkn.toUpperCase());
+  if (countryIds && countryIds.length)
+    params.set("countryIds", countryIds.join(','));
+  if (branchIds && branchIds.length)
+    params.set("branchIds", branchIds.join(','));
+  if (stockIds && stockIds.length)
+    params.set("stockIds", stockIds.join(','));
+  if (indexIds && indexIds.length)
+    params.set("indexIds", indexIds.join(','));
+  if (page)
+    params.set("page", page.toString());
+  if (size)
+    params.set("size", size.toString());
   if (sortField && sortOrder) {
     if (sortField == "scoreLevermann" || sortField == "scoreMagicFormula" || sortField == "scorePiotroski") {
       url += "ScoreType";
@@ -154,9 +157,9 @@ export class StockService {
     }
   }
 
-	return this.http.get(url, {search: params})
-	  .map(this.extractData);
-	}
+  return this.http.get(url, {search: params})
+    .map(this.extractData);
+  }
   
   getNormalizedScores(levermannFactor: number, magicFormulaFactor: number, piotroskiFactor, excludedCountries: number[], excludedBranches: number[], fromMarketCap: number, toMarketCap: number, size: number = 10) {
     let url = environment.apiUrl + "/normalizedscores/search/getNormalizedScoresOfStocks";
@@ -186,7 +189,7 @@ export class StockService {
   }
 
   extractData(resp: Response) {
-		return resp.json();
+    return resp.json();
   }
   
   getStockEmitter() {
