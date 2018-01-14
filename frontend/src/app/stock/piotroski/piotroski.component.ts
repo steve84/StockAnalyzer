@@ -1,5 +1,7 @@
 import { Component, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
 
+import { HelperService } from '../../helper.service';
+
 import { Stock } from '../stock';
 import { Piotroski } from '../piotroski';
 
@@ -13,7 +15,7 @@ export class PiotroskiComponent implements OnInit, OnChanges {
   piotroskiData: Piotroski;
   piotroskiScore: number = 0;
   calculatedAt: string;
-  constructor() { }
+  constructor(private helperService: HelperService) { }
 
   ngOnInit() {}
 
@@ -117,5 +119,9 @@ export class PiotroskiComponent implements OnInit, OnChanges {
       }
     }
   return cssClass;
+  }
+
+  showHelp() {
+    this.helperService.setSideBar(true, 2);
   }
 }

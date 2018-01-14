@@ -1,4 +1,5 @@
 <div *ngIf="levermannData && calculatedAt" class="ui-g">
+  <div class="ui-g-12"><button type="button" pButton label="Help" i18n-label="@@help" (click)="showHelp()"></button></div>
   <div class="ui-g-12">
     <div [class]="getScoreCSSClass(true)" i18n="@@levermann.title">Levermann Score (Calculated at {{calculatedAt | date}})</div>
     <div [class]="getScoreCSSClass()">{{levermannScore}}</div>

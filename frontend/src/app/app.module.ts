@@ -15,7 +15,8 @@ import { MenubarModule,
          GrowlModule,
          FieldsetModule,
          CheckboxModule,
-         ProgressSpinnerModule
+         ProgressSpinnerModule,
+         SidebarModule
        } from 'primeng/primeng';
        
 import { StockModule } from './stock/stock.module';
@@ -48,6 +49,7 @@ import { CommonTranslationPipe } from './stock/common_translation.pipe';
 import { AccountComponent } from './account/account.component';
 import { LanguageComponent } from './language/language.component';
 import { StripeComponent } from './stripe/stripe.component';
+import { SidebarComponent } from './sidebar/sidebar.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +68,8 @@ import { StripeComponent } from './stripe/stripe.component';
     LanguageComponent,
     PasswordChangeComponent,
     PasswordResetComponent,
-    StripeComponent
+    StripeComponent,
+    SidebarComponent
   ],
   imports: [
     RouterModule.forRoot(appRoutes),
@@ -86,6 +89,7 @@ import { StripeComponent } from './stripe/stripe.component';
     FieldsetModule,
     CheckboxModule,
     ProgressSpinnerModule,
+    SidebarModule,
     StockModule,
     AuthModule
   ],

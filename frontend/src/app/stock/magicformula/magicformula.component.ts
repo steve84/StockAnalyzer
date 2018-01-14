@@ -1,5 +1,7 @@
 import { Component, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
 
+import { HelperService } from '../../helper.service';
+
 import { Stock } from '../stock';
 import { MagicFormula } from '../magicformula';
 
@@ -13,7 +15,7 @@ export class MagicformulaComponent implements OnInit {
   magicFormulaData: MagicFormula;
   magicFormulaScore: number = 0;
   calculatedAt: string;
-  constructor() { }
+  constructor(private helperService: HelperService) { }
 
   ngOnInit() {}
 
@@ -33,5 +35,9 @@ export class MagicformulaComponent implements OnInit {
         this.calculatedAt = null;
       }
     }
+  }
+
+  showHelp() {
+    this.helperService.setSideBar(true, 1);
   }
 }

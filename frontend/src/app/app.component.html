@@ -1,4 +1,7 @@
 <p-growl [(value)]="msgs"></p-growl>
+<p-sidebar [(visible)]="showSidebar" position="right" [blockScroll]="true" styleClass="ui-sidebar-md" [style]="{'overflow-y': 'scroll'}">
+    <app-sidebar [index]="sideBarIndex"></app-sidebar>
+</p-sidebar>
 <div *ngIf="showSpinner" class="spinner">
   <p-progressSpinner strokeWidth="6" [style]="{position: 'absolute', left: '45%', top: '45%', width: '50px', height: '50px'}"></p-progressSpinner>
 </div>

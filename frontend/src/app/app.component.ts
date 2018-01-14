@@ -14,7 +14,8 @@ export class AppComponent {
   title = 'app works!';
   msgs: Message[] = [];
   showSpinner: boolean = false;
-  
+  showSidebar: boolean = false;
+  sideBarIndex: number = 0;
   constructor(private messageService: MessageService, private helperService: HelperService) {
     this.messageService.getMessageEmitter()
       .subscribe((data:Message) => this.msgs = [data]);
@@ -23,6 +24,14 @@ export class AppComponent {
       .subscribe((data:boolean) => {
         if (this.showSpinner != data)
           this.showSpinner = data;
+      });
+
+    this.helperService.getSideBarEmitter()
+      .subscribe((data:any) => {
+        if (this.showSidebar != data.show) {
+          this.showSidebar = data.show;
+          this.sideBarIndex = data.value;
+        }
       });
   }
 }

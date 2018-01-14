@@ -15,6 +15,7 @@ export class HelperService {
   messagePipe: MessageTranslationPipe = new MessageTranslationPipe('en-US');
   commonPipe: CommonTranslationPipe = new CommonTranslationPipe('en-US');
   spinnerEmitter: EventEmitter<boolean> = new EventEmitter<boolean>();
+  sideBarEmitter: EventEmitter<any> = new EventEmitter<any>();
   constructor(private router: Router,
               private messageService: MessageService,
               @Inject(LOCALE_ID) private locale: string) { }
@@ -59,6 +60,14 @@ export class HelperService {
   
   setSpinner(value: boolean) {
     this.spinnerEmitter.emit(value);
+  }
+
+  getSideBarEmitter() {
+    return this.sideBarEmitter;
+  }
+  
+  setSideBar(show: boolean, value: number) {
+    this.sideBarEmitter.emit({show: show, value: value});
   }
   
   getEmptyMessage(locale: string): string {

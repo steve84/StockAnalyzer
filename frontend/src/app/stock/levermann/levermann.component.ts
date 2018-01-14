@@ -1,5 +1,7 @@
 import { Component, OnInit, OnChanges, SimpleChanges, Input } from '@angular/core';
 
+import { HelperService } from '../../helper.service';
+
 import { Stock } from '../stock';
 import { Levermann } from '../levermann';
 
@@ -14,7 +16,7 @@ export class LevermannComponent implements OnInit, OnChanges {
   levermannScore: number = 0;
   calculatedAt: string;
   levermannAdvice: string = "nicht kaufen/verkaufen";
-  constructor() { }
+  constructor(private helperService: HelperService) { }
 
   ngOnInit() {}
 
@@ -142,5 +144,9 @@ export class LevermannComponent implements OnInit, OnChanges {
       }
     }
   return cssClass;
+  }
+  
+  showHelp() {
+    this.helperService.setSideBar(true, 0);
   }
 }
