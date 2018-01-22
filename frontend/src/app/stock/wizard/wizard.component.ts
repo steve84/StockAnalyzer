@@ -257,18 +257,20 @@ export class WizardComponent implements OnInit {
     return retArr;
   }
   
-  setSteps() {
-    if (this.stockOrIndex == 'stock') {
-      let steps = [];
-      let i = 0;
-      let removeIndices = [3,4];
-      for (let item of this.items) {
-        if (removeIndices.indexOf(i) == -1) {
-          steps.push(item);
+  setSteps(assetClass: string) {
+    if (assetClass == 'index') {
+      if (this.items.length == this.defaultItems.length) {
+        let steps = [];
+        let i = 0;
+        let removeIndices = [3,4];
+        for (let item of this.items) {
+          if (removeIndices.indexOf(i) == -1) {
+            steps.push(item);
+          }
+          i += 1;
         }
-        i += 1;
+        this.items = steps;
       }
-      this.items = steps;
     } else {
       this.items = this.defaultItems;
     }

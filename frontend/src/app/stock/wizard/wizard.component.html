@@ -5,8 +5,8 @@
   <div class = "ui-g-12"><p-messages [(value)]="msgs" [closable]="false"></p-messages></div>
   <div class = "ui-g-12" *ngIf="activeIndex == 0">
     <div class = "ui-g-12" i18n="@@wizard.question.asset">Which asset classes do you want to analyze?</div>
-    <div class = "ui-g-12"><p-radioButton name="stockorindex" value="stock" [(ngModel)]="stockOrIndex" (onClick)="setSteps()"></p-radioButton><span i18n="@@wizard.asset.stock">Single Stocks</span></div>
-    <div class = "ui-g-12"><p-radioButton name="stockorindex" value="index" [(ngModel)]="stockOrIndex" (onClick)="setSteps()"></p-radioButton><span i18n="@@wizard.asset.index">Indices</span></div>
+    <div class = "ui-g-12"><p-radioButton name="stockorindex" value="stock" [(ngModel)]="stockOrIndex" (ngModelChange)="setSteps($event)"></p-radioButton><span i18n="@@wizard.asset.stock">Single Stocks</span></div>
+    <div class = "ui-g-12"><p-radioButton name="stockorindex" value="index" [(ngModel)]="stockOrIndex" (ngModelChange)="setSteps($event)"></p-radioButton><span i18n="@@wizard.asset.index">Indices</span></div>
     <br />
     <div class = "ui-g-12" *ngIf="stockOrIndex == 'stock'"><span i18n="@@wizard.question.numberstocks">How many results should be displayed at the end of the process?</span><p-spinner [(ngModel)]="numRows" [min]="1"></p-spinner></div>
   </div>
