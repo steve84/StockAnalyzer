@@ -201,4 +201,8 @@ export class CompareComponent implements OnInit {
     if (!selectedFigure || (selectedFigure && Object.keys(this.forecastLabels).indexOf(selectedFigure) > -1))
       this.forecastChartObj = this.createCharts('forecast', this.selectedForecastFigure, false);
   }
+  
+  goBack()  {
+    this.location.back();
+  }
 }

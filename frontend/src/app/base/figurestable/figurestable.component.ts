@@ -51,4 +51,8 @@ export class FigurestableComponent implements OnInit, OnChanges {
         return this.labels[fieldName];
     return fieldName;
   }
+  
+  getHelperService() {
+    return this.helperService;
+  }
 }
