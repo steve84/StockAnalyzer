@@ -132,13 +132,18 @@ export class WizardComponent implements OnInit {
         .subscribe((data: any) => {
         this.scores = data["_embedded"]["normalizedscore"];
         if (this.scores && this.scores.length > 0) {
+          let nbrOfScores = this.scores.length;
           for (let score of this.scores) {
             this.stockService.getStockFromNormalizedValue(score.scoreId)
               .subscribe((data:Stock) => {
                 score.stock = data;
-                this.loading = false;
+                nbrOfScores--;
+                if (nbrOfScores == 0)
+                  this.loading = false;
               }, (err:any) => {
-                this.loading = false;
+                nbrOfScores--;
+                if (nbrOfScores == 0)
+                  this.loading = false;
                 this.helperService.handleError(err);
               });
           }
@@ -153,13 +158,18 @@ export class WizardComponent implements OnInit {
       this.indexService.getNormalizedScores(this.selectedStrategyRow.levermann / 100, this.selectedStrategyRow.magic / 100, this.selectedStrategyRow.piotroski / 100, this.inverseArray(this.selectedCountryNodes, this.countryIds), this.numRows)
         .subscribe((data: any) => {
         this.scores = data["_embedded"]["normalizedscore"];
+        let nbrOfScores = this.scores.length;
         for (let score of this.scores) {
           this.indexService.getIndexFromNormalizedValue(score.scoreId)
             .subscribe((data:IndexType) => {
               score.index = data;
-              this.loading = false;
+              nbrOfScores--;
+              if (nbrOfScores == 0)
+                this.loading = false;
             }, (err:any) => {
-              this.loading = false;
+              nbrOfScores--;
+              if (nbrOfScores == 0)
+                this.loading = false;
               this.helperService.handleError(err);
             });
         }
@@ -307,5 +317,22 @@ export class WizardComponent implements OnInit {
   
   isStockInCompare(stock: Stock): boolean {
     return this.userService.isStockInCompare(stock.stockId);
+  }
+
+  getCssLevermann(stock: Stock, value: number) {
+    if (stock.marketCapitalization.marketCapitalization >= 10) {
+      if (value >= 4)
+        return {'background': 'green', 'color': 'white', 'padding': '3px'};
+    } else {
+      if (value >= 7)
+        return {'background': 'green', 'color': 'white', 'padding': '3px'};
+    }
+  }
+
+  getCssPiotroski(value: number) {
+    if (value >= 8)
+      return {'background': 'green', 'color': 'white', 'padding': '3px'};
+    else
+      return {};
   }
 }

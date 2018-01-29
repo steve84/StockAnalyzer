@@ -64,8 +64,39 @@
             <span *ngIf="score['stock']">{{score['stock']['country']['name'] | translateCountry}}</span>
           </ng-template>
         </p-column>
-        <p-column field="stock.latestPrice.price" i18n-header="@@stock.price" header="Price"></p-column>
+        <p-column field="stock.latestPrice.price" i18n-header="@@stock.price" header="Price">
+          <ng-template let-score="rowData" pTemplate="body">
+            <span *ngIf="score['stock'] && score['stock']['latestPrice']">{{score['stock']['latestPrice']['price']}} <span *ngIf="score['stock']['latestPrice']['createdAt']">({{score['stock']['latestPrice']['createdAt'] | date}})</span></span>
+          </ng-template>
+        </p-column>
         <p-column field="stock.shareCurrency" i18n-header="@@stock.sharecurrency" header="Share Currency"></p-column>
+        <p-column *ngIf="selectedStrategyRow && selectedStrategyRow.levermann > 0" field="scoreLevermann" i18n-header="@@stock.levermann.score" header="Levermann-Score">
+          <ng-template let-col let-scoreRow="rowData" pTemplate="body">
+            <span *ngIf="scoreRow['stock'] && scoreRow['stock']['scores']">
+              <span *ngFor="let score of scoreRow['stock']['scores']">
+                <span *ngIf="score['scoreType']['name'] == 'Levermann'" [ngStyle]="getCssLevermann(scoreRow['stock'], score['scoreValue'])">{{score['scoreValue']}}</span>
+              </span>
+            </span>
+          </ng-template>
+        </p-column>
+        <p-column *ngIf="selectedStrategyRow && selectedStrategyRow.magic > 0" field="scoreMagicFormula" i18n-header="@@stock.magicformula.score" header="Magic Formula-Score">
+          <ng-template let-col let-scoreRow="rowData" pTemplate="body">
+            <span *ngIf="scoreRow['stock'] && scoreRow['stock']['scores']">
+              <span *ngFor="let score of scoreRow['stock']['scores']">
+                <span *ngIf="score['scoreType']['name'] == 'Magic Formula'">{{score['scoreValue'] | number}}</span>
+              </span>
+            </span>
+          </ng-template>
+        </p-column>
+        <p-column *ngIf="selectedStrategyRow && selectedStrategyRow.piotroski > 0" field="scorePiotroski" i18n-header="@@stock.piotroski.score" header="Piotroski F-Score">
+          <ng-template let-col let-scoreRow="rowData" pTemplate="body">
+            <span *ngIf="scoreRow['stock'] && scoreRow['stock']['scores']">
+              <span *ngFor="let score of scoreRow['stock']['scores']">
+                <span *ngIf="score['scoreType']['name'] == 'Piotroski F-Score'" [ngStyle]="getCssPiotroski(score['scoreValue'])">{{score['scoreValue']}}</span>
+              </span>
+            </span>
+          </ng-template>
+        </p-column>
         <p-column field="scoreValue" i18n-header="@@stock.score" header="Score">
           <ng-template let-col let-score="rowData" pTemplate="body">
             {{score[col.field] * 100 | number}}
@@ -102,6 +133,27 @@
             <ng-template let-col let-score="rowData" pTemplate="body">
                 <span *ngIf="score && score['index'] && score['index']['realStocks']">{{score['index']['realStocks'].length}}<span *ngIf="score['index']['totalStocks'] != null">/{{score['index']['totalStocks']}} ({{(score['index']['realStocks'].length / score['index']['totalStocks']) * 100 | number:'.0-1'}}%)</span></span>
             </ng-template>
+        </p-column>
+        <p-column *ngIf="selectedStrategyRow && selectedStrategyRow.levermann > 0" field="scoreLevermann" i18n-header="@@index.levermann.score" header="Levermann-Score">
+          <ng-template let-col let-scoreRow="rowData" pTemplate="body">
+            <span *ngFor="let score of scoreRow['index']['scores']">
+              <span *ngIf="score['scoreType']['name'] == 'Levermann'">{{score['scoreValue'] | number}}</span>
+            </span>
+          </ng-template>
+        </p-column>
+        <p-column *ngIf="selectedStrategyRow && selectedStrategyRow.magic > 0" field="scoreMagicFormula" i18n-header="@@index.magicformula.score" header="Magic Formula-Score">
+          <ng-template let-col let-scoreRow="rowData" pTemplate="body">
+            <span *ngFor="let score of scoreRow['index']['scores']">
+              <span *ngIf="score['scoreType']['name'] == 'Magic Formula'">{{score['scoreValue'] | number}}</span>
+            </span>
+          </ng-template>
+        </p-column>
+        <p-column *ngIf="selectedStrategyRow && selectedStrategyRow.piotroski > 0" field="scorePiotroski" i18n-header="@@index.piotroski.score" header="Piotroski F-Score">
+          <ng-template let-col let-scoreRow="rowData" pTemplate="body">
+            <span *ngFor="let score of scoreRow['index']['scores']">
+              <span *ngIf="score['scoreType']['name'] == 'Piotroski F-Score'">{{score['scoreValue'] | number}}</span>
+            </span>
+          </ng-template>
         </p-column>
         <p-column field="scoreValue" i18n-header="@@index.score" header="Score">
           <ng-template let-col let-score="rowData" pTemplate="body">

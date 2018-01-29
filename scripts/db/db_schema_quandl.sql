@@ -764,11 +764,12 @@ ALTER TABLE public.vperformance
 CREATE OR REPLACE VIEW public.vlatestprice AS 
   select 
     p.stock_id,
-    p.price
+    p.price,
+    p.created_at
   from (select stock_id, max(created_at) as latest_date from tprice group by stock_id) latest_price
   left join tprice p on latest_price.stock_id = p.stock_id and latest_price.latest_date = p.created_at
   union
-  select stock_id, null as price from tstock where stock_id not in (select distinct stock_id from tprice);
+  select stock_id, null as price, null as created_at from tstock where stock_id not in (select distinct stock_id from tprice);
 
 ALTER TABLE public.vlatestprice
   OWNER TO postgres;

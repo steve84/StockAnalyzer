@@ -1,5 +1,7 @@
 package ch.steve84.stock_analyzer.entity.quandl;
 
+import java.util.Calendar;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -13,6 +15,9 @@ public class LatestPrice {
     private Integer stockId;
     
     private Double price;
+    
+    @Column(name = "created_at")
+    private Calendar createdAt;
 
 	public Double getPrice() {
 		return price;
@@ -22,7 +27,15 @@ public class LatestPrice {
 		this.price = price;
 	}
 
-	public Integer getStockId() {
+	public Calendar getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Calendar createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Integer getStockId() {
 		return stockId;
 	}
 }
