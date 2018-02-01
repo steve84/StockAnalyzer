@@ -6,6 +6,7 @@ import { MenuItem } from 'primeng/primeng';
 import { StockService} from '../stock.service';
 import { IndexService} from '../index.service';
 import { HelperService} from '../../helper.service';
+import { UserService} from '../../user.service';
 
 import { Stock } from '../stock';
 import { IndexType } from '../indextype';
@@ -37,6 +38,7 @@ export class StockTableComponent implements OnInit, OnChanges {
               private stockService: StockService,
               private indexService: IndexService,
               private helperService: HelperService,
+              private userService: UserService,
               private router: Router) {}
               
   ngOnChanges(changes: SimpleChanges) {
@@ -121,41 +123,37 @@ export class StockTableComponent implements OnInit, OnChanges {
   }
   
   compare() {
-    this.router.navigate(['/compare']);
+    this.userService.compare();
   }
   
   addCompare(stock: Stock) {
-    this.compareIds.push(stock.stockId);
-    this.helperService.setLocalStorageItem('compare', this.compareIds);
+    this.userService.addCompare(stock.stockId);
   }
   
   removeCompare(stock: Stock) {
-    this.compareIds.splice(this.compareIds.indexOf(stock.stockId), 1);
-    this.helperService.setLocalStorageItem('compare', this.compareIds);
+    this.userService.removeCompare(stock.stockId);
   }
   
   resetCompare() {
-    this.compareIds = [];
-    this.helperService.setLocalStorageItem('compare', this.compareIds);
+    this.userService.resetCompare();
   }
   
   getCompareSize(): number {
-    return this.compareIds.length;
+    return this.userService.getCompareSize();
   }
   
   getCompareLabel() {
-    return this.commonTranslationPipe.transform("Compare selection", this.locale) + " (" + this.getCompareSize() + ")";
+    return this.userService.getCompareLabel();
+  }
+  
+  getCompareItems(): MenuItem[] {
+    return this.userService.getCompareItems();
   }
   
   isStockInCompare(stock: Stock): boolean {
-    return this.compareIds.indexOf(stock.stockId) > -1;
+    return this.userService.isStockInCompare(stock.stockId);
   }
 
   ngOnInit() {
-    if (this.helperService.isKeyInLocalStorage('compare')) {
-      this.compareIds = this.helperService.getLocalStorageItem('compare');
-      if (this.compareIds && this.compareIds.length > 0)
-        this.compareItems = [{label: this.commonTranslationPipe.transform("Cancel selection", this.locale), icon: 'fa-ban', command: () => { this.resetCompare(); }}];
-    }
   }
 }

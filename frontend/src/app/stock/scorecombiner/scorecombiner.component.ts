@@ -5,6 +5,7 @@ import { SelectItem, Message } from 'primeng/primeng';
 import { StockService } from '../stock.service';
 import { IndexService } from '../index.service';
 import { HelperService} from '../../helper.service';
+import { UserService} from '../../user.service';
 
 import { Score } from '../score';
 import { Stock } from '../stock';
@@ -47,6 +48,7 @@ export class ScorecombinerComponent implements OnInit {
   constructor(private stockService: StockService,
               private indexService: IndexService,
               private helperService: HelperService,
+              private userService: UserService,
               @Inject(LOCALE_ID) private locale: string) {
     this.numRowValues.push({label: '10', value: 10});
     this.numRowValues.push({label: '20', value: 20});

@@ -1,11 +1,18 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject, LOCALE_ID } from '@angular/core';
 import { Http, Headers, URLSearchParams } from '@angular/http';
+import { Router } from '@angular/router';
 
 import { JwtHelper, AuthHttp, tokenNotExpired } from 'angular2-jwt';
+
+import { MenuItem } from 'primeng/primeng';
 
 import 'rxjs/add/operator/map';
 
 import { environment } from './../environments/environment';
+
+import { HelperService } from './helper.service';
+
+import { CommonTranslationPipe } from './stock/common_translation.pipe';
 
 @Injectable()
 export class UserService {
@@ -13,9 +20,20 @@ export class UserService {
   username: string;
   roles: string;
   userId: number;
+  
+  compareIds: number[] = [];
+  compareKey: string = 'compare';
 
-  constructor(private http: Http, private authHttp: AuthHttp) {
+  commonTranslationPipe: CommonTranslationPipe = new CommonTranslationPipe('en_US');
+  constructor(private http: Http,
+              private authHttp: AuthHttp,
+              private router: Router,
+              private helperService: HelperService,
+              @Inject(LOCALE_ID) private locale: string) {
     this.decodeToken();
+    if (this.helperService.isKeyInLocalStorage(this.compareKey)) {
+      this.compareIds = this.helperService.getLocalStorageItem(this.compareKey);
+    }
   }
   
   login(username: string, password: string) {
@@ -127,4 +145,39 @@ export class UserService {
     return this.getUsername() && this.getUsername().length > 0 && tokenNotExpired();
   }
 
+  compare() {
+    this.router.navigate(['/compare']);
+  }
+  
+  addCompare(stockId: number) {
+    this.compareIds.push(stockId);
+    this.helperService.setLocalStorageItem(this.compareKey, this.compareIds);
+  }
+  
+  removeCompare(stockId: number) {
+    this.compareIds.splice(this.compareIds.indexOf(stockId), 1);
+    this.helperService.setLocalStorageItem(this.compareKey, this.compareIds);
+  }
+  
+  resetCompare() {
+    this.compareIds = [];
+    this.helperService.setLocalStorageItem(this.compareKey, this.compareIds);
+  }
+  
+  getCompareSize(): number {
+    return this.compareIds.length;
+  }
+  
+  getCompareLabel() {
+    return this.commonTranslationPipe.transform("Compare selection", this.locale) + " (" + this.getCompareSize() + ")";
+  }
+  
+  getCompareItems(): MenuItem[] {
+    if (this.compareIds && this.compareIds.length > 0)
+      return [{label: this.commonTranslationPipe.transform("Cancel selection", this.locale), icon: 'fa-ban', command: () => { this.resetCompare(); }}];
+  }
+  
+  isStockInCompare(stockId: number): boolean {
+    return this.compareIds.indexOf(stockId) > -1;
+  }
 }

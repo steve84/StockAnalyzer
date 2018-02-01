@@ -5,6 +5,7 @@ import { MenuItem, TreeNode, Message } from 'primeng/primeng';
 import { StockService } from '../stock.service';
 import { IndexService } from '../index.service';
 import { HelperService} from '../../helper.service';
+import { UserService} from '../../user.service';
 
 import { Country } from '../country';
 import { Branch } from '../branch';
@@ -55,6 +56,7 @@ export class WizardComponent implements OnInit {
   constructor(private stockService: StockService,
               private indexService: IndexService,
               private helperService: HelperService,
+              private userService: UserService,
               @Inject(LOCALE_ID) private locale: string) { }
 
   ngOnInit() {
@@ -274,5 +276,37 @@ export class WizardComponent implements OnInit {
     } else {
       this.items = this.defaultItems;
     }
+  }
+
+  compare() {
+    this.userService.compare();
+  }
+  
+  addCompare(stock: Stock) {
+    this.userService.addCompare(stock.stockId);
+  }
+  
+  removeCompare(stock: Stock) {
+    this.userService.removeCompare(stock.stockId);
+  }
+  
+  resetCompare() {
+    this.userService.resetCompare();
+  }
+  
+  getCompareSize(): number {
+    return this.userService.getCompareSize();
+  }
+  
+  getCompareLabel() {
+    return this.userService.getCompareLabel();
+  }
+
+  getCompareItems(): MenuItem[] {
+    return this.userService.getCompareItems();
+  }
+  
+  isStockInCompare(stock: Stock): boolean {
+    return this.userService.isStockInCompare(stock.stockId);
   }
 }

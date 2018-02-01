@@ -49,6 +49,7 @@
         <p-header>
           <div class="ui-helper-clearfix">
             <button type="button" pButton icon="fa-file-o" iconPos="left" label="CSV" (click)="dt.exportCSV()" style="float:left"></button>
+            <span *ngIf="getCompareSize() >= 1"><p-splitButton [label]="getCompareLabel()" icon="fa-balance-scale" (onClick)="compare()" [model]="getCompareItems()" styleClass="ui-button-warning" [style]="{'float':'right'}"></p-splitButton></span>
           </div>
         </p-header>
         <p-column field="stock.isin" i18n-header="@@stock.isin" header="ISIN"></p-column>
@@ -73,6 +74,12 @@
         <p-column i18n-header="@@stock.details" header="Details" styleClass="col-button">
           <ng-template let-score="rowData" pTemplate="body">
             <button type="button" pButton (click)="showStock(score)" icon="fa-search"></button>
+          </ng-template>
+        </p-column>
+        <p-column i18n-header="@@stock.compare" header="Compare" styleClass="col-button">
+          <ng-template let-score="rowData" pTemplate="body">
+            <span *ngIf="!isStockInCompare(score['stock'])"><button type="button" pButton (click)="addCompare(score['stock'])" icon="fa-plus-square" class="ui-button-success"></button></span>
+            <span *ngIf="isStockInCompare(score['stock'])"><button type="button" pButton (click)="removeCompare(score['stock'])" icon="fa-minus-square" class="ui-button-danger"></button></span>
           </ng-template>
         </p-column>
       </p-dataTable>
