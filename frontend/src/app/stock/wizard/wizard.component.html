@@ -78,8 +78,8 @@
         </p-column>
         <p-column i18n-header="@@stock.compare" header="Compare" styleClass="col-button">
           <ng-template let-score="rowData" pTemplate="body">
-            <span *ngIf="!isStockInCompare(score['stock'])"><button type="button" pButton (click)="addCompare(score['stock'])" icon="fa-plus-square" class="ui-button-success"></button></span>
-            <span *ngIf="isStockInCompare(score['stock'])"><button type="button" pButton (click)="removeCompare(score['stock'])" icon="fa-minus-square" class="ui-button-danger"></button></span>
+            <span *ngIf="score['stock'] && !isStockInCompare(score['stock'])"><button type="button" pButton (click)="addCompare(score['stock'])" icon="fa-plus-square" class="ui-button-success"></button></span>
+            <span *ngIf="score['stock'] && isStockInCompare(score['stock'])"><button type="button" pButton (click)="removeCompare(score['stock'])" icon="fa-minus-square" class="ui-button-danger"></button></span>
           </ng-template>
         </p-column>
       </p-dataTable>

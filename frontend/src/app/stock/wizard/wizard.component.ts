@@ -106,7 +106,6 @@ export class WizardComponent implements OnInit {
   }
   
   getScoreValues() {
-    debugger
     let fromMarketCap: number = null;
     let toMarketCap: number = null;
     switch (this.selectedCompanySize) {

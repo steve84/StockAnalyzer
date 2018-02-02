@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, LOCALE_ID } from '@angular/core';
 
-import { SelectItem, Message } from 'primeng/primeng';
+import { SelectItem, MenuItem, Message } from 'primeng/primeng';
 
 import { StockService } from '../stock.service';
 import { IndexService } from '../index.service';
@@ -207,6 +207,38 @@ export class ScorecombinerComponent implements OnInit {
   
   isPureMagicFormula() {
     return this.levermannFactor == 0 && this.piotroskiFactor == 0 && this.magicFormulaFactor == 100;
+  }
+  
+  compare() {
+    this.userService.compare();
+  }
+  
+  addCompare(stock: Stock) {
+    this.userService.addCompare(stock.stockId);
+  }
+  
+  removeCompare(stock: Stock) {
+    this.userService.removeCompare(stock.stockId);
+  }
+  
+  resetCompare() {
+    this.userService.resetCompare();
+  }
+  
+  getCompareSize(): number {
+    return this.userService.getCompareSize();
+  }
+  
+  getCompareLabel() {
+    return this.userService.getCompareLabel();
+  }
+  
+  getCompareItems(): MenuItem[] {
+    return this.userService.getCompareItems();
+  }
+  
+  isStockInCompare(stock: Stock): boolean {
+    return this.userService.isStockInCompare(stock.stockId);
   }
 
   reset() {
