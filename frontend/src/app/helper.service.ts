@@ -122,7 +122,7 @@ export class HelperService {
       return null;
   }
   
-  createLineOrBarChart(datasetName: string, xAxis: string[], yAxis: number[], bar: boolean = false, existingChart?: any) {
+  createLineOrBarChart(datasetName: string, xAxis: string[], yAxis: number[], bar: boolean = false, relative: boolean = false, asc: boolean = true, existingChart?: any) {
     if (!xAxis || xAxis.length == 0) {
       return !existingChart ? null : existingChart;
     }
@@ -143,7 +143,7 @@ export class HelperService {
       for (let label of existingChart['labels']) {
         let index = xAxis.indexOf(label);
         if (index > -1)
-          dataset['data'].push(yAxis[index]);
+          dataset['data'].push(Math.round(yAxis[index] * 1000) / 1000);
         else
           dataset['data'].push(0);
       }
@@ -158,6 +158,24 @@ export class HelperService {
       dataset['fill'] = false;
       dataset['borderColor'] = this.randomColor();
       dataset['lineTension'] = 0;
+    }
+    
+    if (relative) {
+      let tmpData = [0];
+      let size = dataset['data'].length;
+      let i = 1;
+      if (!asc)
+        dataset['data'].reverse();
+      while (i < size) {
+        if (dataset['data'][i] && dataset['data'][i-1] && dataset['data'][i] > 0 && dataset['data'][i-1] > 0)
+          tmpData.push(Math.round(((dataset['data'][i] / dataset['data'][i-1]) - 1) * 10000) / 100);
+        else
+          tmpData.push(0);
+        i++;
+      }
+      if (!asc)
+        tmpData.reverse();
+      dataset['data'] = tmpData;
     }
     
     // Set dataset

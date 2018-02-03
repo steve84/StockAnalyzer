@@ -5,11 +5,14 @@
         <app-stocktable [external]="true" [stocks]="stocks" [pageSize]="pageSize" [totalRecords]="totalRecords" [loading]="loading" [compareActive]="false" (onLazyLoad)="onLazyLoad($event)"></app-stocktable>
       </p-tabPanel>
       <p-tabPanel i18n-header="@@stock.figures" header="Figures">
-        <p-tabView (onChange)="handleChange($event)">
+        <p-tabView (onChange)="handleChange($event, true)">
           <p-tabPanel i18n-header="@@stock.balance" header="Balance">
             <div class = "ui-g">
               <div *ngFor="let figure of getObjects(balanceLabels)" class="ui-g-12 ui-md-4 ui-lg-2">
                 <p-radioButton name="balance" [value]="figure" [(ngModel)]="selectedBalanceFigure" (ngModelChange)="createFigureCharts($event)"></p-radioButton>{{balanceLabels[figure] | translateFigure}}
+              </div>
+              <div class="ui-g-12">
+                <p-checkbox [(ngModel)]="showRelative" binary="true" (onChange)="setShowRelative($event, this.selectedBalanceFigure)"></p-checkbox><span i18n="@@stock.growth">Growth</span>
               </div>
               <div class="ui-g-12">
                 <p-chart type="bar" #balanceChart [data]="balanceChartObj" [options]="options" height="500px"></p-chart>
@@ -22,6 +25,9 @@
                 <p-radioButton name="cashflow" [value]="figure" [(ngModel)]="selectedCashflowFigure" (ngModelChange)="createFigureCharts($event)"></p-radioButton>{{cashflowLabels[figure] | translateFigure}}
               </div>
               <div class="ui-g-12">
+                <p-checkbox [(ngModel)]="showRelative" binary="true" (onChange)="setShowRelative($event, this.selectedCashflowFigure)"></p-checkbox><span i18n="@@stock.growth">Growth</span>
+              </div>
+              <div class="ui-g-12">
                 <p-chart type="bar" #cashflowChart [data]="cashflowChartObj" [options]="options" height="500px"></p-chart>
               </div>
             </div>
@@ -30,6 +36,9 @@
             <div class = "ui-g">
               <div *ngFor="let figure of getObjects(incomeLabels)" class="ui-g-12 ui-md-4 ui-lg-2">
                 <p-radioButton name="income" [value]="figure" [(ngModel)]="selectedIncomeFigure" (ngModelChange)="createFigureCharts($event)"></p-radioButton>{{incomeLabels[figure] | translateFigure}}
+              </div>
+              <div class="ui-g-12">
+                <p-checkbox [(ngModel)]="showRelative" binary="true" (onChange)="setShowRelative($event, this.selectedIncomeFigure)"></p-checkbox><span i18n="@@stock.growth">Growth</span>
               </div>
               <div class="ui-g-12">
                 <p-chart type="bar" #incomeChart [data]="incomeChartObj" [options]="options" height="500px"></p-chart>
@@ -59,6 +68,9 @@
                 <p-radioButton name="signals" [value]="figure" [(ngModel)]="selectedSignalFigure" (ngModelChange)="createFigureCharts($event)"></p-radioButton>{{signalLabels[figure] | translateFigure}}
               </div>
               <div class="ui-g-12">
+                <p-checkbox [(ngModel)]="showRelative" binary="true" (onChange)="setShowRelative($event, this.selectedSignalFigure)"></p-checkbox><span i18n="@@stock.growth">Growth</span>
+              </div>
+              <div class="ui-g-12">
                 <p-chart type="bar" #signalChart [data]="signalsChartObj" [options]="options" height="500px"></p-chart>
               </div>
             </div>
@@ -67,6 +79,9 @@
             <div class = "ui-g">
               <div *ngFor="let figure of getObjects(forecastLabels)" class="ui-g-12 ui-md-4 ui-lg-2">
                 <p-radioButton name="forecast" [value]="figure" [(ngModel)]="selectedForecastFigure" (ngModelChange)="createFigureCharts($event)"></p-radioButton>{{forecastLabels[figure] | translateFigure}}
+              </div>
+              <div class="ui-g-12">
+                <p-checkbox [(ngModel)]="showRelative" binary="true" (onChange)="setShowRelative($event, this.selectedForecastFigure)"></p-checkbox><span i18n="@@stock.growth">Growth</span>
               </div>
               <div class="ui-g-12">
                 <p-chart type="bar" #forecastChart [data]="forecastChartObj" [options]="options" height="500px"></p-chart>

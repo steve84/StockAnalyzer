@@ -32,6 +32,8 @@ export class CompareComponent implements OnInit {
   loading: boolean = false;
 
   figureTranslationPipe: FigureTranslationPipe = new FigureTranslationPipe('en_US');
+  
+  showRelative: boolean = false;
 
   balanceChartObj: any;
   cashflowChartObj: any;
@@ -151,8 +153,29 @@ export class CompareComponent implements OnInit {
     return properties.reverse();
   }
   
-  handleChange(event: any) {
-    setTimeout(() => this.createFigureCharts(), 100);
+  handleChange(event: any, figureTab: boolean = false) {
+    if (figureTab) {
+      let figure = this.selectedBalanceFigure;
+      switch (event.index) {
+        case 1:
+          figure = this.selectedCashflowFigure;
+          break;
+        case 2:
+          figure = this.selectedIncomeFigure;
+          break;
+        case 4:
+          figure = this.selectedSignalFigure;
+          break;
+        case 5:
+          figure = this.selectedForecastFigure;
+          break;
+      }
+      setTimeout(() => this.createFigureCharts(figure), 100);
+      this.setYLabel(figure, this.showRelative);
+    } else {
+      setTimeout(() => this.createFigureCharts(), 100);
+      this.setYLabel('', this.showRelative);
+    }
   }
   
   selectValueRow(event: any) {
@@ -164,8 +187,12 @@ export class CompareComponent implements OnInit {
       values.push(stock['value'][event.data]);
     }
     this.valuesChartObj = this.helperService.createLineOrBarChart(this.figureTranslationPipe.transform(this.valueLabels[event.data], this.locale), labels, values, true);
+    this.setYLabel(event.data, false);
   }
   
+  setShowRelative(event: any, figure: string) {
+    setTimeout(() => this.createFigureCharts(figure), 100);
+  }
   
   createCharts(dataset: string, figure: string, reverse: boolean = true) {
     let chart;
@@ -182,6 +209,8 @@ export class CompareComponent implements OnInit {
           labels,
           values,
           true,
+          this.showRelative,
+          !reverse,
           chart
         );
       }
@@ -190,16 +219,35 @@ export class CompareComponent implements OnInit {
   }
   
   createFigureCharts(selectedFigure?: string) {
-    if (!selectedFigure || (selectedFigure && Object.keys(this.balanceLabels).indexOf(selectedFigure) > -1))
-      this.balanceChartObj = this.createCharts('balance', this.selectedBalanceFigure);
-    if (!selectedFigure || (selectedFigure && Object.keys(this.cashflowLabels).indexOf(selectedFigure) > -1))
-      this.cashflowChartObj = this.createCharts('cashflow', this.selectedCashflowFigure);
-    if (!selectedFigure || (selectedFigure && Object.keys(this.incomeLabels).indexOf(selectedFigure) > -1))
-      this.incomeChartObj = this.createCharts('income', this.selectedIncomeFigure);
-    if (!selectedFigure || (selectedFigure && Object.keys(this.signalLabels).indexOf(selectedFigure) > -1))
-      this.signalsChartObj = this.createCharts('signals', this.selectedSignalFigure, false);
-    if (!selectedFigure || (selectedFigure && Object.keys(this.forecastLabels).indexOf(selectedFigure) > -1))
-      this.forecastChartObj = this.createCharts('forecast', this.selectedForecastFigure, false);
+    if (!selectedFigure || (selectedFigure && Object.keys(this.balanceLabels).indexOf(selectedFigure) > -1)) {
+      this.balanceChartObj = this.createCharts('balance', this.selectedBalanceFigure, false);
+      if (selectedFigure)
+        this.setYLabel(this.figureTranslationPipe.transform(this.balanceLabels[selectedFigure], this.locale), this.showRelative);
+    }
+    if (!selectedFigure || (selectedFigure && Object.keys(this.cashflowLabels).indexOf(selectedFigure) > -1)) {
+      this.cashflowChartObj = this.createCharts('cashflow', this.selectedCashflowFigure, false);
+      if (selectedFigure)
+        this.setYLabel(this.figureTranslationPipe.transform(this.cashflowLabels[selectedFigure], this.locale), this.showRelative);
+    }
+    if (!selectedFigure || (selectedFigure && Object.keys(this.incomeLabels).indexOf(selectedFigure) > -1)) {
+      this.incomeChartObj = this.createCharts('income', this.selectedIncomeFigure, false);
+      if (selectedFigure)
+        this.setYLabel(this.figureTranslationPipe.transform(this.incomeLabels[selectedFigure], this.locale), this.showRelative);
+    }
+    if (!selectedFigure || (selectedFigure && Object.keys(this.signalLabels).indexOf(selectedFigure) > -1)) {
+      this.signalsChartObj = this.createCharts('signals', this.selectedSignalFigure);
+      if (selectedFigure)
+        this.setYLabel(this.figureTranslationPipe.transform(this.signalLabels[selectedFigure], this.locale), this.showRelative);
+    }
+    if (!selectedFigure || (selectedFigure && Object.keys(this.forecastLabels).indexOf(selectedFigure) > -1)) {
+      this.forecastChartObj = this.createCharts('forecast', this.selectedForecastFigure);
+      if (selectedFigure)
+        this.setYLabel(this.figureTranslationPipe.transform(this.forecastLabels[selectedFigure], this.locale), this.showRelative);
+    }
+  }
+  
+  setYLabel(title: string, relative: boolean) {
+    this.options['scales'] = {yAxes: [{scaleLabel: {display: true, labelString: title + (relative ? ' %' : '')}}]};
   }
   
   goBack()  {
