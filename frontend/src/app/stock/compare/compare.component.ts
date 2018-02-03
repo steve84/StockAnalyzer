@@ -247,7 +247,7 @@ export class CompareComponent implements OnInit {
   }
   
   setYLabel(title: string, relative: boolean) {
-    this.options['scales'] = {yAxes: [{scaleLabel: {display: true, labelString: title + (relative ? ' %' : '')}}]};
+    this.options['scales'] = {yAxes: [{scaleLabel: {display: true, labelString: title + (relative && title.search('%') == -1 ? ' %' : '')}}]};
   }
   
   goBack()  {

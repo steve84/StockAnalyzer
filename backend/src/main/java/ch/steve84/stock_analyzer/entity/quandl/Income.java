@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name = "tincome")
@@ -43,9 +42,6 @@ public class Income {
     @Column(name = "dividend")
     private Double dividend;
     
-    @Transient
-    private Double dividendYield;
-
     @Column(name = "diluted_shares_os")
     private Double dilutedSharesOs;
 
@@ -134,7 +130,7 @@ public class Income {
 	}
 
 	public Double getHistoricYield() {
-		return historicYield;
+		return historicYield != null ? historicYield * 100 : null;
 	}
 
 	public void setHistoricYield(Double historicYield) {

@@ -89,24 +89,24 @@ export class FigureTranslationPipe implements PipeTransform {
         return 'Rückkäufe';
       case 'Solvency':
         return 'Liquidität';
-      case 'Dividend Payout':
-        return 'Ausschüttungsquote';
-      case 'Operating Margin':
-        return 'Umsatzrendite';
-      case 'Net Margin':
-        return 'Nettomarge';
-      case 'Return on Equity':
-        return 'Eigenkapitalrendite';
-      case 'Return on Assets Employed':
-        return 'Gesamtkapitalrendite';
-      case 'Return on Total Capital Employed':
-        return 'Gesamtkapitalrendite';
+      case 'Dividend Payout %':
+        return 'Ausschüttungsquote %';
+      case 'Operating Margin %':
+        return 'Umsatzrendite %';
+      case 'Net Margin %':
+        return 'Nettomarge %';
+      case 'Return on Equity %':
+        return 'Eigenkapitalrendite %';
+      case 'Return on Assets Employed %':
+        return 'Gesamtkapitalrendite %';
+      case 'Return on Total Capital Employed %':
+        return 'Gesamtkapitalrendite %';
       case 'Long-term Dept/Operating Income Ratio':
         return 'Verhältnis Schulden/Betriebsgewinn';
       case 'Operating Income':
         return 'Betriebsgewinn';
-      case 'Dividend Yield':
-        return 'Dividendenrendite';
+      case 'Dividend Yield %':
+        return 'Dividendenrendite %';
       default:
         return value;
     }

@@ -114,7 +114,7 @@ export class FundamentalService {
       'epsExc': this.figureTranslationPipe.transform('Earnings per Share', this.locale),
       'dividend': this.figureTranslationPipe.transform('Dividend', this.locale),
       'dilutedSharesOs': this.figureTranslationPipe.transform('Outstanding Shares (Diluted)', this.locale),
-      'historicYield': this.figureTranslationPipe.transform('Dividend Yield', this.locale),
+      'historicYield': this.figureTranslationPipe.transform('Dividend Yield %', this.locale),
       'sharePriceEop': this.figureTranslationPipe.transform('Share Price (End of period)', this.locale)
     };
     
@@ -132,12 +132,12 @@ export class FundamentalService {
       'currentRatio': this.figureTranslationPipe.transform('Current Ratio', this.locale),
       'buybacks': this.figureTranslationPipe.transform('Buybacks', this.locale),
       'solvency': this.figureTranslationPipe.transform('Solvency', this.locale),
-      'dividendPayout': this.figureTranslationPipe.transform('Dividend Payout', this.locale),
-      'operatingMargin': this.figureTranslationPipe.transform('Operating Margin', this.locale),
-      'netIncMargin': this.figureTranslationPipe.transform('Net Margin', this.locale),
-      'roe': this.figureTranslationPipe.transform('Return on Equity', this.locale),
-      'roae': this.figureTranslationPipe.transform('Return on Assets Employed', this.locale),
-      'rotc': this.figureTranslationPipe.transform('Return on Total Capital Employed', this.locale),
+      'dividendPayout': this.figureTranslationPipe.transform('Dividend Payout %', this.locale),
+      'operatingMargin': this.figureTranslationPipe.transform('Operating Margin %', this.locale),
+      'netIncMargin': this.figureTranslationPipe.transform('Net Margin %', this.locale),
+      'roe': this.figureTranslationPipe.transform('Return on Equity %', this.locale),
+      'roae': this.figureTranslationPipe.transform('Return on Assets Employed %', this.locale),
+      'rotc': this.figureTranslationPipe.transform('Return on Total Capital Employed %', this.locale),
       'ltDebtOpIncome': this.figureTranslationPipe.transform('Long-term Dept/Operating Income Ratio', this.locale)
     };
 

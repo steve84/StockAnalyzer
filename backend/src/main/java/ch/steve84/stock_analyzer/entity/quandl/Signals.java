@@ -87,7 +87,7 @@ public class Signals {
 	}
 
 	public Double getDividendPayout() {
-		return dividendPayout;
+		return dividendPayout != null ? dividendPayout * 100 : null;
 	}
 
 	public void setDividendPayout(Double dividendPayout) {
@@ -95,7 +95,7 @@ public class Signals {
 	}
 
 	public Double getOperatingMargin() {
-		return operatingMargin;
+		return operatingMargin != null ? operatingMargin * 100 : null;
 	}
 
 	public void setOperatingMargin(Double operatingMargin) {
@@ -103,7 +103,7 @@ public class Signals {
 	}
 
 	public Double getNetIncMargin() {
-		return netIncMargin;
+		return netIncMargin != null ? netIncMargin * 100 : null;
 	}
 
 	public void setNetIncMargin(Double netIncMargin) {
@@ -111,7 +111,7 @@ public class Signals {
 	}
 
 	public Double getRoe() {
-		return roe;
+		return roe != null ? roe * 100 : null;
 	}
 
 	public void setRoe(Double roe) {
@@ -119,7 +119,7 @@ public class Signals {
 	}
 
 	public Double getRoae() {
-		return roae;
+		return roae != null ? roae * 100 : null;
 	}
 
 	public void setRoae(Double roae) {
@@ -127,7 +127,7 @@ public class Signals {
 	}
 
 	public Double getRotc() {
-		return rotc;
+		return rotc != null ? rotc * 100 : null;
 	}
 
 	public void setRotc(Double rotc) {
