@@ -136,22 +136,28 @@
         </p-column>
         <p-column *ngIf="selectedStrategyRow && selectedStrategyRow.levermann > 0" field="scoreLevermann" i18n-header="@@index.levermann.score" header="Levermann-Score">
           <ng-template let-col let-scoreRow="rowData" pTemplate="body">
-            <span *ngFor="let score of scoreRow['index']['scores']">
-              <span *ngIf="score['scoreType']['name'] == 'Levermann'">{{score['scoreValue'] | number}}</span>
+            <span *ngIf="scoreRow['index'] && scoreRow['index']['scores']">
+              <span *ngFor="let score of scoreRow['index']['scores']">
+                <span *ngIf="score['scoreType']['name'] == 'Levermann'">{{score['scoreValue'] | number}}</span>
+              </span>
             </span>
           </ng-template>
         </p-column>
         <p-column *ngIf="selectedStrategyRow && selectedStrategyRow.magic > 0" field="scoreMagicFormula" i18n-header="@@index.magicformula.score" header="Magic Formula-Score">
           <ng-template let-col let-scoreRow="rowData" pTemplate="body">
-            <span *ngFor="let score of scoreRow['index']['scores']">
-              <span *ngIf="score['scoreType']['name'] == 'Magic Formula'">{{score['scoreValue'] | number}}</span>
+            <span *ngIf="scoreRow['index'] && scoreRow['index']['scores']">
+              <span *ngFor="let score of scoreRow['index']['scores']">
+                <span *ngIf="score['scoreType']['name'] == 'Magic Formula'">{{score['scoreValue'] | number}}</span>
+              </span>
             </span>
           </ng-template>
         </p-column>
         <p-column *ngIf="selectedStrategyRow && selectedStrategyRow.piotroski > 0" field="scorePiotroski" i18n-header="@@index.piotroski.score" header="Piotroski F-Score">
           <ng-template let-col let-scoreRow="rowData" pTemplate="body">
-            <span *ngFor="let score of scoreRow['index']['scores']">
-              <span *ngIf="score['scoreType']['name'] == 'Piotroski F-Score'">{{score['scoreValue'] | number}}</span>
+            <span *ngIf="scoreRow['index'] && scoreRow['index']['scores']">
+              <span *ngFor="let score of scoreRow['index']['scores']">
+                <span *ngIf="score['scoreType']['name'] == 'Piotroski F-Score'">{{score['scoreValue'] | number}}</span>
+              </span>
             </span>
           </ng-template>
         </p-column>
