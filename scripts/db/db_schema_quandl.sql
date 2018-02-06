@@ -578,6 +578,7 @@ CREATE INDEX fki_fbranch ON tstock USING btree (branch_id);
 --
 
 CREATE INDEX fki_fcountry ON tstock USING btree (country_id);
+CREATE INDEX fki_fquandl_id ON tstock USING btree (quandl_rb1_id);
 
 CREATE INDEX fki_findexcountry ON tindex USING btree (country_id);
 
@@ -665,7 +666,7 @@ ALTER TABLE ONLY tprice
 ALTER TABLE ONLY tprice
   ADD CONSTRAINT fpriceindex FOREIGN KEY (index_id) REFERENCES tindex(index_id);
 
-ALTER TABLE tbranch ADD CONSTRAINT ubranchname UNIQUE (name);
+ALTER TABLE tbranch ADD CONSTRAINT ubranchname UNIQUE (name, branch_group);
 
 ALTER TABLE tcountry ADD CONSTRAINT ucountry UNIQUE (name, code);
 
@@ -694,6 +695,13 @@ ALTER TABLE tuser ADD CONSTRAINT cuser CHECK (correspondence_language IN ('DE', 
 ALTER TABLE tscore ADD CONSTRAINT cscore CHECK ((stock_id is NULL) <> (index_id is NULL));
 
 ALTER TABLE tprice ADD CONSTRAINT cprice CHECK ((stock_id is NULL) <> (index_id is NULL));
+
+ALTER TABLE tincome ADD CONSTRAINT uincomestock UNIQUE (modified_at, stock_id);
+ALTER TABLE tbalance ADD CONSTRAINT ubalancestock UNIQUE (modified_at, stock_id);
+ALTER TABLE tcashflow ADD CONSTRAINT ucashflowstock UNIQUE (modified_at, stock_id);
+ALTER TABLE tforecast ADD CONSTRAINT uforecaststock UNIQUE (modified_at, stock_id);
+ALTER TABLE tvalues ADD CONSTRAINT uvaluesstock UNIQUE (modified_at, stock_id);
+ALTER TABLE tsignals ADD CONSTRAINT usignalsstock UNIQUE (modified_at, stock_id);
 
 
 CREATE OR REPLACE VIEW public.vstock AS 
