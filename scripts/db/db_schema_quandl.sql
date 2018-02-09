@@ -768,6 +768,27 @@ CREATE OR REPLACE VIEW public.vperformance AS
 ALTER TABLE public.vperformance
   OWNER TO postgres;
 
+  
+CREATE OR REPLACE VIEW public.vmomentum AS 
+  select stock_dates.stock_id,
+    case when one_month_price.price > 0 then ((actual_price.price / one_month_price.price) - 1) else null end AS momentum_1m,
+    case when three_month_price.price > 0 then ((actual_price.price / three_month_price.price) - 1) else null end AS momentum_3m,
+    case when six_month_price.price > 0 then ((actual_price.price / six_month_price.price) - 1) else null end AS momentum_6m,
+    case when one_year_price.price > 0 then ((actual_price.price / one_year_price.price) - 1) else null end AS momentum_1y
+  from (select actual_price.stock_id, actual_price.target_date as actual_price_date, one_month_price.target_date as one_month_price_date, three_month_price.target_date as three_month_price_date, six_month_price.target_date as six_month_price_date, one_year_price.target_date as one_year_price_date from (select stock_id, max(created_at) as target_date from (select stock_id, created_at from tprice where created_at::timestamp in (select * from generate_series(current_date - interval '1 month' - interval '3 days', current_date - interval '1 month' + interval '3 days', '1 day'))) dates group by stock_id)) actual_price
+        left join (select stock_id, max(created_at) as target_date from (select stock_id, created_at from tprice where created_at::timestamp in (select * from generate_series(current_date - interval '2 months' - interval '3 days', current_date - interval '2 months' + interval '3 days', '1 day'))) dates group by stock_id) one_month_price on one_month_price.stock_id = actual_price.stock_id
+        left join (select stock_id, max(created_at) as target_date from (select stock_id, created_at from tprice where created_at::timestamp in (select * from generate_series(current_date - interval '4 months' - interval '3 days', current_date - interval '4 months' + interval '3 days', '1 day'))) dates group by stock_id) three_month_price on three_month_price.stock_id = actual_price.stock_id
+        left join (select stock_id, max(created_at) as target_date from (select stock_id, created_at from tprice where created_at::timestamp in (select * from generate_series(current_date - interval '7 months' - interval '3 days', current_date - interval '7 months' + interval '3 days', '1 day'))) dates group by stock_id) six_month_price on six_month_price.stock_id = actual_price.stock_id
+        left join (select stock_id, max(created_at) as target_date from (select stock_id, created_at from tprice where created_at::timestamp in (select * from generate_series(current_date - interval '13 months' - interval '3 days', current_date - interval '13 months' + interval '3 days', '1 day'))) dates group by stock_id) one_year_price on one_year_price.stock_id = actual_price.stock_id
+        where one_month_price.target_date is not null and three_month_price.target_date is not null and six_month_price.target_date is not null and one_year_price.target_date is not null and actual_price.target_date is not null) stock_dates
+  left join tprice actual_price on stock_dates.stock_id = actual_price.stock_id and stock_dates.actual_price_date = actual_price.created_at
+  left join tprice one_month_price on stock_dates.stock_id = one_month_price.stock_id and stock_dates.one_month_price_date = one_month_price.created_at
+  left join tprice three_month_price on stock_dates.stock_id = three_month_price.stock_id and stock_dates.three_month_price_date = three_month_price.created_at
+  left join tprice six_month_price on stock_dates.stock_id = six_month_price.stock_id and stock_dates.six_month_price_date = six_month_price.created_at
+  left join tprice one_year_price on stock_dates.stock_id = one_year_price.stock_id and stock_dates.one_year_price_date = one_year_price.created_at;
+
+ALTER TABLE public.vmomentum
+  OWNER TO postgres;
 
 CREATE OR REPLACE VIEW public.vlatestprice AS 
   select 
