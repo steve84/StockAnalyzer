@@ -1,5 +1,6 @@
 import { Country } from './country';
 import { Stock } from './stock';
+import { StockIndexImpl } from './stockindex';
 import { Score } from './score';
 
 export interface IndexType {
@@ -7,8 +8,10 @@ export interface IndexType {
   name?: string,
   description?: string,
   country?: Country,
-  realStocks?: Stock[],
+  stocks?: StockIndexImpl[],
   scores?: Score[],
   createdAt?: string,
-  totalStocks?: number
+  totalStocks?: number,
+  countryStats: any,
+  branchStats: any
 }

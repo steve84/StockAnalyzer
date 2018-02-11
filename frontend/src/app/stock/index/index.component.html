@@ -7,7 +7,7 @@
     </p-column>
     <p-column field="realStocks.length" i18n-header="@@index.nbrofstocks" header="Number of Stocks" [sortable]="false">
       <ng-template let-col let-index="rowData" pTemplate="body">
-          {{index.realStocks.length}}<span *ngIf="index.totalStocks != null">/{{index.totalStocks}} ({{(index.realStocks.length / index.totalStocks) * 100 | number:'.0-1'}}%)</span>
+          {{index.stocks.length}}<span *ngIf="index.totalStocks != null">/{{index.totalStocks}} ({{(index.stocks.length / index.totalStocks) * 100 | number:'.0-1'}}%)</span>
       </ng-template>
     </p-column>
     <p-column field="scoreLevermann" i18n-header="@@index.levermann.score" header="Levermann-Score" [sortable]="true">

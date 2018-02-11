@@ -37,13 +37,14 @@ export class IndexComponent implements OnInit {
     this.indexService.getIndices(page, this.pageSize, sortField, sortOrder).subscribe((data:any[]) => {
       this.indices = data['_embedded']['index'];
       this.totalRecords = data['page']['totalElements'];
-      this.addStockIds();
+      //this.addStockIds();
+      this.loading = false;
     }, (err:any) => {
       this.loading = false;
       this.helperService.handleError(err);
     });
   }
-
+  
   private addStockIds() {
     for (let index of this.indices) {
       index['levermannScore'] = 0;
@@ -61,7 +62,6 @@ export class IndexComponent implements OnInit {
       if (totalMarketCap > 0)
         index['levermannScore'] /= totalMarketCap;
     }
-    this.loading = false;
   }
 
   showIndexDetail(index: IndexType) {

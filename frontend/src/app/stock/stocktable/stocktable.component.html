@@ -1,4 +1,4 @@
-<p-dataTable [value]="stocks" selectionMode="single" responsive="true" [(selection)]="selectedStock" [loading]="loading" [paginator]="true" [lazy]="lazy" [rows]="pageSize" [rowsPerPageOptions]="[10,20,30]" (onLazyLoad)="loadData($event)" [totalRecords]="totalRecords" sortField="name" sortOrder="1" resizableColumns="true" [emptyMessage]="getEmptyMessage()">
+<p-dataTable [value]="stocks" selectionMode="single" responsive="true" [(selection)]="selectedStock" [loading]="loading" [paginator]="true" [lazy]="lazy" [rows]="pageSize" [rowsPerPageOptions]="[10,20,30]" (onLazyLoad)="loadData($event)" [totalRecords]="totalRecords" sortField="isin" sortOrder="1" resizableColumns="true" [emptyMessage]="getEmptyMessage()">
     <p-header *ngIf="compareActive && getCompareSize() >= 1">
       <div class="ui-helper-clearfix">
         <p-splitButton [label]="getCompareLabel()" icon="fa-balance-scale" (onClick)="compare()" [model]="getCompareItems()" styleClass="ui-button-warning" [style]="{'float':'right'}"></p-splitButton>
@@ -37,7 +37,12 @@
         </span>
       </ng-template>
     </p-column>
-    <p-column field="levermann.marketCapitalization" i18n-header="@@stock.company_size" header="Company size" [sortable]="true">
+    <p-column *ngIf="hasStockPercentage()" field="marketCapitalization.marketCapitalization" i18n-header="@@stock.percentage" header="Percentage" [sortable]="true">
+      <ng-template let-col let-stock="rowData" pTemplate="body">
+        {{getStockIndexPercentage(stock.stockId) * 100 | number:'.2-2'}}%
+      </ng-template>
+    </p-column>
+    <p-column field="marketCapitalization.marketCapitalization" i18n-header="@@stock.company_size" header="Company size" [sortable]="true">
       <ng-template let-col let-stock="rowData" pTemplate="body">
         {{stock['stockCategory']}}
       </ng-template>

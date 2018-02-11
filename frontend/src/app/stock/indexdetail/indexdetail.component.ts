@@ -3,6 +3,7 @@ import { Component, OnInit, OnChanges, SimpleChanges, EventEmitter, Input, Outpu
 import { HelperService } from '../../helper.service';
 
 import { IndexService } from '../index.service';
+import { StockService } from '../stock.service';
 
 import { IndexType } from '../indextype';
 import { Stock } from '../stock';
@@ -22,79 +23,91 @@ export class IndexdetailComponent implements OnInit, OnChanges {
   title: string;
   totalMarketCap: number = 0;
   stocks: Stock[] = [];
-  allStocks: Stock[] = [];
   totalRecords: number = 0;
+  page: number = 0;
   pageSize: number = 10;
+  sortField: string;
+  sortOrder: number;
   chartDataCountry: any;
   chartDataBranch: any;
   loading: boolean = false;
+  indexPercentage: any;
   countryTranslationPipe: CountryTranslationPipe = new CountryTranslationPipe('en_US');
   branchTranslationPipe: BranchTranslationPipe = new BranchTranslationPipe('en_US');
   constructor(private indexService: IndexService,
+              private stockService: StockService,
               private helperService: HelperService,
               @Inject(LOCALE_ID) private locale: string) {}
   
   ngOnInit() {
-    this.loading = true;
     this.indexService.getIndexEmitter()
       .subscribe((data:IndexType) => {
         this.index = data;
-        this.allStocks = data.realStocks;
-        this.totalRecords = this.allStocks.length;
-        this.stocks = this.allStocks.slice(0, this.pageSize);
-        this.title = data.name;
-        this.setTotalMarketCap();
-        this.chartDataCountry = this.helperService.createPieChartData(this.allStocks, 'country.name', null, true, true);
-        this.chartDataBranch = this.helperService.createPieChartData(this.allStocks, 'branch.branchGroup', null, true, true);
-        
-        let countryLabels = [];
-        for (let label of this.chartDataCountry.labels) {
-          countryLabels.push(this.countryTranslationPipe.transform(label, this.locale));
-        }
-        this.chartDataCountry.labels = countryLabels;
-        
-        let branchLabels = [];
-        for (let label of this.chartDataBranch.labels) {
-          branchLabels.push(this.branchTranslationPipe.transform(label, this.locale));
-        }
-        this.chartDataBranch.labels = branchLabels;
-        
+        this.doTranslations();
+        this.createCharts()
+        this.setStockIndexPercentage();
+        this.getStocks();
         this.display = true;
-        this.loading = false;
       }, (err:any) => this.loading = false);
   }
 
   ngOnChanges(changes: SimpleChanges) {
   }
   
-  loadData(event: any) {
-    this.loading = true;
-    if (event.sortField && event.sortOrder) {
-      this.allStocks.sort(function(a, b) {
-        let valueA = a;
-        let valueB = b;
-        let parts = event.sortField.split('.');
-        for (let i=0; i < parts.length; i++) {
-          valueA = valueA[parts[i]];
-          valueB = valueB[parts[i]];
-        }
-        if (valueA > valueB)
-          return 1 * event.sortOrder;
-        else
-          return -1 * event.sortOrder;
-      });
+  onLazyLoad(event: any) {
+    this.pageSize = event.rows;
+    this.page = (event.first / event.rows);
+    this.sortField = event.sortField;
+    this.sortOrder = event.sortOrder;
+    this.getStocks();
+  }
+  
+  setStockIndexPercentage() {
+    this.indexPercentage = {};
+    for (let percentage of this.index.stocks) {
+      this.indexPercentage[percentage.stockId] = percentage.percentage;
     }
-    this.stocks = this.allStocks.slice(event.first, (event.first + event.rows));
-    this.loading = false;
+  }
+  
+  doTranslations() {
+    for (let branchStat of this.index.branchStats) {
+      branchStat.branch.name = this.branchTranslationPipe.transform(branchStat.branch.name, 'de');
+    }
+    for (let countryStat of this.index.countryStats) {
+      countryStat.country.name = this.countryTranslationPipe.transform(countryStat.country.name, 'de');
+    }
+  }
+  
+  createCharts() {
+    this.chartDataCountry = this.helperService.createPieChartData(
+      this.index.countryStats,
+      'country.name',
+      'marketcap'
+    );
+    
+    this.chartDataBranch = this.helperService.createPieChartData(
+      this.index.branchStats,
+      'branch.name',
+      'marketcap'
+    );
+  }
+  
+  getStocks() {
+    if (this.index && this.index.indexId) {
+      this.loading = true;
+      this.stockService.searchStocks(null, null, null, null, null, null, [this.index.indexId], null, this.page, this.pageSize, this.sortField, this.sortOrder)
+        .subscribe((data:any) => {
+          if (data && data.page) 
+            this.totalRecords = data.page.totalElements;
+          this.stocks = data._embedded.stock;
+          this.loading = false;
+        }, (err:any) => {
+           this.loading = false;
+           this.helperService.handleError(err);
+        });
+    }
   }
 	
-  setTotalMarketCap() {
-    for(let stock of this.index.realStocks) {
-	  if (stock.levermann && stock.levermann.marketCapitalization)
-        this.totalMarketCap += stock.levermann.marketCapitalization;
-    }
-  }
-
   getIndexName() {
     if (this.index)
       return this.index.name;
@@ -103,6 +116,8 @@ export class IndexdetailComponent implements OnInit, OnChanges {
   }
 
   closeDisplay() {
+    this.stocks = [];
+    this.indexPercentage = {};
     this.display = false;
     this.close.emit(false);
     this.loading = false;

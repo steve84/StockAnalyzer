@@ -33,6 +33,7 @@ export class StockTableComponent implements OnInit, OnChanges {
   @Input('stocks') stocksInput: Stock[];
   @Input('external') external: boolean = false;
   @Input('compareActive') compareActive: boolean = true;
+  @Input('indexPercentage') indexPercentage: any;
   @Output() onLazyLoad: EventEmitter<any> = new EventEmitter<any>();
   constructor(@Inject(LOCALE_ID) private locale: string,
               private stockService: StockService,
@@ -61,12 +62,21 @@ export class StockTableComponent implements OnInit, OnChanges {
     this.stockService.getStocks(page, this.pageSize, sortField, sortOrder).subscribe((data:any[]) => {
       this.stocks = data['_embedded']['stock'];
       this.totalRecords = data['page']['totalElements'];
-      this.addIndices();
       this.loading = false;
     }, (err:any) => {
       this.loading = false;
       this.helperService.handleError(err);
     });
+  }
+  
+  hasStockPercentage(): boolean {
+    return this.indexPercentage && Object.keys(this.indexPercentage).length > 0;
+  }
+  
+  getStockIndexPercentage(stockId: number): number {
+    if (Object.keys(this.indexPercentage).indexOf(stockId.toString()) > -1)
+      return this.indexPercentage[stockId];
+    return 0;
   }
 
   private addIndices() {

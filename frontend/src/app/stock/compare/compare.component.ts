@@ -210,7 +210,7 @@ export class CompareComponent implements OnInit {
           values,
           true,
           this.showRelative,
-          !reverse,
+          reverse,
           chart
         );
       }
@@ -220,17 +220,17 @@ export class CompareComponent implements OnInit {
   
   createFigureCharts(selectedFigure?: string) {
     if (!selectedFigure || (selectedFigure && Object.keys(this.balanceLabels).indexOf(selectedFigure) > -1)) {
-      this.balanceChartObj = this.createCharts('balance', this.selectedBalanceFigure, false);
+      this.balanceChartObj = this.createCharts('balance', this.selectedBalanceFigure);
       if (selectedFigure)
         this.setYLabel(this.figureTranslationPipe.transform(this.balanceLabels[selectedFigure], this.locale), this.showRelative);
     }
     if (!selectedFigure || (selectedFigure && Object.keys(this.cashflowLabels).indexOf(selectedFigure) > -1)) {
-      this.cashflowChartObj = this.createCharts('cashflow', this.selectedCashflowFigure, false);
+      this.cashflowChartObj = this.createCharts('cashflow', this.selectedCashflowFigure);
       if (selectedFigure)
         this.setYLabel(this.figureTranslationPipe.transform(this.cashflowLabels[selectedFigure], this.locale), this.showRelative);
     }
     if (!selectedFigure || (selectedFigure && Object.keys(this.incomeLabels).indexOf(selectedFigure) > -1)) {
-      this.incomeChartObj = this.createCharts('income', this.selectedIncomeFigure, false);
+      this.incomeChartObj = this.createCharts('income', this.selectedIncomeFigure);
       if (selectedFigure)
         this.setYLabel(this.figureTranslationPipe.transform(this.incomeLabels[selectedFigure], this.locale), this.showRelative);
     }

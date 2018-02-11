@@ -955,6 +955,34 @@ from
 
 ALTER TABLE public.vfullscore
   OWNER TO postgres;
+
+CREATE OR REPLACE VIEW public.vindexcountrystat AS 
+ SELECT si.index_id,
+    c.country_id,
+    count(si.stock_id) AS nbr,
+    sum(m.market_capitalization) AS marketcap
+   FROM tstockindex si
+     LEFT JOIN tstock s ON si.stock_id = s.stock_id
+     LEFT JOIN tcountry c ON s.country_id = c.country_id
+     LEFT JOIN vmarketcap m ON s.stock_id = m.stock_id
+  GROUP BY si.index_id, c.country_id;
+
+ALTER TABLE public.vindexcountrystat
+  OWNER TO postgres;
+
+CREATE OR REPLACE VIEW public.vindexbranchstat AS 
+ SELECT si.index_id,
+    b.branch_id,
+    count(si.stock_id) AS nbr,
+    sum(m.market_capitalization) AS marketcap
+   FROM tstockindex si
+     LEFT JOIN tstock s ON si.stock_id = s.stock_id
+     LEFT JOIN tbranch b ON s.branch_id = b.branch_id
+     LEFT JOIN vmarketcap m ON s.stock_id = m.stock_id
+  GROUP BY si.index_id, b.branch_id;
+
+ALTER TABLE public.vindexbranchstat
+  OWNER TO postgres;
 --
 -- TOC entry 2130 (class 0 OID 0)
 -- Dependencies: 7

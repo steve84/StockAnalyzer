@@ -1,51 +1,7 @@
 <p-dialog [header]="title" [blockScroll]="true" modal="true" [(visible)]="display" (onHide)="closeDisplay()">
   <p-tabView>
     <p-tabPanel i18n-header="@@index.overview" header="Overview">
-      <p-dataTable [value]="stocks" [loading]="loading" selectionMode="single" lazy="true" responsive="true" [paginator]="true" [rows]="pageSize" [rowsPerPageOptions]="[10,20,30]" [totalRecords]="totalRecords" (onLazyLoad)="loadData($event)" resizableColumns="true">
-        <p-column field="isin" i18n-header="@@stock.isin" header="ISIN" [sortable]="true"></p-column>
-        <p-column field="name" i18n-header="@@stock.name" header="Name" [sortable]="true"></p-column>
-        <p-column field="country.name" i18n-header="@@stock.country" header="Country" [sortable]="true">
-          <ng-template let-col let-stock="rowData" pTemplate="body">
-            <span>{{stock['country']['name'] | translateCountry}}</span>
-          </ng-template>
-        </p-column>
-        <p-column field="branch.name" i18n-header="@@stock.branch" header="Branch" [sortable]="true">
-          <ng-template let-col let-stock="rowData" pTemplate="body">
-            <span>{{stock['branch']['name'] | translateBranch}}</span>
-          </ng-template>
-        </p-column>
-        <p-column field="levermann.marketCapitalization" i18n-header="@@stock.company_size" header="Company Size">
-          <ng-template let-col let-stock="rowData" pTemplate="body">
-            {{stock['stockCategory']}}
-          </ng-template>
-        </p-column>
-        <p-column field="indexParticipation" i18n-header="@@stock.percentage" header="Percentage">
-          <ng-template let-col let-stock="rowData" pTemplate="body">
-              <span *ngIf="stock.levermann && stock.levermann.marketCapitalization">{{stock.levermann.marketCapitalization / totalMarketCap * 100 | number}}%</span>
-          </ng-template>
-        </p-column>
-        <p-column field="scores" i18n-header="@@stock.levermann.score" header="Levermann-Score">
-          <ng-template let-col let-stock="rowData" pTemplate="body">
-            <span *ngFor="let score of stock['scores']">
-              <span *ngIf="score['scoreType']['name'] == 'Levermann'">{{score['scoreValue']}}</span>
-            </span>
-          </ng-template>
-        </p-column>
-        <p-column field="scores" i18n-header="@@stock.magicformula.score" header="Magic Formula Score">
-          <ng-template let-col let-stock="rowData" pTemplate="body">
-            <span *ngFor="let score of stock['scores']">
-              <span *ngIf="score['scoreType']['name'] == 'Magic Formula'">{{score['scoreValue'] | number}}</span>
-            </span>
-          </ng-template>
-        </p-column>
-        <p-column field="scores" i18n-header="@@stock.piotroski.score" header="Piotroski F-Score">
-          <ng-template let-col let-stock="rowData" pTemplate="body">
-            <span *ngFor="let score of stock['scores']">
-              <span *ngIf="score['scoreType']['name'] == 'Piotroski F-Score'">{{score['scoreValue']}}</span>
-            </span>
-          </ng-template>
-        </p-column>
-      </p-dataTable>
+      <app-stocktable [external]="true" [stocks]="stocks" [indexPercentage]="indexPercentage" [pageSize]="pageSize" [totalRecords]="totalRecords" [loading]="loading" (onLazyLoad)="onLazyLoad($event)"></app-stocktable>
     </p-tabPanel>
     <p-tabPanel i18n-header="@@index.charts" header="Charts">
       <p-fieldset *ngIf="index && index.country == null" i18n-legend="@@index.country.composition" legend="Composition By Countries" [toggleable]="true">

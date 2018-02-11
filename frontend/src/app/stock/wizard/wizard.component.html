@@ -129,9 +129,9 @@
             <span *ngIf="score['index']">{{score['index']['country']['name'] | translateCountry}}</span>
           </ng-template>
         </p-column>
-        <p-column field="index.realStocks.length" i18n-header="@@index.nbrofstocks" header="Number of Stocks">
+        <p-column field="index.stocks.length" i18n-header="@@index.nbrofstocks" header="Number of Stocks">
             <ng-template let-col let-score="rowData" pTemplate="body">
-                <span *ngIf="score && score['index'] && score['index']['realStocks']">{{score['index']['realStocks'].length}}<span *ngIf="score['index']['totalStocks'] != null">/{{score['index']['totalStocks']}} ({{(score['index']['realStocks'].length / score['index']['totalStocks']) * 100 | number:'.0-1'}}%)</span></span>
+                <span *ngIf="score && score['index'] && score['index']['stocks']">{{score['index']['stocks'].length}}<span *ngIf="score['index']['totalStocks'] != null">/{{score['index']['totalStocks']}} ({{(score['index']['stocks'].length / score['index']['totalStocks']) * 100 | number:'.2-2'}}%)</span></span>
             </ng-template>
         </p-column>
         <p-column *ngIf="selectedStrategyRow && selectedStrategyRow.levermann > 0" field="scoreLevermann" i18n-header="@@index.levermann.score" header="Levermann-Score">

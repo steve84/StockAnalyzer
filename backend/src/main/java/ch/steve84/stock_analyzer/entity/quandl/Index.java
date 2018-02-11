@@ -45,15 +45,19 @@ public class Index {
     private List<Score> scores;
     @OneToMany
     @JoinColumn(name = "index_id")
-    private List<NormalizedScore> normalizedScores; 
+    private List<NormalizedScore> normalizedScores;
+    @OneToMany
+    @JoinColumn(name = "index_id")
+    private List<IndexCountryStat> countryStats;
+    @OneToMany
+    @JoinColumn(name = "index_id")
+    private List<IndexBranchStat> branchStats;
     @Column(name = "public_index")
     private Boolean publicIndex;
     @Column(name = "created_at")
     private Calendar createdAt;
     @Column(name = "total_stocks")
     private Integer totalStocks;   
-	@Transient
-	private List<Stock> realStocks = new ArrayList<>();
 
 	public String getName() {
 		return name;
@@ -84,8 +88,6 @@ public class Index {
 	}
 
 	public List<StockIndex> getStocks() {
-		for (StockIndex si : stocks)
-			realStocks.add(si.getStock());
 		return stocks;
 	}
 
@@ -109,7 +111,23 @@ public class Index {
 		this.normalizedScores = normalizedScores;
 	}
 
-    public Boolean getPublicIndex() {
+    public List<IndexCountryStat> getCountryStats() {
+		return countryStats;
+	}
+
+	public void setCountryStats(List<IndexCountryStat> countryStats) {
+		this.countryStats = countryStats;
+	}
+
+	public List<IndexBranchStat> getBranchStats() {
+		return branchStats;
+	}
+
+	public void setBranchStats(List<IndexBranchStat> branchStats) {
+		this.branchStats = branchStats;
+	}
+
+	public Boolean getPublicIndex() {
         return publicIndex;
     }
 
@@ -132,12 +150,4 @@ public class Index {
     public void setTotalStocks(Integer totalStocks) {
         this.totalStocks = totalStocks;
     }
-
-    public List<Stock> getRealStocks() {
-		return realStocks;
-	}
-
-	public void setRealStocks(List<Stock> realStocks) {
-		this.realStocks = realStocks;
-	}
 }
