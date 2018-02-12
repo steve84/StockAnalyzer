@@ -77,7 +77,7 @@ public class Stock {
     private List<Cashflow> cashflow;
     @OneToOne
     @JoinColumn(name = "stock_id")
-    private Performance performance;
+    private Technical technical;
     @OneToOne(mappedBy = "stock")
     private Analysts analysts;
     @OneToOne
@@ -290,12 +290,12 @@ public class Stock {
 		this.cashflow = cashflow;
 	}
 
-	public Performance getPerformance() {
-        return performance;
+	public Technical getTechnical() {
+        return technical;
     }
 
-    public void setPerformance(Performance performance) {
-        this.performance = performance;
+    public void setTechnical(Technical technical) {
+        this.technical = technical;
     }
 
     public Analysts getAnalysts() {

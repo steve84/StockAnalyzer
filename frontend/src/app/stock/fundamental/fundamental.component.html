@@ -101,9 +101,13 @@
     <p-tabPanel *ngIf="prices" i18n-header="@@stock.performance" header="Performance">
       <p-tabView>
         <p-tabPanel i18n-header="@@stock.performance.figures" header="Figures">
-          <div *ngIf="stock && stock.performance" class = "ui-g">
-            <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.performance.figure.oneyear">Performance 1 Year</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{stock.performance.performance1y | number}}%</div>
-            <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.performance.figure.sixmonths">Performance 6 Months</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{stock.performance.performance6m | number}}%</div>
+          <div *ngIf="stock && stock.technical" class = "ui-g">
+            <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.performance.figure.oneyear">Performance 1 Year</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{stock.technical.performance1y | number}}%</div>
+            <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.performance.figure.sixmonths">Performance 6 Months</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{stock.technical.performance6m | number}}%</div>
+            <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.momentum.figure.onemonth">Momentum 1 Month</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{stock.technical.momentum1m | number}}</div>
+            <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.momentum.figure.threemonths">Momentum 3 Months</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{stock.technical.momentum3m | number}}</div>
+            <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.momentum.figure.sixmonths">Momentum 6 Months</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{stock.technical.momentum6m | number}}</div>
+            <div class = "ui-g-12 ui-md-6 ui-lg-3 description" i18n="@@stock.momentum.figure.oneyear">Momentum 1 Year</div><div class = "ui-g-12 ui-md-6 ui-lg-3 value">{{stock.technical.momentum1y | number}}</div>
           </div>
         </p-tabPanel>
         <p-tabPanel i18n-header="@@stock.performance.chart" header="Chart">

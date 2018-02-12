@@ -13,7 +13,7 @@ import { Cashflow } from './cashflow';
 import { Forecast } from './forecast';
 import { Income } from './income';
 
-import { Performance } from './performance';
+import { Technical } from './technical';
 import { Analysts } from './analysts';
 
 
@@ -41,7 +41,7 @@ export interface Stock {
   cashflow?: Cashflow[],
   forecast?: Forecast[],
   income?: Income[],
-  performance?: Performance,
+  technical?: Technical,
   referenceCurrency?: string,
   shareCurrency?: string,
   marketCapitalization: any,
