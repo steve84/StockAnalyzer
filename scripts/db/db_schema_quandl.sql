@@ -789,6 +789,22 @@ CREATE OR REPLACE VIEW public.vmomentum AS
 
 ALTER TABLE public.vmomentum
   OWNER TO postgres;
+
+CREATE OR REPLACE VIEW public.vvolatility AS 
+  select 
+    s.stock_id,
+    stddev_one_month.std_dev as volatility_1m,
+    stddev_three_month.std_dev as volatility_3m,
+    stddev_six_month.std_dev as volatility_6m,
+    stddev_one_year.std_dev as volatility_1y
+  from tstock s
+  left join (select stock_id, stddev(price) as std_dev from tprice where created_at > (current_date - interval '2 months') group by stock_id) stddev_one_month on s.stock_id = stddev_one_month.stock_id
+  left join (select stock_id, stddev(price) as std_dev from tprice where created_at > (current_date - interval '4 months') group by stock_id) stddev_three_month on s.stock_id = stddev_three_month.stock_id
+  left join (select stock_id, stddev(price) as std_dev from tprice where created_at > (current_date - interval '7 months') group by stock_id) stddev_six_month on s.stock_id = stddev_six_month.stock_id
+  left join (select stock_id, stddev(price) as std_dev from tprice where created_at > (current_date - interval '13 months') group by stock_id) stddev_one_year on s.stock_id = stddev_one_year.stock_id;
+
+ALTER TABLE public.vmomentum
+  OWNER TO postgres;
   
 CREATE OR REPLACE VIEW public.vtechnical AS 
   select
@@ -798,9 +814,14 @@ CREATE OR REPLACE VIEW public.vtechnical AS
     m.momentum_1m,
     m.momentum_3m,
     m.momentum_6m,
-    m.momentum_1y
+    m.momentum_1y,
+    v.volatility_1m,
+    v.volatility_3m,
+    v.volatility_6m,
+    v.volatility_1y
   from vperformance p
-  left join vmomentum m on p.stock_id = m.stock_id;
+  left join vmomentum m on p.stock_id = m.stock_id
+  left join vvolatility v on p.stock_id = v.stock_id;
 
 ALTER TABLE public.vtechnical
   OWNER TO postgres;
