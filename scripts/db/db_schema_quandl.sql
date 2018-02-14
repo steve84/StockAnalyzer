@@ -790,6 +790,7 @@ CREATE OR REPLACE VIEW public.vmomentum AS
 ALTER TABLE public.vmomentum
   OWNER TO postgres;
 
+
 CREATE OR REPLACE VIEW public.vvolatility AS 
   select 
     s.stock_id,
@@ -805,7 +806,27 @@ CREATE OR REPLACE VIEW public.vvolatility AS
 
 ALTER TABLE public.vmomentum
   OWNER TO postgres;
-  
+
+
+CREATE OR REPLACE VIEW public.vrsl AS 
+select
+  s.stock_id,
+  case when one_month_price.avg_price > 0 then actual_price.price / one_month_price.avg_price else null end as rsl_1m,
+  case when three_month_price.avg_price > 0 then actual_price.price / three_month_price.avg_price else null end as rsl_3m,
+  case when six_month_price.avg_price > 0 then actual_price.price / six_month_price.avg_price else null end as rsl_6m,
+  case when one_year_price.avg_price > 0 then actual_price.price / one_year_price.avg_price else null end as rsl_1y
+from tstock s
+left join (select stock_id, max(created_at) as actual_date from tprice where extract(dow from created_at) = 5 group by stock_id) last_friday on s.stock_id = last_friday.stock_id
+left join tprice actual_price on s.stock_id = actual_price.stock_id and last_friday.actual_date = actual_price.created_at
+left join (select stock_id, avg(price) as avg_price from tprice where created_at <= current_date and created_at <= (current_date - interval '4 weeks') and extract(dow from created_at) = 5 group by stock_id) one_month_price on s.stock_id = one_month_price.stock_id
+left join (select stock_id, avg(price) as avg_price from tprice where created_at <= current_date and created_at <= (current_date - interval '12 weeks') and extract(dow from created_at) = 5 group by stock_id) three_month_price on s.stock_id = three_month_price.stock_id
+left join (select stock_id, avg(price) as avg_price from tprice where created_at <= current_date and created_at <= (current_date - interval '26 weeks') and extract(dow from created_at) = 5 group by stock_id) six_month_price on s.stock_id = six_month_price.stock_id
+left join (select stock_id, avg(price) as avg_price from tprice where created_at <= current_date and created_at <= (current_date - interval '52 weeks') and extract(dow from created_at) = 5 group by stock_id) one_year_price on s.stock_id = one_year_price.stock_id;
+
+ALTER TABLE public.vrsl
+  OWNER TO postgres;
+
+
 CREATE OR REPLACE VIEW public.vtechnical AS 
   select
     p.stock_id,
@@ -819,9 +840,14 @@ CREATE OR REPLACE VIEW public.vtechnical AS
     v.volatility_3m,
     v.volatility_6m,
     v.volatility_1y
+    r.rsl_1m,
+    r.rsl_3m,
+    r.rsl_6m,
+    r.rsl_1y
   from vperformance p
   left join vmomentum m on p.stock_id = m.stock_id
-  left join vvolatility v on p.stock_id = v.stock_id;
+  left join vvolatility v on p.stock_id = v.stock_id
+  left join vrsl r on p.stock_id = r.stock_id;
 
 ALTER TABLE public.vtechnical
   OWNER TO postgres;
