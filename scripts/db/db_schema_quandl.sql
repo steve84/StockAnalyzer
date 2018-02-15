@@ -827,6 +827,24 @@ ALTER TABLE public.vrsl
   OWNER TO postgres;
 
 
+CREATE OR REPLACE VIEW public.vrsi AS   
+select
+prices.stock_id,
+case when avg(prices.greatest_previous_day_one_month) > 0 or avg(prices.least_previous_day_one_month) > 0 then avg(prices.greatest_previous_day_one_month) / (avg(prices.greatest_previous_day_one_month) + avg(prices.least_previous_day_one_month)) else null end as rsi_1m,
+case when avg(prices.greatest_previous_day_three_month) > 0 or avg(prices.least_previous_day_three_month) > 0 then avg(prices.greatest_previous_day_three_month) / (avg(prices.greatest_previous_day_three_month) + avg(prices.least_previous_day_three_month)) else null end as rsi_3m,
+case when avg(prices.greatest_previous_day_six_month) > 0 or avg(prices.least_previous_day_six_month) > 0 then avg(prices.greatest_previous_day_six_month) / (avg(prices.greatest_previous_day_six_month) + avg(prices.least_previous_day_six_month)) else null end as rsi_6m,
+case when avg(prices.greatest_previous_day_one_year) > 0 or avg(prices.least_previous_day_one_year) > 0 then avg(prices.greatest_previous_day_one_year) / (avg(prices.greatest_previous_day_one_year) + avg(prices.least_previous_day_one_year)) else null end as rsi_1y
+from (select p.stock_id, greatest(p.price - previous_day_one_month.previous_day_price, 0) greatest_previous_day_one_month, least(p.price - previous_day_one_month.previous_day_price, 0) * -1 least_previous_day_one_month, greatest(p.price - previous_day_three_month.previous_day_price, 0) greatest_previous_day_three_month, least(p.price - previous_day_three_month.previous_day_price, 0) * -1 least_previous_day_three_month, greatest(p.price - previous_day_six_month.previous_day_price, 0) greatest_previous_day_six_month, least(p.price - previous_day_six_month.previous_day_price, 0) * -1 least_previous_day_six_month, greatest(p.price - previous_day_one_year.previous_day_price, 0) greatest_previous_day_one_year, least(p.price - previous_day_one_year.previous_day_price, 0) * -1 least_previous_day_one_year from tprice p
+left join (select stock_id, created_at, lag(price) over client_window as previous_day_price from tprice where created_at > (current_date - interval '1 month') window client_window as (partition by stock_id order by created_at asc)) previous_day_one_month on p.stock_id = previous_day_one_month.stock_id and p.created_at = previous_day_one_month.created_at
+left join (select stock_id, created_at, lag(price) over client_window as previous_day_price from tprice where created_at > (current_date - interval '3 months') window client_window as (partition by stock_id order by created_at asc)) previous_day_three_month on p.stock_id = previous_day_three_month.stock_id and p.created_at = previous_day_three_month.created_at
+left join (select stock_id, created_at, lag(price) over client_window as previous_day_price from tprice where created_at > (current_date - interval '6 months') window client_window as (partition by stock_id order by created_at asc)) previous_day_six_month on p.stock_id = previous_day_six_month.stock_id and p.created_at = previous_day_six_month.created_at
+left join (select stock_id, created_at, lag(price) over client_window as previous_day_price from tprice where created_at > (current_date - interval '1 year') window client_window as (partition by stock_id order by created_at asc)) previous_day_one_year on p.stock_id = previous_day_one_year.stock_id and p.created_at = previous_day_one_year.created_at) prices
+group by prices.stock_id;
+
+ALTER TABLE public.vrsi
+  OWNER TO postgres;
+
+
 CREATE OR REPLACE VIEW public.vtechnical AS 
   select
     p.stock_id,
@@ -843,11 +861,16 @@ CREATE OR REPLACE VIEW public.vtechnical AS
     r.rsl_1m,
     r.rsl_3m,
     r.rsl_6m,
-    r.rsl_1y
+    r.rsl_1y,
+    i.rsi_1m,
+    i.rsi_3m,
+    i.rsi_6m,
+    i.rsi_1y,
   from vperformance p
   left join vmomentum m on p.stock_id = m.stock_id
   left join vvolatility v on p.stock_id = v.stock_id
-  left join vrsl r on p.stock_id = r.stock_id;
+  left join vrsl r on p.stock_id = r.stock_id
+  left join vrsi i on p.stock_id = i.stock_id;
 
 ALTER TABLE public.vtechnical
   OWNER TO postgres;

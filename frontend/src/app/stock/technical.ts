@@ -13,5 +13,9 @@ export interface Technical {
     rsl1m?: number,
     rsl3m?: number,
     rsl6m?: number,
-    rsl1y?: number
+    rsl1y?: number,
+    rsi1m?: number,
+    rsi3m?: number,
+    rsi6m?: number,
+    rsi1y?: number
 }

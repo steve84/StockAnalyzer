@@ -54,6 +54,18 @@ public class Technical {
     @Column(name = "rsl_1y")
     private Double rsl1y;
 
+    @Column(name = "rsi_1m")
+    private Double rsi1m;
+
+    @Column(name = "rsi_3m")
+    private Double rsi3m;
+    
+    @Column(name = "rsi_6m")
+    private Double rsi6m;
+
+    @Column(name = "rsi_1y")
+    private Double rsi1y;
+
 	public Double getPerformance6m() {
         return performance6m;
     }
@@ -164,6 +176,38 @@ public class Technical {
 
     public void setRsl1y(Double rsl1y) {
         this.rsl1y = rsl1y;
+    }
+
+    public Double getRsi1m() {
+        return rsi1m;
+    }
+
+    public void setRsi1m(Double rsi1m) {
+        this.rsi1m = rsi1m;
+    }
+
+    public Double getRsi3m() {
+        return rsi3m;
+    }
+
+    public void setRsi3m(Double rsi3m) {
+        this.rsi3m = rsi3m;
+    }
+
+    public Double getRsi6m() {
+        return rsi6m;
+    }
+
+    public void setRsi6m(Double rsi6m) {
+        this.rsi6m = rsi6m;
+    }
+
+    public Double getRsi1y() {
+        return rsi1y;
+    }
+
+    public void setRsi1y(Double rsi1y) {
+        this.rsi1y = rsi1y;
     }
 
     public Integer getStockId() {
