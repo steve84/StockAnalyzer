@@ -21,12 +21,10 @@ export class CommonTranslationPipe implements PipeTransform {
   
   getTranslationDE(value: string) {
     switch (value) {
-      case 'Stocks':
-        return 'Aktien';
-      case 'Indices':
-        return 'Indizes';
-      case 'Lists':
-        return 'Listen';
+      case 'Stock List':
+        return 'Aktien-Liste';
+      case 'Index List':
+        return 'Index-Liste';
       case 'Stock screener':
         return 'Aktien-Suche';
       case 'Advisor':
