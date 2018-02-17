@@ -21,8 +21,8 @@ export class MenubarComponent implements OnInit {
   ngOnInit() {
    this.items = [
      {label: this.commonTranslationPipe.transform('Home', this.locale), icon: 'fa-home', routerLink: ['/'], routerLinkActiveOptions: {'exact': 'true'}},
-     {label: this.commonTranslationPipe.transform('Stocks', this.locale), icon: 'fa-table', routerLink: ['/stocks']},
-     {label: this.commonTranslationPipe.transform('Indices', this.locale), icon: 'fa-table', routerLink: ['/indices']},
+     {label: this.commonTranslationPipe.transform('Stock List', this.locale), icon: 'fa-table', routerLink: ['/stocks']},
+     {label: this.commonTranslationPipe.transform('Index List', this.locale), icon: 'fa-table', routerLink: ['/indices']},
      {label: this.commonTranslationPipe.transform('Stock screener', this.locale), icon: 'fa-search', routerLink: ['/stocks/search']},
      {label: this.commonTranslationPipe.transform('Advisor', this.locale), icon: 'fa-lightbulb-o', routerLink: ['/combiner']},
      {label: this.commonTranslationPipe.transform('Wizard', this.locale), icon: 'fa-magic', routerLink: ['/wizard']}

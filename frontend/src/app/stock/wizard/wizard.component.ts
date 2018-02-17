@@ -184,7 +184,7 @@ export class WizardComponent implements OnInit {
     let index = -1;
     let i = 0;
     for (let rootNode of this.branchNodeTree[0].children) {
-      if (rootNode.label == branch.branchGroup) {
+      if (rootNode.label == this.branchTranslationPipe.transform(branch.branchGroup, this.locale)) {
         index = i;
         break;
       }
@@ -202,7 +202,7 @@ export class WizardComponent implements OnInit {
     let index = -1;
     let i = 0;
     for (let rootNode of this.countryNodeTree[0].children) {
-      if (rootNode.label == this.regionTranslationPipe.transform(country.name)) {
+      if (rootNode.label == this.regionTranslationPipe.transform(country.name, this.locale)) {
         index = i;
         break;
       }
