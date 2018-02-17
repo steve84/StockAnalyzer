@@ -857,7 +857,7 @@ CREATE OR REPLACE VIEW public.vtechnical AS
     v.volatility_1m,
     v.volatility_3m,
     v.volatility_6m,
-    v.volatility_1y
+    v.volatility_1y,
     r.rsl_1m,
     r.rsl_3m,
     r.rsl_6m,
@@ -865,7 +865,7 @@ CREATE OR REPLACE VIEW public.vtechnical AS
     i.rsi_1m,
     i.rsi_3m,
     i.rsi_6m,
-    i.rsi_1y,
+    i.rsi_1y
   from vperformance p
   left join vmomentum m on p.stock_id = m.stock_id
   left join vvolatility v on p.stock_id = v.stock_id
