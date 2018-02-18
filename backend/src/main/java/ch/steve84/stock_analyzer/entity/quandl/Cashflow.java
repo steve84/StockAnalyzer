@@ -80,7 +80,7 @@ public class Cashflow {
 	}
 
 	public Double getCapex() {
-		return capex;
+		return Math.abs(capex);
 	}
 
 	public void setCapex(Double capex) {
