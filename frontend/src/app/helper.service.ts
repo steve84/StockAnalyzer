@@ -162,10 +162,10 @@ export class HelperService {
     
     // Bar or Line chart
     if (bar) {
-      dataset['backgroundColor'] = this.randomColor();
+      dataset['backgroundColor'] = this.randomColor(datasetName);
     } else {
       dataset['fill'] = false;
-      dataset['borderColor'] = this.randomColor();
+      dataset['borderColor'] = this.randomColor(datasetName);
       dataset['lineTension'] = 0;
     }
     
@@ -269,26 +269,45 @@ export class HelperService {
   }
   
   getColsFromData(arr: any[], newestFirst: boolean = true, showFuture: boolean = false) {
+    let wrongOrder = false;
     let cols: any[] = [];
-    if (!newestFirst)
-      cols.push({field: 'title', header: 'title'});
     for (let key of Object.keys(arr)) {
       for (let subkey of Object.keys(arr[key])) {
+        let years = Object.keys(arr[key]).map(function(ele, i, arr){return ele.substring(0,4);});
+        let isSortedAsc = years.length >= 2 && years[0] < years[1] ? true : false;
+        wrongOrder = wrongOrder || (isSortedAsc == newestFirst);
         if (!showFuture || Date.parse(subkey) > Date.now())
           cols.push({field: subkey.split('-')[0], header: subkey.split('-')[0]});
       }
       if (cols && cols.length > 1) {
-        if (newestFirst) {
-          cols.push({field: 'title', header: ''});
-          return cols.reverse();
-        }
+        if (wrongOrder)
+          cols.reverse();
+        cols.splice(0, 0, {field: 'title', header: ''});
         return cols;
       } else
         return [];
     }
   }
   
-  randomColor() {
+  randomColor(datasetName?: string) {
+    if (datasetName && datasetName.length > 0) {
+      let sum = 0;
+      datasetName = datasetName.replace(/ /g, '');
+      datasetName = datasetName.toLowerCase();
+      let aChar = 'a'.charCodeAt(0);
+      let zChar = 'z'.charCodeAt(0);
+      let rgb = [];
+      for (var i = 0; i < datasetName.length; i++) {
+        if (['a', 'e', 'i', 'o', 'u'].indexOf(datasetName[i]) > -1)
+          continue;
+        rgb.push(Math.floor(Math.min(Math.max(((datasetName.charCodeAt(i) - aChar) / (zChar - aChar)), 0), 1) * 255));
+        if (rgb.length == 3)
+          break;
+      }
+      while (rgb.length < 3)
+        rgb.push(0);
+      return "rgb(" + rgb[0] + "," + rgb[1] + "," + rgb[2] + ")";
+    }
     return "rgb(" + Math.floor(Math.random()*255) + "," + Math.floor(Math.random()*255) + "," + Math.floor(Math.random()*255) + ")";
   }
   

@@ -194,13 +194,14 @@ export class CompareComponent implements OnInit {
     setTimeout(() => this.createFigureCharts(figure), 100);
   }
   
-  createCharts(dataset: string, figure: string, reverse: boolean = true) {
+  createCharts(dataset: string, figure: string, asc: boolean = true) {
     let chart;
     for (let stock of this.stocks) {
       if (Object.keys(stock).indexOf(dataset) > -1) {
         let labels = stock[dataset].map(function(ele, i, arr){return ele.modifiedAt.substring(0,4);});
         let values = stock[dataset].map(function(ele, i, arr){return ele[figure];});
-        if (reverse) {
+        let isAscSorted = labels.length >= 2 && labels[0] < labels[1] ? true : false;
+        if (isAscSorted != asc) {
           labels.reverse();
           values.reverse();
         }
@@ -210,7 +211,7 @@ export class CompareComponent implements OnInit {
           values,
           true,
           this.showRelative,
-          true,
+          asc,
           chart
         );
       }
@@ -220,17 +221,17 @@ export class CompareComponent implements OnInit {
   
   createFigureCharts(selectedFigure?: string) {
     if (!selectedFigure || (selectedFigure && Object.keys(this.balanceLabels).indexOf(selectedFigure) > -1)) {
-      this.balanceChartObj = this.createCharts('balance', this.selectedBalanceFigure, false);
+      this.balanceChartObj = this.createCharts('balance', this.selectedBalanceFigure);
       if (selectedFigure)
         this.setYLabel(this.figureTranslationPipe.transform(this.balanceLabels[selectedFigure], this.locale), this.showRelative);
     }
     if (!selectedFigure || (selectedFigure && Object.keys(this.cashflowLabels).indexOf(selectedFigure) > -1)) {
-      this.cashflowChartObj = this.createCharts('cashflow', this.selectedCashflowFigure, false);
+      this.cashflowChartObj = this.createCharts('cashflow', this.selectedCashflowFigure);
       if (selectedFigure)
         this.setYLabel(this.figureTranslationPipe.transform(this.cashflowLabels[selectedFigure], this.locale), this.showRelative);
     }
     if (!selectedFigure || (selectedFigure && Object.keys(this.incomeLabels).indexOf(selectedFigure) > -1)) {
-      this.incomeChartObj = this.createCharts('income', this.selectedIncomeFigure, false);
+      this.incomeChartObj = this.createCharts('income', this.selectedIncomeFigure);
       if (selectedFigure)
         this.setYLabel(this.figureTranslationPipe.transform(this.incomeLabels[selectedFigure], this.locale), this.showRelative);
     }
