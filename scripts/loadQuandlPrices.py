@@ -37,7 +37,7 @@ for stock in cur:
     curPrices = conn.cursor()
     prices = Utils.getQuandlStockPrice(stock['quandl_price_dataset'], quandl_key)
     i = 0
-    while i < len(prices):
+    while prices is not None and i < len(prices):
         if stock['last_date'] is None or prices.keys()[i].date() > stock['last_date']:
             priceDict = dict()
             priceDict['stock_id'] = stock['stock_id']
