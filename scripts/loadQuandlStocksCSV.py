@@ -40,6 +40,7 @@ header_pos = dict()
 
 # Program logic
 noneStr = lambda s: '' if s is None else str(s)
+firstCharUpper = lambda s: None if s is None or len(s) < 2 else s[0].upper() + s[1:]
 
 totalProcessed = 0
 totalInserted = {'countries': 0, 'branches': 0, 'stocks': 0}
@@ -67,8 +68,8 @@ for row in reader:
     stock['country'] = row[header_pos['Country']]
     stock['isin'] = row[header_pos['ISIN']]
     stock['symbol'] = row[header_pos['YF Ticker']]
-    stock['branch'] = row[header_pos['Sector']]
-    stock['branch_group'] = row[header_pos['Sector Group']]
+    stock['branch'] = firstCharUpper(row[header_pos['Sector']])
+    stock['branch_group'] = firstCharUpper(row[header_pos['Sector Group']])
     stock['reference_currency'] = row[header_pos['Reference Currency']]
     stock['quandl_rb1_id'] = int(row[header_pos['Dataset']].split('RB1/')[1])
     stock['country_id'] = None

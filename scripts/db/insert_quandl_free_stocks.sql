@@ -6,14 +6,14 @@ insert into tcountry (name, created_at) values ('UK', CURRENT_DATE);
 insert into tcountry (name, created_at) values ('China inc HK', CURRENT_DATE);
 insert into tcountry (name, created_at) values ('Singapore', CURRENT_DATE);
 
-insert into tbranch (name, branch_group, created_at) values ('lighting equipment', 'industrial', CURRENT_DATE);
-insert into tbranch (name, branch_group, created_at) values ('office commercial and industrial real estate', 'real estate', CURRENT_DATE);
-insert into tbranch (name, branch_group, created_at) values ('financial services', 'services', CURRENT_DATE);
-insert into tbranch (name, branch_group, created_at) values ('research and specialist materials', 'technology', CURRENT_DATE);
-insert into tbranch (name, branch_group, created_at) values ('residential real estate', 'real estate', CURRENT_DATE);
-insert into tbranch (name, branch_group, created_at) values ('food manufacturers', 'consumer', CURRENT_DATE);
-insert into tbranch (name, branch_group, created_at) values ('diversified real estate', 'real estate', CURRENT_DATE);
-insert into tbranch (name, branch_group, created_at) values ('search cloud and integrated IT services', 'IT', CURRENT_DATE);
+insert into tbranch (name, branch_group, created_at) values ('Lighting equipment', 'Industrial', CURRENT_DATE);
+insert into tbranch (name, branch_group, created_at) values ('Office commercial and industrial real estate', 'Real estate', CURRENT_DATE);
+insert into tbranch (name, branch_group, created_at) values ('Financial services', 'Services', CURRENT_DATE);
+insert into tbranch (name, branch_group, created_at) values ('Research and specialist materials', 'Technology', CURRENT_DATE);
+insert into tbranch (name, branch_group, created_at) values ('Residential real estate', 'Real estate', CURRENT_DATE);
+insert into tbranch (name, branch_group, created_at) values ('Food manufacturers', 'Consumer', CURRENT_DATE);
+insert into tbranch (name, branch_group, created_at) values ('Diversified real estate', 'Real estate', CURRENT_DATE);
+insert into tbranch (name, branch_group, created_at) values ('Search cloud and integrated IT services', 'IT', CURRENT_DATE);
 
 insert into tstock (name, isin, country_id, branch_id, reference_currency, share_currency, quandl_rb1_id, quandl_price_dataset, created_at) values ('Osram Licht AG', 'DE000LED4000', 1, 1, 'EUR', 'CHF', 2538, 'SIX/DE000LED4000CHF', CURRENT_DATE);
 insert into tstock (name, isin, country_id, branch_id, reference_currency, share_currency, quandl_rb1_id, quandl_price_dataset, created_at) values ('Goodman Property Trust', 'NZCPTE0001S9', 2, 2, 'NZD', null, 2291, null, CURRENT_DATE);

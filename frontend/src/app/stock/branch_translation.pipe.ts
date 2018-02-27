@@ -21,274 +21,274 @@ export class BranchTranslationPipe implements PipeTransform {
   
   getTranslationDE(value: string) {
     switch (value) {
-      case 'advertising - marketing - media - e-commerce':
+      case 'Advertising - marketing - media - e-commerce':
         return 'Werbung - Marketing';
-      case 'aerospace':
+      case 'Aerospace':
         return 'Luft -und Raumfahrt';
-      case 'agribusiness agriculture and fishing':
+      case 'Agribusiness agriculture and fishing':
         return 'Agroindustrie, Landwirtschaft und Fischerei';
-      case 'agricultural chemicals and fertilisers':
+      case 'Agricultural chemicals and fertilisers':
         return 'Agrochemikalien und Düngemittel';
-      case 'airlines':
+      case 'Airlines':
         return 'Airlines';
-      case 'airports':
+      case 'Airports':
         return 'Flughäfen';
-      case 'architectural and design services':
+      case 'Architectural and design services':
         return 'Architektur- und Designdienstleistungen';
-      case 'auto parts and components':
+      case 'Auto parts and components':
         return 'Autoteile und Komponenten';
-      case 'banking':
+      case 'Banking':
         return 'Banking';
-      case 'beverage manufacturers':
+      case 'Beverage manufacturers':
         return 'Getränkehersteller';
-      case 'building and construction materials':
+      case 'Building and construction materials':
         return 'Baumaterialien';
-      case 'business services':
+      case 'Business services':
         return 'Geschäftsdienstleistungen';
-      case 'cables, wires and transmission':
+      case 'Cables, wires and transmission':
         return 'Kabel, Drähte und Getriebe';
-      case 'car truck and bus manufacturers':
+      case 'Car truck and bus manufacturers':
         return 'Pkw-, Lkw- und Bushersteller';
-      case 'cement and concrete':
+      case 'Cement and concrete':
         return 'Zement und Beton';
-      case 'chemicals and petrochemicals':
+      case 'Chemicals and petrochemicals':
         return 'Chemikalien und Petrochemikalien';
-      case 'clothing and shoe manufacturers':
+      case 'Clothing and shoe manufacturers':
         return 'Kleider- und Schuhhersteller';
-      case 'clothing wholesale and retail':
+      case 'Clothing wholesale and retail':
         return 'Bekleidung, Gross- und Einzelhandel';
-      case 'coal and coal products':
+      case 'Coal and coal products':
         return 'Kohle und Kohleprodukte';
-      case 'communication and networking equipment':
+      case 'Communication and networking equipment':
         return 'Kommunikations- und Netzwerkgeräte';
-      case 'computers phones and devices':
+      case 'Computers phones and devices':
         return 'Computer, Telefone und Geräte';
-      case 'construction - industrial and diversified':
+      case 'Construction - industrial and diversified':
         return 'Baugewerbe (industriell)';
-      case 'construction - residential':
+      case 'Construction - residential':
         return 'Baugewerbe (privat)';
-      case 'cosmetics jewellery and luxury products':
+      case 'Cosmetics jewellery and luxury products':
         return 'Kosmetik, Schmuck und Luxusprodukte';
-      case 'cycles and motorcycles':
+      case 'Cycles and motorcycles':
         return 'Fahr- und Motorräder';
-      case 'defence products':
+      case 'Defence products':
         return 'Verteidigungsprodukte';
-      case 'diversified conglomerates':
+      case 'Diversified conglomerates':
         return 'Mischkonzerne (diversifiziert)';
-      case 'diversified industrial':
+      case 'Diversified industrial':
         return 'Industrie (diversifiziert)';
-      case 'diversified real estate':
+      case 'Diversified real estate':
         return 'Immobilien (diversifiziert)';
-      case 'diversified telecommunications':
+      case 'Diversified telecommunications':
         return 'Telekommunikation (diversifiziert)';
-      case 'diversified utilities':
+      case 'Diversified utilities':
         return 'Hilfsmittel';
-      case 'diversified wholesale and retail':
+      case 'Diversified wholesale and retail':
         return 'Gross- und Einzelhandel';
-      case 'education':
+      case 'Education':
         return 'Bildung';
-      case 'electrical equipment':
+      case 'Electrical equipment':
         return 'Elektrisches Material';
-      case 'electricity distribution and generation':
+      case 'Electricity distribution and generation':
         return 'Stromverteilung und Erzeugung';
-      case 'electronic components':
+      case 'Electronic components':
         return 'Elektronische Komponenten';
-      case 'electronic finished products':
+      case 'Electronic finished products':
         return 'Elektronische Fertigprodukte';
-      case 'engineering and technical services':
+      case 'Engineering and technical services':
         return 'Engineering and technische Dienstleistungen';
-      case 'engines and heavy machinery':
+      case 'Engines and heavy machinery':
         return 'Motoren und schwere Maschinen';
-      case 'entertainment and broadcasting':
+      case 'Entertainment and broadcasting':
         return 'Unterhaltung und TV-Übertragung';
-      case 'fabricated metal and composite products':
+      case 'Fabricated metal and composite products':
         return 'Metall- und Verbundprodukte';
-      case 'financial services':
+      case 'Financial services':
         return 'Finanzdienstleistungen';
-      case 'food manufacturers':
+      case 'Food manufacturers':
         return 'Lebensmittelhersteller';
-      case 'forestry and timber':
+      case 'Forestry and timber':
         return 'Holz- und Forstwirtschaft';
-      case 'funeral services':
+      case 'Funeral services':
         return 'Bestattungsdienste';
-      case 'furniture and furnishings':
+      case 'Furniture and furnishings':
         return 'Möbel und Einrichtungen';
-      case 'gas and water utilities':
+      case 'Gas and water utilities':
         return 'Gas- und Wasserversorgungsunternehmen';
-      case 'glass and glass products':
+      case 'Glass and glass products':
         return 'Glas und Glasprodukte';
-      case 'healthcare products':
+      case 'Healthcare products':
         return 'Gesundheitsprodukte';
-      case 'healthcare real estate':
+      case 'Healthcare real estate':
         return 'Gesundheitswesen (Immobilien)';
-      case 'healthcare services':
+      case 'Healthcare services':
         return 'Gesundheitsdienstleistungen';
-      case 'high precision and instrumentation products':
+      case 'High precision and instrumentation products':
         return 'Präzisions- und Instrumentierungsprodukte';
-      case 'hotels travel and leisure':
+      case 'Hotels travel and leisure':
         return 'Hotels, Reisen und Freizeit';
-      case 'household appliances and hardware':
+      case 'Household appliances and hardware':
         return 'Hausgerätetechnik und Haushaltsgeräte';
-      case 'household consumables manufacturers':
+      case 'Household consumables manufacturers':
         return 'Haushaltsverbrauchsmaterial (Hersteller)';
       case 'HR and recruitment':
         return 'Personalwesen und Rekrutierung';
-      case 'image processing':
+      case 'Image processing':
         return 'Bildverarbeitung';
-      case 'industrial components':
+      case 'Industrial components':
         return 'Industrielle Komponenten';
-      case 'industrial equipment and light machinery':
+      case 'Industrial equipment and light machinery':
         return 'Industrieanlagen und leichte Maschinen';
-      case 'industrial gases':
+      case 'Industrial gases':
         return 'Industriegase';
-      case 'infrastructure construction and services':
+      case 'Infrastructure construction and services':
         return 'Infrastruktur, Bau und Dienstleistungen';
-      case 'insurance - broking':
+      case 'Insurance - broking':
         return 'Versicherung (Vermittlung)';
-      case 'insurance - general':
+      case 'Insurance - general':
         return 'Versicherung (allgemein)';
-      case 'insurance - life and health':
+      case 'Insurance - life and health':
         return 'Versicherung (Leben und Gesundheit)';
-      case 'internet and networking services':
+      case 'Internet and networking services':
         return 'Internet- und Netzwerkdienste';
-      case 'internet service providers':
+      case 'Internet service providers':
         return 'Internetdienstanbieter';
-      case 'lighting equipment':
+      case 'Lighting equipment':
         return 'Beleuchtungsanlagen';
-      case 'marine, salvage, dredging, offshore services':
+      case 'Marine, salvage, dredging, offshore services':
         return '';
-      case 'medical equipment':
+      case 'Medical equipment':
         return 'Medizinische Ausrüstung';
-      case 'metals and minerals mining and exploration':
+      case 'Metals and minerals mining and exploration':
         return 'Bergbau und Schürfung';
-      case 'miscellaneous consumer services':
+      case 'Miscellaneous consumer services':
         return 'Verschiedene Verbraucherdienste';
-      case 'music instruments and suppllies':
+      case 'Music instruments and suppllies':
         return 'Musikinstrumente und Zubehör';
-      case 'non-ferrous metals production and products':
+      case 'Non-ferrous metals production and products':
         return 'Nichteisenmetallerzeugung und Produkte';
-      case 'office commercial and industrial real estate':
+      case 'Office commercial and industrial real estate':
         return 'Büro-, Gewerbe- und Industrieimmobilien';
-      case 'office equipment and supplies non-IT':
+      case 'Office equipment and supplies non-IT':
         return 'Büroausstattung und Zubehör Nicht-IT';
-      case 'oil and gas':
+      case 'Oil and gas':
         return 'Öl und Gas';
-      case 'oil and gas drilling and exploration':
+      case 'Oil and gas drilling and exploration':
         return 'Öl und Gas (Bohrung und Erkundung)';
-      case 'oil and gas equipment and services':
+      case 'Oil and gas equipment and services':
         return 'Öl und Gas (Ausrüstung und Dienstleistungen)';
-      case 'online retailers':
+      case 'Online retailers':
         return 'Online-Händler';
-      case 'packaging':
+      case 'Packaging':
         return 'Verpackungen';
-      case 'paints and coatings':
+      case 'Paints and coatings':
         return 'Farben und Beschichtungen';
-      case 'paper products (not packaging)':
+      case 'Paper products (not packaging)':
         return 'Papierprodukte (nicht Verpackung)';
-      case 'petroleum refiners and distributors':
+      case 'Petroleum refiners and distributors':
         return 'Erdölraffinerien und -verteiler';
-      case 'pharmaceuticals and biosciences':
+      case 'Pharmaceuticals and biosciences':
         return 'Pharmazeutika und Biowissenschaften';
-      case 'pipelines and energy storage':
+      case 'Pipelines and energy storage':
         return 'Pipelines und Energiespeicher';
-      case 'power nuclear and heavy engineering':
+      case 'Power nuclear and heavy engineering':
         return 'Energie-, Nuklear- und Schwermaschinenbau';
-      case 'professional services and consulting':
+      case 'Professional services and consulting':
         return 'Dienstleistungen und Beratung';
-      case 'publishing and printing':
+      case 'Publishing and printing':
         return 'Veröffentlichung und Druck';
-      case 'quarrying and aggregates':
+      case 'Quarrying and aggregates':
         return '';
-      case 'railroads and bus services':
+      case 'Railroads and bus services':
         return 'Eisenbahn- und Busdienste';
-      case 'railway stock and equipment':
+      case 'Railway stock and equipment':
         return 'Eisenbahnmaterial und Ausrüstung';
-      case 'real estate services':
+      case 'Real estate services':
         return 'Immobiliendienstleistungen';
-      case 'reinsurance':
+      case 'Reinsurance':
         return 'Rückversicherer';
-      case 'research and specialist materials':
+      case 'Research and specialist materials':
         return 'Forschungs- und Fachmaterialien';
-      case 'residential real estate':
+      case 'Residential real estate':
         return 'Wohnimmobilien';
-      case 'restaurants':
+      case 'Restaurants':
         return 'Restaurants';
-      case 'retail and malls real estate':
+      case 'Retail and malls real estate':
         return 'Immobilien (Einzelhandel und Einkaufszentren)';
-      case 'roads tolls and traffic management':
+      case 'Roads tolls and traffic management':
         return 'Strassenmaut und Verkehrsmanagement';
-      case 'rubber and plastics':
+      case 'Rubber and plastics':
         return 'Gummi und Kunststoffe';
-      case 'search cloud and integrated IT services':
+      case 'Search cloud and integrated IT services':
         return 'Such-, Cloud- und integrierte IT-Services';
-      case 'sector holding companies':
+      case 'Sector holding companies':
         return 'Holdinggesellschaften';
-      case 'security products and services':
+      case 'Security products and services':
         return 'Sicherheitprodukte und Dienstleistungen';
-      case 'shipbuilding':
+      case 'Shipbuilding':
         return 'Schiffbau';
-      case 'shipping':
+      case 'Shipping':
         return 'Versand';
-      case 'software providers':
+      case 'Software providers':
         return 'Softwareanbieter';
-      case 'specialist chemicals':
+      case 'Specialist chemicals':
         return 'Spezialchemikalien';
-      case 'sports equipment manufacturers and retailers':
+      case 'Sports equipment manufacturers and retailers':
         return 'Sportgerätehersteller und -händler';
-      case 'steel production and products':
+      case 'Steel production and products':
         return 'Stahlproduktion und Produkte';
-      case 'supermarkets':
+      case 'Supermarkets':
         return 'Supermärkte';
-      case 'textiles':
+      case 'Textiles':
         return 'Textilien';
-      case 'tire manufacturers':
+      case 'Tire manufacturers':
         return 'Reifenhersteller';
-      case 'tobacco':
+      case 'Tobacco':
         return 'Tabak';
-      case 'transport logistics and distribution':
+      case 'Transport logistics and distribution':
         return 'Transport, Logistik und Vertrieb';
-      case 'vehicle hiring and leasing':
+      case 'Vehicle hiring and leasing':
         return 'Fahrzeugvermietung und Leasing';
-      case 'vehicle sales and repair':
+      case 'Vehicle sales and repair':
         return 'Fahrzeugverkauf und Reparatur';
-      case 'waste and water management':
+      case 'Waste and water management':
         return 'Abfall- und Gewässerbewirtschaftung';
       // groups
-      case 'chemicals':
+      case 'Chemicals':
         return 'Chemie';
-      case 'conglomerates':
+      case 'Conglomerates':
         return 'Mischkonzern';
-      case 'construction':
+      case 'Construction':
         return 'Baugewerbe';
-      case 'consumer':
+      case 'Consumer':
         return 'Verbraucherartikel';
-      case 'electrical, electronic':
+      case 'Electrical, electronic':
         return 'Elektronik, Elektrik';
-      case 'healthcare':
+      case 'Healthcare':
         return 'Gesundheitswesen';
-      case 'industrial':
+      case 'Industrial':
         return 'Industrie';
       case 'IT':
         return 'IT';
-      case 'media, publishing':
+      case 'Media, publishing':
         return 'Medien, Verlagswesen';
-      case 'primary production':
+      case 'Primary production':
         return 'Rohstoffproduktion';
-      case 'real estate':
+      case 'Real estate':
         return 'Immobilien';
-      case 'services':
+      case 'Services':
         return 'Dienstleistungen';
-      case 'technology':
+      case 'Technology':
         return 'Technologie';
-      case 'telecommunications':
+      case 'Telecommunications':
         return 'Telekommunikation';
-      case 'transport':
+      case 'Transport':
         return 'Transport';
-      case 'utilities':
+      case 'Utilities':
         return 'Hilfsmittel';
-      case 'vehicles':
+      case 'Vehicles':
         return 'Fahrzeuge';
-      case 'welfare and community':
+      case 'Welfare and community':
         return 'Sozialwesen und Gemeinwesen';
       case 'All':
         return 'Alle';
