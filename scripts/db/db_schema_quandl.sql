@@ -1097,6 +1097,68 @@ CREATE OR REPLACE VIEW public.vindexbranchstat AS
 
 ALTER TABLE public.vindexbranchstat
   OWNER TO postgres;
+
+CREATE OR REPLACE VIEW public.vfullexport AS 
+select * from
+(select 
+  base_table.*,  
+  case when base_table.share_price_eop is not null and base_table.next_period_price is not null then ((base_table.next_period_price / base_table.share_price_eop) - 1) * 100 else null end as performance_1y
+from (select 
+  s.name as stock_name,
+  s.isin,
+  c.name as country_name,
+  b.name as branch_name,
+  b.branch_group,
+  bl.modified_at as observation_date,
+  bl.current_assets,
+  bl.goodwill,
+  bl.intangibles,
+  bl.total_assets,
+  bl.current_liabilities,
+  bl.long_term_debt,
+  bl.total_liabilities,
+  bl.shareholder_equity,
+  cf.cash_operations,
+  cf.depreciation,
+  cf.capex,
+  cf.cash_investing,
+  cf.issuance_of_stock,
+  cf.issuance_of_debt,
+  cf.cash_financing,
+  cf.start_cash,
+  cf.end_cash,
+  i.revenue,
+  i.operating_revenue,
+  i.net_income_exc,
+  i.net_income_inc,
+  i.eps_exc,
+  i.eps_inc,
+  i.dividend,
+  i.diluted_shares_os,
+  i.historic_yield,
+  i.share_price_eop,
+  si.current_ratio,
+  si.buybacks,
+  si.solvency,
+  si.dividend_payout,
+  si.operating_margin,
+  si.net_inc_margin,
+  si.roe,
+  si.roae,
+  si.rotc,
+  si.lt_debt_op_income,
+  lag(i.share_price_eop) over (partition by s.stock_id order by i.modified_at desc) as next_period_price
+from tstock s
+left join tbranch b on s.branch_id = b.branch_id
+left join tcountry c on s.country_id = c.country_id
+left join tbalance bl on s.stock_id = bl.stock_id
+left join tcashflow cf on s.stock_id = cf.stock_id and bl.modified_at = cf.modified_at
+left join tincome i on s.stock_id = i.stock_id and bl.modified_at = i.modified_at
+left join tsignals si on s.stock_id = si.stock_id and bl.modified_at = si.modified_at) base_table) complete_table
+where complete_table.performance_1y is not null;
+
+ALTER TABLE public.vfullexport
+  OWNER TO postgres;
 --
 -- TOC entry 2130 (class 0 OID 0)
 -- Dependencies: 7
