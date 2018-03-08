@@ -704,6 +704,13 @@ ALTER TABLE tvalues ADD CONSTRAINT uvaluesstock UNIQUE (modified_at, stock_id);
 ALTER TABLE tsignals ADD CONSTRAINT usignalsstock UNIQUE (modified_at, stock_id);
 
 
+CREATE FUNCTION growth(numeric, numeric) RETURNS numeric
+    AS 'select case when $1 is not null and $2 is not null and $1 > 0 and $2 > 0 then (($1 / $2) - 1) * 100 else null end;'
+    LANGUAGE SQL
+    IMMUTABLE
+    RETURNS NULL ON NULL INPUT;
+
+
 CREATE OR REPLACE VIEW public.vstock AS 
  SELECT s.stock_id,
 	s.name AS stock_name,
@@ -1101,8 +1108,86 @@ ALTER TABLE public.vindexbranchstat
 CREATE OR REPLACE VIEW public.vfullexport AS 
 select * from
 (select 
-  base_table.*,  
-  case when base_table.share_price_eop is not null and base_table.next_period_price is not null then ((base_table.next_period_price / base_table.share_price_eop) - 1) * 100 else null end as performance_1y
+  base_table.stock_name,
+  base_table.isin,
+  base_table.country_name,
+  base_table.branch_name,
+  base_table.branch_group,
+  base_table.observation_date,
+  base_table.current_assets,
+  base_table.goodwill,
+  base_table.intangibles,
+  base_table.total_assets,
+  base_table.current_liabilities,
+  base_table.long_term_debt,
+  base_table.total_liabilities,
+  base_table.shareholder_equity,
+  base_table.cash_operations,
+  base_table.depreciation,
+  base_table.capex,
+  base_table.cash_investing,
+  base_table.issuance_of_stock,
+  base_table.issuance_of_debt,
+  base_table.cash_financing,
+  base_table.start_cash,
+  base_table.end_cash,
+  base_table.revenue,
+  base_table.operating_revenue,
+  base_table.net_income_exc,
+  base_table.net_income_inc,
+  base_table.eps_exc,
+  base_table.eps_inc,
+  base_table.dividend,
+  base_table.diluted_shares_os,
+  base_table.historic_yield,
+  base_table.share_price_eop,
+  base_table.current_ratio,
+  base_table.buybacks,
+  base_table.solvency,
+  base_table.dividend_payout,
+  base_table.operating_margin,
+  base_table.net_inc_margin,
+  base_table.roe,
+  base_table.roae,
+  base_table.rotc,
+  base_table.lt_debt_op_income,
+  growth(base_table.current_assets, base_table.previous_current_assets) as growth_current_assets,
+  growth(base_table.goodwill, base_table.previous_goodwill) as growth_goodwill,
+  growth(base_table.intangibles, base_table.previous_intangibles) as growth_intangibles,
+  growth(base_table.total_assets, base_table.previous_total_assets) as growth_total_assets,
+  growth(base_table.current_liabilities, base_table.previous_current_liabilities) as growth_current_liabilities,
+  growth(base_table.long_term_debt, base_table.previous_long_term_debt) as growth_long_term_debt,
+  growth(base_table.total_liabilities, base_table.previous_total_liabilities) as growth_total_liabilities,
+  growth(base_table.shareholder_equity, base_table.previous_shareholder_equity) as growth_shareholder_equity,
+  growth(base_table.cash_operations, base_table.previous_cash_operations) as growth_cash_operations,
+  growth(base_table.depreciation, base_table.previous_depreciation) as growth_depreciation,
+  growth(base_table.capex, base_table.previous_capex) as growth_capex,
+  growth(base_table.cash_investing, base_table.previous_cash_investing) as growth_cash_investing,
+  growth(base_table.issuance_of_stock, base_table.previous_issuance_of_stock) as growth_issuance_of_stock,
+  growth(base_table.issuance_of_debt, base_table.previous_issuance_of_debt) as growth_issuance_of_debt,
+  growth(base_table.cash_financing, base_table.previous_cash_financing) as growth_cash_financing,
+  growth(base_table.start_cash, base_table.previous_start_cash) as growth_start_cash,
+  growth(base_table.end_cash, base_table.previous_end_cash) as growth_end_cash,
+  growth(base_table.revenue, base_table.previous_revenue) as growth_revenue,
+  growth(base_table.operating_revenue, base_table.previous_operating_revenue) as growth_operating_revenue,
+  growth(base_table.net_income_exc, base_table.previous_net_income_exc) as growth_net_income_exc,
+  growth(base_table.net_income_inc, base_table.previous_net_income_inc) as growth_net_income_inc,
+  growth(base_table.eps_exc, base_table.previous_eps_exc) as growth_eps_exc,
+  growth(base_table.eps_inc, base_table.previous_eps_inc) as growth_eps_inc,
+  growth(base_table.dividend, base_table.previous_dividend) as growth_dividend,
+  growth(base_table.diluted_shares_os, base_table.previous_diluted_shares_os) as growth_diluted_shares_os,
+  growth(base_table.historic_yield, base_table.previous_historic_yield) as growth_historic_yield,
+  growth(base_table.current_ratio, base_table.previous_current_ratio) as growth_current_ratio,
+  growth(base_table.buybacks, base_table.previous_buybacks) as growth_buybacks,
+  growth(base_table.solvency, base_table.previous_solvency) as growth_solvency,
+  growth(base_table.dividend_payout, base_table.previous_dividend_payout) as growth_dividend_payout,
+  growth(base_table.operating_margin, base_table.previous_operating_margin) as growth_operating_margin,
+  growth(base_table.net_inc_margin, base_table.previous_net_inc_margin) as growth_net_inc_margin,
+  growth(base_table.roe, base_table.previous_roe) as growth_roe,
+  growth(base_table.roae, base_table.previous_roae) as growth_roae,
+  growth(base_table.rotc, base_table.previous_rotc) as growth_rotc,
+  growth(base_table.lt_debt_op_income, base_table.previous_lt_debt_op_income) as growth_lt_debt_op_income,
+  growth(base_table.next_period_price, base_table.share_price_eop) as performance_1y
 from (select 
   s.name as stock_name,
   s.isin,
@@ -1147,7 +1232,43 @@ from (select
   si.roae,
   si.rotc,
   si.lt_debt_op_income,
-  lag(i.share_price_eop) over (partition by s.stock_id order by i.modified_at desc) as next_period_price
+  lag(i.share_price_eop) over (partition by s.stock_id order by i.modified_at desc) as next_period_price,
+  lag(bl.current_assets) over (partition by s.stock_id order by i.modified_at) as previous_current_assets,
+  lag(bl.goodwill) over (partition by s.stock_id order by i.modified_at) as previous_goodwill,
+  lag(bl.intangibles) over (partition by s.stock_id order by i.modified_at) as previous_intangibles,
+  lag(bl.total_assets) over (partition by s.stock_id order by i.modified_at) as previous_total_assets,
+  lag(bl.current_liabilities) over (partition by s.stock_id order by i.modified_at) as previous_current_liabilities,
+  lag(bl.long_term_debt) over (partition by s.stock_id order by i.modified_at) as previous_long_term_debt,
+  lag(bl.total_liabilities) over (partition by s.stock_id order by i.modified_at) as previous_total_liabilities,
+  lag(bl.shareholder_equity) over (partition by s.stock_id order by i.modified_at) as previous_shareholder_equity,
+  lag(cf.cash_operations) over (partition by s.stock_id order by i.modified_at) as previous_cash_operations,
+  lag(cf.depreciation) over (partition by s.stock_id order by i.modified_at) as previous_depreciation,
+  lag(cf.capex) over (partition by s.stock_id order by i.modified_at) as previous_capex,
+  lag(cf.cash_investing) over (partition by s.stock_id order by i.modified_at) as previous_cash_investing,
+  lag(cf.issuance_of_stock) over (partition by s.stock_id order by i.modified_at) as previous_issuance_of_stock,
+  lag(cf.issuance_of_debt) over (partition by s.stock_id order by i.modified_at) as previous_issuance_of_debt,
+  lag(cf.cash_financing) over (partition by s.stock_id order by i.modified_at) as previous_cash_financing,
+  lag(cf.start_cash) over (partition by s.stock_id order by i.modified_at) as previous_start_cash,
+  lag(cf.end_cash) over (partition by s.stock_id order by i.modified_at) as previous_end_cash,
+  lag(i.revenue) over (partition by s.stock_id order by i.modified_at) as previous_revenue,
+  lag(i.operating_revenue) over (partition by s.stock_id order by i.modified_at) as previous_operating_revenue,
+  lag(i.net_income_exc) over (partition by s.stock_id order by i.modified_at) as previous_net_income_exc,
+  lag(i.net_income_inc) over (partition by s.stock_id order by i.modified_at) as previous_net_income_inc,
+  lag(i.eps_exc) over (partition by s.stock_id order by i.modified_at) as previous_eps_exc,
+  lag(i.eps_inc) over (partition by s.stock_id order by i.modified_at) as previous_eps_inc,
+  lag(i.dividend) over (partition by s.stock_id order by i.modified_at) as previous_dividend,
+  lag(i.diluted_shares_os) over (partition by s.stock_id order by i.modified_at) as previous_diluted_shares_os,
+  lag(i.historic_yield) over (partition by s.stock_id order by i.modified_at) as previous_historic_yield,
+  lag(si.current_ratio) over (partition by s.stock_id order by i.modified_at) as previous_current_ratio,
+  lag(si.buybacks) over (partition by s.stock_id order by i.modified_at) as previous_buybacks,
+  lag(si.solvency) over (partition by s.stock_id order by i.modified_at) as previous_solvency,
+  lag(si.dividend_payout) over (partition by s.stock_id order by i.modified_at) as previous_dividend_payout,
+  lag(si.operating_margin) over (partition by s.stock_id order by i.modified_at) as previous_operating_margin,
+  lag(si.net_inc_margin) over (partition by s.stock_id order by i.modified_at) as previous_net_inc_margin,
+  lag(si.roe) over (partition by s.stock_id order by i.modified_at) as previous_roe,
+  lag(si.roae) over (partition by s.stock_id order by i.modified_at) as previous_roae,
+  lag(si.rotc) over (partition by s.stock_id order by i.modified_at) as previous_rotc,
+  lag(si.lt_debt_op_income) over (partition by s.stock_id order by i.modified_at) as previous_lt_debt_op_income
 from tstock s
 left join tbranch b on s.branch_id = b.branch_id
 left join tcountry c on s.country_id = c.country_id
@@ -1155,10 +1276,12 @@ left join tbalance bl on s.stock_id = bl.stock_id
 left join tcashflow cf on s.stock_id = cf.stock_id and bl.modified_at = cf.modified_at
 left join tincome i on s.stock_id = i.stock_id and bl.modified_at = i.modified_at
 left join tsignals si on s.stock_id = si.stock_id and bl.modified_at = si.modified_at) base_table) complete_table
-where complete_table.performance_1y is not null;
+where complete_table.performance_1y is not null and complete_table.growth_total_assets is not null;
 
 ALTER TABLE public.vfullexport
   OWNER TO postgres;
+  
+
 --
 -- TOC entry 2130 (class 0 OID 0)
 -- Dependencies: 7
