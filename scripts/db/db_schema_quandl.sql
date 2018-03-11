@@ -1151,6 +1151,16 @@ select * from
   base_table.roae,
   base_table.rotc,
   base_table.lt_debt_op_income,
+  base_table.price_earnings_ratio,
+  base_table.price_cashflow_ratio,
+  base_table.price_book_ratio,
+  base_table.peg_ratio,
+  base_table.enterprise_ratio,
+  base_table.price_52_wk,
+  base_table.graham_multiplier,
+  base_table.robur_score,
+  base_table.current_yield,
+  base_table.market_capitalization,
   growth(base_table.current_assets, base_table.previous_current_assets) as growth_current_assets,
   growth(base_table.goodwill, base_table.previous_goodwill) as growth_goodwill,
   growth(base_table.intangibles, base_table.previous_intangibles) as growth_intangibles,
@@ -1187,6 +1197,16 @@ select * from
   growth(base_table.roae, base_table.previous_roae) as growth_roae,
   growth(base_table.rotc, base_table.previous_rotc) as growth_rotc,
   growth(base_table.lt_debt_op_income, base_table.previous_lt_debt_op_income) as growth_lt_debt_op_income,
+  growth(base_table.price_earnings_ratio, base_table.previous_price_earnings_ratio) as growth_price_earnings_ratio,
+  growth(base_table.price_cashflow_ratio, base_table.previous_price_cashflow_ratio) as growth_price_cashflow_ratio,
+  growth(base_table.price_book_ratio, base_table.previous_price_book_ratio) as growth_price_book_ratio,
+  growth(base_table.peg_ratio, base_table.previous_peg_ratio) as growth_peg_ratio,
+  growth(base_table.enterprise_ratio, base_table.previous_enterprise_ratio) as growth_enterprise_ratio,
+  growth(base_table.price_52_wk, base_table.previous_price_52_wk) as growth_price_52_wk,
+  growth(base_table.graham_multiplier, base_table.previous_graham_multiplier) as growth_graham_multiplier,
+  growth(base_table.robur_score, base_table.previous_robur_score) as growth_robur_score,
+  growth(base_table.current_yield, base_table.previous_current_yield) as growth_current_yield,
+  growth(base_table.market_capitalization, base_table.previous_market_capitalization) as growth_market_capitalization,
   growth(base_table.next_period_price, base_table.share_price_eop) as performance_1y
 from (select 
   s.name as stock_name,
@@ -1232,6 +1252,16 @@ from (select
   si.roae,
   si.rotc,
   si.lt_debt_op_income,
+  v.price_earnings_ratio,
+  v.price_cashflow_ratio,
+  v.price_book_ratio,
+  v.peg_ratio,
+  v.enterprise_ratio,
+  v.price_52_wk,
+  v.graham_multiplier,
+  v.robur_score,
+  v.current_yield,
+  v.market_capitalization,
   lag(i.share_price_eop) over (partition by s.stock_id order by i.modified_at desc) as next_period_price,
   lag(bl.current_assets) over (partition by s.stock_id order by i.modified_at) as previous_current_assets,
   lag(bl.goodwill) over (partition by s.stock_id order by i.modified_at) as previous_goodwill,
@@ -1268,15 +1298,27 @@ from (select
   lag(si.roe) over (partition by s.stock_id order by i.modified_at) as previous_roe,
   lag(si.roae) over (partition by s.stock_id order by i.modified_at) as previous_roae,
   lag(si.rotc) over (partition by s.stock_id order by i.modified_at) as previous_rotc,
-  lag(si.lt_debt_op_income) over (partition by s.stock_id order by i.modified_at) as previous_lt_debt_op_income
+  lag(si.lt_debt_op_income) over (partition by s.stock_id order by i.modified_at) as previous_lt_debt_op_income,
+  lag(v.price_earnings_ratio) over (partition by s.stock_id order by i.modified_at) as previous_price_earnings_ratio,
+  lag(v.price_cashflow_ratio) over (partition by s.stock_id order by i.modified_at) as previous_price_cashflow_ratio,
+  lag(v.price_book_ratio) over (partition by s.stock_id order by i.modified_at) as previous_price_book_ratio,
+  lag(v.peg_ratio) over (partition by s.stock_id order by i.modified_at) as previous_peg_ratio,
+  lag(v.enterprise_ratio) over (partition by s.stock_id order by i.modified_at) as previous_enterprise_ratio,
+  lag(v.price_52_wk) over (partition by s.stock_id order by i.modified_at) as previous_price_52_wk,
+  lag(v.graham_multiplier) over (partition by s.stock_id order by i.modified_at) as previous_graham_multiplier,
+  lag(v.robur_score) over (partition by s.stock_id order by i.modified_at) as previous_robur_score,
+  lag(v.current_yield) over (partition by s.stock_id order by i.modified_at) as previous_current_yield,
+  lag(v.market_capitalization) over (partition by s.stock_id order by i.modified_at) as previous_market_capitalization,
+  rank() over (partition by s.stock_id, bl.modified_at order by v.modified_at) as rank_values
 from tstock s
 left join tbranch b on s.branch_id = b.branch_id
 left join tcountry c on s.country_id = c.country_id
 left join tbalance bl on s.stock_id = bl.stock_id
 left join tcashflow cf on s.stock_id = cf.stock_id and bl.modified_at = cf.modified_at
 left join tincome i on s.stock_id = i.stock_id and bl.modified_at = i.modified_at
-left join tsignals si on s.stock_id = si.stock_id and bl.modified_at = si.modified_at) base_table) complete_table
-where complete_table.performance_1y is not null and complete_table.growth_total_assets is not null;
+left join tsignals si on s.stock_id = si.stock_id and bl.modified_at = si.modified_at
+left join tvalues v on s.stock_id = v.stock_id and v.modified_at in (select * from generate_series(bl.modified_at - interval '4 days', bl.modified_at + interval '4 days', '1 day'))) base_table where base_table.rank_values = 1) complete_table
+where complete_table.growth_total_assets is not null;
 
 ALTER TABLE public.vfullexport
   OWNER TO postgres;
